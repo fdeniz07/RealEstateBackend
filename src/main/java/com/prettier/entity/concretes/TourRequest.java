@@ -2,7 +2,7 @@ package com.prettier.entity.concretes;
 
 
 import com.prettier.entity.abstracts.BaseEntity;
-import com.prettier.entity.enums.Status;
+import com.prettier.entity.enums.TourRequestStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
@@ -26,7 +26,7 @@ public class TourRequest extends BaseEntity implements Serializable {
 private LocalDateTime tourDate;
 private LocalDateTime tourTime;
 
-private Status status;
+private TourRequestStatus status;
 
 //TODO advert ilişlisi
 //TODO userguest ilişlisi
