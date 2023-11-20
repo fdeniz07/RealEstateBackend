@@ -1,5 +1,6 @@
 package com.prettier.entity.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -35,6 +36,10 @@ public class User extends BaseEntity implements Serializable {
     @Size(min = 10, max = 80)
     private String email;
 
+    @Column(nullable = false, unique = true)
+    @Size(min = 8, max = 20)
+    private String userName;
+
     @Column(nullable = false)
     private String phone;
 
@@ -44,7 +49,11 @@ public class User extends BaseEntity implements Serializable {
     @Column(name = "reset_password_code")
     private String resetPasswordCode; //hash
 
-    private boolean built_in;
+    @JsonIgnore
+    private boolean builtIn;
+
+    @JsonIgnore
+    private boolean isActive=true;
 
     @OneToMany(mappedBy = "user")
     private Set<Favorite> favoriteSet;
