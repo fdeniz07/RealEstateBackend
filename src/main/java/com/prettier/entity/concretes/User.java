@@ -60,7 +60,7 @@ public class User {
     // -----------RELATIONS -------------------------------------------------
 //Relations with Sibling "roles" Table
 //    @ToString.Exclude
-//    @ManyToMany//TODO: Bu baglanti boylemi kurulmali tekrar dusun,
+//    @ManyToMany//
 //    @JoinTable(
 //            name = "user_roles"
 //            ,joinColumns = @JoinColumn(name = "user_id")
