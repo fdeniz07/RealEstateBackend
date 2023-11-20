@@ -1,12 +1,15 @@
 package com.prettier.entity.concretes;
 
+import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -15,15 +18,11 @@ import java.util.Set;
 @Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @Getter
 @Setter
 @ToString
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity implements Serializable {
 
     @Column(name = "first_name", nullable = false)
     @Size(min = 2, max = 30)
@@ -48,15 +47,7 @@ public class User {
 
     private boolean built_in;
 
-    @Column(name = "create_at", nullable = false)
-    @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime createAt;
 
-    @LastModifiedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "update_at")
-    private LocalDateTime updateAt;
     // -----------RELATIONS -------------------------------------------------
 //Relations with Sibling "roles" Table
 //    @ToString.Exclude
