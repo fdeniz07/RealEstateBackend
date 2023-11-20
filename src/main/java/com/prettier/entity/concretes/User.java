@@ -46,6 +46,8 @@ public class User extends BaseEntity implements Serializable {
 
     private boolean built_in;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Favorite> favoriteSet;
 
     // -----------RELATIONS -------------------------------------------------
 //Relations with Sibling "roles" Table
