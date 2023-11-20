@@ -1,6 +1,6 @@
 package com.prettier.entity.enums;
 
-public enum Status {
+public enum TourRequestStatus {
 
     PENDING,
     APPROVED,
