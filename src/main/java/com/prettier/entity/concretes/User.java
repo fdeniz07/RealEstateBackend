@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)//Auditing: You've included auditing information using @CreatedDate and @EntityListeners(AuditingEntityListener.class). This is useful for tracking when entities are created and updated.
 @Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
