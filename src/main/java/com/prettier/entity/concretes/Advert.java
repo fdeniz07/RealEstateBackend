@@ -78,4 +78,7 @@ public class Advert extends BaseEntity implements Serializable {
     }
 
     //!!! TODO : ILISKILER EKLENECEK
+
+    @OneToMany(mappedBy = "advert")
+    private Set<Image> imageSet;
 }
