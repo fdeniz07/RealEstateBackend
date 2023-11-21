@@ -91,9 +91,13 @@ public class Advert extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "advert")
     private Set<Image> imageSet;
 
-    @OneToMany(mappedBy = "tourRequest")
+    @OneToMany(mappedBy = "advert")
     private Set<TourRequest> tourRequestSet;
 
     @OneToMany(mappedBy = "advert")
     private Set<Log> logSet;
+
+    @OneToMany(mappedBy = "advert")
+    private Set<CategoryPropertyValue> categoryPropertyValueSet;
+
 }

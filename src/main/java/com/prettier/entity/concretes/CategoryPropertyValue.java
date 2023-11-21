@@ -23,14 +23,14 @@ public class CategoryPropertyValue {
 
     //RELATION -----------------------------------------------------------------
 //Realtion with Parent "category_property-keys"
-//    @ManyToOne
-//    @JoinColumn(name = "category_property_key_id")
-//    private CategoryPropertyKey categoryPropertyKey;
+    @ManyToOne
+    @JoinColumn(name = "category_property_key_id")
+    private CategoryPropertyKey categoryPropertyKey;
 
     // Relation with Parent Adverts table
-//    @ManyToOne
-//    @JoinColumn(name = "advert_id")
-//    private Advert advert;
+    @ManyToOne
+    @JoinColumn(name = "advert_id")
+    private Advert advert;
 
 
 }

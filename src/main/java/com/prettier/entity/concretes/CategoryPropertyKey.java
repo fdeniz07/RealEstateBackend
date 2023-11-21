@@ -33,7 +33,7 @@ public class CategoryPropertyKey {
     private Category category;
 
 //    //Relations With Child 'category_property_values'
-//    @OneToMany(mappedBy = "categoryPropertyKey")
-//    private Set<CategoryPropertyValue> categoryPropertyValueSet;
+    @OneToMany(mappedBy = "categoryPropertyKey")
+    private Set<CategoryPropertyValue> categoryPropertyValueSet;
 
 }
