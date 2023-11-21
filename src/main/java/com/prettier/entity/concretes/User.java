@@ -58,6 +58,17 @@ public class User extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "user")
     private Set<Favorite> favoriteSet;
 
+
+    @OneToMany(mappedBy = "guestUser")
+    private Set<TourRequest> tourRequestForGuestSet;
+
+    @OneToMany(mappedBy = "ownerUser")
+    private Set<TourRequest> tourRequestForOwnerSet;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Log> logSet;
+
+
     // -----------RELATIONS -------------------------------------------------
 //Relations with Sibling "roles" Table
 //    @ToString.Exclude

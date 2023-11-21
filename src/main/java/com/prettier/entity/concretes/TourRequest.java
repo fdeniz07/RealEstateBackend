@@ -4,6 +4,8 @@ package com.prettier.entity.concretes;
 import com.prettier.entity.abstracts.BaseEntity;
 import com.prettier.entity.enums.TourRequestStatus;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -27,6 +29,20 @@ private LocalDateTime tourDate;
 private LocalDateTime tourTime;
 
 private TourRequestStatus status;
+
+
+@ManyToOne
+@JoinColumn(name="advert_id", nullable = false)
+private Advert advert;
+
+
+@ManyToOne
+@JoinColumn(name="owner_user_id", nullable = false)
+private User ownerUser;
+
+@ManyToOne
+@JoinColumn(name="guest_user_id", nullable = false)
+private User guestUser;
 
 
 
