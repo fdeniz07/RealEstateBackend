@@ -1,13 +1,12 @@
 package com.prettier.entity.concretes;
 
 import com.prettier.entity.abstracts.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
-
+import java.util.Set;
 
 
 @Entity
@@ -21,6 +20,15 @@ import java.io.Serializable;
 
 
 public class Log extends BaseEntity implements Serializable {
+
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "advert_id", nullable = false)
+    private Advert advert;
 
 
     //Todo ilişkiler sonrası eklenecek

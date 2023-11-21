@@ -84,6 +84,16 @@ public class Advert extends BaseEntity implements Serializable {
 
     //!!! TODO : ILISKILER EKLENECEK
 
+    @ManyToOne
+    @JoinColumn(name = "advert_type_id", nullable = false)
+    private AdvertType advertType;
+
     @OneToMany(mappedBy = "advert")
     private Set<Image> imageSet;
+
+    @OneToMany(mappedBy = "tourRequest")
+    private Set<TourRequest> tourRequestSet;
+
+    @OneToMany(mappedBy = "advert")
+    private Set<Log> logSet;
 }
