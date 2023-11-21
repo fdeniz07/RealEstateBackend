@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "contacts")
 @Getter
@@ -16,20 +18,22 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @ToString
-public class Contact extends BaseEntity {
+public class Contact extends BaseEntity implements Serializable {
 
     @Column(name="first_name",nullable = false)
     @Size(max = 30)
     private String firstName;
+
     @Column(name="last_name",nullable = false)
     @Size(max = 30)
     private String lastName;
-    @Column(nullable = false)
-    @Size(max = 30)
-    private String email;
-    @Column(nullable = false)
-    @Size(max = 30)
-    private String message;
 
+    @Column(nullable = false)
+    @Size(max = 60)
+    private String email;
+
+    @Column(nullable = false)
+    @Size(max = 300)
+    private String message;
 
 }
