@@ -36,8 +36,8 @@ public class Advert extends BaseEntity implements Serializable {
     @Column(name = "price", nullable = false)
     private Double price;
 
-    @Enumerated(EnumType.STRING)
-    private AdvertStatus advertStatus; //!!! TODO: Default deger olarak "PENDING" atanacak
+    @Enumerated(EnumType.ORDINAL)
+    private AdvertStatus advertStatus =AdvertStatus.PENDING;
 
     @JsonIgnore
     private boolean builtIn;
