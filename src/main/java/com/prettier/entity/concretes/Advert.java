@@ -57,6 +57,18 @@ public class Advert extends BaseEntity implements Serializable {
     @ToString.Exclude // Lazy Loading de performans kaybini önlemek icin spring tarafindan önerilen annotation
     private Set<Favorite> favoriteSet;
 
+    @ManyToOne
+    @JoinColumn(name = "district_id", nullable = false)
+    private District district;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id", nullable = false)
+    private City city;
+
+    @ManyToOne
+    @JoinColumn(name = "country_id", nullable = false)
+    private Country country;
+
     public void setFavoriteSet(Set<Favorite> favoriteSet) {
         this.favoriteSet = favoriteSet;
     }

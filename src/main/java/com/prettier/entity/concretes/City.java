@@ -30,4 +30,7 @@ public class City extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "city")
     private Set<District> districtSet;
 
+    @OneToMany(mappedBy = "city")
+    private Set<Advert> advertSet;
+
 }
