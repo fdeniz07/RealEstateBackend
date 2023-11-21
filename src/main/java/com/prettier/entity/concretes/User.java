@@ -56,29 +56,34 @@ public class User extends BaseEntity implements Serializable {
     private boolean isActive=true;
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
     private Set<Favorite> favoriteSet;
 
 
     @OneToMany(mappedBy = "guestUser")
+    @ToString.Exclude
     private Set<TourRequest> tourRequestForGuestSet;
 
     @OneToMany(mappedBy = "ownerUser")
+    @ToString.Exclude
     private Set<TourRequest> tourRequestForOwnerSet;
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
     private Set<Log> logSet;
 
 
     // -----------RELATIONS -------------------------------------------------
 //Relations with Sibling "roles" Table
-//    @ToString.Exclude
-//    @ManyToMany//
-//    @JoinTable(
-//            name = "user_roles"
-//            ,joinColumns = @JoinColumn(name = "user_id")
-//            ,inverseJoinColumns = @JoinColumn(name = "role_id")
-//    )
-//    private Set<Role> roleSet ;
+
+    @ManyToMany//
+    @JoinTable(
+            name = "user_roles"
+            ,joinColumns = @JoinColumn(name = "user_id")
+            ,inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    @ToString.Exclude
+    private Set<Role> roleSet ;
 //
 //    //Relation with Child Advert
 //    @OneToMany(mappedBy = "user",targetEntity = Advert.class, fetch = FetchType.EAGER)

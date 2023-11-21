@@ -3,10 +3,7 @@ package com.prettier.entity.concretes;
 
 import com.prettier.entity.abstracts.BaseEntity;
 import com.prettier.entity.enums.TourRequestStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -28,7 +25,8 @@ public class TourRequest extends BaseEntity implements Serializable {
 private LocalDateTime tourDate;
 private LocalDateTime tourTime;
 
-private TourRequestStatus status;
+@Enumerated(EnumType.ORDINAL)
+private TourRequestStatus status = TourRequestStatus.PENDING;
 
 
 @ManyToOne

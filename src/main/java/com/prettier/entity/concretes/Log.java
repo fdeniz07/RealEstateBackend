@@ -1,6 +1,7 @@
 package com.prettier.entity.concretes;
 
 import com.prettier.entity.abstracts.BaseEntity;
+import com.prettier.entity.enums.LogAction;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -18,9 +19,10 @@ import java.util.Set;
 @Setter
 @ToString
 
-
 public class Log extends BaseEntity implements Serializable {
 
+    @Enumerated(EnumType.STRING)
+    private LogAction logAction;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

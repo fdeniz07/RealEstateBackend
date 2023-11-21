@@ -28,8 +28,8 @@ public class Role {
 
 
     // Entity Relations
-//    @JsonIgnore
-//   @ManyToMany(mappedBy = "roleSet", fetch = FetchType.EAGER)
-//    private Set<User> userSet;
+    @JsonIgnore
+   @ManyToMany(mappedBy = "roleSet")
+    private Set<User> userSet;
 
 }
