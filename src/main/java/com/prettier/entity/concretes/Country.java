@@ -28,4 +28,7 @@ public class Country extends BaseEntity implements Serializable {
 
     @OneToMany(mappedBy = "country")
     private Set<City> citySet;
+
+    @OneToMany(mappedBy = "country")
+    private Set<Advert> advertSet;
 }

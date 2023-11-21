@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "districts")
@@ -25,6 +26,9 @@ public class District extends BaseEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
+
+    @OneToMany(mappedBy = "district")
+    private Set<Advert> advertSet;
 
 
 }
