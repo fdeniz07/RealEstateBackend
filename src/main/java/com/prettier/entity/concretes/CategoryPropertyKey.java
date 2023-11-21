@@ -13,7 +13,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryPropertyKey  {
+public class CategoryPropertyKey {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -28,10 +28,10 @@ public class CategoryPropertyKey  {
 
     // RELATIONS---------------------------------------------------------------------
 //Relations with Parent Category
-//    @ManyToOne
-//    @JoinColumn(name = "category_id", nullable = false)
-//    private Category category;
-//
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
 //    //Relations With Child 'category_property_values'
 //    @OneToMany(mappedBy = "categoryPropertyKey")
 //    private Set<CategoryPropertyValue> categoryPropertyValueSet;
