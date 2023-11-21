@@ -28,6 +28,8 @@ private LocalDateTime tourTime;
 
 private TourRequestStatus status;
 
+
+
 //TODO advert ilişlisi
 //TODO userguest ilişlisi
 //TODO userowner ilişlisi

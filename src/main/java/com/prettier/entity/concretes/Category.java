@@ -1,16 +1,15 @@
 package com.prettier.entity.concretes;
 
 import com.prettier.entity.abstracts.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
+import java.util.Set;
+
 @Entity
 @Table(name = "categories")
 @AllArgsConstructor
@@ -43,7 +42,13 @@ public class Category extends BaseEntity implements Serializable {
     @Column(name = "is_active", nullable = false)
     private boolean isActive=true;
 
-// TODO: iliskiler yapilacak tourrequest,propertykeys,propertyvalues
+    @OneToMany(mappedBy = "category")
+    private Set<Advert> advertSet;
+
+    @OneToMany(mappedBy = "category")
+    private Set<CategoryPropertyKey> categoryPropertyKeys;
+
+
 
 
 

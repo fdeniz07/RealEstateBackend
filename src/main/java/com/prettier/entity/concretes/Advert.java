@@ -77,5 +77,10 @@ public class Advert extends BaseEntity implements Serializable {
         return favoriteSet;
     }
 
+
+   @ManyToOne
+   @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
     //!!! TODO : ILISKILER EKLENECEK
 }
