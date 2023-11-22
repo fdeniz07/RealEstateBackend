@@ -19,10 +19,6 @@ import java.util.Set;
 @SuperBuilder
 @Getter
 @Setter
-@ToString
-
-
-
 public class AdvertType extends BaseEntity implements Serializable {
 
     @Column(name = "title", nullable = false)
@@ -30,7 +26,6 @@ public class AdvertType extends BaseEntity implements Serializable {
     private String title;
 
     @OneToMany(mappedBy = "advertType")
+    @ToString.Exclude
     private Set<Advert> advertSet;
-
-
 }

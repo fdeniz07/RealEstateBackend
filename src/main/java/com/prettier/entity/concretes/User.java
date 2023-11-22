@@ -72,6 +72,8 @@ public class User extends BaseEntity implements Serializable {
     @ToString.Exclude
     private Set<Log> logSet;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Advert> advertSet;
 
     // -----------RELATIONS -------------------------------------------------
 //Relations with Sibling "roles" Table
@@ -84,6 +86,9 @@ public class User extends BaseEntity implements Serializable {
     )
     @ToString.Exclude
     private Set<Role> roleSet ;
+
+
+
 //
 //    //Relation with Child Advert
 //    @OneToMany(mappedBy = "user",targetEntity = Advert.class, fetch = FetchType.EAGER)
