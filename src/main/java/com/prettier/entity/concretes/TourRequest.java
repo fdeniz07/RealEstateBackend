@@ -44,11 +44,6 @@ private User guestUser;
 
 
 
-//TODO advert ilişlisi
-//TODO userguest ilişlisi
-//TODO userowner ilişlisi
-
-
 
 
 

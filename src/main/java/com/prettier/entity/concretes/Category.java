@@ -20,13 +20,11 @@ import java.util.Set;
 @ToString
 public class Category extends BaseEntity implements Serializable {
 
-
     @Column(name = "title", nullable = false)
     @Size(max = 150)
     private String title;
 
     @Column(name = "icon", nullable = false)
-    @Size( max = 50)
     private String icon;
 
     @Column(name = "built_in", nullable = false)
@@ -47,12 +45,5 @@ public class Category extends BaseEntity implements Serializable {
 
     @OneToMany(mappedBy = "category")
     private Set<CategoryPropertyKey> categoryPropertyKeys;
-
-
-
-
-
-
-
 
 }
