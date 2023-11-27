@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("district")
+@RequestMapping("districts")
 public class DistrictController {
 
     private final DistrictService districtService;

@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Service
 @RequiredArgsConstructor
-public class AdviceService implements Serializable {
+public class AdvertService implements Serializable {
 
     private final AdvertRepository advertRepository;
 }

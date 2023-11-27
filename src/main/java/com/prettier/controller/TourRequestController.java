@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("tourRequest")
+@RequestMapping("tour-requests")
 public class TourRequestController {
 
     private final TourRequestService tourRequestService;
