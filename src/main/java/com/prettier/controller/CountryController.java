@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("country")
+@RequestMapping("countries")
 public class CountryController {
 
     private final CountryService countryService;

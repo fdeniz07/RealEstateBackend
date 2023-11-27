@@ -1,14 +1,14 @@
 package com.prettier.controller;
 
-import com.prettier.service.AdviceService;
+import com.prettier.service.AdvertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("advice")
-public class AdviceController {
+@RequestMapping("adverts")
+public class AdvertController {
 
-    private final AdviceService adviceService;
+    private final AdvertService adviceService;
 }
