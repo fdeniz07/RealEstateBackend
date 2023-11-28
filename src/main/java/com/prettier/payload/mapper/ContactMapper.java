@@ -2,7 +2,7 @@ package com.prettier.payload.mapper;
 
 import com.prettier.entity.concretes.Contact;
 import com.prettier.payload.request.concretes.ContactRequest;
-import com.prettier.payload.response.ContactResponse;
+import com.prettier.payload.response.concretes.ContactResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

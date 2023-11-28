@@ -1,4 +1,4 @@
-package com.prettier.payload.response;
+package com.prettier.payload.response.concretes;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Size;
