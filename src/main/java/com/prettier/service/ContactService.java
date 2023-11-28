@@ -3,7 +3,7 @@ package com.prettier.service;
 import com.prettier.entity.concretes.Contact;
 import com.prettier.payload.mapper.ContactMapper;
 import com.prettier.payload.request.concretes.ContactRequest;
-import com.prettier.payload.response.ContactResponse;
+import com.prettier.payload.response.concretes.ContactResponse;
 import com.prettier.repository.ContactRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
