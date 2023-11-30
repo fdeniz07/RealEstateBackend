@@ -3,6 +3,7 @@ package com.prettier.entity.concretes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -43,7 +44,10 @@ public class User extends BaseEntity implements Serializable {
     @Column(nullable = false)
     private String phone;
 
+
     @Column(name = "password_hash", nullable = false)
+   //@JsonIgnore
+   // @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",message = "{hoaxify.constraint.password.pattern}") //"Your password must consist of the characters a-z, A-Z, 0-9."
     private String passwordHash;
 
     @Column(name = "reset_password_code")
@@ -54,6 +58,11 @@ public class User extends BaseEntity implements Serializable {
 
     @JsonIgnore
     private boolean isActive=true;
+
+//    @JsonIgnore
+//    String activationToken;
+
+
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
