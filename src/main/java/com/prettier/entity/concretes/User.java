@@ -3,16 +3,11 @@ package com.prettier.entity.concretes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
