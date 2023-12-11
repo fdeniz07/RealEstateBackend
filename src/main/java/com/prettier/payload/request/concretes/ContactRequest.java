@@ -18,7 +18,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ContactRequest extends BaseEntityRequest implements Serializable {
-
+//
     @Column(name="first_name",nullable = false)
     @NotNull //!!! Test edilecek sonrasi icin
     @Size(min = 1, max = 30, message = "First name must not be empty")
