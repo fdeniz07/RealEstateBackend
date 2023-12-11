@@ -1,13 +1,14 @@
-package com.prettier.entity.abstracts;
+package com.prettier.payload.response.abstracts;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -21,23 +22,9 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 //Auditing: You've included auditing information using @CreatedDate and @EntityListeners(AuditingEntityListener.class). This is useful for tracking when entities are created and updated.
 
-public abstract class BaseEntity {
+public abstract class BaseEntityResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "create_at", nullable = false)
-//    @CreatedDate
-//    @Temporal(TemporalType.TIMESTAMP)
-    @CreationTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH-mm-ss")
+//    private Long id;
     private LocalDateTime createAt;
-
-//    @LastModifiedDate
-//    @Temporal(TemporalType.TIMESTAMP)
-    @UpdateTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH-mm-ss")
-    @Column(name = "update_at")
     private LocalDateTime updateAt;
 }

@@ -5,6 +5,7 @@ import com.prettier.payload.response.concretes.ContactResponse;
 import com.prettier.service.ContactService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,17 @@ public class ContactController {
     public ResponseEntity<ContactResponse> add(@RequestBody @Valid ContactRequest contactRequest) {
 
         return ResponseEntity.ok((ContactResponse) contactService.add(contactRequest));
+    }
+
+
+    @GetMapping("/getAll")
+    public Page<ContactResponse> getAll(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "1") int size,
+            @RequestParam(value = "sort", defaultValue = "email") String sort,
+            @RequestParam(value = "type", defaultValue = "asc") String type) {
+
+        return contactService.getAll(page, size, sort, type);
     }
 
 }

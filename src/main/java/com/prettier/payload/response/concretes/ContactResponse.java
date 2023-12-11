@@ -1,5 +1,6 @@
 package com.prettier.payload.response.concretes;
 
+import com.prettier.payload.response.abstracts.BaseEntityResponse;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Builder(toBuilder = true)
-public class ContactResponse implements Serializable {
+public class ContactResponse extends BaseEntityResponse implements Serializable {
 
     private String firstName;
 

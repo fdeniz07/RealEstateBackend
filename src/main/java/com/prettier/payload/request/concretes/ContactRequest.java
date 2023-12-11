@@ -1,5 +1,6 @@
 package com.prettier.payload.request.concretes;
 
+import com.prettier.payload.request.abstracts.BaseEntityRequest;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +17,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class ContactRequest implements Serializable {
+public class ContactRequest extends BaseEntityRequest implements Serializable {
 
     @Column(name="first_name",nullable = false)
     @NotNull //!!! Test edilecek sonrasi icin
