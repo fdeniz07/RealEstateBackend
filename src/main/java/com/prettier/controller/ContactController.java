@@ -16,14 +16,14 @@ public class ContactController {
 
     private final ContactService contactService;
 
-    @PostMapping("/add")
+    @PostMapping("/add") //http://localhost:8080/contact-messages/add
     public ResponseEntity<ContactResponse> add(@RequestBody @Valid ContactRequest contactRequest) {
 
         return ResponseEntity.ok((ContactResponse) contactService.add(contactRequest));
     }
 
 
-    @GetMapping("/getAll")
+    @GetMapping("/getAll") //http://localhost:8080/contact-messages/getAll
     public Page<ContactResponse> getAll(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "1") int size,
