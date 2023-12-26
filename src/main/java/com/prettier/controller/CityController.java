@@ -19,7 +19,7 @@ public class CityController {
     @GetMapping("getAll") // http://localhost:8080/cities/getAll
     public Page<CityResponse> getAllWithPage(
             @RequestParam(value = "page",defaultValue = "0") int page,
-            @RequestParam(value = "size",defaultValue = "25") int size,
+            @RequestParam(value = "size",defaultValue = "41") int size,
             @RequestParam(value = "sort",defaultValue = "name") String sort,
             @RequestParam(value = "type",defaultValue = "asc") String type
     ) {
