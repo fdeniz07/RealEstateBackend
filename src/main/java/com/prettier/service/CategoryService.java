@@ -81,7 +81,7 @@ public class CategoryService {
         }
               //todo built in olna bakailmayacak
 
-        Category updated = updatedCategory(id,categoryRequest);
+        Category updated = categoryMapper.toCategory(categoryRequest);
         categoryRepository.save(updated);
 
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
