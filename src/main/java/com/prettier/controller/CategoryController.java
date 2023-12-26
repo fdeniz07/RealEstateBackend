@@ -45,7 +45,7 @@ public class CategoryController {
     }
 
    // @PreAuthorize("hasAuthority('ADMIN','MANAGER','CUSTOMER')")
-    @GetMapping("/{id}}")
+    @GetMapping("/{id}")
     public CategoryResponse getById(@PathVariable Long id) {
         return categoryService.getById(id);
     }

@@ -1,14 +1,13 @@
 package com.prettier.payload.response.abstracts;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -25,6 +24,7 @@ import java.time.LocalDateTime;
 public abstract class BaseEntityResponse {
 
 //    private Long id;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+     @JsonIgnore
+     private LocalDateTime createAt;
+    // private LocalDateTime updateAt;
 }
