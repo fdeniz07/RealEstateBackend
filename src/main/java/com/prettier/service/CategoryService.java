@@ -1,18 +1,14 @@
 package com.prettier.service;
 
-import com.prettier.entity.concretes.Advert;
 import com.prettier.entity.concretes.Category;
 import com.prettier.entity.concretes.CategoryPropertyKey;
 import com.prettier.payload.mapper.CategoryMapper;
-import com.prettier.payload.mapper.ContactMapper;
 import com.prettier.payload.request.concretes.CategoryRequest;
 import com.prettier.payload.response.concretes.CategoryResponse;
-import com.prettier.repository.AdvertRepository;
 import com.prettier.repository.CategoryPropertyKeyRepository;
 import com.prettier.repository.CategoryPropertyValueRepository;
 import com.prettier.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
