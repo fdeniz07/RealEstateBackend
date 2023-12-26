@@ -3,16 +3,19 @@ package com.prettier.payload.mapper;
 import com.prettier.entity.concretes.Category;
 import com.prettier.payload.request.concretes.CategoryRequest;
 import com.prettier.payload.response.concretes.CategoryResponse;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CategoryMapper {
 
-    private final ModelMapper modelMapper;
+    @Autowired
+    private ModelMapper modelMapper;
 
     public Category toCategory(CategoryRequest categoryRequest) {
         return modelMapper.map(categoryRequest, Category.class);
