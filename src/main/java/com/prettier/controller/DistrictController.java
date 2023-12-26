@@ -16,10 +16,10 @@ public class DistrictController {
 
     private final DistrictService districtService;
 
-    @GetMapping("getAll")
+    @GetMapping("getAll")//http://localhost:8080/districts/getAll
     public Page<DistrictResponse> getAllWithPage(
             @RequestParam(value = "page",defaultValue = "0") int page,
-            @RequestParam(value = "size",defaultValue = "25") int size,
+            @RequestParam(value = "size",defaultValue = "50") int size,
             @RequestParam(value = "sort",defaultValue = "name") String sort,
             @RequestParam(value = "type",defaultValue = "asc") String type
     ) {
