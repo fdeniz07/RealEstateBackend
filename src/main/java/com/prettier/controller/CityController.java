@@ -24,6 +24,7 @@ public class CityController {
             @RequestParam(value = "type",defaultValue = "asc") String type
     ) {
 
+
         return cityService.getAllWithPage(page,size,sort,type);
     }
 }
