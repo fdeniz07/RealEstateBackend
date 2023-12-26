@@ -6,17 +6,15 @@ import com.prettier.payload.request.abstracts.BaseEntityRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.util.Set;
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@Builder(toBuilder = true)
+@SuperBuilder
 public class CategoryRequest extends BaseEntityRequest implements Serializable {
 
     @Column(name = "title", nullable = false)
@@ -37,7 +35,7 @@ public class CategoryRequest extends BaseEntityRequest implements Serializable {
     private String slug;
 
     @Column(name = "is_active", nullable = false)
-    private boolean isActive=true;
+    private boolean isActive;
 
 
     private Set<Advert> advertSet;

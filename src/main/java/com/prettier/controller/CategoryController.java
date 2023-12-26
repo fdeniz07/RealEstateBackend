@@ -24,7 +24,7 @@ public class CategoryController {
     public Page<CategoryResponse> getIsActiveWithPage( // TODO getALLWithPAge
                                           @RequestParam(value = "page",defaultValue = "0") int page,
                                           @RequestParam(value = "size",defaultValue = "10") int size,
-                                          @RequestParam(value = "sort",defaultValue = "icon") String sort,
+                                          @RequestParam(value = "sort",defaultValue = "title") String sort,
                                           @RequestParam(value = "type",defaultValue = "desc") String type
     ) {
 
@@ -37,7 +37,7 @@ public class CategoryController {
     public Page<CategoryResponse> getAllWithPage(
                                           @RequestParam(value = "page",defaultValue = "0") int page,
                                           @RequestParam(value = "size",defaultValue = "10") int size,
-                                          @RequestParam(value = "sort",defaultValue = "icon") String sort,
+                                          @RequestParam(value = "sort",defaultValue = "title") String sort,
                                           @RequestParam(value = "type",defaultValue = "desc") String type
     ) {
 
@@ -95,6 +95,20 @@ public class CategoryController {
        return categoryService.deleteCategoryProperty(propertyId);
     }
 
+
+
+
+    /* {
+            "title": "ev",
+            "icon": "ev.jpg",
+            "builtIn": true,
+            "seq": 1,
+            "slug": "deneme amacli veri girisi yapiliyor.En az 5 kelime olmali ",
+            "advertSet": [],
+            "categoryPropertyKeys": [],
+            "active": true
+        }
+     */
 
 
 
