@@ -16,7 +16,7 @@ public class CityController {
 
     private final CityService cityService;
 
-    @GetMapping("getAll")
+    @GetMapping("getAll") // http://localhost:8080/cities/getAll
     public Page<CityResponse> getAllWithPage(
             @RequestParam(value = "page",defaultValue = "0") int page,
             @RequestParam(value = "size",defaultValue = "25") int size,
