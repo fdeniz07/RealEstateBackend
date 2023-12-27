@@ -23,8 +23,7 @@ import java.time.LocalDateTime;
 
 public abstract class BaseEntityResponse {
 
-//    private Long id;
-     @JsonIgnore
-     private LocalDateTime createAt;
-    // private LocalDateTime updateAt;
+    private Long id;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
 }

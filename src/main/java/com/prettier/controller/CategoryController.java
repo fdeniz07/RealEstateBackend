@@ -57,9 +57,8 @@ public class CategoryController {
     }
 
    // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    @PutMapping("/{id}")
-    public ResponseEntity updateById(@PathVariable Long id,
-                                     @RequestBody @Valid CategoryRequest categoryRequest){
+    @PatchMapping("/update/{id}")
+    public ResponseEntity updateById(@PathVariable Long id,@RequestBody @Valid CategoryRequest categoryRequest){
         return categoryService.updateById(id, categoryRequest);
 
     }
