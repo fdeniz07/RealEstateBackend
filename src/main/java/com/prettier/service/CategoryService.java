@@ -8,6 +8,8 @@ import com.prettier.payload.response.concretes.CategoryResponse;
 import com.prettier.repository.CategoryPropertyKeyRepository;
 import com.prettier.repository.CategoryPropertyValueRepository;
 import com.prettier.repository.CategoryRepository;
+import com.prettier.shared.exception.ResourceNotFoundException;
+import com.prettier.shared.utils.ErrorMessages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -74,17 +77,65 @@ public class CategoryService {
 
     public ResponseEntity updateById(Long id, CategoryRequest categoryRequest) {
 
+        //!!! Id üzerinden category nesnesi getiriliyor
+        Optional<Category> category = categoryRepository.findById(id);
 
-
-              if(!categoryRepository.existsById(id)){
-              throw new ResourceAccessException("");//todo  ex olustur
+        if (!category.isPresent()) {
+            throw new ResourceNotFoundException(ErrorMessages.NOT_FOUND_USER_MESSAGE);
         }
+
+        //Duplicate kontrolü yapilacak!!!
+
+
+//              if(!categoryRepository.existsById(id)){
+//              throw new ResourceAccessException("B");//todo  ex olustur
+//        }
               //todo built in olna bakailmayacak
 
-        Category updated = categoryMapper.toCategory(categoryRequest);
-        categoryRepository.save(updated);
-
+        Category updatedCategory = categoryMapper.toUpdatedCategory(categoryRequest,id);
+        Category savedCategory=  categoryRepository.save(updatedCategory);
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
+
+
+
+
+
+//        //!!! Id üzerinden teacher nesnesi getiriliyor
+//        Optional<Teacher> teacher = teacherRepository.findById(userId);
+//
+//        //Gelen listenin ici bos mu dolu mu kontrolü (OrElseThrow yapanlarin bunu kullanmasina gerek yok)
+//        if (!teacher.isPresent()) {
+//            throw new ResourceNotFoundException(ErrorMessages.NOT_FOUND_USER_MESSAGE);
+//        } else if (lessons.size() == 0) {
+//            throw new BadRequestException(ErrorMessages.LESSON_PROGRAM_NOT_FOUND_MESSAGE);
+//        } else if (!CheckParameterUpdateMethod.checkParameter(teacher.get(), newTeacher)) { //TODO email kontrol
+//            checkUniqueFields.checkDuplicate(newTeacher.getUsername(),
+//                    newTeacher.getSsn(),
+//                    newTeacher.getPhoneNumber(),
+//                    newTeacher.getEmail());
+//        }
+//        UserRole userRole = userRoleService.getUserRole(RoleType.TEACHER);
+//        Teacher updatedTeacher = teacherMapper.createUpdatedTeacher(newTeacher, userId, userRole);
+//
+//        //!!! Password encode ediliyor
+//        updatedTeacher.setPassword(passwordEncoder.encode(newTeacher.getPassword()));
+//
+//        //!!! LessonProgram set ediliyor
+//        updatedTeacher.setLessonsProgramList(lessons); //TODO buraya bakilacak
+//        Teacher savedTeacher = teacherRepository.save(updatedTeacher);
+//
+//        //!!! AdvisorTeacher eklenince yazildi
+//        advisorTeacherService.updateAdvisorTeacher(newTeacher.isAdvisorTeacher(), savedTeacher);
+//
+//        return ResponseMessage.<TeacherResponse>builder()
+//                .object(teacherMapper.createTeacherResponse(savedTeacher))
+//                .message(SuccessMessages.TEACHER_UPDATED)
+//                .httpStatus(HttpStatus.OK)
+//                .build();
+
+
+
+
 
 
 
