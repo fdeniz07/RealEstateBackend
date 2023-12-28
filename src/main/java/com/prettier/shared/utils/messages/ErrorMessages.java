@@ -1,4 +1,4 @@
-package com.prettier.shared.utils;
+package com.prettier.shared.utils.messages;
 
 public class ErrorMessages {
 
