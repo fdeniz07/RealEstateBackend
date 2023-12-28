@@ -21,7 +21,7 @@
 
 
 #!!! jdbc:postgresql://localhost:5432/real_estate_db olacak default port olarak!!!
-spring.datasource.url= jdbc:postgresql://localhost:5432/real_estate_db
+spring.datasource.url= jdbc:postgresql://localhost:5433/real_estate_db
 spring.datasource.username= db_user
 spring.datasource.password= db_password
 

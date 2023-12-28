@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: RealEstate
+  profiles:
+    active: localhost
+  main:
+    allow-bean-definition-overriding: true
+info:
+  component: Real Estate
+
+---
+server:
+  #  default port 5432 olacak!
+#  port: 5433
+  error:
+    include-binding-errors: always
+    include-message: always
+    include-stacktrace: never
+
+---
+spring:
+  config:
+    activate:
+      on-profile: localhost
+  cloud:
+    config:
+      uri: http://localhost:8888
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+#        default_schema: real_estate_db
+        format_sql: true
+  datasource:
+#    jdbc:postgresql://localhost:5432/real_estate_db olacak default port olarak!!!
+    url: "jdbc:postgresql://localhost:5433/real_estate_db"
+    username: db_user
+    password:  db_password
+
+
