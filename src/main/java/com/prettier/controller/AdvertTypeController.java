@@ -1,8 +1,7 @@
 package com.prettier.controller;
 
 
-import com.prettier.service.AdvertTypeService;
-import com.prettier.service.LogService;
+import com.prettier.service.concretes.AdvertTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

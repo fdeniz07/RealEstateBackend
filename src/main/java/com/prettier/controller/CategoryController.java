@@ -1,11 +1,10 @@
 package com.prettier.controller;
 
 
-import com.prettier.entity.concretes.Category;
 import com.prettier.entity.concretes.CategoryPropertyKey;
 import com.prettier.payload.request.concretes.CategoryRequest;
 import com.prettier.payload.response.concretes.CategoryResponse;
-import com.prettier.service.CategoryService;
+import com.prettier.service.concretes.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

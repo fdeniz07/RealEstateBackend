@@ -1,7 +1,7 @@
 package com.prettier.controller;
 
 import com.prettier.payload.response.concretes.DistrictResponse;
-import com.prettier.service.DistrictService;
+import com.prettier.service.concretes.DistrictService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;

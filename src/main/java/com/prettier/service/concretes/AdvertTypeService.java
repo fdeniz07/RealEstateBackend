@@ -1,4 +1,4 @@
-package com.prettier.service;
+package com.prettier.service.concretes;
 
 
 import com.prettier.repository.AdvertTypeRepository;

@@ -1,4 +1,4 @@
-package com.prettier.service;
+package com.prettier.service.concretes;
 
 import com.prettier.payload.mapper.DistrictMapper;
 import com.prettier.payload.response.concretes.DistrictResponse;
