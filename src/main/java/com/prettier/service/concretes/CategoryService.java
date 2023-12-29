@@ -1,4 +1,4 @@
-package com.prettier.service;
+package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Category;
 import com.prettier.entity.concretes.CategoryPropertyKey;
@@ -8,7 +8,6 @@ import com.prettier.payload.response.concretes.CategoryResponse;
 import com.prettier.repository.CategoryPropertyKeyRepository;
 import com.prettier.repository.CategoryPropertyValueRepository;
 import com.prettier.repository.CategoryRepository;
-import com.prettier.service.concretes.AdvertService;
 import com.prettier.shared.exception.ResourceNotFoundException;
 import com.prettier.shared.utils.messages.ErrorMessages;
 import lombok.RequiredArgsConstructor;

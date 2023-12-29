@@ -1,7 +1,7 @@
 package com.prettier.controller;
 
 
-import com.prettier.service.TourRequestService;
+import com.prettier.service.concretes.TourRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

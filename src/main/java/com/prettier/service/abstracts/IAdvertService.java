@@ -22,5 +22,4 @@ public interface IAdvertService {
 
     FriendlyResponseMessage<AdvertResponse> delete(AdvertRequest advertRequest, Long Id);
 
-
 }

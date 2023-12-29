@@ -1,20 +1,14 @@
 package com.prettier.controller;
 
-import com.prettier.entity.concretes.Advert;
-import com.prettier.entity.concretes.CategoryPropertyKey;
-import com.prettier.entity.concretes.Favorite;
-import com.prettier.entity.concretes.User;
 import com.prettier.payload.response.concretes.FavoriteResponse;
-import com.prettier.service.FavoriteService;
+import com.prettier.service.concretes.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.lang.reflect.Array;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor

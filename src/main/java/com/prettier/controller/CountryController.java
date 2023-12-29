@@ -1,7 +1,7 @@
 package com.prettier.controller;
 
 import com.prettier.payload.response.concretes.CountryResponse;
-import com.prettier.service.CountryService;
+import com.prettier.service.concretes.CountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;

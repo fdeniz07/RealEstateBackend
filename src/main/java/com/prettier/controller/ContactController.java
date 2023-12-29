@@ -2,7 +2,7 @@ package com.prettier.controller;
 
 import com.prettier.payload.request.concretes.ContactRequest;
 import com.prettier.payload.response.concretes.ContactResponse;
-import com.prettier.service.ContactService;
+import com.prettier.service.concretes.ContactService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
