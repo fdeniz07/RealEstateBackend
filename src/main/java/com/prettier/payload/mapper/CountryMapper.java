@@ -3,15 +3,18 @@ package com.prettier.payload.mapper;
 import com.prettier.entity.concretes.Country;
 import com.prettier.payload.request.concretes.CountryRequest;
 import com.prettier.payload.response.concretes.CountryResponse;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Component
-@RequiredArgsConstructor
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CountryMapper {
 
-    private final ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     public Country toCountry(CountryRequest countryRequest) {
         return modelMapper.map(countryRequest, Country.class);
