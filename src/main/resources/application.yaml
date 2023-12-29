@@ -10,8 +10,7 @@ info:
 
 ---
 server:
-  #  default port 5432 olacak!
-#  port: 5433
+  port: 9788
   error:
     include-binding-errors: always
     include-message: always
