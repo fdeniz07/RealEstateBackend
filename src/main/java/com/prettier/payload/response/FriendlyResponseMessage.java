@@ -12,10 +12,12 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)//Json icindeki null olanlarin gözükmemesini sagliyoruz
-public class ResponseMessage<E> { //Generic yapilar bize loose coupling bir yapi olusturmamizi sagliyor. Gelismis bir polymorphism sagliyor.
+public class FriendlyResponseMessage<E> { //Generic yapilar bize loose coupling bir yapi olusturmamizi sagliyor. Gelismis bir polymorphism sagliyor.
 
     private E object;
+    private String title;
     private String message;
     private HttpStatus httpStatus;
+    private String buttonPositive;
 
 }

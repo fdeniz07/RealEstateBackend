@@ -12,8 +12,7 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @SuperBuilder
 public class CategoryRequest extends BaseEntityRequest implements Serializable {

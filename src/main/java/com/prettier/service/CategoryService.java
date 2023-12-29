@@ -8,8 +8,9 @@ import com.prettier.payload.response.concretes.CategoryResponse;
 import com.prettier.repository.CategoryPropertyKeyRepository;
 import com.prettier.repository.CategoryPropertyValueRepository;
 import com.prettier.repository.CategoryRepository;
+import com.prettier.service.concretes.AdvertService;
 import com.prettier.shared.exception.ResourceNotFoundException;
-import com.prettier.shared.utils.ErrorMessages;
+import com.prettier.shared.utils.messages.ErrorMessages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -75,10 +76,10 @@ public class CategoryService {
 
     }
 
-    public ResponseEntity updateById(Long id, CategoryRequest categoryRequest) {
+    public ResponseEntity updateById(Category existCategory, CategoryRequest categoryRequest) {
 
         //!!! Id üzerinden category nesnesi getiriliyor
-        Optional<Category> category = categoryRepository.findById(id);
+        Optional<Category> category = categoryRepository.findById(categoryRequest.getId());
 
         if (!category.isPresent()) {
             throw new ResourceNotFoundException(ErrorMessages.NOT_FOUND_USER_MESSAGE);
@@ -86,13 +87,7 @@ public class CategoryService {
 
         //Duplicate kontrolü yapilacak!!!
 
-
-//              if(!categoryRepository.existsById(id)){
-//              throw new ResourceAccessException("B");//todo  ex olustur
-//        }
-              //todo built in olna bakailmayacak
-
-        Category updatedCategory = categoryMapper.toUpdatedCategory(categoryRequest,id);
+        Category updatedCategory = categoryMapper.toUpdatedCategory(categoryRequest,existCategory);
         Category savedCategory=  categoryRepository.save(updatedCategory);
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
 

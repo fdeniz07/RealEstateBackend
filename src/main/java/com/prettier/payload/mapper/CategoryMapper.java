@@ -20,27 +20,26 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CategoryMapper {
 
-    @Autowired
     private ModelMapper modelMapper;
 
     public Category toCategory(CategoryRequest categoryRequest) {
         return modelMapper.map(categoryRequest, Category.class);
     }
 
-    public Category toUpdatedCategory(CategoryRequest categoryRequest, Long id) {
+    public Category toUpdatedCategory(CategoryRequest categoryRequest, Category existCategory) {
 
-        return Category.builder()
-                .id(id)
-                .title(categoryRequest.getTitle())
-                .icon(categoryRequest.getIcon())
-                .builtIn(categoryRequest.isBuiltIn())
-                .seq(categoryRequest.getSeq())
-                .slug(categoryRequest.getSlug())
-                .isActive(categoryRequest.isActive())
-                .test(categoryRequest.getTest())
-                .createAt(categoryRequest.getCreateAt())
-                .updateAt(categoryRequest.getUpdateAt())
-                .build();
+//        return Category.builder()
+//                .title(categoryRequest.getTitle())
+//                .icon(categoryRequest.getIcon())
+//                .builtIn(categoryRequest.isBuiltIn())
+//                .seq(categoryRequest.getSeq())
+//                .slug(categoryRequest.getSlug())
+//                .isActive(categoryRequest.isActive())
+//                .test(categoryRequest.getTest())
+//                .createAt(categoryRequest.getCreateAt())
+//                .updateAt(categoryRequest.getUpdateAt())
+//                .test(categoryRequest.getTest())
+//                .build();
 
 //        Condition notNull = ctx -> ctx.getSource() != null;
 //
@@ -57,7 +56,8 @@ public class CategoryMapper {
 //        modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
 
 //        categoryRequest.setId(id);
-//        return modelMapper.map(categoryRequest, Category.class);
+        modelMapper.map(categoryRequest, Category.class);
+        return existCategory;
     }
 
     public CategoryResponse toResponse(Category category) {
