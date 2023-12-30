@@ -10,7 +10,7 @@ info:
 
 ---
 server:
-  port: 9788
+  port: 8080
   error:
     include-binding-errors: always
     include-message: always
@@ -23,7 +23,7 @@ spring:
       on-profile: localhost
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://localhost:8080
   jpa:
     hibernate:
       ddl-auto: update
@@ -38,4 +38,9 @@ spring:
     username: db_user
     password:  db_password
 
+prettier:
+  openapi:
+    dev-url: http://localhost:8080
+    prod-url: https://prettier.com
 
+#    Swagger arayüzü : http://localhost:8080/swagger-ui/index.html
