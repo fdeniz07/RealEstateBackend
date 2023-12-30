@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface AdvertRepository extends JpaRepository<Advert, Long> {
 
-//    Advert getByAdvertIdAndIsActiveFalse(Long advertId);
+    Advert getByAdvertIdAndIsActiveFalse(Long id);
 //
 //    List<Advert> getAllByIsActiveFalse();
 

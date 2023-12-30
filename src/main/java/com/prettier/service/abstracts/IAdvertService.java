@@ -2,24 +2,25 @@ package com.prettier.service.abstracts;
 
 import com.prettier.entity.concretes.Advert;
 import com.prettier.payload.request.concretes.AdvertRequest;
-import com.prettier.payload.response.FriendlyResponseMessage;
+import com.prettier.payload.request.concretes.AdvertUpdateRequest;
 import com.prettier.payload.response.concretes.AdvertResponse;
+import com.prettier.shared.utils.enums.Language;
 import org.springframework.data.domain.Page;
 
 public interface IAdvertService {
 
-    Page<AdvertResponse> getAll(int page, int size, String sort, String type);
+    Page<AdvertResponse> getAll(Language language, int page, int size, String sort, String type);
 
-    Page<AdvertResponse> getListWithActive(int page, int size, String sort, String type);
+    Page<AdvertResponse> getListWithActive(Language language, int page, int size, String sort, String type);
 
-    FriendlyResponseMessage<AdvertResponse> getByIdAllType(Long id);
+    AdvertResponse getByIdAllType(Language language, Long id);
 
-    FriendlyResponseMessage<AdvertResponse> getByIdActive(Long id);
+    AdvertResponse getByIdActive(Language language, Long id);
 
-    FriendlyResponseMessage<AdvertResponse> add(AdvertRequest advertRequest);
+    Advert add(Language language, AdvertRequest advertRequest);
 
-    FriendlyResponseMessage<AdvertResponse> update(AdvertRequest advertRequest, Advert existAdvert,Long id);
+    Advert update(Language language, AdvertUpdateRequest advertUpdateRequest, Long id);
 
-    FriendlyResponseMessage<AdvertResponse> delete(AdvertRequest advertRequest, Long Id);
+    Advert delete(Language language, Long id);
 
 }
