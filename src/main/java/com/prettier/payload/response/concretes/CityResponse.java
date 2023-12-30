@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CityResponse extends BaseEntityResponse implements Serializable {
+public class CityResponse extends BaseEntityResponse{
 
     private String name;
 }

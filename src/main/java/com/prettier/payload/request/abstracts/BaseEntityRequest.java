@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @MappedSuperclass //Db de user tablosu olusmadan bu sinifin anac sinif olarak kullanilmasini saglar
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 //Auditing: You've included auditing information using @CreatedDate and @EntityListeners(AuditingEntityListener.class). This is useful for tracking when entities are created and updated.
 
-public abstract class BaseEntityRequest {
+public abstract class BaseEntityRequest implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

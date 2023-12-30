@@ -7,7 +7,7 @@ import com.prettier.payload.request.concretes.AdvertUpdateRequest;
 import com.prettier.payload.response.FriendlyMessage;
 import com.prettier.payload.response.InternalApiResponse;
 import com.prettier.payload.response.concretes.AdvertResponse;
-import com.prettier.service.abstracts.IAdvertService;
+import com.prettier.service.abstracts.AdvertService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j //Log eklemek icin kullaniyoruz
 public class AdvertController {
 
-    private final IAdvertService advertService;
+    private final AdvertService advertService;
     private final AdvertMapper advertMapper;
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -72,10 +72,12 @@ public class AdvertController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(value = "/{language}/update/{advertId}")
+    @PutMapping("/{language}/update/{advertId}")
     public InternalApiResponse<AdvertResponse> updateAdvert(@PathVariable("language") Language language,
                                                               @PathVariable("productId") Long id,
-                                                              @RequestBody AdvertUpdateRequest advertUpdateRequest) {
+                                                              @RequestBody AdvertUpdateRequest advertUpdateRequest)
+    {
+
         log.debug("[{}][updateAdvert] -> request: {} {}", this.getClass().getSimpleName(), id, advertUpdateRequest);
         Advert advert = advertService.update(language, advertUpdateRequest,id);
 

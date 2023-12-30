@@ -15,7 +15,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @SuperBuilder
-public class CategoryRequest extends BaseEntityRequest implements Serializable {
+public class CategoryRequest extends BaseEntityRequest {
 
     @Size(max = 150)
     private String title;

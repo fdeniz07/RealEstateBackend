@@ -7,7 +7,9 @@ import com.prettier.payload.response.concretes.AdvertResponse;
 import com.prettier.shared.utils.enums.Language;
 import org.springframework.data.domain.Page;
 
-public interface IAdvertService {
+import java.io.Serializable;
+
+public interface AdvertService extends Serializable {
 
     Page<AdvertResponse> getAll(Language language, int page, int size, String sort, String type);
 

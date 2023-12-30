@@ -29,7 +29,7 @@ import java.util.Set;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
-    private final AdvertService advertService;
+    private final AdvertManager advertService;
     private final CategoryPropertyKeyService categoryPropertyKeyService;
     private final CategoryPropertyKeyRepository categoryPropertyKeyRepository;
     private final CategoryPropertyValueRepository categoryPropertyValueRepository;

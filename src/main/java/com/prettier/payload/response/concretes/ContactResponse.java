@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Builder(toBuilder = true)
-public class ContactResponse extends BaseEntityResponse implements Serializable {
+public class ContactResponse extends BaseEntityResponse{
 
     private String firstName;
 

@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @MappedSuperclass //Db de user tablosu olusmadan bu sinifin anac sinif olarak kullanilmasini saglar
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 //Auditing: You've included auditing information using @CreatedDate and @EntityListeners(AuditingEntityListener.class). This is useful for tracking when entities are created and updated.
 
-public abstract class BaseEntityResponse {
+public abstract class BaseEntityResponse implements Serializable {
 
     private Long id;
     private LocalDateTime createAt;

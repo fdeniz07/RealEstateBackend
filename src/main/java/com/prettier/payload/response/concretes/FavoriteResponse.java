@@ -16,7 +16,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FavoriteResponse extends BaseEntityResponse implements Serializable {
+public class FavoriteResponse extends BaseEntityResponse{
 
     private User user;
     private Advert advert;
