@@ -1,17 +1,27 @@
 package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Advert;
+import com.prettier.entity.concretes.Category;
 import com.prettier.payload.mapper.AdvertMapper;
 import com.prettier.payload.request.concretes.AdvertRequest;
-import com.prettier.payload.response.FriendlyResponseMessage;
+import com.prettier.payload.request.concretes.AdvertUpdateRequest;
+import com.prettier.payload.response.FriendlyMessage;
 import com.prettier.payload.response.concretes.AdvertResponse;
 import com.prettier.repository.AdvertRepository;
 import com.prettier.service.abstracts.IAdvertService;
+import com.prettier.shared.exception.enums.FriendlyMessageCodes;
+import com.prettier.shared.exception.exceptions.AdvertAlreadyDeletedException;
+import com.prettier.shared.exception.exceptions.AdvertNotCreatedException;
+import com.prettier.shared.exception.exceptions.AdvertNotFoundException;
+import com.prettier.shared.utils.enums.Language;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -19,13 +29,14 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AdvertService implements IAdvertService, Serializable {
 
     private final AdvertRepository advertRepository;
     private final AdvertMapper advertMapper;
 
     @Override
-    public Page<AdvertResponse> getAll(int page, int size, String sort, String type) {
+    public Page<AdvertResponse> getAll(Language language, int page, int size, String sort, String type) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
         if (Objects.equals(type, "desc")) {
@@ -36,7 +47,7 @@ public class AdvertService implements IAdvertService, Serializable {
     }
 
     @Override
-    public Page<AdvertResponse> getListWithActive(int page, int size, String sort, String type) {
+    public Page<AdvertResponse> getListWithActive(Language language, int page, int size, String sort, String type) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
         if (Objects.equals(type, "desc")) {
@@ -47,27 +58,52 @@ public class AdvertService implements IAdvertService, Serializable {
     }
 
     @Override
-    public FriendlyResponseMessage<AdvertResponse> getByIdAllType(Long id) {
+    public AdvertResponse getByIdAllType(Language language, Long id) {
         return null;
     }
 
     @Override
-    public FriendlyResponseMessage<AdvertResponse> getByIdActive(Long id) {
-        return null;
+    public AdvertResponse getByIdActive(Language language, Long id) {
+        log.debug("[{}][getAdvert] -> request advertId: {}", this.getClass().getSimpleName(), id);
+        Advert advert = advertRepository.getByAdvertIdAndIsActiveFalse(id);
+        if (Objects.isNull(advert)) {
+            throw new AdvertNotFoundException(language, FriendlyMessageCodes.ADVERT_NOT_FOUND_EXCEPTION, "Advert not found for advert id: " + id);
+        }
+        log.debug("[{}][getAdvert] -> response: {}", this.getClass().getSimpleName(), advert);
+        return advertMapper.toResponse(advert);
+    }
+
+
+    @Override
+    public Advert add(Language language, AdvertRequest advertRequest) {
+
+        log.debug("[{}][createdAdvert] -> request: {}", this.getClass().getSimpleName(), advertRequest);
+        try {
+            Advert advert = advertMapper.toAdvert(advertRequest);
+            Advert savedAdvert = advertRepository.save(advert);
+            log.debug("[{}][createAdvert] -> response: {}", this.getClass().getSimpleName(), savedAdvert);
+            return savedAdvert;
+        } catch (Exception exception) {
+            throw new AdvertNotCreatedException(language, FriendlyMessageCodes.ADVERT_NOT_CREATED_EXCEPTION, "advert request: " + advertRequest.toString());
+        }
     }
 
     @Override
-    public FriendlyResponseMessage<AdvertResponse> add(AdvertRequest advertRequest) {
-        return null;
+    public Advert update(Language language, AdvertUpdateRequest advertUpdateRequest, Long id) {
+        log.debug("[{}][updateAdvert] -> request: {} {}", this.getClass().getSimpleName(), id, advertUpdateRequest);
+        Advert advert = advertMapper.toUpdatedAdvert(language, advertUpdateRequest, id);
+        Advert updatedAdvert = advertRepository.save(advert);
+        log.debug("[{}][updateAdvert] -> response: {}", this.getClass().getSimpleName(), updatedAdvert);
+        return updatedAdvert;
     }
 
     @Override
-    public FriendlyResponseMessage<AdvertResponse> update(AdvertRequest advertRequest, Advert existAdvert, Long id) {
-        return null;
-    }
+    public Advert delete(Language language, Long id) {
+        log.debug("[{}][deleteAdvert] -> request advertId: {}", this.getClass().getSimpleName(), id);
+        Advert advert;
 
-    @Override
-    public FriendlyResponseMessage<AdvertResponse> delete(AdvertRequest advertRequest, Long Id) {
-        return null;
+        advert = advertRepository.findById(id).orElseThrow(() -> new AdvertAlreadyDeletedException(language, FriendlyMessageCodes.ADVERT_ALREADY_DELETED, "Advert already deleted advert id: " + id));
+        advert.setActive(false);
+        return advertRepository.save(advert);
     }
 }

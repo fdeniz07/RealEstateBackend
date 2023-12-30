@@ -18,6 +18,7 @@ public class AdvertResponse extends BaseEntityResponse implements Serializable {
 
     private String title;
     private String desc;
+    private boolean isActive;
     private Double price;
     private AdvertType advertType;
     private Country country;
