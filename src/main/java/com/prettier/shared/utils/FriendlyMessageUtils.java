@@ -17,7 +17,7 @@ public class FriendlyMessageUtils {
     private static final String RESOURCE_BUNDLE_NAME = "FriendlyMessage";
     private static final String SPECIAL_CHARACTER = "__";
 
-    public static String getFriedlyMessage(Language language, IFriendlyMessageCode messageCode) {
+    public static String getFriendlyMessage(Language language, IFriendlyMessageCode messageCode) {
         String messageKey = null;
         try {
             Locale locale = new Locale(language.name());

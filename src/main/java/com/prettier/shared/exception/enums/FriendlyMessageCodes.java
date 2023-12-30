@@ -1,7 +1,15 @@
 package com.prettier.shared.exception.enums;
 
 public enum FriendlyMessageCodes implements IFriendlyMessageCode {
-    OK(1000);
+    OK(1000),
+    ERROR(1001),
+    SUCCESS(1002),
+    ADVERT_NOT_CREATED_EXCEPTION(1500),
+    ADVERT_SUCCESSFULLY_CREATED(1501),
+    ADVERT_NOT_FOUND_EXCEPTION(1502),
+    ADVERT_SUCCESSFULLY_UPDATED(1503),
+    ADVERT_ALREADY_DELETED(1504),
+    ADVERT_SUCCESSFULLY_DELETED(1505);
     private final int value;
 
     FriendlyMessageCodes(int value) {
