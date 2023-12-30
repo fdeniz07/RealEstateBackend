@@ -5,6 +5,7 @@ import com.prettier.payload.request.concretes.DistrictRequest;
 import com.prettier.payload.response.concretes.DistrictResponse;
 import lombok.*;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Getter
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 public class DistrictMapper {
 
+    @Autowired
     private ModelMapper modelMapper;
 
     public District toDistrict(DistrictRequest districtRequest) {

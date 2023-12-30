@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CategoryMapper {
 
+    @Autowired
     private ModelMapper modelMapper;
 
     public Category toCategory(CategoryRequest categoryRequest) {

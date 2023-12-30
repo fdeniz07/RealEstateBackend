@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @NoArgsConstructor
 public class CountryMapper {
 
+    @Autowired
     private ModelMapper modelMapper;
 
     public Country toCountry(CountryRequest countryRequest) {
