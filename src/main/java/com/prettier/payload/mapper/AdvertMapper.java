@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @NoArgsConstructor
 public class AdvertMapper {
 
+    @Autowired
     private ModelMapper modelMapper;
 
     public Advert toAdvert(AdvertRequest advertRequest) {

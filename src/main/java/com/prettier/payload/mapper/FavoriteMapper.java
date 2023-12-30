@@ -21,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 public class FavoriteMapper {
 
+    @Autowired
     private ModelMapper modelMapper;
 
     public Favorite toFavorite(FavoriteRequest favoriteRequest) {

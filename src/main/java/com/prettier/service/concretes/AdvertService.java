@@ -65,7 +65,7 @@ public class AdvertService implements IAdvertService, Serializable {
     @Override
     public AdvertResponse getByIdActive(Language language, Long id) {
         log.debug("[{}][getAdvert] -> request advertId: {}", this.getClass().getSimpleName(), id);
-        Advert advert = advertRepository.getByAdvertIdAndIsActiveFalse(id);
+        Advert advert = advertRepository.getByIdAndIsActiveFalse(id);
         if (Objects.isNull(advert)) {
             throw new AdvertNotFoundException(language, FriendlyMessageCodes.ADVERT_NOT_FOUND_EXCEPTION, "Advert not found for advert id: " + id);
         }
