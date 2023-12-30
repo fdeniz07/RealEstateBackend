@@ -15,7 +15,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @SuperBuilder
-public class AdvertUpdateRequest extends BaseEntityRequest implements Serializable {
+public class AdvertUpdateRequest extends BaseEntityRequest {
 
     private Long Id;
 

@@ -19,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CategoryResponse extends BaseEntityResponse implements Serializable {
+public class CategoryResponse extends BaseEntityResponse{
 
     private String title;
     private String icon;

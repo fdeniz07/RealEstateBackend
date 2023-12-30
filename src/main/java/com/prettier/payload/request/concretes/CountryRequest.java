@@ -14,9 +14,8 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @SuperBuilder
-public class CountryRequest extends BaseEntityRequest implements Serializable {
+public class CountryRequest extends BaseEntityRequest{
 
-    @Column(name = "name", nullable = false)
     @Size(min = 2, max = 50)
     private String name;
 

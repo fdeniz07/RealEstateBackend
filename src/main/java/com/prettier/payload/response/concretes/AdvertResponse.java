@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AdvertResponse extends BaseEntityResponse implements Serializable {
+public class AdvertResponse extends BaseEntityResponse{
 
     private String title;
     private String desc;

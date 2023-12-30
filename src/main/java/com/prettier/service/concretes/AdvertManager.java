@@ -1,18 +1,16 @@
 package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Advert;
-import com.prettier.entity.concretes.Category;
 import com.prettier.payload.mapper.AdvertMapper;
 import com.prettier.payload.request.concretes.AdvertRequest;
 import com.prettier.payload.request.concretes.AdvertUpdateRequest;
-import com.prettier.payload.response.FriendlyMessage;
 import com.prettier.payload.response.concretes.AdvertResponse;
 import com.prettier.repository.AdvertRepository;
-import com.prettier.service.abstracts.IAdvertService;
+import com.prettier.service.abstracts.AdvertService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
-import com.prettier.shared.exception.exceptions.AdvertAlreadyDeletedException;
-import com.prettier.shared.exception.exceptions.AdvertNotCreatedException;
-import com.prettier.shared.exception.exceptions.AdvertNotFoundException;
+import com.prettier.shared.exception.exceptions.adverts.AdvertAlreadyDeletedException;
+import com.prettier.shared.exception.exceptions.adverts.AdvertNotCreatedException;
+import com.prettier.shared.exception.exceptions.adverts.AdvertNotFoundException;
 import com.prettier.shared.utils.enums.Language;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,17 +18,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AdvertService implements IAdvertService, Serializable {
+public class AdvertManager implements AdvertService {
 
     private final AdvertRepository advertRepository;
     private final AdvertMapper advertMapper;

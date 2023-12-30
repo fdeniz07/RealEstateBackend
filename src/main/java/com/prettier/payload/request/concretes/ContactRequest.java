@@ -17,27 +17,22 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class ContactRequest extends BaseEntityRequest implements Serializable {
-//
-    @Column(name="first_name",nullable = false)
+public class ContactRequest extends BaseEntityRequest{
+
     @NotNull //!!! Test edilecek sonrasi icin
     @Size(min = 1, max = 30, message = "First name must not be empty")
     @Pattern(regexp = "\\A(?!\\s*\\Z).+" ,message="Your message must consist of the characters.")
     private String firstName;
 
-    @Column(name="last_name",nullable = false)
     @Size(min = 1, max = 30, message = "Last name must not be empty")
     @Pattern(regexp = "\\A(?!\\s*\\Z).+" ,message="Your message must consist of the characters.")
     private String lastName;
 
-    @Column(nullable = false)
     @Email(message = "Please, enter valid email address")
     @Size(max = 60)
     private String email;
 
-    @Column(nullable = false)
     @Size(min = 10, max = 300, message = "Message must not be empty")
     @Pattern(regexp = "\\A(?!\\s*\\Z).+" ,message="Your message must consist of the characters.")
     private String message;
-
 }

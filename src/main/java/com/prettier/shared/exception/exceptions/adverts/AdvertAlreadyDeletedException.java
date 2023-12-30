@@ -1,4 +1,4 @@
-package com.prettier.shared.exception.exceptions;
+package com.prettier.shared.exception.exceptions.adverts;
 
 import com.prettier.shared.exception.enums.IFriendlyMessageCode;
 import com.prettier.shared.utils.FriendlyMessageUtils;

@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @SuperBuilder
-public class FavoriteRequest extends BaseEntityRequest implements Serializable {
+public class FavoriteRequest extends BaseEntityRequest{
 
     private User user;
     private Advert advert;

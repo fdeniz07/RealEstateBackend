@@ -18,7 +18,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @SuperBuilder
-public class AdvertRequest extends BaseEntityRequest implements Serializable {
+public class AdvertRequest extends BaseEntityRequest{
 
     @Size(min = 5, max = 150)
     private String title;
