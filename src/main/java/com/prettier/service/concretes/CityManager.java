@@ -54,7 +54,7 @@ public class CityManager implements CityService {
     }
 
     @Override
-    public CityResponse getByIdCity(Language language, Long id) {
+    public CityResponse getByCityId(Language language, Long id) {
 
         log.debug("[{}][getCity] -> request cityId: {}", this.getClass().getSimpleName(), id);
 

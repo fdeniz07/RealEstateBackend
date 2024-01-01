@@ -16,6 +16,6 @@ public class CityAlreadyDeletedException extends RuntimeException {
         super(FriendlyMessageUtils.getFriendlyMessage(language, friendlyMessageCode));
         this.language = language;
         this.friendlyMessageCode = friendlyMessageCode;
-        log.error("[ProductAlreadyDeletedException] -> message: {} developer message: {}", FriendlyMessageUtils.getFriendlyMessage(language, friendlyMessageCode), message);
+        log.error("[CityAlreadyDeletedException] -> message: {} developer message: {}", FriendlyMessageUtils.getFriendlyMessage(language, friendlyMessageCode), message);
     }
 }

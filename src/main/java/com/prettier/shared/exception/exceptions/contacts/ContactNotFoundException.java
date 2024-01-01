@@ -1,4 +1,4 @@
-package com.prettier.shared.exception.exceptions.adverts;
+package com.prettier.shared.exception.exceptions.contacts;
 
 import com.prettier.shared.exception.enums.IFriendlyMessageCode;
 import com.prettier.shared.utils.FriendlyMessageUtils;
@@ -8,14 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-public class AdvertAlreadyDeletedException extends RuntimeException {
+public class ContactNotFoundException extends RuntimeException {
     private final Language language;
     private final IFriendlyMessageCode friendlyMessageCode;
 
-    public AdvertAlreadyDeletedException(Language language, IFriendlyMessageCode friendlyMessageCode, String message) {
+    public ContactNotFoundException(Language language, IFriendlyMessageCode friendlyMessageCode, String message) {
         super(FriendlyMessageUtils.getFriendlyMessage(language, friendlyMessageCode));
         this.language = language;
         this.friendlyMessageCode = friendlyMessageCode;
-        log.error("[AdvertAlreadyDeletedException] -> message: {} developer message: {}", FriendlyMessageUtils.getFriendlyMessage(language, friendlyMessageCode), message);
+        log.error("[ContactNotFoundException] -> message:{} developer message: {}", FriendlyMessageUtils.getFriendlyMessage(language, friendlyMessageCode), message);
     }
 }
