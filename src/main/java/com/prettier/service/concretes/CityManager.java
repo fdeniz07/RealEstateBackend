@@ -8,6 +8,7 @@ import com.prettier.payload.response.concretes.CityResponse;
 import com.prettier.repository.CityRepository;
 import com.prettier.service.abstracts.CityService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
+import com.prettier.shared.exception.exceptions.cities.CityAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.cities.CityNotCreatedException;
 import com.prettier.shared.exception.exceptions.cities.CityNotFoundException;
 import com.prettier.shared.utils.enums.Language;
@@ -19,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -55,6 +55,7 @@ public class CityManager implements CityService {
 
     @Override
     public CityResponse getByIdCity(Language language, Long id) {
+
         log.debug("[{}][getCity] -> request cityId: {}", this.getClass().getSimpleName(), id);
 
         City city = cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(language, FriendlyMessageCodes.CITY_NOT_FOUND_EXCEPTION, "City not found for city id: " + id));
@@ -65,12 +66,13 @@ public class CityManager implements CityService {
 
     @Override
     public City add(Language language, CityRequest cityRequest) {
+
         log.debug("[{}][createCity] -> request: {}", this.getClass().getSimpleName(), cityRequest);
         try {
             City city = cityMapper.toCity(cityRequest);
-            CityResponse response = cityMapper.toResponse(cityRepository.save(city));
+            City response = cityRepository.save(city);
             log.debug("[{}][createCity] -> response: {}", this.getClass().getSimpleName(), response);
-            return city;
+            return response;
         } catch (Exception exception) {
             throw new CityNotCreatedException(language, FriendlyMessageCodes.CITY_NOT_CREATED_EXCEPTION, "city request: " + cityRequest.toString());
         }
@@ -78,8 +80,12 @@ public class CityManager implements CityService {
 
     @Override
     public City update(Language language, CityUpdateRequest cityUpdateRequest, Long id) {
+
+        //City Var mi kontrolü
         log.debug("[{}][updateCity] -> request: {} {}", this.getClass().getSimpleName(), id, cityUpdateRequest);
-        City city = getCity(language,id);
+        City city = cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(language, FriendlyMessageCodes.CITY_NOT_FOUND_EXCEPTION, "City not found for city id: " + id));
+
+        city = getCity(language, id);
         city.setName(cityUpdateRequest.getName());
         City cityResponse = cityRepository.save(city);
         log.debug("[{}][updateCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
@@ -87,12 +93,27 @@ public class CityManager implements CityService {
     }
 
     @Override
-    public City delete(Language language, Long id) {
-        return null;
+    public CityResponse softDelete(Language language, Long id) {
+
+        //City Var mi kontrolü
+        log.debug("[{}][deleteCity] -> request cityId: {}", this.getClass().getSimpleName(), id);
+        City city = cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(language, FriendlyMessageCodes.CITY_NOT_FOUND_EXCEPTION, "City not found for city id: " + id));
+
+        //City var ama isDeleted=true mu kontrolü
+        try {
+            city = getCity(language, id);
+            city.setDeleted(true);
+            CityResponse cityResponse = cityMapper.toResponse(cityRepository.save(city));
+            log.debug("[{}][deleteCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
+            return cityResponse;
+        } catch (CityNotFoundException cityNotFoundException) {
+            throw new CityAlreadyDeletedException(language, FriendlyMessageCodes.CITY_ALREADY_DELETED, "City already deleted city id: " + id);
+        }
     }
 
 
     public City getCity(Language language, Long cityId) {
+
         log.debug("[{}][getCity] -> request cityId: {}", this.getClass().getSimpleName(), cityId);
         City city = cityRepository.findById(cityId).orElseThrow(() -> new CityNotFoundException(language, FriendlyMessageCodes.CITY_NOT_FOUND_EXCEPTION, "City not found for city id: " + cityId));
 

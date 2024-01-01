@@ -31,8 +31,6 @@ public class CategoryRequest extends BaseEntityRequest {
 
     private boolean isActive = true;
 
-    private String test;
-
     private Set<Advert> advertSet;
 
     private Set<CategoryPropertyKey> categoryPropertyKeys;

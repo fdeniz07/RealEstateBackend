@@ -29,12 +29,12 @@ public class CityController {
     @GetMapping(value = "/{language}/cities") // http://localhost:8080/cities/EN/cities
     public Page<CityResponse> getCities(
             @PathVariable("language") Language language,
-            @RequestParam(value = "page",defaultValue = "0") int page,
-            @RequestParam(value = "size",defaultValue = "41") int size,
-            @RequestParam(value = "sort",defaultValue = "name") String sort,
-            @RequestParam(value = "type",defaultValue = "asc") String type
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "41") int size,
+            @RequestParam(value = "sort", defaultValue = "name") String sort,
+            @RequestParam(value = "type", defaultValue = "asc") String type
     ) {
-       return cityService.getCities(language,page, size, sort, type);
+        return cityService.getCities(language, page, size, sort, type);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -42,7 +42,7 @@ public class CityController {
     public InternalApiResponse<CityResponse> getCity(@PathVariable("language") Language language,
                                                      @PathVariable("cityId") Long id) {
         log.debug("[{}][getCity] -> request cityId: {}", this.getClass().getSimpleName(), id);
-       CityResponse cityResponse = cityService.getByIdCity(language, id);
+        CityResponse cityResponse = cityService.getByIdCity(language, id);
 
         log.debug("[{}][getCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
         return InternalApiResponse.<CityResponse>builder()
@@ -55,12 +55,12 @@ public class CityController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add")
     public InternalApiResponse<CityResponse> addCity(@PathVariable("language") Language language,
-                                                              @RequestBody CityRequest cityRequest) {
-        log.debug("[{}][addCity] -> request: {}", this.getClass().getSimpleName(), cityRequest);
+                                                     @RequestBody CityRequest cityRequest) {
+        log.debug("[{}][createCity] -> request: {}", this.getClass().getSimpleName(), cityRequest);
         City city = cityService.add(language, cityRequest);
 
-        CityResponse cityResponse= cityMapper.toResponse(city);
-        log.debug("[{}][addCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
+        CityResponse cityResponse = cityMapper.toResponse(city);
+        log.debug("[{}][createCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
         return InternalApiResponse.<CityResponse>builder()
                 .friendlyMessage(FriendlyMessage.builder()
                         .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
@@ -75,18 +75,36 @@ public class CityController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/{language}/update/{cityId}")
     public InternalApiResponse<CityResponse> updateCity(@PathVariable("language") Language language,
-                                                              @PathVariable("cityId") Long id,
-                                                              @RequestBody CityUpdateRequest cityUpdateRequest)
-    {
+                                                        @PathVariable("cityId") Long id,
+                                                        @RequestBody CityUpdateRequest cityUpdateRequest) {
 
         log.debug("[{}][updateCity] -> request: {} {}", this.getClass().getSimpleName(), id, cityUpdateRequest);
-        City city = cityService.update(language, cityUpdateRequest,id );
+        City city = cityService.update(language, cityUpdateRequest, id);
         CityResponse cityResponse = cityMapper.toResponse(city);
         log.debug("[{}][updateCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
         return InternalApiResponse.<CityResponse>builder()
                 .friendlyMessage(FriendlyMessage.builder()
                         .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
                         .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.CITY_SUCCESSFULLY_UPDATED))
+                        .build())
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(cityResponse)
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping(value = "/{language}/delete/{cityId}")
+    public InternalApiResponse<CityResponse> deleteCity(@PathVariable("language") Language language,
+                                                        @PathVariable("cityId") Long id) {
+        log.debug("[{}][deleteCity] -> request cityId: {}", this.getClass().getSimpleName(), id);
+        CityResponse cityResponse = cityService.softDelete(language, id);
+
+        log.debug("[{}][deleteCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
+        return InternalApiResponse.<CityResponse>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.CITY_SUCCESSFULLY_DELETED))
                         .build())
                 .httpStatus(HttpStatus.OK)
                 .hasError(false)

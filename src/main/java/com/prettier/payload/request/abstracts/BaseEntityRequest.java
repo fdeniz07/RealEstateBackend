@@ -1,6 +1,7 @@
 package com.prettier.payload.request.abstracts;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,4 +39,6 @@ public abstract class BaseEntityRequest implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH-mm-ss")
     @Column(name = "update_at")
     private LocalDateTime updateAt;
+
+    private boolean isDeleted=false;
 }
