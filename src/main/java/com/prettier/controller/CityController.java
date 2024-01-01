@@ -42,7 +42,7 @@ public class CityController {
     public InternalApiResponse<CityResponse> getCity(@PathVariable("language") Language language,
                                                      @PathVariable("cityId") Long id) {
         log.debug("[{}][getCity] -> request cityId: {}", this.getClass().getSimpleName(), id);
-        CityResponse cityResponse = cityService.getByIdCity(language, id);
+        CityResponse cityResponse = cityService.getByCityId(language, id);
 
         log.debug("[{}][getCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
         return InternalApiResponse.<CityResponse>builder()

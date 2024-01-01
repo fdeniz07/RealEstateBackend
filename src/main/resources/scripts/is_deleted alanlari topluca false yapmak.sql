@@ -1,0 +1,1 @@
+update cities set is_deleted=false where is_deleted is Null

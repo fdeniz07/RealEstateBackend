@@ -16,6 +16,6 @@ public class AdvertNotFoundException extends RuntimeException {
         super(FriendlyMessageUtils.getFriendlyMessage(language, friendlyMessageCode));
         this.language = language;
         this.friendlyMessageCode = friendlyMessageCode;
-        log.error("[ProductNotFoundException] -> message:{} developer message: {}", FriendlyMessageUtils.getFriendlyMessage(language, friendlyMessageCode), message);
+        log.error("[AdvertNotFoundException] -> message:{} developer message: {}", FriendlyMessageUtils.getFriendlyMessage(language, friendlyMessageCode), message);
     }
 }
