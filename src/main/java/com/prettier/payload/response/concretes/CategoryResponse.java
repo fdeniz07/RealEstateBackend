@@ -27,8 +27,6 @@ public class CategoryResponse extends BaseEntityResponse{
     private int seq;
     private String slug;
     private boolean isActive;
-    private String test;
     private Set<Advert> advertSet;
     private Set<CategoryPropertyKey> categoryPropertyKeys;
-    //
 }

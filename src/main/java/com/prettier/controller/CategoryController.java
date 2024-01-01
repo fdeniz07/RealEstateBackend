@@ -22,26 +22,26 @@ public class CategoryController {
     // @PreAuthorize("hasAuthority('ADMIN','MANAGER','CUSTOMER')")
     @GetMapping()
     public Page<CategoryResponse> getIsActiveWithPage( // TODO getALLWithPAge
-                                                       @RequestParam(value = "page", defaultValue = "0") int page,
-                                                       @RequestParam(value = "size", defaultValue = "10") int size,
-                                                       @RequestParam(value = "sort", defaultValue = "title") String sort,
-                                                       @RequestParam(value = "type", defaultValue = "desc") String type
+                                                       @RequestParam(value = "page",defaultValue = "0") int page,
+                                                       @RequestParam(value = "size",defaultValue = "10") int size,
+                                                       @RequestParam(value = "sort",defaultValue = "title") String sort,
+                                                       @RequestParam(value = "type",defaultValue = "desc") String type
     ) {
 
-        return categoryService.getIsActiveWithPage(page, size, sort, type);
+        return categoryService.getIsActiveWithPage(page,size,sort,type);
     }
 
 
     //  @PreAuthorize("hasAuthority('ADMIN','MANAGER')")
     @GetMapping("/admin")
     public Page<CategoryResponse> getAllWithPage(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "sort", defaultValue = "title") String sort,
-            @RequestParam(value = "type", defaultValue = "desc") String type
+            @RequestParam(value = "page",defaultValue = "0") int page,
+            @RequestParam(value = "size",defaultValue = "10") int size,
+            @RequestParam(value = "sort",defaultValue = "title") String sort,
+            @RequestParam(value = "type",defaultValue = "desc") String type
     ) {
 
-        return categoryService.getAllWithPage(page, size, sort, type);
+        return categoryService.getAllWithPage(page,size,sort,type);
     }
 
     // @PreAuthorize("hasAuthority('ADMIN','MANAGER','CUSTOMER')")
@@ -57,19 +57,19 @@ public class CategoryController {
     }
 
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-//    @PatchMapping("/update/{id}")
-//    public ResponseEntity updateById(@PathVariable Long id, @RequestBody @Valid CategoryRequest categoryRequest) {
-//        Category categoryExists = categoryService.updateById(id, categoryRequest);
-//        return new CategoryResponse(categoryExists);
-//    }
-
-    //  @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<CategoryResponse> deleteById(@PathVariable Long id) {
-        return categoryService.deleteById(id);
+    @PutMapping("/{id}")
+    public ResponseEntity updateById(@PathVariable Long id,
+                                     @RequestBody @Valid CategoryRequest categoryRequest){
+        return categoryService.updateById(id, categoryRequest);
 
     }
 
+    //  @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CategoryResponse> deleteById(@PathVariable Long id){
+        return categoryService.deleteById(id);
+
+    }
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     @GetMapping("/{id}/properties")
     public ResponseEntity<Set<CategoryPropertyKey>> getCategoryProperties(@PathVariable("id") Long categoryId) {
@@ -79,14 +79,13 @@ public class CategoryController {
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     @PostMapping("/{id}/properties")
     public ResponseEntity<CategoryPropertyKey> createCategoryProperty(@PathVariable("id") Long categoryId, @RequestBody CategoryPropertyKey categoryPropertyKey) {
-        return categoryService.createCategoryProperty(categoryId, categoryPropertyKey);
+        return categoryService.createCategoryProperty(categoryId,categoryPropertyKey);
     }
-
 
     //  @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     @PutMapping("/properties/{id}")
     public ResponseEntity<CategoryPropertyKey> updateCategoryProperty(@PathVariable("id") Long propertyKeyId, @RequestBody CategoryPropertyKey updatedProperty) {
-        return categoryService.updateCategoryProperty(propertyKeyId, updatedProperty);
+        return categoryService.updateCategoryProperty(propertyKeyId,updatedProperty);
     }
 
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
@@ -94,9 +93,6 @@ public class CategoryController {
     public ResponseEntity<CategoryPropertyKey> deleteCategoryProperty(@PathVariable("id") Long propertyId) {
         return categoryService.deleteCategoryProperty(propertyId);
     }
-
-
-
 
     /* {
             "title": "ev",
@@ -109,6 +105,4 @@ public class CategoryController {
             "active": true
         }
      */
-
-
 }

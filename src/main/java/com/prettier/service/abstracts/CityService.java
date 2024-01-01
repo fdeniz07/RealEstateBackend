@@ -20,5 +20,5 @@ public interface CityService extends Serializable {
 
     City update(Language language, CityUpdateRequest cityUpdateRequest, Long id);
 
-    City delete(Language language, Long id);
+    CityResponse softDelete(Language language, Long id);
 }

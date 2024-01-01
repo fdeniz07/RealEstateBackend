@@ -40,9 +40,6 @@ public class Category extends BaseEntity implements Serializable {
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
-    @Column(name = "test")
-    private String test;
-
     @OneToMany(mappedBy = "category")
     private Set<Advert> advertSet;
 

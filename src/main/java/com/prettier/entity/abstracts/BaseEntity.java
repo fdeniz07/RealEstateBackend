@@ -40,4 +40,7 @@ public abstract class BaseEntity {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH-mm-ss")
     @Column(name = "update_at")
     private LocalDateTime updateAt;
+
+    @Column(name = "isDeleted")
+    private boolean isDeleted;
 }

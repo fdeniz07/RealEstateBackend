@@ -8,6 +8,7 @@ import com.prettier.payload.response.concretes.CategoryResponse;
 import com.prettier.repository.CategoryPropertyKeyRepository;
 import com.prettier.repository.CategoryPropertyValueRepository;
 import com.prettier.repository.CategoryRepository;
+import com.prettier.service.abstracts.AdvertService;
 import com.prettier.shared.exception.ResourceNotFoundException;
 import com.prettier.shared.utils.messages.ErrorMessages;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ import java.util.Set;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
-    private final AdvertManager advertService;
+    private final AdvertService advertService;
     private final CategoryPropertyKeyService categoryPropertyKeyService;
     private final CategoryPropertyKeyRepository categoryPropertyKeyRepository;
     private final CategoryPropertyValueRepository categoryPropertyValueRepository;
@@ -42,8 +43,6 @@ public class CategoryService {
         }
 
         return categoryRepository.findIsActive(pageable).map(categoryMapper::toResponse);
-
-
     }
 
     public  Page<CategoryResponse> getAllWithPage(int page, int size, String sort, String type) {
@@ -54,12 +53,11 @@ public class CategoryService {
         }
 
         return categoryRepository.findAll(pageable).map(categoryMapper::toResponse);
-
-
     }
 
 
     public CategoryResponse getById(Long id) {
+
         Category category =  categoryRepository.findById(id).orElseThrow(()->{
             throw new ResourceAccessException("");//todo
         });
@@ -68,71 +66,27 @@ public class CategoryService {
 
     public ResponseEntity add(CategoryRequest categoryRequest) {
 
-       Category category = categoryMapper.toCategory(categoryRequest);
-       Category savedCategory = categoryRepository.save(category);
+        Category category = categoryMapper.toCategory(categoryRequest);
+        Category savedCategory = categoryRepository.save(category);
         return ResponseEntity.ok(HttpStatus.CREATED);
-
-
     }
 
-    public ResponseEntity updateById(Category existCategory, CategoryRequest categoryRequest) {
+    public ResponseEntity updateById(Long id, CategoryRequest categoryRequest) {
 
-        //!!! Id üzerinden category nesnesi getiriliyor
-        Optional<Category> category = categoryRepository.findById(categoryRequest.getId());
-
-        if (!category.isPresent()) {
-            throw new ResourceNotFoundException(ErrorMessages.NOT_FOUND_USER_MESSAGE);
+        if(!categoryRepository.existsById(id)){
+            throw new ResourceAccessException("");//todo  ex olustur
         }
+        //todo built in olna bakailmayacak
+        Category category =  categoryRepository.findById(id).orElseThrow(()->{
+            throw new ResourceAccessException("");//todo
+        });
 
-        //Duplicate kontrolü yapilacak!!!
+        categoryRequest.setId(id);
+        Category updated = categoryMapper.toUpdateResponse(categoryRequest,category);
 
-        Category updatedCategory = categoryMapper.toUpdatedCategory(categoryRequest,existCategory);
-        Category savedCategory=  categoryRepository.save(updatedCategory);
+        categoryRepository.save(updated);
+
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
-
-
-
-
-
-//        //!!! Id üzerinden teacher nesnesi getiriliyor
-//        Optional<Teacher> teacher = teacherRepository.findById(userId);
-//
-//        //Gelen listenin ici bos mu dolu mu kontrolü (OrElseThrow yapanlarin bunu kullanmasina gerek yok)
-//        if (!teacher.isPresent()) {
-//            throw new ResourceNotFoundException(ErrorMessages.NOT_FOUND_USER_MESSAGE);
-//        } else if (lessons.size() == 0) {
-//            throw new BadRequestException(ErrorMessages.LESSON_PROGRAM_NOT_FOUND_MESSAGE);
-//        } else if (!CheckParameterUpdateMethod.checkParameter(teacher.get(), newTeacher)) { //TODO email kontrol
-//            checkUniqueFields.checkDuplicate(newTeacher.getUsername(),
-//                    newTeacher.getSsn(),
-//                    newTeacher.getPhoneNumber(),
-//                    newTeacher.getEmail());
-//        }
-//        UserRole userRole = userRoleService.getUserRole(RoleType.TEACHER);
-//        Teacher updatedTeacher = teacherMapper.createUpdatedTeacher(newTeacher, userId, userRole);
-//
-//        //!!! Password encode ediliyor
-//        updatedTeacher.setPassword(passwordEncoder.encode(newTeacher.getPassword()));
-//
-//        //!!! LessonProgram set ediliyor
-//        updatedTeacher.setLessonsProgramList(lessons); //TODO buraya bakilacak
-//        Teacher savedTeacher = teacherRepository.save(updatedTeacher);
-//
-//        //!!! AdvisorTeacher eklenince yazildi
-//        advisorTeacherService.updateAdvisorTeacher(newTeacher.isAdvisorTeacher(), savedTeacher);
-//
-//        return ResponseMessage.<TeacherResponse>builder()
-//                .object(teacherMapper.createTeacherResponse(savedTeacher))
-//                .message(SuccessMessages.TEACHER_UPDATED)
-//                .httpStatus(HttpStatus.OK)
-//                .build();
-
-
-
-
-
-
-
     }
 
     public ResponseEntity<CategoryResponse> deleteById(Long id) {
@@ -141,14 +95,13 @@ public class CategoryService {
             throw new ResourceAccessException("");//todo
         });
         if (!categoryRepository.findById(id).get().isBuiltIn()){
+            CategoryResponse categoryResponse=categoryMapper.toResponse(deleted);
             categoryRepository.deleteById(id);
-            return new ResponseEntity<>(categoryMapper.toResponse(deleted),HttpStatus.CREATED);
+            return new ResponseEntity<>(categoryResponse,HttpStatus.ACCEPTED);//todo postman siliyor ama cevap yok
 
         }
         return new ResponseEntity<>(categoryMapper.toResponse(deleted),HttpStatus.NOT_FOUND);
     }
-
-
 
 
     //todo dtolar yapilsin
@@ -159,13 +112,11 @@ public class CategoryService {
 
         Set<CategoryPropertyKey> categoryProperties = category.getCategoryPropertyKeys();
         return ResponseEntity.ok(categoryProperties);
-
     }
-
-
 
     //todo categoryproportieskeyrepo kullanilacak
     public ResponseEntity<CategoryPropertyKey> createCategoryProperty(Long categoryId, CategoryPropertyKey categoryPropertyKey) {
+
         Category category =  categoryRepository.findById(categoryId).orElseThrow(()->{
             throw new ResourceAccessException("");//todo
         });
@@ -189,10 +140,10 @@ public class CategoryService {
 
         CategoryPropertyKey updatedPropertyKey = categoryPropertyKeyRepository.save(existingProperty);
         return ResponseEntity.ok(updatedPropertyKey);
-
     }
 
     public ResponseEntity<CategoryPropertyKey> deleteCategoryProperty(Long propertyId) {
+
         CategoryPropertyKey existingProperty = categoryPropertyKeyRepository.findById(propertyId).orElseThrow(()->{
             throw new ResourceAccessException("");//todo
         });
@@ -205,19 +156,9 @@ public class CategoryService {
 
         categoryPropertyKeyRepository.delete(existingProperty);
         return ResponseEntity.ok(existingProperty);
-
     }
 
-
-
-
-
-
-
-
-
-
-   private Category updatedCategory(Long id, CategoryRequest categoryRequest) {
+    private Category updatedCategory(Long id, CategoryRequest categoryRequest) {
         return Category.builder()
                 .id(id)
                 .advertSet(categoryRequest.getAdvertSet())
@@ -233,9 +174,4 @@ public class CategoryService {
                 //todo
                 .build();
     }
-
-
-
-
-    //class
 }
