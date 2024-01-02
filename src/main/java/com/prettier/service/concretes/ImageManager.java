@@ -1,6 +1,6 @@
 package com.prettier.service.concretes;
 
-import com.prettier.repository.TourRequestRepository;
+import com.prettier.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,8 +8,7 @@ import java.io.Serializable;
 
 @Service
 @RequiredArgsConstructor
-public class TourRequestService implements Serializable {
+public class ImageManager implements Serializable {
 
-   private final TourRequestRepository tourRequestRepository;
-
+    private final ImageRepository imageRepository;
 }

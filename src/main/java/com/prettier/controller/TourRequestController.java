@@ -1,7 +1,7 @@
 package com.prettier.controller;
 
 
-import com.prettier.service.concretes.TourRequestService;
+import com.prettier.service.concretes.TourRequestManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("tour-requests")
 public class TourRequestController {
 
-    private final TourRequestService tourRequestService;
+    private final TourRequestManager tourRequestService;
 }

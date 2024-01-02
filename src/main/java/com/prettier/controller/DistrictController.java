@@ -1,7 +1,7 @@
 package com.prettier.controller;
 
 import com.prettier.payload.response.concretes.DistrictResponse;
-import com.prettier.service.concretes.DistrictService;
+import com.prettier.service.concretes.DistrictManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("districts")
 public class DistrictController {
 
-    private final DistrictService districtService;
+    private final DistrictManager districtService;
 
     @GetMapping("getAll")//http://localhost:8080/districts/getAll
     public Page<DistrictResponse> getAllWithPage(

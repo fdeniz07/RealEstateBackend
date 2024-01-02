@@ -9,8 +9,6 @@ import com.prettier.repository.CategoryPropertyKeyRepository;
 import com.prettier.repository.CategoryPropertyValueRepository;
 import com.prettier.repository.CategoryRepository;
 import com.prettier.service.abstracts.AdvertService;
-import com.prettier.shared.exception.ResourceNotFoundException;
-import com.prettier.shared.utils.messages.ErrorMessages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -31,7 +28,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
     private final AdvertService advertService;
-    private final CategoryPropertyKeyService categoryPropertyKeyService;
+    private final CategoryPropertyKeyManager categoryPropertyKeyService;
     private final CategoryPropertyKeyRepository categoryPropertyKeyRepository;
     private final CategoryPropertyValueRepository categoryPropertyValueRepository;
 
