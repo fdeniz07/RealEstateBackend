@@ -38,7 +38,7 @@ public class Category extends BaseEntity implements Serializable {
     private String slug;
 
     @Column(name = "is_active", nullable = false)
-    private boolean isActive;
+    private boolean active=true;
 
     @OneToMany(mappedBy = "category")
     private Set<Advert> advertSet;

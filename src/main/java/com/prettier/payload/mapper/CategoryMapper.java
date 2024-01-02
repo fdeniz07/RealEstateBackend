@@ -6,13 +6,10 @@ import com.prettier.payload.response.concretes.CategoryResponse;
 import lombok.*;
 import org.modelmapper.Condition;
 
-import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -24,17 +21,15 @@ public class CategoryMapper {
     private ModelMapper modelMapper;
 
     public Category toCategory(CategoryRequest categoryRequest) {
-
         return modelMapper.map(categoryRequest, Category.class);
     }
 
-    public CategoryResponse toResponse(Category category) {
 
+    public CategoryResponse toResponse(Category category) {
         return modelMapper.map(category, CategoryResponse.class);
     }
 
     public Category toUpdateResponse(CategoryRequest categoryRequest,Category existcategory) {
-
         modelMapper.map(categoryRequest, existcategory);
         return existcategory;
     }

@@ -19,14 +19,14 @@ import java.util.Set;
 @NoArgsConstructor
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CategoryResponse extends BaseEntityResponse{
+public class CategoryResponse extends BaseEntityResponse implements Serializable {
 
     private String title;
     private String icon;
     private boolean builtIn;
     private int seq;
     private String slug;
-    private boolean isActive;
+    private boolean active;
     private Set<Advert> advertSet;
     private Set<CategoryPropertyKey> categoryPropertyKeys;
 }
