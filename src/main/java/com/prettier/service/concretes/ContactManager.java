@@ -8,6 +8,7 @@ import com.prettier.payload.response.concretes.ContactResponse;
 import com.prettier.repository.ContactRepository;
 import com.prettier.service.abstracts.ContactService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
+import com.prettier.shared.exception.exceptions.contacts.ContactNotCreatedException;
 import com.prettier.shared.exception.exceptions.contacts.ContactNotFoundException;
 import com.prettier.shared.utils.enums.Language;
 import lombok.RequiredArgsConstructor;
@@ -75,12 +76,28 @@ public class ContactManager implements ContactService {
 
     @Override
     public ContactResponse getByContactId(Language language, Long id) {
-        return null;
+
+        log.debug("[{}][getContact] -> request contactId: {}", this.getClass().getSimpleName(), id);
+
+        Contact contact = contactRepository.findById(id).orElseThrow(() -> new ContactNotFoundException(language, FriendlyMessageCodes.CONTACT_NOT_FOUND_EXCEPTION, "Contact not found for contact id: " + id));
+
+        log.debug("[{}][getContact] -> response: {}", this.getClass().getSimpleName(), contact);
+        return contactMapper.toResponse(contact);
+
     }
 
     @Override
     public Contact add(Language language, ContactRequest contactRequest) {
-        return null;
+
+        log.debug("[{}][createContact] -> request: {}", this.getClass().getSimpleName(), contactRequest);
+        try {
+            Contact contact = contactMapper.toContact(contactRequest);
+            Contact response = contactRepository.save(contact);
+            log.debug("[{}][createContact] -> response: {}", this.getClass().getSimpleName(), response);
+            return response;
+        } catch (Exception exception) {
+            throw new ContactNotCreatedException(language, FriendlyMessageCodes.CONTACT_NOT_CREATED_EXCEPTION, "contact request: " + contactRequest.toString());
+        }
     }
 
     @Override
