@@ -1,7 +1,7 @@
 package com.prettier.controller;
 
 import com.prettier.payload.response.concretes.CountryResponse;
-import com.prettier.service.concretes.CountryService;
+import com.prettier.service.concretes.CountryManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("countries")
 public class CountryController {
 
-    private final CountryService countryService;
+    private final CountryManager countryService;
 
     @GetMapping("getAll") //http://localhost:8080/countries/getAll
     public Page<CountryResponse> getAllWithPage(

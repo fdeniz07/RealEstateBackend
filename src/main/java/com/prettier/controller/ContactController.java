@@ -6,7 +6,6 @@ import com.prettier.payload.request.concretes.ContactRequest;
 import com.prettier.payload.response.FriendlyMessage;
 import com.prettier.payload.response.InternalApiResponse;
 import com.prettier.payload.response.concretes.ContactResponse;
-import com.prettier.payload.response.concretes.ContactResponse;
 import com.prettier.service.abstracts.ContactService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;

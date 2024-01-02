@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryPropertyKeyService {
+public class CategoryPropertyKeyManager {
 
     private final CategoryPropertyKeyRepository categoryPropertyKeyRepository;
 

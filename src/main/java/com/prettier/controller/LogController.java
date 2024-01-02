@@ -1,6 +1,6 @@
 package com.prettier.controller;
 
-import com.prettier.service.concretes.LogService;
+import com.prettier.service.concretes.LogManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class LogController {
 
-    private final LogService logService;
+    private final LogManager logService;
 
 }

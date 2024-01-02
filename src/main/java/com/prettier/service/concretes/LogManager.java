@@ -1,7 +1,6 @@
 package com.prettier.service.concretes;
 
 
-import com.prettier.repository.AdvertTypeRepository;
 import com.prettier.repository.LogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,10 @@ import java.io.Serializable;
 
 @Service
 @RequiredArgsConstructor
-public class AdvertTypeService implements Serializable {
+public class LogManager implements Serializable {
 
-    private final AdvertTypeRepository advertTypeRepository;
+    private final LogRepository logRepository;
+
+
+
 }

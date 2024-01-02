@@ -1,8 +1,8 @@
 package com.prettier.service.concretes;
 
-import com.prettier.payload.mapper.CountryMapper;
-import com.prettier.payload.response.concretes.CountryResponse;
-import com.prettier.repository.CountryRepository;
+import com.prettier.payload.mapper.DistrictMapper;
+import com.prettier.payload.response.concretes.DistrictResponse;
+import com.prettier.repository.DistrictRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,20 +15,18 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class CountryService implements Serializable {
+public class DistrictManager implements Serializable {
 
-    private final CountryRepository countryRepository;
+    private final DistrictRepository districtRepository;
 
-    private final CountryMapper countryMapper;
+    private final DistrictMapper districtMapper;
 
-
-    public Page<CountryResponse> getAllWithPage(int page, int size, String sort, String type) {
+    public Page<DistrictResponse> getAllWithPage(int page, int size, String sort, String type) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
         if (Objects.equals(type, "desc")) {
             pageable = PageRequest.of(page, size, Sort.by(sort).descending());
         }
-        return countryRepository.findAll(pageable).map(countryMapper::toResponse);
+        return districtRepository.findAll(pageable).map(districtMapper::toResponse);
     }
-
 }
