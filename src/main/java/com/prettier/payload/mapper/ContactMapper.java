@@ -28,7 +28,4 @@ public class ContactMapper {
 
         return modelMapper.map(contact, ContactResponse.class);
     }
-
-
-
 }

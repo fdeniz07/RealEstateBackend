@@ -38,6 +38,4 @@ public class CityMapper {
         return modelMapper.map(CityUpdateRequest.class, City.class);
 
     }
-
-
 }

@@ -1,19 +1,17 @@
 package com.prettier.payload.response.concretes;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.prettier.payload.response.abstracts.BaseEntityResponse;
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@Data
-@Builder(toBuilder = true)
+@SuperBuilder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContactResponse extends BaseEntityResponse{
 
     private String firstName;

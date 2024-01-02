@@ -20,10 +20,12 @@ public class DistrictMapper {
     private ModelMapper modelMapper;
 
     public District toDistrict(DistrictRequest districtRequest) {
+
         return modelMapper.map(districtRequest, District.class);
     }
 
     public DistrictResponse toResponse(District district) {
+
         return modelMapper.map(district, DistrictResponse.class);
     }
 }

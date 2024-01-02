@@ -25,6 +25,7 @@ public class FavoriteMapper {
     private ModelMapper modelMapper;
 
     public Favorite toFavorite(FavoriteRequest favoriteRequest) {
+
         return modelMapper.map(favoriteRequest, Favorite.class);
     }
 
@@ -36,5 +37,4 @@ public class FavoriteMapper {
 
         return (List<FavoriteResponse>) modelMapper.map(favorites, FavoriteResponse.class);
     }
-
 }
