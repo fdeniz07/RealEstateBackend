@@ -29,8 +29,14 @@ public class CategoryMapper {
         return modelMapper.map(category, CategoryResponse.class);
     }
 
+
+
+
     public Category toUpdateResponse(CategoryRequest categoryRequest,Category existcategory) {
         modelMapper.map(categoryRequest, existcategory);
         return existcategory;
     }
+
+
+
 }
