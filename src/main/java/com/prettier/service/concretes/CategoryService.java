@@ -1,4 +1,4 @@
-package com.prettier.service.concretes;
+package com.prettier.service;
 
 import com.prettier.entity.concretes.Category;
 import com.prettier.entity.concretes.CategoryPropertyKey;
@@ -9,6 +9,7 @@ import com.prettier.repository.CategoryPropertyKeyRepository;
 import com.prettier.repository.CategoryPropertyValueRepository;
 import com.prettier.repository.CategoryRepository;
 import com.prettier.service.abstracts.AdvertService;
+import com.prettier.service.abstracts.CategoryPropertyKeyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -28,7 +30,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
     private final AdvertService advertService;
-    private final CategoryPropertyKeyManager categoryPropertyKeyService;
+    private final CategoryPropertyKeyService categoryPropertyKeyService;
     private final CategoryPropertyKeyRepository categoryPropertyKeyRepository;
     private final CategoryPropertyValueRepository categoryPropertyValueRepository;
 
@@ -40,6 +42,8 @@ public class CategoryService {
         }
 
         return categoryRepository.findIsActive(pageable).map(categoryMapper::toResponse);
+
+
     }
 
     public  Page<CategoryResponse> getAllWithPage(int page, int size, String sort, String type) {
@@ -50,11 +54,12 @@ public class CategoryService {
         }
 
         return categoryRepository.findAll(pageable).map(categoryMapper::toResponse);
+
+
     }
 
 
     public CategoryResponse getById(Long id) {
-
         Category category =  categoryRepository.findById(id).orElseThrow(()->{
             throw new ResourceAccessException("");//todo
         });
@@ -66,9 +71,13 @@ public class CategoryService {
         Category category = categoryMapper.toCategory(categoryRequest);
         Category savedCategory = categoryRepository.save(category);
         return ResponseEntity.ok(HttpStatus.CREATED);
+
+
     }
 
     public ResponseEntity updateById(Long id, CategoryRequest categoryRequest) {
+
+
 
         if(!categoryRepository.existsById(id)){
             throw new ResourceAccessException("");//todo  ex olustur
@@ -84,6 +93,9 @@ public class CategoryService {
         categoryRepository.save(updated);
 
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
+
+
+
     }
 
     public ResponseEntity<CategoryResponse> deleteById(Long id) {
@@ -101,6 +113,8 @@ public class CategoryService {
     }
 
 
+
+
     //todo dtolar yapilsin
     public ResponseEntity<Set<CategoryPropertyKey>> getCategoryProporties(Long categoryId) {
         Category category =  categoryRepository.findById(categoryId).orElseThrow(()->{
@@ -109,11 +123,13 @@ public class CategoryService {
 
         Set<CategoryPropertyKey> categoryProperties = category.getCategoryPropertyKeys();
         return ResponseEntity.ok(categoryProperties);
+
     }
+
+
 
     //todo categoryproportieskeyrepo kullanilacak
     public ResponseEntity<CategoryPropertyKey> createCategoryProperty(Long categoryId, CategoryPropertyKey categoryPropertyKey) {
-
         Category category =  categoryRepository.findById(categoryId).orElseThrow(()->{
             throw new ResourceAccessException("");//todo
         });
@@ -137,10 +153,10 @@ public class CategoryService {
 
         CategoryPropertyKey updatedPropertyKey = categoryPropertyKeyRepository.save(existingProperty);
         return ResponseEntity.ok(updatedPropertyKey);
+
     }
 
     public ResponseEntity<CategoryPropertyKey> deleteCategoryProperty(Long propertyId) {
-
         CategoryPropertyKey existingProperty = categoryPropertyKeyRepository.findById(propertyId).orElseThrow(()->{
             throw new ResourceAccessException("");//todo
         });
@@ -153,7 +169,10 @@ public class CategoryService {
 
         categoryPropertyKeyRepository.delete(existingProperty);
         return ResponseEntity.ok(existingProperty);
+
     }
+
+
 
     private Category updatedCategory(Long id, CategoryRequest categoryRequest) {
         return Category.builder()
@@ -165,10 +184,12 @@ public class CategoryService {
                 .title(categoryRequest.getTitle())
                 .builtIn(categoryRequest.isBuiltIn())
                 .createAt(categoryRequest.getCreateAt())
-                .isActive(categoryRequest.isActive())
+                .active(categoryRequest.isActive())
                 .categoryPropertyKeys(categoryRequest.getCategoryPropertyKeys())
                 .updateAt(categoryRequest.getUpdateAt())
                 //todo
                 .build();
     }
+
+    //class
 }
