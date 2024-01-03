@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CategoryRepository extends JpaRepository<Category,Long> {
 
-    @Query("SELECT c FROM Category c WHERE c.isActive = true") //TODO BAK
-    Page<Category> findIsActive(Pageable pageable);
+    @Query("SELECT c FROM Category c WHERE c.active = true") //TODO BAK
+    Page<Category> findByActiveEquals(Pageable pageable);
 
     @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Category c WHERE c.builtIn = true") //TODO BAK
     boolean findByBuiltIn();

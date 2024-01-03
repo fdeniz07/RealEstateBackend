@@ -1,4 +1,4 @@
-package com.prettier.service;
+package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Category;
 import com.prettier.entity.concretes.CategoryPropertyKey;
@@ -41,7 +41,7 @@ public class CategoryService {
             pageable = PageRequest.of(page, size, Sort.by(sort).descending());
         }
 
-        return categoryRepository.findIsActive(pageable).map(categoryMapper::toResponse);
+        return categoryRepository.findByActiveEquals(pageable).map(categoryMapper::toResponse);
 
 
     }

@@ -33,9 +33,9 @@ public class CityMapper {
         return modelMapper.map(city, CityResponse.class);
     }
 
-    public City toUpdatedCity(Language language, CityUpdateRequest cityUpdateRequest, Long id) {
+    public City toUpdatedCity(CityUpdateRequest cityUpdateRequest, City existingCity) {
 
-        return modelMapper.map(CityUpdateRequest.class, City.class);
-
+        modelMapper.map(cityUpdateRequest, existingCity);
+        return existingCity;
     }
 }

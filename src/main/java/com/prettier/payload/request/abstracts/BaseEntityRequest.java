@@ -26,19 +26,15 @@ import java.time.LocalDateTime;
 
 public abstract class BaseEntityRequest implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "create_at", nullable = false)
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH-mm-ss")
     private LocalDateTime createAt;
 
     @UpdateTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH-mm-ss")
-    @Column(name = "update_at")
     private LocalDateTime updateAt;
 
-    private boolean isDeleted=false;
+    private boolean isDeleted;
 }

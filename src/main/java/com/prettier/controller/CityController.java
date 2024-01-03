@@ -94,6 +94,28 @@ public class CityController {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @PutMapping(value = "/{language}/update2/{cityId}")
+    public InternalApiResponse<CityResponse> updateCity2(@PathVariable("language") Language language,
+                                                         @PathVariable("cityId") Long id,
+                                                         @RequestBody CityUpdateRequest cityUpdateRequest) {
+
+        log.debug("[{}][updateCity] -> request: {} {}", this.getClass().getSimpleName(), id, cityUpdateRequest);
+        CityResponse cityResponse = cityService.update2(language, cityUpdateRequest ,id);
+        log.debug("[{}][updateCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
+
+        return InternalApiResponse.<CityResponse>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.CITY_SUCCESSFULLY_UPDATED))
+                        .build())
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(cityResponse)
+                .build();
+    }
+
+
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/{language}/delete/{cityId}")
     public InternalApiResponse<CityResponse> deleteCity(@PathVariable("language") Language language,
                                                         @PathVariable("cityId") Long id) {

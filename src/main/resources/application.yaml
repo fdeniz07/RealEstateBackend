@@ -16,6 +16,10 @@ server:
     include-message: always
     include-stacktrace: never
 
+logging:
+  level:
+    root: off
+    com.prettier: TRACE
 ---
 spring:
   config:
