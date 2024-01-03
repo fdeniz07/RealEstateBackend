@@ -27,4 +27,5 @@ public abstract class BaseEntityResponse implements Serializable {
     private Long id;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
+    private boolean isDeleted;
 }

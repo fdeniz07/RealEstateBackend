@@ -17,30 +17,21 @@ import java.util.Set;
 @SuperBuilder
 public class CategoryRequest extends BaseEntityRequest implements Serializable {
 
-    @Column(name = "title", nullable = false)
     @Size(max = 150)
     private String title;
 
-    @Column(name = "icon", nullable = false)
     private String icon;
 
-    @Column(name = "built_in", nullable = false)
     private boolean builtIn;
 
-    @Column(name = "seq", nullable = false)
     private int seq;
 
-    @Column(name = "slug", nullable = false)
     @Size(min = 5, max = 200)
     private String slug;
 
-    @Column(name = "is_active", nullable = false)
     private boolean active;
-
 
     private Set<Advert> advertSet;
 
-
     private Set<CategoryPropertyKey> categoryPropertyKeys;
-
 }

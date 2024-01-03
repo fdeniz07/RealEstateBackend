@@ -15,8 +15,8 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
-@ToString
+@Builder
+@ToString(callSuper = true) // normalde toString metodu ilgili sinifin field'larini yazririr, callsuper ile basedeki fieldlari da yazdirmaya yarar
 public class City extends BaseEntity implements Serializable {
 
     @Column(name = "name", nullable = false)
@@ -32,5 +32,4 @@ public class City extends BaseEntity implements Serializable {
 
     @OneToMany(mappedBy = "city")
     private Set<Advert> advertSet;
-
 }
