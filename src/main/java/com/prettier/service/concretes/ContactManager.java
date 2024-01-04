@@ -13,7 +13,6 @@ import com.prettier.shared.exception.exceptions.contacts.ContactNotFoundExceptio
 import com.prettier.shared.utils.enums.Language;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +32,7 @@ public class ContactManager implements ContactService {
 
     @Autowired
     ContactMapper contactMapper;
-    private final ModelMapper modelMapper;
+
 
 //    public ContactResponse add(ContactRequest contactRequest) {
 //

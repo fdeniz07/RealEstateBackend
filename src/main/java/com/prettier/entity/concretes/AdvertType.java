@@ -19,7 +19,7 @@ import java.util.Set;
 @SuperBuilder
 @Getter
 @Setter
-public class AdvertType extends BaseEntity implements Serializable {
+public class AdvertType extends BaseEntity{
 
     @Column(name = "title", nullable = false)
     @Size(max = 30)

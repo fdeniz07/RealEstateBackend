@@ -19,8 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-@ToString
-public class Country extends BaseEntity implements Serializable {
+public class Country extends BaseEntity{
 
     @Column(name = "name", nullable = false)
     @Size(min = 2, max = 50)

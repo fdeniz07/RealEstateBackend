@@ -19,7 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class Advert extends BaseEntity implements Serializable {
+public class Advert extends BaseEntity{
 
     @Column(name = "title", nullable = false)
     @Size(min = 5, max = 150)
@@ -56,18 +56,22 @@ public class Advert extends BaseEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "advert_type_id", nullable = false)
+    @JsonIgnore //coklu iliskilerde tablonun birinde bu annotation kullanilir, aksi durumda sout yapildiginda sonsuz döngüye girer!
     private AdvertType advertType;
 
     @ManyToOne
     @JoinColumn(name = "country_id", nullable = false)
+    @JsonIgnore
     private Country country;
 
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
+    @JsonIgnore
     private City city;
 
     @ManyToOne
     @JoinColumn(name = "district_id", nullable = false)
+    @JsonIgnore
     private District district;
 
     @ManyToOne
@@ -76,6 +80,7 @@ public class Advert extends BaseEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
+    @JsonIgnore
     private Category category;
 
     @OneToMany(mappedBy = "advert")

@@ -18,7 +18,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @SuperBuilder
 @ToString
-public class Contact extends BaseEntity implements Serializable {
+public class Contact extends BaseEntity{
 
     @Column(name="first_name",nullable = false)
     @Size(max = 30)

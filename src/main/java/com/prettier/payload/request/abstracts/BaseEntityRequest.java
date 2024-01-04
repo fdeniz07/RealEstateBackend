@@ -36,5 +36,5 @@ public abstract class BaseEntityRequest implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH-mm-ss")
     private LocalDateTime updateAt;
 
-    private boolean isDeleted;
+    private boolean deleted;
 }

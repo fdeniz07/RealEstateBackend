@@ -86,7 +86,7 @@ public class AdvertManager implements AdvertService {
     @Override
     public Advert update(Language language, AdvertUpdateRequest advertUpdateRequest, Long id) {
         log.debug("[{}][updateAdvert] -> request: {} {}", this.getClass().getSimpleName(), id, advertUpdateRequest);
-        Advert advert = advertMapper.toUpdatedAdvert(language, advertUpdateRequest, id);
+        Advert advert = advertMapper.toUpdatedAdvert(advertUpdateRequest, id);
         Advert updatedAdvert = advertRepository.save(advert);
         log.debug("[{}][updateAdvert] -> response: {}", this.getClass().getSimpleName(), updatedAdvert);
         return updatedAdvert;
@@ -100,5 +100,15 @@ public class AdvertManager implements AdvertService {
         advert = advertRepository.findById(id).orElseThrow(() -> new AdvertAlreadyDeletedException(language, FriendlyMessageCodes.ADVERT_ALREADY_DELETED, "Advert already deleted advert id: " + id));
         advert.setActive(false);
         return advertRepository.save(advert);
+    }
+
+    // Ilgili Id, Advert tablosunda var mi kontrolü
+    public Advert getAdvert(Language language, Long advertId) {
+
+        log.debug("[{}][getAdvert] -> request advertId: {}", this.getClass().getSimpleName(), advertId);
+        Advert advert = advertRepository.findById(advertId).orElseThrow(() -> new AdvertNotFoundException(language, FriendlyMessageCodes.CITY_NOT_FOUND_EXCEPTION, "Advert not found for advert id: " + advertId));
+
+        log.debug("[{}][getAdvert] -> response: {}", this.getClass().getSimpleName(), advert);
+        return advert;
     }
 }

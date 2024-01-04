@@ -18,7 +18,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class User extends BaseEntity implements Serializable {
+public class User extends BaseEntity{
 
     @Column(name = "first_name", nullable = false)
     @Size(min = 2, max = 30)
@@ -82,7 +82,7 @@ public class User extends BaseEntity implements Serializable {
     // -----------RELATIONS -------------------------------------------------
 //Relations with Sibling "roles" Table
 
-    @ManyToMany//
+    @ManyToMany
     @JoinTable(
             name = "user_roles"
             ,joinColumns = @JoinColumn(name = "user_id")

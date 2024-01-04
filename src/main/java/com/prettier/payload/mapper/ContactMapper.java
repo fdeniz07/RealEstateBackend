@@ -2,30 +2,33 @@ package com.prettier.payload.mapper;
 
 import com.prettier.entity.concretes.Contact;
 import com.prettier.payload.request.concretes.ContactRequest;
+import com.prettier.payload.request.concretes.ContactUpdateRequest;
 import com.prettier.payload.response.concretes.ContactResponse;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class ContactMapper {
+@Mapper
+public interface ContactMapper {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    ContactMapper INSTANCE = Mappers.getMapper(ContactMapper.class);
 
-    public Contact toContact(ContactRequest contactRequest) {
+    Contact toContact(ContactRequest contactRequest);
 
-        return modelMapper.map(contactRequest, Contact.class);
-    }
+    ContactResponse toResponse(Contact contact);
 
-    public ContactResponse toResponse(Contact contact) {
-
-        return modelMapper.map(contact, ContactResponse.class);
-    }
+    Contact toUpdatedContact(ContactUpdateRequest contactUpdateRequest, Contact existingContact);
+    
+    
+//    @Autowired
+//    private ModelMapper modelMapper;
+//
+//    public Contact toContact(ContactRequest contactRequest) {
+//
+//        return modelMapper.map(contactRequest, Contact.class);
+//    }
+//
+//    public ContactResponse toResponse(Contact contact) {
+//
+//        return modelMapper.map(contact, ContactResponse.class);
+//    }
 }

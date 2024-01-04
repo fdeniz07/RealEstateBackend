@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CityManager implements CityService {
 
+
     private final CityRepository cityRepository;
     private final CityMapper cityMapper;
 
@@ -87,7 +88,29 @@ public class CityManager implements CityService {
 
         city = getCity(language, id);
         city.setName(cityUpdateRequest.getName());
+
         City cityResponse = cityRepository.save(city);
+        log.debug("[{}][updateCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
+        return cityResponse;
+    }
+
+    @Override
+    public CityResponse update2(Language language, CityUpdateRequest cityUpdateRequest, Long id) {
+
+        log.debug("[{}][updateCity] -> request: {} {}", this.getClass().getSimpleName(), id, cityUpdateRequest);
+        //City Var mi kontrolü
+        City updatedCity = getCity(language, id);
+        //cityUpdateRequest.setId(id);
+        //City mevcutsa requestten geleni city'e cevir ve kaydet
+        // City updatedCity = cityMapper.toUpdatedCity(cityUpdateRequest, existingCity);
+        updatedCity.setName(cityUpdateRequest.getName());
+        updatedCity.setDeleted(cityUpdateRequest.isDeleted());
+        updatedCity.setCountry(updatedCity.getCountry());
+        updatedCity.setCreateAt(updatedCity.getCreateAt());
+        cityRepository.save(updatedCity);
+
+
+        CityResponse cityResponse = cityMapper.toResponse(updatedCity);
         log.debug("[{}][updateCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
         return cityResponse;
     }
@@ -111,7 +134,7 @@ public class CityManager implements CityService {
         }
     }
 
-
+    // Ilgili Id, City tablosunda var mi kontrolü
     public City getCity(Language language, Long cityId) {
 
         log.debug("[{}][getCity] -> request cityId: {}", this.getClass().getSimpleName(), cityId);
