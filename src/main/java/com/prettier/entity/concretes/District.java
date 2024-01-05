@@ -1,5 +1,6 @@
 package com.prettier.entity.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -16,8 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-@ToString
-public class District extends BaseEntity implements Serializable {
+public class District extends BaseEntity{
 
     @Column(name = "name", nullable = false)
     @Size(min = 2, max = 50)
@@ -25,6 +25,7 @@ public class District extends BaseEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
+    @JsonIgnore    //coklu iliskilerde tablonun birinde bu annotation kullanilir, aksi durumda sout yapildiginda sonsuz döngüye girer!
     private City city;
 
     @OneToMany(mappedBy = "district")

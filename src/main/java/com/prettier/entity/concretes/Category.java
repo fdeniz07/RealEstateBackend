@@ -17,8 +17,7 @@ import java.util.Set;
 @SuperBuilder
 @Getter
 @Setter
-@ToString
-public class Category extends BaseEntity implements Serializable {
+public class Category extends BaseEntity{
 
     @Column(name = "title", nullable = false)
     @Size(max = 150)

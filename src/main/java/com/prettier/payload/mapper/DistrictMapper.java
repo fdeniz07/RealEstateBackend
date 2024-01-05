@@ -1,31 +1,33 @@
 package com.prettier.payload.mapper;
 
+import com.prettier.config.MapStructConfig;
 import com.prettier.entity.concretes.District;
 import com.prettier.payload.request.concretes.DistrictRequest;
 import com.prettier.payload.response.concretes.DistrictResponse;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class DistrictMapper {
 
-    @Autowired
-    private ModelMapper modelMapper;
+@Mapper(config = MapStructConfig.class)
+public interface DistrictMapper {
 
-    public District toDistrict(DistrictRequest districtRequest) {
+    DistrictMapper INSTANCE = Mappers.getMapper(DistrictMapper.class);
 
-        return modelMapper.map(districtRequest, District.class);
-    }
+    District toDistrict(DistrictRequest districtRequest);
 
-    public DistrictResponse toResponse(District district) {
+    DistrictResponse toResponse(District district);
 
-        return modelMapper.map(district, DistrictResponse.class);
-    }
+
+//    @Autowired
+//    private ModelMapper modelMapper;
+//
+//    public District toDistrict(DistrictRequest districtRequest) {
+//
+//        return modelMapper.map(districtRequest, District.class);
+//    }
+//
+//    public DistrictResponse toResponse(District district) {
+//
+//        return modelMapper.map(district, DistrictResponse.class);
+//    }
 }

@@ -1,5 +1,6 @@
 package com.prettier.entity.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -25,11 +26,13 @@ public class CategoryPropertyValue {
 //Realtion with Parent "category_property-keys"
     @ManyToOne
     @JoinColumn(name = "category_property_key_id")
+    @JsonIgnore  //coklu iliskilerde tablonun birinde bu annotation kullanilir, aksi durumda sout yapildiginda sonsuz döngüye girer!
     private CategoryPropertyKey categoryPropertyKey;
 
     // Relation with Parent Adverts table
     @ManyToOne
     @JoinColumn(name = "advert_id")
+    @JsonIgnore  //coklu iliskilerde tablonun birinde bu annotation kullanilir, aksi durumda sout yapildiginda sonsuz döngüye girer!
     private Advert advert;
 
 

@@ -12,10 +12,12 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
+//@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class CityUpdateRequest extends BaseEntityRequest{
 
     @Size(min = 2, max = 50)
     private String name;
+
+    private Long countryId;
 
 }

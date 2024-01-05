@@ -1,4 +1,4 @@
-package com.prettier.configuration;
+package com.prettier.config;
 
 import java.util.List;
 

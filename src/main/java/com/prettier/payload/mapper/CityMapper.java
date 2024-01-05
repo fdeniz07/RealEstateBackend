@@ -1,41 +1,40 @@
 package com.prettier.payload.mapper;
 
-import com.prettier.entity.concretes.Advert;
+import com.prettier.config.MapStructConfig;
 import com.prettier.entity.concretes.City;
-import com.prettier.payload.request.concretes.AdvertUpdateRequest;
 import com.prettier.payload.request.concretes.CityRequest;
 import com.prettier.payload.request.concretes.CityUpdateRequest;
 import com.prettier.payload.response.concretes.CityResponse;
-import com.prettier.shared.utils.enums.Language;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class CityMapper {
+@Mapper(config = MapStructConfig.class)
+public interface CityMapper {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    CityMapper INSTANCE = Mappers.getMapper(CityMapper.class);
 
-    public City toCity(CityRequest cityRequest) {
+    City toCity(CityRequest cityRequest);
 
-        return modelMapper.map(cityRequest, City.class);
-    }
+    CityResponse toResponse(City city);
 
-    public CityResponse toResponse(City city) {
+    City toUpdatedCity(CityUpdateRequest cityUpdateRequest,Long id);
 
-        return modelMapper.map(city, CityResponse.class);
-    }
 
-    public City toUpdatedCity(CityUpdateRequest cityUpdateRequest, City existingCity) {
+//    public City toCity(CityRequest cityRequest) {
+//
+//        return modelMapper.map(cityRequest, City.class);
+//    }
+//
+//    public CityResponse toResponse(City city) {
+//
+//        return modelMapper.map(city, CityResponse.class);
+//    }
+//
+//    public City toUpdatedCity(CityUpdateRequest cityUpdateRequest, City existingCity) {
+//
+//        modelMapper.map(cityUpdateRequest, existingCity);
+//        return existingCity;
+//    }
 
-        modelMapper.map(cityUpdateRequest, existingCity);
-        return existingCity;
-    }
+
 }

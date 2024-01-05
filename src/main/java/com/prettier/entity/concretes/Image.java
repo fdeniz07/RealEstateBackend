@@ -1,5 +1,6 @@
 package com.prettier.entity.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -16,7 +17,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class Image extends BaseEntity implements Serializable {
+public class Image extends BaseEntity{
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -36,5 +37,6 @@ public class Image extends BaseEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "advert_id", nullable = false)
+    @JsonIgnore //coklu iliskilerde tablonun birinde bu annotation kullanilir, aksi durumda sout yapildiginda sonsuz döngüye girer!
     private Advert advert;
 }

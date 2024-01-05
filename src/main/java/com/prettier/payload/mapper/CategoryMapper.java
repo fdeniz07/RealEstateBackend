@@ -1,42 +1,46 @@
 package com.prettier.payload.mapper;
 
+import com.prettier.config.MapStructConfig;
 import com.prettier.entity.concretes.Category;
 import com.prettier.payload.request.concretes.CategoryRequest;
+import com.prettier.payload.request.concretes.CategoryUpdateRequest;
 import com.prettier.payload.response.concretes.CategoryResponse;
-import lombok.*;
-import org.modelmapper.Condition;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.factory.Mappers;
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+@Mapper(config = MapStructConfig.class)
+public interface CategoryMapper {
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class CategoryMapper {
+    CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 
-    @Autowired
-    private ModelMapper modelMapper;
+    Category toCategory(CategoryRequest categoryRequest);
 
-    public Category toCategory(CategoryRequest categoryRequest) {
-        return modelMapper.map(categoryRequest, Category.class);
-    }
+    CategoryResponse toResponse(Category category);
 
+    @Mapping(target = "id", ignore = true)
+    Category toUpdatedCategory(CategoryUpdateRequest categoryUpdateRequest, Long id, @MappingTarget Category category);
 
-    public CategoryResponse toResponse(Category category) {
-        return modelMapper.map(category, CategoryResponse.class);
-    }
-
-
-
-
-    public Category toUpdateResponse(CategoryRequest categoryRequest,Category existcategory) {
-        modelMapper.map(categoryRequest, existcategory);
-        return existcategory;
-    }
-
+//    @Autowired
+//    private ModelMapper modelMapper;
+//
+//    public Category toCategory(CategoryRequest categoryRequest) {
+//        return modelMapper.map(categoryRequest, Category.class);
+//    }
+//
+//
+//    public CategoryResponse toResponse(Category category) {
+//        return modelMapper.map(category, CategoryResponse.class);
+//    }
+//
+//
+//
+//
+//    public Category toUpdateResponse(CategoryRequest categoryRequest,Category existcategory) {
+//        modelMapper.map(categoryRequest, existcategory);
+//        return existcategory;
+//    }
 
 
 }

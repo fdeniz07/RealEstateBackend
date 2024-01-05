@@ -11,7 +11,8 @@ import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @SuperBuilder
 public class CountryRequest extends BaseEntityRequest{

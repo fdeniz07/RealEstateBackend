@@ -1,40 +1,39 @@
 package com.prettier.payload.mapper;
 
-import com.prettier.entity.concretes.Category;
+import com.prettier.config.MapStructConfig;
 import com.prettier.entity.concretes.Favorite;
-import com.prettier.payload.request.concretes.CategoryRequest;
 import com.prettier.payload.request.concretes.FavoriteRequest;
-import com.prettier.payload.response.concretes.CategoryResponse;
 import com.prettier.payload.response.concretes.FavoriteResponse;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class FavoriteMapper {
+@Mapper(config = MapStructConfig.class)
+public interface FavoriteMapper {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    FavoriteMapper INSTANCE = Mappers.getMapper(FavoriteMapper.class);
 
-    public Favorite toFavorite(FavoriteRequest favoriteRequest) {
+    Favorite toFavorite(FavoriteRequest favoriteRequest);
 
-        return modelMapper.map(favoriteRequest, Favorite.class);
-    }
+    FavoriteResponse toResponse(Favorite favorite);
 
-    public FavoriteResponse toResponse(Favorite favorite) {
+    List<FavoriteResponse> toResponseList(List<Favorite> favorites);
 
-        return modelMapper.map(favorite, FavoriteResponse.class);
-    }
-    public List<FavoriteResponse> toResponseList(List<Favorite> favorites) {
-
-        return (List<FavoriteResponse>) modelMapper.map(favorites, FavoriteResponse.class);
-    }
+//    @Autowired
+//    private ModelMapper modelMapper;
+//
+//    public Favorite toFavorite(FavoriteRequest favoriteRequest) {
+//
+//        return modelMapper.map(favoriteRequest, Favorite.class);
+//    }
+//
+//    public FavoriteResponse toResponse(Favorite favorite) {
+//
+//        return modelMapper.map(favorite, FavoriteResponse.class);
+//    }
+//    public List<FavoriteResponse> toResponseList(List<Favorite> favorites) {
+//
+//        return (List<FavoriteResponse>) modelMapper.map(favorites, FavoriteResponse.class);
+//    }
 }
