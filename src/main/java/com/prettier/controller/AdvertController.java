@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Prettier", description = "Prettier Real Estate APIs")
+@Tag(name = "Advert", description = "Prettier Real Estate APIs") //Swagger dökümani icin
 @RequestMapping(value = "api/v1.0/adverts")
 @Slf4j //Log eklemek icin kullaniyoruz
 public class AdvertController {

@@ -9,6 +9,10 @@ import com.prettier.shared.exception.exceptions.adverts.AdvertNotFoundException;
 import com.prettier.shared.exception.exceptions.cities.CityAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.cities.CityNotCreatedException;
 import com.prettier.shared.exception.exceptions.cities.CityNotFoundException;
+import com.prettier.shared.exception.exceptions.countries.CountryAlreadyDeletedException;
+import com.prettier.shared.exception.exceptions.countries.CountryAlreadyExistsException;
+import com.prettier.shared.exception.exceptions.countries.CountryNotCreatedException;
+import com.prettier.shared.exception.exceptions.countries.CountryNotFoundException;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -109,6 +113,65 @@ public class GlobalExceptionHandler {
                         .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
                         .build())
                 .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    /////////////////// COUNTRY \\\\\\\\\\\\\\\
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CountryNotCreatedException.class)
+    public InternalApiResponse<String> handleCountryNotCreatedException(CountryNotCreatedException exception) {
+
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(CountryNotFoundException.class)
+    public InternalApiResponse<String> handleCountryNotFoundException(CountryNotFoundException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CountryAlreadyDeletedException.class)
+    public InternalApiResponse<String> handleCountryAlreadyDeletedException(CountryAlreadyDeletedException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(CountryAlreadyExistsException.class)
+    public InternalApiResponse<String> handleCountryAlreadyExistsException(CountryAlreadyExistsException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.CONFLICT)
                 .hasError(true)
                 .errorMessages(Collections.singletonList(exception.getMessage()))
                 .build();
