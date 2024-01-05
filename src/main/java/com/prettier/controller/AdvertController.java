@@ -11,6 +11,8 @@ import com.prettier.service.abstracts.AdvertService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Prettier", description = "Prettier Real Estate APIs")
 @RequestMapping(value = "api/v1.0/adverts")
 @Slf4j //Log eklemek icin kullaniyoruz
 public class AdvertController {
@@ -60,6 +63,10 @@ public class AdvertController {
         return advertService.getAll(language, page, size, sort, type);
     }
 
+    @Operation(
+            summary = "Retrieve a Advert with Active by Id",
+            description = "Get a Advert object by specifying its id. The response is Advert object with id, title, description and published status.",
+            tags = {"advert", "get"})
     @GetMapping("/{language}/getListWithActive")
     public Page<AdvertResponse> getListWithActive(
             @PathVariable("language") Language language,
@@ -75,12 +82,11 @@ public class AdvertController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{language}/update/{advertId}")
     public InternalApiResponse<AdvertResponse> updateAdvert(@PathVariable("language") Language language,
-                                                              @PathVariable("productId") Long id,
-                                                              @RequestBody AdvertUpdateRequest advertUpdateRequest)
-    {
+                                                            @PathVariable("advertId") Long id,
+                                                            @RequestBody AdvertUpdateRequest advertUpdateRequest) {
 
         log.debug("[{}][updateAdvert] -> request: {} {}", this.getClass().getSimpleName(), id, advertUpdateRequest);
-        Advert advert = advertService.update(language, advertUpdateRequest,id);
+        Advert advert = advertService.update(language, advertUpdateRequest, id);
 
         AdvertResponse advertResponse = advertMapper.toResponse(advert);
         log.debug("[{}][updateAdvert] -> response: {}", this.getClass().getSimpleName(), advertResponse);
@@ -99,7 +105,7 @@ public class AdvertController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/{language}/delete/{advertId}")
     public InternalApiResponse<AdvertResponse> deleteAdvert(@PathVariable("language") Language language,
-                                                              @PathVariable("advertId") Long id) {
+                                                            @PathVariable("advertId") Long id) {
         log.debug("[{}][deleteAdvert] -> request advertId: {}", this.getClass().getSimpleName(), id);
         Advert advert = advertService.delete(language, id);
         AdvertResponse advertResponse = advertMapper.toResponse(advert);

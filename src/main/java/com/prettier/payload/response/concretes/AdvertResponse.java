@@ -9,7 +9,8 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder

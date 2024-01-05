@@ -1,12 +1,16 @@
 package com.prettier.payload.mapper;
 
+import com.prettier.config.MapStructConfig;
 import com.prettier.entity.concretes.Category;
 import com.prettier.payload.request.concretes.CategoryRequest;
+import com.prettier.payload.request.concretes.CategoryUpdateRequest;
 import com.prettier.payload.response.concretes.CategoryResponse;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(config = MapStructConfig.class)
 public interface CategoryMapper {
 
     CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
@@ -15,7 +19,8 @@ public interface CategoryMapper {
 
     CategoryResponse toResponse(Category category);
 
-    Category toUpdateResponse(CategoryRequest categoryRequest,Category existcategory);
+    @Mapping(target = "id", ignore = true)
+    Category toUpdatedCategory(CategoryUpdateRequest categoryUpdateRequest, Long id, @MappingTarget Category category);
 
 //    @Autowired
 //    private ModelMapper modelMapper;
@@ -36,7 +41,6 @@ public interface CategoryMapper {
 //        modelMapper.map(categoryRequest, existcategory);
 //        return existcategory;
 //    }
-
 
 
 }

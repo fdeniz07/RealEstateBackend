@@ -1,5 +1,6 @@
 package com.prettier.payload.mapper;
 
+import com.prettier.config.MapStructConfig;
 import com.prettier.entity.concretes.District;
 import com.prettier.payload.request.concretes.DistrictRequest;
 import com.prettier.payload.response.concretes.DistrictResponse;
@@ -7,7 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 
-@Mapper
+@Mapper(config = MapStructConfig.class)
 public interface DistrictMapper {
 
     DistrictMapper INSTANCE = Mappers.getMapper(DistrictMapper.class);

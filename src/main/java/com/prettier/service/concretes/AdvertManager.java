@@ -1,6 +1,7 @@
 package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Advert;
+import com.prettier.entity.concretes.City;
 import com.prettier.payload.mapper.AdvertMapper;
 import com.prettier.payload.request.concretes.AdvertRequest;
 import com.prettier.payload.request.concretes.AdvertUpdateRequest;
@@ -86,8 +87,12 @@ public class AdvertManager implements AdvertService {
     @Override
     public Advert update(Language language, AdvertUpdateRequest advertUpdateRequest, Long id) {
         log.debug("[{}][updateAdvert] -> request: {} {}", this.getClass().getSimpleName(), id, advertUpdateRequest);
-        Advert advert = advertMapper.toUpdatedAdvert(advertUpdateRequest, id);
-        Advert updatedAdvert = advertRepository.save(advert);
+
+        //Advert Var mi kontrolü
+        Advert existingAdvert = getAdvert(language, id);
+
+       Advert updatedAdvert=  advertMapper.toUpdatedAdvert(advertUpdateRequest, id,existingAdvert);
+       advertRepository.save(updatedAdvert);
         log.debug("[{}][updateAdvert] -> response: {}", this.getClass().getSimpleName(), updatedAdvert);
         return updatedAdvert;
     }
@@ -106,9 +111,11 @@ public class AdvertManager implements AdvertService {
     public Advert getAdvert(Language language, Long advertId) {
 
         log.debug("[{}][getAdvert] -> request advertId: {}", this.getClass().getSimpleName(), advertId);
-        Advert advert = advertRepository.findById(advertId).orElseThrow(() -> new AdvertNotFoundException(language, FriendlyMessageCodes.CITY_NOT_FOUND_EXCEPTION, "Advert not found for advert id: " + advertId));
+        Advert advert = advertRepository.findById(advertId).orElseThrow(() -> new AdvertNotFoundException(language, FriendlyMessageCodes.ADVERT_NOT_FOUND_EXCEPTION, "Advert not found for advert id: " + advertId));
 
         log.debug("[{}][getAdvert] -> response: {}", this.getClass().getSimpleName(), advert);
         return advert;
     }
+
+
 }

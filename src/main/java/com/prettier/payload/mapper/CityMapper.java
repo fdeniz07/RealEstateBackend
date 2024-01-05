@@ -1,5 +1,6 @@
 package com.prettier.payload.mapper;
 
+import com.prettier.config.MapStructConfig;
 import com.prettier.entity.concretes.City;
 import com.prettier.payload.request.concretes.CityRequest;
 import com.prettier.payload.request.concretes.CityUpdateRequest;
@@ -7,7 +8,7 @@ import com.prettier.payload.response.concretes.CityResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(config = MapStructConfig.class)
 public interface CityMapper {
 
     CityMapper INSTANCE = Mappers.getMapper(CityMapper.class);
@@ -16,7 +17,7 @@ public interface CityMapper {
 
     CityResponse toResponse(City city);
 
-    City toUpdatedCity(CityUpdateRequest cityUpdateRequest, City existingCity);
+    City toUpdatedCity(CityUpdateRequest cityUpdateRequest,Long id);
 
 
 //    public City toCity(CityRequest cityRequest) {

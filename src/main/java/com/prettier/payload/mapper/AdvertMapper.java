@@ -1,14 +1,17 @@
 package com.prettier.payload.mapper;
 
+import com.prettier.config.MapStructConfig;
 import com.prettier.entity.concretes.Advert;
 import com.prettier.payload.request.concretes.AdvertRequest;
 import com.prettier.payload.request.concretes.AdvertUpdateRequest;
 import com.prettier.payload.response.concretes.AdvertResponse;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 
-@Mapper
+@Mapper(config = MapStructConfig.class)
 public interface AdvertMapper {
 
     AdvertMapper INSTANCE = Mappers.getMapper(AdvertMapper.class);
@@ -17,7 +20,8 @@ public interface AdvertMapper {
 
     AdvertResponse toResponse(Advert advert);
 
-    Advert toUpdatedAdvert(AdvertUpdateRequest advertUpdateRequest, Long id);
+    @Mapping(target = "id", ignore = true)
+    Advert toUpdatedAdvert(AdvertUpdateRequest advertUpdateRequest, Long id, @MappingTarget Advert advert);
     
     
 //    public Advert toAdvert(AdvertRequest advertRequest) {

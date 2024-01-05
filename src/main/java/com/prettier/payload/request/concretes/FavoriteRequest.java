@@ -15,8 +15,8 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 
 import java.io.Serializable;
-
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @SuperBuilder
 public class FavoriteRequest extends BaseEntityRequest{

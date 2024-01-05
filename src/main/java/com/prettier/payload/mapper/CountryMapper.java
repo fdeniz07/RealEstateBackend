@@ -1,13 +1,13 @@
 package com.prettier.payload.mapper;
 
+import com.prettier.config.MapStructConfig;
 import com.prettier.entity.concretes.Country;
 import com.prettier.payload.request.concretes.CountryRequest;
 import com.prettier.payload.response.concretes.CountryResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-
-@Mapper
+@Mapper(config = MapStructConfig.class)
 public interface CountryMapper {
 
     CountryMapper INSTANCE = Mappers.getMapper(CountryMapper.class);

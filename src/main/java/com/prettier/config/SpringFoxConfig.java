@@ -1,4 +1,4 @@
-package com.prettier.configuration;
+package com.prettier.config;
 
 //@Configuration
 //@EnableSwagger2

@@ -1,15 +1,15 @@
 package com.prettier.payload.mapper;
 
+import com.prettier.config.MapStructConfig;
 import com.prettier.entity.concretes.Favorite;
 import com.prettier.payload.request.concretes.FavoriteRequest;
 import com.prettier.payload.response.concretes.FavoriteResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-
 import java.util.List;
 
-@Mapper
+@Mapper(config = MapStructConfig.class)
 public interface FavoriteMapper {
 
     FavoriteMapper INSTANCE = Mappers.getMapper(FavoriteMapper.class);

@@ -1,16 +1,22 @@
 package com.prettier.service.concretes;
 
+import com.prettier.entity.concretes.Advert;
 import com.prettier.entity.concretes.Category;
 import com.prettier.entity.concretes.CategoryPropertyKey;
 import com.prettier.payload.mapper.CategoryMapper;
 import com.prettier.payload.request.concretes.CategoryRequest;
+import com.prettier.payload.request.concretes.CategoryUpdateRequest;
 import com.prettier.payload.response.concretes.CategoryResponse;
 import com.prettier.repository.CategoryPropertyKeyRepository;
 import com.prettier.repository.CategoryPropertyValueRepository;
 import com.prettier.repository.CategoryRepository;
-import com.prettier.service.abstracts.AdvertService;
 import com.prettier.service.abstracts.CategoryPropertyKeyService;
+import com.prettier.shared.exception.enums.FriendlyMessageCodes;
+import com.prettier.shared.exception.exceptions.categories.CategoryNotFoundException;
+import com.prettier.shared.utils.enums.Language;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,20 +27,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CategoryService {
+
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
-    private final AdvertService advertService;
+
     private final CategoryPropertyKeyService categoryPropertyKeyService;
     private final CategoryPropertyKeyRepository categoryPropertyKeyRepository;
     private final CategoryPropertyValueRepository categoryPropertyValueRepository;
 
-    public  Page<CategoryResponse> getIsActiveWithPage(int page, int size, String sort, String type) {
+    public Page<CategoryResponse> getIsActiveWithPage(int page, int size, String sort, String type) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
         if (Objects.equals(type, "desc")) {
@@ -46,7 +53,7 @@ public class CategoryService {
 
     }
 
-    public  Page<CategoryResponse> getAllWithPage(int page, int size, String sort, String type) {
+    public Page<CategoryResponse> getAllWithPage(int page, int size, String sort, String type) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
         if (Objects.equals(type, "desc")) {
@@ -60,7 +67,7 @@ public class CategoryService {
 
 
     public CategoryResponse getById(Long id) {
-        Category category =  categoryRepository.findById(id).orElseThrow(()->{
+        Category category = categoryRepository.findById(id).orElseThrow(() -> {
             throw new ResourceAccessException("");//todo
         });
         return categoryMapper.toResponse(category);
@@ -75,49 +82,41 @@ public class CategoryService {
 
     }
 
-    public ResponseEntity updateById(Long id, CategoryRequest categoryRequest) {
+    public Category update(Language language, CategoryUpdateRequest categoryUpdateRequest, Long id) {
 
+        log.debug("[{}][updateCategory] -> request: {} {}", this.getClass().getSimpleName(), id, categoryUpdateRequest);
 
-
-        if(!categoryRepository.existsById(id)){
+        if (!categoryRepository.existsById(id)) {
             throw new ResourceAccessException("");//todo  ex olustur
         }
-        //todo built in olna bakailmayacak
-        Category category =  categoryRepository.findById(id).orElseThrow(()->{
-            throw new ResourceAccessException("");//todo
-        });
 
-        categoryRequest.setId(id);
-        Category updated = categoryMapper.toUpdateResponse(categoryRequest,category);
+        //Category Var mi kontrolü
+        Category existingCategory = getCategory(language, id);
 
-        categoryRepository.save(updated);
-
-        return ResponseEntity.ok(HttpStatus.ACCEPTED);
-
-
-
+        Category updatedCategory=  categoryMapper.toUpdatedCategory(categoryUpdateRequest, id,existingCategory);
+        categoryRepository.save(updatedCategory);
+        log.debug("[{}][updateCategory] -> response: {}", this.getClass().getSimpleName(), updatedCategory);
+        return updatedCategory;
     }
 
     public ResponseEntity<CategoryResponse> deleteById(Long id) {
 
-        Category deleted =  categoryRepository.findById(id).orElseThrow(()->{
+        Category deleted = categoryRepository.findById(id).orElseThrow(() -> {
             throw new ResourceAccessException("");//todo
         });
-        if (!categoryRepository.findById(id).get().isBuiltIn()){
-            CategoryResponse categoryResponse=categoryMapper.toResponse(deleted);
+        if (!categoryRepository.findById(id).get().isBuiltIn()) {
+            CategoryResponse categoryResponse = categoryMapper.toResponse(deleted);
             categoryRepository.deleteById(id);
-            return new ResponseEntity<>(categoryResponse,HttpStatus.ACCEPTED);//todo postman siliyor ama cevap yok
+            return new ResponseEntity<>(categoryResponse, HttpStatus.ACCEPTED);//todo postman siliyor ama cevap yok
 
         }
-        return new ResponseEntity<>(categoryMapper.toResponse(deleted),HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(categoryMapper.toResponse(deleted), HttpStatus.NOT_FOUND);
     }
-
-
 
 
     //todo dtolar yapilsin
     public ResponseEntity<Set<CategoryPropertyKey>> getCategoryProporties(Long categoryId) {
-        Category category =  categoryRepository.findById(categoryId).orElseThrow(()->{
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> {
             throw new ResourceAccessException("");//todo
         });
 
@@ -127,10 +126,9 @@ public class CategoryService {
     }
 
 
-
     //todo categoryproportieskeyrepo kullanilacak
     public ResponseEntity<CategoryPropertyKey> createCategoryProperty(Long categoryId, CategoryPropertyKey categoryPropertyKey) {
-        Category category =  categoryRepository.findById(categoryId).orElseThrow(()->{
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> {
             throw new ResourceAccessException("");//todo
         });
         categoryPropertyKey.setCategory(category);
@@ -140,12 +138,12 @@ public class CategoryService {
 
     public ResponseEntity<CategoryPropertyKey> updateCategoryProperty(Long propertyKeyId, CategoryPropertyKey updatedProperty) {
 
-        CategoryPropertyKey existingProperty = categoryPropertyKeyRepository.findById(propertyKeyId).orElseThrow(()->{
+        CategoryPropertyKey existingProperty = categoryPropertyKeyRepository.findById(propertyKeyId).orElseThrow(() -> {
             throw new ResourceAccessException("");//todo
         });
 
         if (existingProperty.isBuiltIn()) {
-            return new ResponseEntity<>(existingProperty,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(existingProperty, HttpStatus.NOT_FOUND);
         }
         existingProperty.setName(updatedProperty.getName());
         existingProperty.setBuiltIn(updatedProperty.isBuiltIn());
@@ -157,12 +155,12 @@ public class CategoryService {
     }
 
     public ResponseEntity<CategoryPropertyKey> deleteCategoryProperty(Long propertyId) {
-        CategoryPropertyKey existingProperty = categoryPropertyKeyRepository.findById(propertyId).orElseThrow(()->{
+        CategoryPropertyKey existingProperty = categoryPropertyKeyRepository.findById(propertyId).orElseThrow(() -> {
             throw new ResourceAccessException("");//todo
         });
 
         if (existingProperty.isBuiltIn()) {
-            return new ResponseEntity<>(existingProperty,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(existingProperty, HttpStatus.NOT_FOUND);
         }
         //todo Delete related category_property_values
         //categoryPropertyValueRepository.deleteRelated(propertyId);
@@ -172,33 +170,33 @@ public class CategoryService {
 
     }
 
+    // Ilgili Id, Category tablosunda var mi kontrolü
+    public Category getCategory(Language language, Long categoryId) {
 
+        log.debug("[{}][getCategory] -> request categoryId: {}", this.getClass().getSimpleName(), categoryId);
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(language, FriendlyMessageCodes.CATEGORY_NOT_FOUND_EXCEPTION, "Category not found for category id: " + categoryId));
 
-
-
-
-
-
-
-
-    private Category updatedCategory(Long id, CategoryRequest categoryRequest) {
-        return Category.builder()
-                .id(id)
-                .advertSet(categoryRequest.getAdvertSet())
-                .seq(categoryRequest.getSeq())
-                .icon(categoryRequest.getIcon())
-                .slug(categoryRequest.getSlug())
-                .title(categoryRequest.getTitle())
-                .builtIn(categoryRequest.isBuiltIn())
-                .createAt(categoryRequest.getCreateAt())
-                .active(categoryRequest.isActive())
-                .categoryPropertyKeys(categoryRequest.getCategoryPropertyKeys())
-                .updateAt(categoryRequest.getUpdateAt())
-                //todo
-                .build();
+        log.debug("[{}][getCategory] -> response: {}", this.getClass().getSimpleName(), category);
+        return category;
     }
 
 
+//    private Category updatedCategory(Long id, CategoryRequest categoryRequest) {
+//        return Category.builder()
+//                .id(id)
+//               .categorySet(categoryRequest.getCategorySet())
+//                .seq(categoryRequest.getSeq())
+//                .icon(categoryRequest.getIcon())
+//                .slug(categoryRequest.getSlug())
+//                .title(categoryRequest.getTitle())
+//                .builtIn(categoryRequest.isBuiltIn())
+//                .createAt(categoryRequest.getCreateAt())
+//                .active(categoryRequest.isActive())
+//                .categoryPropertyKeys(categoryRequest.getCategoryPropertyKeys())
+//                .updateAt(categoryRequest.getUpdateAt())
+//                //todo
+//                .build();
+//    }
 
 
     //class
