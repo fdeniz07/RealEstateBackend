@@ -9,6 +9,7 @@ import com.prettier.repository.CityRepository;
 import com.prettier.service.abstracts.CityService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.exceptions.cities.CityAlreadyDeletedException;
+import com.prettier.shared.exception.exceptions.cities.CityAlreadyExistsException;
 import com.prettier.shared.exception.exceptions.cities.CityNotCreatedException;
 import com.prettier.shared.exception.exceptions.cities.CityNotFoundException;
 import com.prettier.shared.utils.enums.Language;
@@ -69,14 +70,27 @@ public class CityManager implements CityService {
     public City add(Language language, CityRequest cityRequest) {
 
         log.debug("[{}][createCity] -> request: {}", this.getClass().getSimpleName(), cityRequest);
-        try {
-            City city = cityMapper.toCity(cityRequest);
-            City response = cityRepository.save(city);
-            log.debug("[{}][createCity] -> response: {}", this.getClass().getSimpleName(), response);
-            return response;
-        } catch (Exception exception) {
+
+        boolean existsByCityName = existsByCityName(language, cityRequest.getName());
+
+        if (existsByCityName){
             throw new CityNotCreatedException(language, FriendlyMessageCodes.CITY_NOT_CREATED_EXCEPTION, "city request: " + cityRequest.toString());
         }
+        else {
+           City newCity = cityMapper.toCity(cityRequest);
+            City response = cityRepository.save(newCity);
+            log.debug("[{}][createCity] -> response: {}", this.getClass().getSimpleName(), response);
+            return response;
+        }
+
+//        try {
+//            newCity = cityMapper.toCity(cityRequest);
+//            City response = cityRepository.save(newCity);
+//            log.debug("[{}][createCity] -> response: {}", this.getClass().getSimpleName(), response);
+//            return response;
+//        } catch (Exception exception) {
+//            throw new CityNotCreatedException(language, FriendlyMessageCodes.CITY_NOT_CREATED_EXCEPTION, "city request: " + cityRequest.toString());
+//        }
     }
 
     @Override
@@ -142,5 +156,18 @@ public class CityManager implements CityService {
 
         log.debug("[{}][getCity] -> response: {}", this.getClass().getSimpleName(), city);
         return city;
+    }
+
+    public boolean existsByCityName(Language language, String cityName) {
+
+        log.debug("[{}][getCity] -> request cityName: {}", this.getClass().getSimpleName(), cityName);
+        if (cityRepository.existsByName(cityName)) {
+            throw new CityAlreadyExistsException(language, FriendlyMessageCodes.CITY_ALREADY_EXISTS, "This City already exists for city name: " + cityName);
+        }
+
+        //.orElseThrow(() -> new CityAlreadyExistsException(language, FriendlyMessageCodes.CITY_ALREADY_EXISTS, "This City already exists for city name: " + cityName));
+
+        log.debug("[{}][getCity] -> response: {}", this.getClass().getSimpleName(), cityName);
+        return false;
     }
 }
