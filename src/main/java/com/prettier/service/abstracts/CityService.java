@@ -15,10 +15,10 @@ public interface CityService extends Serializable {
 
     CityResponse getByCityId(Language language, Long id);
 
-    City add(Language language, CityRequest cityRequest);
+    CityResponse add(Language language, CityRequest cityRequest);
 
-    City update(Language language, CityUpdateRequest cityUpdateRequest, Long id);
-    CityResponse update2(Language language,CityUpdateRequest cityUpdateRequest, Long id);
+    CityResponse update(Language language, CityUpdateRequest cityUpdateRequest, Long id);
+//  CityResponse update2(Language language,CityUpdateRequest cityUpdateRequest, Long id);
 
     CityResponse softDelete(Language language, Long id);
 }
