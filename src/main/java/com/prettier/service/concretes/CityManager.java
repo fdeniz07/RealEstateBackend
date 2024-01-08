@@ -2,6 +2,7 @@ package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.City;
 import com.prettier.payload.mapper.CityMapper;
+import com.prettier.payload.mapper.CountryMapper;
 import com.prettier.payload.request.concretes.CityRequest;
 import com.prettier.payload.request.concretes.CityUpdateRequest;
 import com.prettier.payload.response.concretes.CityResponse;
@@ -30,9 +31,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CityManager implements CityService {
 
-
     private final CityRepository cityRepository;
     private final CityMapper cityMapper;
+    private CountryMapper countryMapper;
+
+    //Not: getAll() *********************************************************************************************************************************
 
     @Override
     public Page<CityResponse> getCities(Language language, int page, int size, String sort, String type) {
@@ -55,6 +58,8 @@ public class CityManager implements CityService {
         return cityRepository.findAll(pageable).map(cityMapper::toResponse);
     }
 
+
+    //Not: getById() *********************************************************************************************************************************
     @Override
     public CityResponse getByCityId(Language language, Long id) {
 
@@ -66,69 +71,68 @@ public class CityManager implements CityService {
         return cityMapper.toResponse(city);
     }
 
+    //Not: add() ****************************************************************************************************************************************
     @Override
-    public City add(Language language, CityRequest cityRequest) {
+    public CityResponse add(Language language, CityRequest cityRequest) {
 
         log.debug("[{}][createCity] -> request: {}", this.getClass().getSimpleName(), cityRequest);
 
+        // City adi veritabaninda mevcut mu kontrolü
         boolean existsByCityName = existsByCityName(language, cityRequest.getName());
 
-        if (existsByCityName){
+        //City db de mevcutsa hata firlat, yoksa kaydet
+        if (existsByCityName) {
             throw new CityNotCreatedException(language, FriendlyMessageCodes.CITY_NOT_CREATED_EXCEPTION, "city request: " + cityRequest.toString());
-        }
-        else {
-           City newCity = cityMapper.toCity(cityRequest);
+        } else {
+            City newCity = cityMapper.toCity(cityRequest);
             City response = cityRepository.save(newCity);
             log.debug("[{}][createCity] -> response: {}", this.getClass().getSimpleName(), response);
-            return response;
+            return cityMapper.toResponse(response);
         }
-
-//        try {
-//            newCity = cityMapper.toCity(cityRequest);
-//            City response = cityRepository.save(newCity);
-//            log.debug("[{}][createCity] -> response: {}", this.getClass().getSimpleName(), response);
-//            return response;
-//        } catch (Exception exception) {
-//            throw new CityNotCreatedException(language, FriendlyMessageCodes.CITY_NOT_CREATED_EXCEPTION, "city request: " + cityRequest.toString());
-//        }
     }
 
+    //Not: update() *********************************************************************************************************************************
     @Override
-    public City update(Language language, CityUpdateRequest cityUpdateRequest, Long id) {
-
-        //City Var mi kontrolü
-        log.debug("[{}][updateCity] -> request: {} {}", this.getClass().getSimpleName(), id, cityUpdateRequest);
-        City city = cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(language, FriendlyMessageCodes.CITY_NOT_FOUND_EXCEPTION, "City not found for city id: " + id));
-
-        city = getCity(language, id);
-        city.setName(cityUpdateRequest.getName());
-
-        City cityResponse = cityRepository.save(city);
-        log.debug("[{}][updateCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
-        return cityResponse;
-    }
-
-    @Override
-    public CityResponse update2(Language language, CityUpdateRequest cityUpdateRequest, Long id) {
+    public CityResponse update(Language language, CityUpdateRequest cityUpdateRequest, Long id) {
 
         log.debug("[{}][updateCity] -> request: {} {}", this.getClass().getSimpleName(), id, cityUpdateRequest);
-        //City Var mi kontrolü
-        City updatedCity = getCity(language, id);
-        //cityUpdateRequest.setId(id);
-        //City mevcutsa requestten geleni city'e cevir ve kaydet
-        // City updatedCity = cityMapper.toUpdatedCity(cityUpdateRequest, existingCity);
-        updatedCity.setName(cityUpdateRequest.getName());
-        updatedCity.setDeleted(cityUpdateRequest.isDeleted());
-        updatedCity.setCountry(updatedCity.getCountry());
-        updatedCity.setCreateAt(updatedCity.getCreateAt());
-        cityRepository.save(updatedCity);
 
+        //City gercekte db de var mi kontrolü
+        City existingCity = getCity(language, id);
 
-        CityResponse cityResponse = cityMapper.toResponse(updatedCity);
-        log.debug("[{}][updateCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
-        return cityResponse;
+        //Güncelleme islemini yap
+        cityMapper.toUpdatedCity(cityUpdateRequest, existingCity);
+
+        // Veritabanına güncellenmiş City'yi kaydet
+        City updatedCity = cityRepository.save(existingCity);
+
+        log.debug("[{}][updateCity] -> response: {}", this.getClass().getSimpleName(), updatedCity);
+        return cityMapper.toResponse(updatedCity);
     }
 
+    //Not: update2() - manuel mapping ********************************************************************************************************************
+//    @Override
+//    public CityResponse update2(Language language, CityUpdateRequest cityUpdateRequest, Long id) {
+//
+//        log.debug("[{}][updateCity] -> request: {} {}", this.getClass().getSimpleName(), id, cityUpdateRequest);
+//        //City Var mi kontrolü
+//        City updatedCity = getCity(language, id);
+//        //cityUpdateRequest.setId(id);
+//        //City mevcutsa requestten geleni city'e cevir ve kaydet
+//        // City updatedCity = cityMapper.toUpdatedCity(cityUpdateRequest, existingCity);
+//        updatedCity.setName(cityUpdateRequest.getName());
+//        updatedCity.setDeleted(cityUpdateRequest.isDeleted());
+//        updatedCity.setCountry(updatedCity.getCountry());
+//        updatedCity.setCreateAt(updatedCity.getCreateAt());
+//        cityRepository.save(updatedCity);
+//
+//
+//        CityResponse cityResponse = cityMapper.toResponse(updatedCity);
+//        log.debug("[{}][updateCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
+//        return cityResponse;
+//    }
+
+    //Not: delete() *********************************************************************************************************************************
     @Override
     public CityResponse softDelete(Language language, Long id) {
 
@@ -148,7 +152,9 @@ public class CityManager implements CityService {
         }
     }
 
-    // Ilgili Id, City tablosunda var mi kontrolü
+    //Not: Other *********************************************************************************************************************************
+
+    //!!! Ilgili Id, City tablosunda var mi kontrolü
     public City getCity(Language language, Long cityId) {
 
         log.debug("[{}][getCity] -> request cityId: {}", this.getClass().getSimpleName(), cityId);
@@ -158,14 +164,13 @@ public class CityManager implements CityService {
         return city;
     }
 
+    //!!! Ilgili CityName, City tablosunda var mi kontrolü
     public boolean existsByCityName(Language language, String cityName) {
 
         log.debug("[{}][getCity] -> request cityName: {}", this.getClass().getSimpleName(), cityName);
         if (cityRepository.existsByName(cityName)) {
             throw new CityAlreadyExistsException(language, FriendlyMessageCodes.CITY_ALREADY_EXISTS, "This City already exists for city name: " + cityName);
         }
-
-        //.orElseThrow(() -> new CityAlreadyExistsException(language, FriendlyMessageCodes.CITY_ALREADY_EXISTS, "This City already exists for city name: " + cityName));
 
         log.debug("[{}][getCity] -> response: {}", this.getClass().getSimpleName(), cityName);
         return false;

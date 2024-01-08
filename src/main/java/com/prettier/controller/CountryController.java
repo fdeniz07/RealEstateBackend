@@ -87,6 +87,7 @@ public class CountryController {
 
         log.debug("[{}][updateCountry] -> request: {} {}", this.getClass().getSimpleName(), id, countryUpdateRequest);
         CountryResponse countryResponse = countryService.update(language, countryUpdateRequest, id);
+
         log.debug("[{}][updateCountry] -> response: {}", this.getClass().getSimpleName(), countryResponse);
 
         return InternalApiResponse.<CountryResponse>builder()

@@ -102,7 +102,7 @@ public class CountryManager implements CountryService {
         log.debug("[{}][updateCountry] -> request: {} {}", this.getClass().getSimpleName(), id, countryUpdateRequest);
 
         //Country Var mi kontrolü
-        Country newCountry = getCountry(language, id);
+        Country existingCountry = getCountry(language, id);
 
         //Country mevcutsa requestten geleni country'e cevir ve kaydet
         // Country newCountry = countryMapper.toUpdatedCountry(countryUpdateRequest, existingCountry);
@@ -112,10 +112,10 @@ public class CountryManager implements CountryService {
 //        countryRepository.save(newCountry);
         // CountryResponse countryResponse = countryMapper.toResponse(updatedCountry);
 
-        CountryResponse countryResponse = countryMapper.toResponse(countryRepository.save(newCountry));
+        CountryResponse updatedCountry = countryMapper.toResponse(countryRepository.save(existingCountry));
 
-        log.debug("[{}][updateCountry] -> response: {}", this.getClass().getSimpleName(), countryResponse);
-        return countryResponse;
+        log.debug("[{}][updateCountry] -> response: {}", this.getClass().getSimpleName(), updatedCountry);
+        return updatedCountry;
     }
 
     //Not: delete() *********************************************************************************************************************************
@@ -140,7 +140,7 @@ public class CountryManager implements CountryService {
 
     //Not: Other *********************************************************************************************************************************
 
-    // Ilgili Id, Country tablosunda var mi kontrolü
+    //!!! Ilgili Id, Country tablosunda var mi kontrolü
     public Country getCountry(Language language, Long countryId) {
 
         log.debug("[{}][getCountry] -> request countryId: {}", this.getClass().getSimpleName(), countryId);
@@ -151,6 +151,7 @@ public class CountryManager implements CountryService {
         return country;
     }
 
+    //!!! Ilgili CountryName, Country tablosunda var mi kontrolü
     public boolean existsByCountryName(Language language, String countryName) {
 
         log.debug("[{}][getCountry] -> request countryName: {}", this.getClass().getSimpleName(), countryName);

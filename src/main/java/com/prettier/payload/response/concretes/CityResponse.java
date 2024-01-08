@@ -15,4 +15,5 @@ import lombok.*;
 public class CityResponse extends BaseEntityResponse {
 
     private String name;
+    private CountryResponse countryResponse;
 }

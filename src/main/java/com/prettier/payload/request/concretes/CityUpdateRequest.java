@@ -18,6 +18,5 @@ public class CityUpdateRequest extends BaseEntityRequest{
     @Size(min = 2, max = 50)
     private String name;
 
-    private Long countryId;
-
+    private CountryRequest country;
 }
