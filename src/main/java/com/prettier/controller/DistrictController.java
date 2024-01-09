@@ -11,6 +11,7 @@ import com.prettier.service.concretes.DistrictManager;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("districts")
+@Tag(name = "District", description = "Prettier Real Estate APIs") //Swagger dökümani icin
+@RequestMapping(value = "api/v1.0/districts")
 @Slf4j
 public class DistrictController {
 
