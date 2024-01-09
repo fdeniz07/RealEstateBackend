@@ -17,4 +17,5 @@ import java.io.Serializable;
 public class DistrictResponse extends BaseEntityResponse{
 
     private String name;
+    private CityResponse city;
 }

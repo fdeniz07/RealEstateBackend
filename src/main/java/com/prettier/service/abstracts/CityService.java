@@ -13,7 +13,8 @@ public interface CityService extends Serializable {
 
     Page<CityResponse> getCities(Language language, int page, int size, String sort, String type);
 
-    CityResponse getByCityId(Language language, Long id);
+    CityResponse getByCityIdResponse(Language language, Long id);
+    City getByCityId(Language language, Long id);
 
     CityResponse add(Language language, CityRequest cityRequest);
 

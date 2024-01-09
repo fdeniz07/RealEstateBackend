@@ -1,33 +1,30 @@
 package com.prettier.payload.mapper;
 
 import com.prettier.config.MapStructConfig;
+import com.prettier.entity.concretes.City;
 import com.prettier.entity.concretes.District;
+import com.prettier.payload.request.concretes.CityUpdateRequest;
 import com.prettier.payload.request.concretes.DistrictRequest;
+import com.prettier.payload.request.concretes.DistrictUpdateRequest;
 import com.prettier.payload.response.concretes.DistrictResponse;
-import org.mapstruct.Mapper;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 
-@Mapper(config = MapStructConfig.class)
+@Mapper(config = MapStructConfig.class,
+        uses = {CityMapper.class},
+        nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DistrictMapper {
 
     DistrictMapper INSTANCE = Mappers.getMapper(DistrictMapper.class);
 
-    District toDistrict(DistrictRequest districtRequest);
-
     DistrictResponse toResponse(District district);
 
+    District toDistrict(DistrictRequest districtRequest);
 
-//    @Autowired
-//    private ModelMapper modelMapper;
-//
-//    public District toDistrict(DistrictRequest districtRequest) {
-//
-//        return modelMapper.map(districtRequest, District.class);
-//    }
-//
-//    public DistrictResponse toResponse(District district) {
-//
-//        return modelMapper.map(district, DistrictResponse.class);
-//    }
+    @Mapping(target = "city", source = "districtUpdateRequest")
+    District toUpdatedDistrict(DistrictUpdateRequest districtUpdateRequest, @MappingTarget District existing);
+
+
 }

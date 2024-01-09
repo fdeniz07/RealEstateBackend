@@ -10,6 +10,7 @@ import com.prettier.service.concretes.CityManager;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("cities")
+@Tag(name = "City", description = "Prettier Real Estate APIs") //Swagger dökümani icin
+@RequestMapping(value = "api/v1.0/cities")
 @Slf4j
 public class CityController {
 
@@ -44,7 +46,7 @@ public class CityController {
     public InternalApiResponse<CityResponse> getCity(@PathVariable("language") Language language,
                                                      @PathVariable("cityId") Long id) {
         log.debug("[{}][getCity] -> request cityId: {}", this.getClass().getSimpleName(), id);
-        CityResponse cityResponse = cityService.getByCityId(language, id);
+        CityResponse cityResponse = cityService.getByCityIdResponse(language, id);
 
         log.debug("[{}][getCity] -> response: {}", this.getClass().getSimpleName(), cityResponse);
         return InternalApiResponse.<CityResponse>builder()

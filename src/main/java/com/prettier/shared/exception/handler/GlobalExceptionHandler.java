@@ -13,6 +13,9 @@ import com.prettier.shared.exception.exceptions.countries.CountryAlreadyDeletedE
 import com.prettier.shared.exception.exceptions.countries.CountryAlreadyExistsException;
 import com.prettier.shared.exception.exceptions.countries.CountryNotCreatedException;
 import com.prettier.shared.exception.exceptions.countries.CountryNotFoundException;
+import com.prettier.shared.exception.exceptions.districts.DistrictAlreadyDeletedException;
+import com.prettier.shared.exception.exceptions.districts.DistrictNotCreatedException;
+import com.prettier.shared.exception.exceptions.districts.DistrictNotFoundException;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -176,4 +179,51 @@ public class GlobalExceptionHandler {
                 .errorMessages(Collections.singletonList(exception.getMessage()))
                 .build();
     }
+
+    /////////////////// DISTRICT \\\\\\\\\\\\\\\
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DistrictNotCreatedException.class)
+    public InternalApiResponse<String> handleDistrictNotCreatedException(DistrictNotCreatedException exception) {
+
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(DistrictNotFoundException.class)
+    public InternalApiResponse<String> handleDistrictNotFoundException(DistrictNotFoundException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DistrictAlreadyDeletedException.class)
+    public InternalApiResponse<String> handleDistrictAlreadyDeletedException(DistrictAlreadyDeletedException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    /////////////////// COUNTRY \\\\\\\\\\\\\\\
 }
