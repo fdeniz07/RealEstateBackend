@@ -64,6 +64,7 @@ public class Advert extends BaseEntity{
     @JsonIgnore
     private Country country;
 
+
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
     @JsonIgnore

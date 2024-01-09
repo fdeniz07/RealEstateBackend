@@ -1,6 +1,7 @@
 package com.prettier.entity.concretes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -22,14 +23,17 @@ public class City extends BaseEntity{
     @Size(min = 2, max = 50)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "country_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.PERSIST) // cascade = CascadeType.ALL ifadesi, District sınıfının kaydedilmesi durumunda ilişkili Country nesnesinin de otomatik olarak kaydedilmesini sağlar.
+    @JoinColumn(name = "country_id")
     @JsonIgnore //coklu iliskilerde tablonun birinde bu annotation kullanilir, aksi durumda sout yapildiginda sonsuz döngüye girer!
+    @JsonIgnoreProperties("country")
     private Country country;
 
-    @OneToMany(mappedBy = "city")
+    @JsonIgnore
+    @OneToMany(mappedBy = "city", cascade = CascadeType.REMOVE)
     private Set<District> districtSet;
 
-    @OneToMany(mappedBy = "city")
+    @JsonIgnore
+    @OneToMany(mappedBy = "city", cascade = CascadeType.REMOVE)
     private Set<Advert> advertSet;
 }

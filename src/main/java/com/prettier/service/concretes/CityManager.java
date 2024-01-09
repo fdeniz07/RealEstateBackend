@@ -59,9 +59,9 @@ public class CityManager implements CityService {
     }
 
 
-    //Not: getById() *********************************************************************************************************************************
+    //Not: getByIdResponse() ****************************************************************************************************************************
     @Override
-    public CityResponse getByCityId(Language language, Long id) {
+    public CityResponse getByCityIdResponse(Language language, Long id) {
 
         log.debug("[{}][getCity] -> request cityId: {}", this.getClass().getSimpleName(), id);
 
@@ -174,5 +174,17 @@ public class CityManager implements CityService {
 
         log.debug("[{}][getCity] -> response: {}", this.getClass().getSimpleName(), cityName);
         return false;
+    }
+
+    //Not: getById() for out Service ************************************************************************************************************
+    @Override
+    public City getByCityId(Language language, Long id) {
+
+        log.debug("[{}][getCity] -> request cityId: {}", this.getClass().getSimpleName(), id);
+
+        City city = cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(language, FriendlyMessageCodes.CITY_NOT_FOUND_EXCEPTION, "City not found for city id: " + id));
+
+        log.debug("[{}][getCity] -> response: {}", this.getClass().getSimpleName(), city);
+        return city;
     }
 }
