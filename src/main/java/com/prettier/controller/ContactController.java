@@ -10,6 +10,7 @@ import com.prettier.service.abstracts.ContactService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,24 +19,16 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/contact-messages")
+@Tag(name = "Contact Message", description = "Prettier Real Estate APIs") //Swagger dökümani icin
+@RequestMapping(value = "api/v1.0/contact-messages")
 @Slf4j
 public class ContactController {
 
     private final ContactService contactService;
     private final ContactMapper contactMapper;
 
-//    @GetMapping("/getAll") //http://localhost:8080/contact-messages/getAll
-//    public Page<ContactResponse> getAll(
-//            @RequestParam(value = "page", defaultValue = "0") int page,
-//            @RequestParam(value = "size", defaultValue = "1") int size,
-//            @RequestParam(value = "sort", defaultValue = "email") String sort,
-//            @RequestParam(value = "type", defaultValue = "asc") String type) {
-//
-//        return contactService.getAll(page, size, sort, type);
-//    }
-
-    @GetMapping(value = "/{language}/contacts") // http://localhost:8080/cities/EN/cities
+    //Not: getAll() *********************************************************************************************************************************
+    @GetMapping(value = "/{language}/contacts") // http://localhost:8080/contact-messages/EN/getAll
     public Page<ContactResponse> getCities(
             @PathVariable("language") Language language,
             @RequestParam(value = "page", defaultValue = "0") int page,
@@ -46,8 +39,9 @@ public class ContactController {
         return contactService.getContacts(language, page, size, sort, type);
     }
 
+    //Not: getById() *********************************************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/{language}/get/{contactId}")
+    @GetMapping(value = "/{language}/get/{contactId}") // http://localhost:8080/contact-messages/EN/get/id
     public InternalApiResponse<ContactResponse> getContact(@PathVariable("language") Language language,
                                                            @PathVariable("contactId") Long id) {
         log.debug("[{}][getContact] -> request contactId: {}", this.getClass().getSimpleName(), id);
@@ -61,14 +55,9 @@ public class ContactController {
                 .build();
     }
 
-//    @PostMapping("/add") //http://localhost:8080/contact-messages/add
-//    public ResponseEntity<ContactResponse> add(@RequestBody @Valid ContactRequest contactRequest) {
-//
-//        return ResponseEntity.ok((ContactResponse) contactService.add(contactRequest));
-//    }
-
+    //Not: add() ****************************************************************************************************************************************
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/{language}/add")
+    @PostMapping(value = "/{language}/add") // http://localhost:8080/contact-messages/EN/add
     public InternalApiResponse<ContactResponse> addContact(@PathVariable("language") Language language,
                                                      @RequestBody ContactRequest contactRequest) {
         log.debug("[{}][createContact] -> request: {}", this.getClass().getSimpleName(), contactRequest);

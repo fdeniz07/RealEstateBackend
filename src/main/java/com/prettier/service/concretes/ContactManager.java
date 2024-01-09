@@ -28,33 +28,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class ContactManager implements ContactService {
+
     private final ContactRepository contactRepository;
+    private final ContactMapper contactMapper;
 
-    @Autowired
-    ContactMapper contactMapper;
-
-
-//    public ContactResponse add(ContactRequest contactRequest) {
-//
-//        Contact contact = contactMapper.toContact(contactRequest);
-//
-//        return contactMapper.toResponse(contactRepository.save(contact));
-//    }
-//
-//
-//    public Page<ContactResponse> getAll(int page, int size, String sort, String type) {
-//
-//        Pageable pageable =PageRequest.of(page,size, Sort.by(sort).ascending());
-//        if (Objects.equals(type,"desc")){
-//            pageable = PageRequest.of(page,size, Sort.by(sort).descending());
-//        }
-//
-//        return contactRepository.findAll(pageable).map(contactMapper::toResponse);
-//    }
-
+    //Not: getAll() *********************************************************************************************************************************
     @Override
     public Page<ContactResponse> getContacts(Language language, int page, int size, String sort, String type) {
-       
+
         log.debug("[{}][getContacts]", this.getClass().getSimpleName());
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
         if (Objects.equals(type, "desc")) {
@@ -73,6 +54,7 @@ public class ContactManager implements ContactService {
         return contactRepository.findAll(pageable).map(contactMapper::toResponse);
     }
 
+    //Not: getById() *********************************************************************************************************************************
     @Override
     public ContactResponse getByContactId(Language language, Long id) {
 
@@ -82,13 +64,14 @@ public class ContactManager implements ContactService {
 
         log.debug("[{}][getContact] -> response: {}", this.getClass().getSimpleName(), contact);
         return contactMapper.toResponse(contact);
-
     }
 
+    //Not: add() ****************************************************************************************************************************************
     @Override
     public Contact add(Language language, ContactRequest contactRequest) {
 
         log.debug("[{}][createContact] -> request: {}", this.getClass().getSimpleName(), contactRequest);
+
         try {
             Contact contact = contactMapper.toContact(contactRequest);
             Contact response = contactRepository.save(contact);
@@ -99,11 +82,13 @@ public class ContactManager implements ContactService {
         }
     }
 
+    //Not: update() *********************************************************************************************************************************
     @Override
     public Contact update(Language language, ContactUpdateRequest contactUpdateRequest, Long id) {
         return null;
     }
 
+    //Not: delete() *********************************************************************************************************************************
     @Override
     public ContactResponse softDelete(Language language, Long id) {
         return null;
