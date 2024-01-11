@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CategoryRepository extends JpaRepository<Category,Long> {
 
+    boolean existsByTitle(String title);
+
     @Query("SELECT c FROM Category c WHERE c.active = true") //TODO BAK
     Page<Category> findByActiveEquals(Pageable pageable);
 

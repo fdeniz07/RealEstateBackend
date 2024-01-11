@@ -1,5 +1,6 @@
 package com.prettier.entity.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -24,6 +25,7 @@ public class Category extends BaseEntity{
     private String title;
 
     @Column(name = "icon", nullable = false)
+    @Size(max = 50)
     private String icon;
 
     @Column(name = "built_in", nullable = false)
@@ -40,9 +42,11 @@ public class Category extends BaseEntity{
     private boolean active=true;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private Set<Advert> advertSet;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private Set<CategoryPropertyKey> categoryPropertyKeys;
 
 }

@@ -7,15 +7,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DistrictResponse extends BaseEntityResponse {
+public class CategoryPropertyKeyResponse  extends BaseEntityResponse {
 
     private String name;
-    private CityResponse city;
+    private CategoryResponse category;
 }
+
+

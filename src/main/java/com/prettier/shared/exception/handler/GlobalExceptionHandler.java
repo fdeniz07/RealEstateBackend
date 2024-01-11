@@ -6,6 +6,10 @@ import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.exceptions.adverts.AdvertAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.adverts.AdvertNotCreatedException;
 import com.prettier.shared.exception.exceptions.adverts.AdvertNotFoundException;
+import com.prettier.shared.exception.exceptions.categories.CategoryAlreadyDeletedException;
+import com.prettier.shared.exception.exceptions.categories.CategoryAlreadyExistsException;
+import com.prettier.shared.exception.exceptions.categories.CategoryNotCreatedException;
+import com.prettier.shared.exception.exceptions.categories.CategoryNotFoundException;
 import com.prettier.shared.exception.exceptions.cities.CityAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.cities.CityNotCreatedException;
 import com.prettier.shared.exception.exceptions.cities.CityNotFoundException;
@@ -14,6 +18,7 @@ import com.prettier.shared.exception.exceptions.countries.CountryAlreadyExistsEx
 import com.prettier.shared.exception.exceptions.countries.CountryNotCreatedException;
 import com.prettier.shared.exception.exceptions.countries.CountryNotFoundException;
 import com.prettier.shared.exception.exceptions.districts.DistrictAlreadyDeletedException;
+import com.prettier.shared.exception.exceptions.districts.DistrictAlreadyExistsException;
 import com.prettier.shared.exception.exceptions.districts.DistrictNotCreatedException;
 import com.prettier.shared.exception.exceptions.districts.DistrictNotFoundException;
 import com.prettier.shared.utils.FriendlyMessageUtils;
@@ -73,7 +78,6 @@ public class GlobalExceptionHandler {
                 .errorMessages(Collections.singletonList(exception.getMessage()))
                 .build();
     }
-
 
 
     /////////////////// CITY \\\\\\\\\\\\\\\
@@ -225,5 +229,82 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-    /////////////////// COUNTRY \\\\\\\\\\\\\\\
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(DistrictAlreadyExistsException.class)
+    public InternalApiResponse<String> handleDistrictAlreadyExistsException(DistrictAlreadyExistsException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.CONFLICT)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    /////////////////// CATEGORY \\\\\\\\\\\\\\\
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CategoryNotCreatedException.class)
+    public InternalApiResponse<String> handleCategoryNotCreatedException(CategoryNotCreatedException exception) {
+
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public InternalApiResponse<String> handleCategoryNotFoundException(CategoryNotFoundException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CategoryAlreadyDeletedException.class)
+    public InternalApiResponse<String> handleCategoryAlreadyDeletedException(CategoryAlreadyDeletedException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    public InternalApiResponse<String> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.CONFLICT)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    /////////////////// ******** \\\\\\\\\\\\\\\
+
+
 }
