@@ -5,12 +5,12 @@ import com.prettier.entity.concretes.Category;
 import com.prettier.payload.request.concretes.CategoryRequest;
 import com.prettier.payload.request.concretes.CategoryUpdateRequest;
 import com.prettier.payload.response.concretes.CategoryResponse;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(config = MapStructConfig.class)
+@Mapper(config = MapStructConfig.class,
+        nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface CategoryMapper {
 
     CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
@@ -19,28 +19,8 @@ public interface CategoryMapper {
 
     CategoryResponse toResponse(Category category);
 
-    @Mapping(target = "id", ignore = true)
-    Category toUpdatedCategory(CategoryUpdateRequest categoryUpdateRequest, Long id, @MappingTarget Category category);
-
-//    @Autowired
-//    private ModelMapper modelMapper;
-//
-//    public Category toCategory(CategoryRequest categoryRequest) {
-//        return modelMapper.map(categoryRequest, Category.class);
-//    }
-//
-//
-//    public CategoryResponse toResponse(Category category) {
-//        return modelMapper.map(category, CategoryResponse.class);
-//    }
-//
-//
-//
-//
-//    public Category toUpdateResponse(CategoryRequest categoryRequest,Category existcategory) {
-//        modelMapper.map(categoryRequest, existcategory);
-//        return existcategory;
-//    }
-
+    @Mapping(target = "advertSet", source = "categoryUpdateRequest.adverts")
+    @Mapping(target = "categoryPropertyKeys", source = "categoryUpdateRequest.categoryPropertyKeys")
+    Category toUpdatedCategory(CategoryUpdateRequest categoryUpdateRequest,@MappingTarget  Category existingCategory);
 
 }

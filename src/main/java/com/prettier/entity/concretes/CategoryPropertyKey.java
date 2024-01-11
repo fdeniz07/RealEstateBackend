@@ -37,6 +37,4 @@ public class CategoryPropertyKey {
     @OneToMany(mappedBy = "categoryPropertyKey")
     private Set<CategoryPropertyValue> categoryPropertyValueSet;
 
-
-
 }

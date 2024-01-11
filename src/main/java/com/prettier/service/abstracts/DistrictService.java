@@ -11,8 +11,12 @@ import java.io.Serializable;
 public interface DistrictService extends Serializable {
 
     Page<DistrictResponse> getDistricts(Language language, int page, int size, String sort, String type);
+
     DistrictResponse getByDistrictId(Language language, Long id);
+
     DistrictResponse add(Language language, DistrictRequest districtRequest);
+
     DistrictResponse update(Language language, DistrictUpdateRequest districtUpdateRequest, Long id);
+
     DistrictResponse softDelete(Language language, Long id);
 }

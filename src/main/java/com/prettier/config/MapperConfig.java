@@ -9,32 +9,43 @@ public class MapperConfig {
 
     @Bean
     public AdvertMapper advertMapper(){
+
         return new AdvertMapperImpl();
     }
 
     @Bean
     public CategoryMapper categoryMapper(){
+
         return new CategoryMapperImpl();
     }
 
     @Bean
     public CityMapper cityMapper(){
+
         return new CityMapperImpl();
     }
 
     @Bean
     public CountryMapper countryMapper(){
+
         return new CountryMapperImpl();
     }
 
     @Bean
     public DistrictMapper districtMapper(){
+
         return new DistrictMapperImpl();
     }
 
     @Bean
     public FavoriteMapper favoriteMapper(){
+
         return new FavoriteMapperImpl();
     }
 
+    @Bean
+    public CategoryPropertyKeyMapper categoryPropertyKeyMapper(){
+
+        return new CategoryPropertyKeyMapperImpl();
+    }
 }

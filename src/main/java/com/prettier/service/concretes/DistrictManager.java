@@ -7,7 +7,6 @@ import com.prettier.payload.mapper.DistrictMapper;
 import com.prettier.payload.request.concretes.DistrictRequest;
 import com.prettier.payload.request.concretes.DistrictUpdateRequest;
 import com.prettier.payload.response.concretes.DistrictResponse;
-import com.prettier.repository.CityRepository;
 import com.prettier.repository.DistrictRepository;
 import com.prettier.service.abstracts.CityService;
 import com.prettier.service.abstracts.DistrictService;
@@ -36,6 +35,7 @@ public class DistrictManager implements DistrictService {
 
     private final DistrictRepository districtRepository;
     private final DistrictMapper districtMapper;
+
     private final CityService cityService;
     private final CityMapper cityMapper;
 
