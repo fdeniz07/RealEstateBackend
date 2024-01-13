@@ -10,6 +10,10 @@ import com.prettier.shared.exception.exceptions.categories.CategoryAlreadyDelete
 import com.prettier.shared.exception.exceptions.categories.CategoryAlreadyExistsException;
 import com.prettier.shared.exception.exceptions.categories.CategoryNotCreatedException;
 import com.prettier.shared.exception.exceptions.categories.CategoryNotFoundException;
+import com.prettier.shared.exception.exceptions.categoryPropertyKey.CategoryPropertyKeyAlreadyDeletedException;
+import com.prettier.shared.exception.exceptions.categoryPropertyKey.CategoryPropertyKeyAlreadyExistsException;
+import com.prettier.shared.exception.exceptions.categoryPropertyKey.CategoryPropertyKeyNotCreatedException;
+import com.prettier.shared.exception.exceptions.categoryPropertyKey.CategoryPropertyKeyNotFoundException;
 import com.prettier.shared.exception.exceptions.cities.CityAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.cities.CityNotCreatedException;
 import com.prettier.shared.exception.exceptions.cities.CityNotFoundException;
@@ -304,7 +308,63 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-    /////////////////// ******** \\\\\\\\\\\\\\\
+    /////////////////// CategoryPropertyKey \\\\\\\\\\\\\\\
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CategoryPropertyKeyNotCreatedException.class)
+    public InternalApiResponse<String> handleCategoryPropertyKeyNotCreatedException(CategoryPropertyKeyNotCreatedException exception) {
+
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(CategoryPropertyKeyNotFoundException.class)
+    public InternalApiResponse<String> handleCategoryPropertyKeyNotFoundException(CategoryPropertyKeyNotFoundException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CategoryPropertyKeyAlreadyDeletedException.class)
+    public InternalApiResponse<String> handleCategoryPropertyKeyAlreadyDeletedException(CategoryPropertyKeyAlreadyDeletedException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
 
 
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(CategoryPropertyKeyAlreadyExistsException.class)
+    public InternalApiResponse<String> handleCategoryPropertyKeyAlreadyExistsException(CategoryPropertyKeyAlreadyExistsException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.CONFLICT)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
 }
