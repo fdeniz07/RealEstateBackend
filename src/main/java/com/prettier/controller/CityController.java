@@ -5,6 +5,7 @@ import com.prettier.payload.request.concretes.CityRequest;
 import com.prettier.payload.request.concretes.CityUpdateRequest;
 import com.prettier.payload.response.FriendlyMessage;
 import com.prettier.payload.response.InternalApiResponse;
+import com.prettier.payload.response.concretes.CategoryResponse;
 import com.prettier.payload.response.concretes.CityResponse;
 import com.prettier.service.concretes.CityManager;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
@@ -30,21 +31,29 @@ public class CityController {
     //Not: getAll() *********************************************************************************************************************************
 
     @GetMapping(value = "/{language}/cities") // http://localhost:8080/cities/EN/cities
-    public Page<CityResponse> getCities(
-            @PathVariable("language") Language language,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "41") int size,
-            @RequestParam(value = "sort", defaultValue = "name") String sort,
-            @RequestParam(value = "type", defaultValue = "asc") String type
+    public InternalApiResponse<Page<CityResponse>> getCities(@PathVariable("language") Language language,
+                                                             @RequestParam(value = "page", defaultValue = "0") int page,
+                                                             @RequestParam(value = "size", defaultValue = "41") int size,
+                                                             @RequestParam(value = "sort", defaultValue = "name") String sort,
+                                                             @RequestParam(value = "type", defaultValue = "asc") String type
     ) {
-        return cityService.getCities(language, page, size, sort, type);
+        log.debug("[{}][getCities]", this.getClass().getSimpleName());
+        Page<CityResponse> cityResponses = cityService.getCities(language, page, size, sort, type);
+
+        log.debug("[{}][getCities] -> response: {}", this.getClass().getSimpleName(), cityResponses);
+        return InternalApiResponse.<Page<CityResponse>>builder()
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(cityResponses)
+                .build();
     }
 
     //Not: getById() *********************************************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{language}/get/{cityId}")
     public InternalApiResponse<CityResponse> getCity(@PathVariable("language") Language language,
-                                                     @PathVariable("cityId") Long id) {
+                                                     @PathVariable("cityId") Long id
+    ) {
         log.debug("[{}][getCity] -> request cityId: {}", this.getClass().getSimpleName(), id);
         CityResponse cityResponse = cityService.getByCityIdResponse(language, id);
 
@@ -60,7 +69,8 @@ public class CityController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add")
     public InternalApiResponse<CityResponse> addCity(@PathVariable("language") Language language,
-                                                     @RequestBody CityRequest cityRequest) {
+                                                     @RequestBody CityRequest cityRequest
+    ) {
         log.debug("[{}][createCity] -> request: {}", this.getClass().getSimpleName(), cityRequest);
         CityResponse cityResponse = cityService.add(language, cityRequest);
 
@@ -82,7 +92,8 @@ public class CityController {
     @PutMapping(value = "/{language}/update/{cityId}")
     public InternalApiResponse<CityResponse> updateCity(@PathVariable("language") Language language,
                                                         @PathVariable("cityId") Long id,
-                                                        @RequestBody CityUpdateRequest cityUpdateRequest) {
+                                                        @RequestBody CityUpdateRequest cityUpdateRequest
+    ) {
 
         log.debug("[{}][updateCity] -> request: {} {}", this.getClass().getSimpleName(), id, cityUpdateRequest);
         CityResponse cityResponse = cityService.update(language, cityUpdateRequest, id);
@@ -126,7 +137,8 @@ public class CityController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/{language}/delete/{cityId}")
     public InternalApiResponse<CityResponse> deleteCity(@PathVariable("language") Language language,
-                                                        @PathVariable("cityId") Long id) {
+                                                        @PathVariable("cityId") Long id
+    ) {
         log.debug("[{}][deleteCity] -> request cityId: {}", this.getClass().getSimpleName(), id);
         CityResponse cityResponse = cityService.softDelete(language, id);
 

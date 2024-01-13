@@ -5,6 +5,7 @@ import com.prettier.payload.request.concretes.DistrictRequest;
 import com.prettier.payload.request.concretes.DistrictUpdateRequest;
 import com.prettier.payload.response.FriendlyMessage;
 import com.prettier.payload.response.InternalApiResponse;
+import com.prettier.payload.response.concretes.CategoryResponse;
 import com.prettier.payload.response.concretes.DistrictResponse;
 import com.prettier.payload.response.concretes.DistrictResponse;
 import com.prettier.service.concretes.DistrictManager;
@@ -31,21 +32,29 @@ public class DistrictController {
     //Not: getAll() *********************************************************************************************************************************
 
     @GetMapping(value = "/{language}/districts") // http://localhost:8080/districts/EN/districts
-    public Page<DistrictResponse> getCities(
-            @PathVariable("language") Language language,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "41") int size,
-            @RequestParam(value = "sort", defaultValue = "name") String sort,
-            @RequestParam(value = "type", defaultValue = "asc") String type
+    public InternalApiResponse<Page<DistrictResponse>> getDistricts(@PathVariable("language") Language language,
+                                                                    @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                    @RequestParam(value = "size", defaultValue = "41") int size,
+                                                                    @RequestParam(value = "sort", defaultValue = "name") String sort,
+                                                                    @RequestParam(value = "type", defaultValue = "asc") String type
     ) {
-        return districtService.getDistricts(language, page, size, sort, type);
+        log.debug("[{}][getDistricts]", this.getClass().getSimpleName());
+        Page<DistrictResponse> districtResponses = districtService.getDistricts(language, page, size, sort, type);
+
+        log.debug("[{}][getDistricts] -> response: {}", this.getClass().getSimpleName(), districtResponses);
+        return InternalApiResponse.<Page<DistrictResponse>>builder()
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(districtResponses)
+                .build();
     }
 
     //Not: getById() *********************************************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{language}/get/{districtId}")
     public InternalApiResponse<DistrictResponse> getDistrict(@PathVariable("language") Language language,
-                                                     @PathVariable("districtId") Long id) {
+                                                             @PathVariable("districtId") Long id
+    ) {
         log.debug("[{}][getDistrict] -> request districtId: {}", this.getClass().getSimpleName(), id);
         DistrictResponse districtResponse = districtService.getByDistrictId(language, id);
 
@@ -61,7 +70,8 @@ public class DistrictController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add")
     public InternalApiResponse<DistrictResponse> addDistrict(@PathVariable("language") Language language,
-                                                     @RequestBody DistrictRequest districtRequest) {
+                                                             @RequestBody DistrictRequest districtRequest
+    ) {
         log.debug("[{}][createDistrict] -> request: {}", this.getClass().getSimpleName(), districtRequest);
         DistrictResponse districtResponse = districtService.add(language, districtRequest);
 
@@ -82,9 +92,9 @@ public class DistrictController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/{language}/update/{districtId}")
     public InternalApiResponse<DistrictResponse> updateDistrict(@PathVariable("language") Language language,
-                                                        @PathVariable("districtId") Long id,
-                                                        @RequestBody DistrictUpdateRequest districtUpdateRequest) {
-
+                                                                @PathVariable("districtId") Long id,
+                                                                @RequestBody DistrictUpdateRequest districtUpdateRequest
+    ) {
         log.debug("[{}][updateDistrict] -> request: {} {}", this.getClass().getSimpleName(), id, districtUpdateRequest);
         DistrictResponse districtResponse = districtService.update(language, districtUpdateRequest, id);
 
@@ -105,7 +115,8 @@ public class DistrictController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/{language}/delete/{districtId}")
     public InternalApiResponse<DistrictResponse> deleteDistrict(@PathVariable("language") Language language,
-                                                        @PathVariable("districtId") Long id) {
+                                                                @PathVariable("districtId") Long id
+    ) {
         log.debug("[{}][deleteDistrict] -> request districtId: {}", this.getClass().getSimpleName(), id);
         DistrictResponse districtResponse = districtService.softDelete(language, id);
 

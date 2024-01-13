@@ -201,7 +201,7 @@ public class CategoryManager implements CategoryService {
 
 
     //todo dtolar yapilsin
-    public ResponseEntity<Set<CategoryPropertyKey>> getCategoryProporties(Long categoryId) {
+    public ResponseEntity<Set<CategoryPropertyKey>> getCategoryProperties(Long categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> {
             throw new ResourceAccessException("");//todo
         });

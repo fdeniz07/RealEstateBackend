@@ -45,7 +45,7 @@ public class Category extends BaseEntity{
     @JsonIgnore
     private Set<Advert> advertSet;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<CategoryPropertyKey> categoryPropertyKeys;
 
