@@ -1,24 +1,18 @@
 package com.prettier.controller;
 
 
-import com.prettier.entity.concretes.Category;
 import com.prettier.entity.concretes.CategoryPropertyKey;
 import com.prettier.payload.mapper.CategoryMapper;
 import com.prettier.payload.request.concretes.CategoryRequest;
 import com.prettier.payload.request.concretes.CategoryUpdateRequest;
-import com.prettier.payload.request.concretes.DistrictRequest;
 import com.prettier.payload.response.FriendlyMessage;
 import com.prettier.payload.response.InternalApiResponse;
-import com.prettier.payload.response.concretes.CategoryPropertyKeyResponse;
 import com.prettier.payload.response.concretes.CategoryResponse;
-import com.prettier.payload.response.concretes.DistrictResponse;
-import com.prettier.service.abstracts.CategoryPropertyKeyService;
 import com.prettier.service.concretes.CategoryManager;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -161,50 +155,41 @@ public class CategoryController {
     }
 
 
-    //Not: getProperties() *************************************************************************************************************
+    //Not: getProperties() ************************************************************************************************************************
 
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/{language}/{id}/properties")
-    public InternalApiResponse<Set<CategoryPropertyKeyResponse>> getCategoryProperties(@PathVariable("language") Language language,
-                                                                                       @PathVariable("id") Long categoryId) {
+    @GetMapping("/{id}/properties")
+    public ResponseEntity<Set<CategoryPropertyKey>> getCategoryProperties(@PathVariable("id") Long categoryId) {
 
-        log.debug("[{}][getProperties] -> request categoryId: {}", this.getClass().getSimpleName(), categoryId);
-        Set<CategoryPropertyKeyResponse> categoryPropertyKeyResponse = categoryService.getProperties(language,categoryId);
-
-        log.debug("[{}][getProperties] -> response: {}", this.getClass().getSimpleName(), categoryPropertyKeyResponse);
-        return InternalApiResponse.<Set<CategoryPropertyKeyResponse>>builder()
-                .httpStatus(HttpStatus.OK)
-                .hasError(false)
-                .payload(categoryPropertyKeyResponse)
-                .build();
+        return categoryService.getCategoryProporties(categoryId);
     }
+
 
     //Not: ****() *********************************************************************************************************************************
 
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-//    @PostMapping("/{id}/properties")
-//    public ResponseEntity<CategoryPropertyKey> createCategoryProperty(@PathVariable("id") Long categoryId, @RequestBody CategoryPropertyKey categoryPropertyKey) {
-//        return categoryService.createCategoryProperty(categoryId, categoryPropertyKey);
-//    }
+    @PostMapping("/{id}/properties")
+    public ResponseEntity<CategoryPropertyKey> createCategoryProperty(@PathVariable("id") Long categoryId, @RequestBody CategoryPropertyKey categoryPropertyKey) {
+        return categoryService.createCategoryProperty(categoryId, categoryPropertyKey);
+    }
 
 
     //Not: ****() *********************************************************************************************************************************
 
     //  @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-//    @PutMapping("/properties/{id}")
-//    public ResponseEntity<CategoryPropertyKey> updateCategoryProperty(@PathVariable("id") Long propertyKeyId, @RequestBody CategoryPropertyKey updatedProperty) {
-//        return categoryService.updateCategoryProperty(propertyKeyId, updatedProperty);
-//    }
+    @PutMapping("/properties/{id}")
+    public ResponseEntity<CategoryPropertyKey> updateCategoryProperty(@PathVariable("id") Long propertyKeyId, @RequestBody CategoryPropertyKey updatedProperty) {
+        return categoryService.updateCategoryProperty(propertyKeyId, updatedProperty);
+    }
 
 
     //Not: ****() *********************************************************************************************************************************
 
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-//    @DeleteMapping("/proporties/{id}")
-//    public ResponseEntity<CategoryPropertyKey> deleteCategoryProperty(@PathVariable("id") Long propertyId) {
-//        return categoryService.deleteCategoryProperty(propertyId);
-//    }
+    @DeleteMapping("/proporties/{id}")
+    public ResponseEntity<CategoryPropertyKey> deleteCategoryProperty(@PathVariable("id") Long propertyId) {
+        return categoryService.deleteCategoryProperty(propertyId);
+    }
 
     /* {
             "title": "ev",
