@@ -6,6 +6,7 @@ import com.prettier.payload.request.concretes.ContactRequest;
 import com.prettier.payload.response.FriendlyMessage;
 import com.prettier.payload.response.InternalApiResponse;
 import com.prettier.payload.response.concretes.ContactResponse;
+import com.prettier.payload.response.concretes.DistrictResponse;
 import com.prettier.service.abstracts.ContactService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
@@ -29,21 +30,29 @@ public class ContactController {
 
     //Not: getAll() *********************************************************************************************************************************
     @GetMapping(value = "/{language}/contacts") // http://localhost:8080/contact-messages/EN/getAll
-    public Page<ContactResponse> getCities(
-            @PathVariable("language") Language language,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "20") int size,
-            @RequestParam(value = "sort", defaultValue = "email") String sort,
-            @RequestParam(value = "type", defaultValue = "asc") String type
+    public InternalApiResponse<Page<ContactResponse>> getContactMessages(@PathVariable("language") Language language,
+                                                                         @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                         @RequestParam(value = "size", defaultValue = "20") int size,
+                                                                         @RequestParam(value = "sort", defaultValue = "email") String sort,
+                                                                         @RequestParam(value = "type", defaultValue = "asc") String type
     ) {
-        return contactService.getContacts(language, page, size, sort, type);
+        log.debug("[{}][getContactMessages]", this.getClass().getSimpleName());
+        Page<ContactResponse> contactResponses = contactService.getContacts(language, page, size, sort, type);
+
+        log.debug("[{}][getContactMessages] -> response: {}", this.getClass().getSimpleName(), contactResponses);
+        return InternalApiResponse.<Page<ContactResponse>>builder()
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(contactResponses)
+                .build();
     }
 
     //Not: getById() *********************************************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{language}/get/{contactId}") // http://localhost:8080/contact-messages/EN/get/id
     public InternalApiResponse<ContactResponse> getContact(@PathVariable("language") Language language,
-                                                           @PathVariable("contactId") Long id) {
+                                                           @PathVariable("contactId") Long id
+    ) {
         log.debug("[{}][getContact] -> request contactId: {}", this.getClass().getSimpleName(), id);
         ContactResponse contactResponse = contactService.getByContactId(language, id);
 
@@ -59,7 +68,8 @@ public class ContactController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add") // http://localhost:8080/contact-messages/EN/add
     public InternalApiResponse<ContactResponse> addContact(@PathVariable("language") Language language,
-                                                     @RequestBody ContactRequest contactRequest) {
+                                                           @RequestBody ContactRequest contactRequest
+    ) {
         log.debug("[{}][createContact] -> request: {}", this.getClass().getSimpleName(), contactRequest);
         Contact contact = contactService.add(language, contactRequest);
 

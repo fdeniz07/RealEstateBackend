@@ -7,6 +7,7 @@ import com.prettier.payload.request.concretes.CountryUpdateRequest;
 import com.prettier.payload.response.FriendlyMessage;
 import com.prettier.payload.response.InternalApiResponse;
 import com.prettier.payload.response.concretes.CountryResponse;
+import com.prettier.payload.response.concretes.DistrictResponse;
 import com.prettier.service.concretes.CountryManager;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
@@ -31,21 +32,29 @@ public class CountryController {
 
     //Not: getAll() *********************************************************************************************************************************
     @GetMapping(value = "/{language}/getAll") //http://localhost:8080/countries/getAll
-    public Page<CountryResponse> getCountries(
-            @PathVariable("language") Language language,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "50") int size,
-            @RequestParam(value = "sort", defaultValue = "name") String sort,
-            @RequestParam(value = "type", defaultValue = "asc") String type
+    public InternalApiResponse<Page<CountryResponse>> getCountries(@PathVariable("language") Language language,
+                                                                   @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                   @RequestParam(value = "size", defaultValue = "50") int size,
+                                                                   @RequestParam(value = "sort", defaultValue = "name") String sort,
+                                                                   @RequestParam(value = "type", defaultValue = "asc") String type
     ) {
-        return countryService.getCountries(language, page, size, sort, type);
+        log.debug("[{}][getCountries]", this.getClass().getSimpleName());
+        Page<CountryResponse> countryResponses = countryService.getCountries(language, page, size, sort, type);
+
+        log.debug("[{}][getCountries] -> response: {}", this.getClass().getSimpleName(), countryResponses);
+        return InternalApiResponse.<Page<CountryResponse>>builder()
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(countryResponses)
+                .build();
     }
 
     //Not: getById() *********************************************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{language}/get/{countryId}")
     public InternalApiResponse<CountryResponse> getCountry(@PathVariable("language") Language language,
-                                                           @PathVariable("countryId") Long id) {
+                                                           @PathVariable("countryId") Long id
+    ) {
         log.debug("[{}][getCountry] -> request countryId: {}", this.getClass().getSimpleName(), id);
         CountryResponse countryResponse = countryService.getByCountryId(language, id);
 
@@ -61,8 +70,8 @@ public class CountryController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add")
     public InternalApiResponse<CountryResponse> addCountry(@PathVariable("language") Language language,
-                                                           @RequestBody CountryRequest countryRequest) {
-
+                                                           @RequestBody CountryRequest countryRequest
+    ) {
         log.debug("[{}][createCountry] -> request: {}", this.getClass().getSimpleName(), countryRequest);
         Country country = countryService.add(language, countryRequest);
 
@@ -85,8 +94,8 @@ public class CountryController {
     @PutMapping(value = "/{language}/update/{countryId}")
     public InternalApiResponse<CountryResponse> update(@PathVariable("language") Language language,
                                                        @PathVariable("countryId") Long id,
-                                                       @RequestBody CountryUpdateRequest countryUpdateRequest) {
-
+                                                       @RequestBody CountryUpdateRequest countryUpdateRequest
+    ) {
         log.debug("[{}][updateCountry] -> request: {} {}", this.getClass().getSimpleName(), id, countryUpdateRequest);
         CountryResponse countryResponse = countryService.update(language, countryUpdateRequest, id);
 
@@ -107,7 +116,8 @@ public class CountryController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/{language}/delete/{countryId}")
     public InternalApiResponse<CountryResponse> deleteCountry(@PathVariable("language") Language language,
-                                                              @PathVariable("countryId") Long id) {
+                                                              @PathVariable("countryId") Long id
+    ) {
         log.debug("[{}][deleteCountry] -> request countryId: {}", this.getClass().getSimpleName(), id);
         CountryResponse countryResponse = countryService.softDelete(language, id);
 

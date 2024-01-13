@@ -7,6 +7,7 @@ import com.prettier.payload.request.concretes.CategoryRequest;
 import com.prettier.payload.request.concretes.CategoryUpdateRequest;
 import com.prettier.payload.response.FriendlyMessage;
 import com.prettier.payload.response.InternalApiResponse;
+import com.prettier.payload.response.concretes.CategoryPropertyKeyResponse;
 import com.prettier.payload.response.concretes.CategoryResponse;
 import com.prettier.service.concretes.CategoryManager;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
@@ -20,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -37,14 +39,21 @@ public class CategoryController {
 
     // @PreAuthorize("hasAuthority('ADMIN','MANAGER','CUSTOMER')")
     @GetMapping(value = "/{language}/categories") // http://localhost:8080/categories/EN/
-    public Page<CategoryResponse> getCategoriesByActive( // TODO getALLWithPAge
-                                                         @PathVariable("language") Language language,
-                                                         @RequestParam(value = "page", defaultValue = "0") int page,
-                                                         @RequestParam(value = "size", defaultValue = "10") int size,
-                                                         @RequestParam(value = "sort", defaultValue = "title") String sort,
-                                                         @RequestParam(value = "type", defaultValue = "desc") String type
+    public InternalApiResponse<Page<CategoryResponse>> getCategoriesByActive(@PathVariable("language") Language language,
+                                                                             @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                             @RequestParam(value = "size", defaultValue = "10") int size,
+                                                                             @RequestParam(value = "sort", defaultValue = "title") String sort,
+                                                                             @RequestParam(value = "type", defaultValue = "desc") String type
     ) {
-        return categoryService.getCategoriesByActive(language, page, size, sort, type);
+        log.debug("[{}][getCategories]", this.getClass().getSimpleName());
+        Page<CategoryResponse> categoryResponses = categoryService.getCategoriesByActive(language, page, size, sort, type);
+
+        log.debug("[{}][getCategories] -> response: {}", this.getClass().getSimpleName(), categoryResponses);
+        return InternalApiResponse.<Page<CategoryResponse>>builder()
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(categoryResponses)
+                .build();
     }
 
 
@@ -52,14 +61,22 @@ public class CategoryController {
 
     //  @PreAuthorize("hasAuthority('ADMIN','MANAGER')")
     @GetMapping(value = "/{language}/categories/admin") // http://localhost:8080/categories/EN/admin/
-    public Page<CategoryResponse> getAllWithPage(
+    public InternalApiResponse<Page<CategoryResponse>> getAllWithPage(
             @PathVariable("language") Language language,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "sort", defaultValue = "title") String sort,
             @RequestParam(value = "type", defaultValue = "desc") String type
     ) {
-        return categoryService.getCategories(language, page, size, sort, type);
+        log.debug("[{}][getCategories]", this.getClass().getSimpleName());
+        Page<CategoryResponse> categoryResponses = categoryService.getCategories(language, page, size, sort, type);
+
+        log.debug("[{}][getCategories] -> response: {}", this.getClass().getSimpleName(), categoryResponses);
+        return InternalApiResponse.<Page<CategoryResponse>>builder()
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(categoryResponses)
+                .build();
     }
 
 
@@ -158,19 +175,39 @@ public class CategoryController {
     //Not: getProperties() ************************************************************************************************************************
 
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    @GetMapping("/{id}/properties")
-    public ResponseEntity<Set<CategoryPropertyKey>> getCategoryProperties(@PathVariable("id") Long categoryId) {
+    @GetMapping(value = "/{language}/{id}/properties")
+    public InternalApiResponse<Set<CategoryPropertyKeyResponse>> getCategoryProperties(@PathVariable("language") Language language,
+                                                                                       @PathVariable("id") Long categoryId) {
 
-        return categoryService.getCategoryProporties(categoryId);
+        log.debug("[{}][getProperties] -> request categoryId: {}", this.getClass().getSimpleName(), categoryId);
+        Set<CategoryPropertyKeyResponse> categoryPropertyKeyResponse = categoryService.getProperties(language, categoryId);
+
+        log.debug("[{}][getProperties] -> response: {}", this.getClass().getSimpleName(), categoryPropertyKeyResponse);
+        return InternalApiResponse.<Set<CategoryPropertyKeyResponse>>builder()
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(categoryPropertyKeyResponse)
+                .build();
     }
 
 
-    //Not: ****() *********************************************************************************************************************************
+    //Not: addProperty() ****************************************************************************************************************************
 
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     @PostMapping("/{id}/properties")
-    public ResponseEntity<CategoryPropertyKey> createCategoryProperty(@PathVariable("id") Long categoryId, @RequestBody CategoryPropertyKey categoryPropertyKey) {
-        return categoryService.createCategoryProperty(categoryId, categoryPropertyKey);
+    public InternalApiResponse<Set<CategoryPropertyKeyResponse>> createCategoryPropertyKey(@PathVariable("language") Language language,
+                                                                                           @PathVariable("id") Long categoryId,
+                                                                                           @RequestBody CategoryPropertyKey categoryPropertyKey) {
+
+        log.debug("[{}][getProperties] -> request categoryId: {}", this.getClass().getSimpleName(), categoryId);
+        Set<CategoryPropertyKeyResponse> categoryPropertyKeyResponse = categoryService.getProperties(language, categoryId);
+
+        log.debug("[{}][getProperties] -> response: {}", this.getClass().getSimpleName(), categoryPropertyKeyResponse);
+        return InternalApiResponse.<Set<CategoryPropertyKeyResponse>>builder()
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(categoryPropertyKeyResponse)
+                .build();
     }
 
 
