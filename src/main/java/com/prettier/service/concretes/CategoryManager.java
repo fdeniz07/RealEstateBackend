@@ -2,13 +2,10 @@ package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Category;
 import com.prettier.entity.concretes.CategoryPropertyKey;
-import com.prettier.entity.concretes.City;
-import com.prettier.entity.concretes.Category;
 import com.prettier.payload.mapper.CategoryMapper;
 import com.prettier.payload.request.concretes.CategoryRequest;
 import com.prettier.payload.request.concretes.CategoryUpdateRequest;
-import com.prettier.payload.request.concretes.CategoryUpdateRequest;
-import com.prettier.payload.response.concretes.CategoryResponse;
+import com.prettier.payload.response.concretes.CategoryPropertyKeyResponse;
 import com.prettier.payload.response.concretes.CategoryResponse;
 import com.prettier.repository.CategoryPropertyKeyRepository;
 import com.prettier.repository.CategoryPropertyValueRepository;
@@ -48,6 +45,7 @@ public class CategoryManager implements CategoryService {
     private final CategoryPropertyKeyService categoryPropertyKeyService;
     private final CategoryPropertyKeyRepository categoryPropertyKeyRepository;
     private final CategoryPropertyValueRepository categoryPropertyValueRepository;
+
 
 
     //Not: getAllWithActives() *********************************************************************************************************************************
@@ -183,21 +181,23 @@ public class CategoryManager implements CategoryService {
             throw new CategoryAlreadyDeletedException(language, FriendlyMessageCodes.CATEGORY_ALREADY_DELETED, "Category already deleted category id: " + id);
         }
     }
-    
-    
-    public ResponseEntity<CategoryResponse> deleteById(Long id) {
 
-        Category deleted = categoryRepository.findById(id).orElseThrow(() -> {
-            throw new ResourceAccessException("");//todo
-        });
-        if (!categoryRepository.findById(id).get().isBuiltIn()) {
-            CategoryResponse categoryResponse = categoryMapper.toResponse(deleted);
-            categoryRepository.deleteById(id);
-            return new ResponseEntity<>(categoryResponse, HttpStatus.ACCEPTED);//todo postman siliyor ama cevap yok
 
-        }
-        return new ResponseEntity<>(categoryMapper.toResponse(deleted), HttpStatus.NOT_FOUND);
+    //Not: getProperties() *************************************************************************************************************
+    @Override
+    public Set<CategoryPropertyKeyResponse> getProperties(Language language, Long id) {
+
+        log.debug("[{}][getProperties] -> request categoryId: {}", this.getClass().getSimpleName(), id);
+        Set<CategoryPropertyKeyResponse> categoryPropertyKeyResponse = categoryPropertyKeyService.getPropertiesByCategoryId(language, id);
+
+        log.debug("[{}][getProperties] -> response: {}", this.getClass().getSimpleName(), categoryPropertyKeyResponse);
+
+        return  categoryPropertyKeyResponse;
     }
+
+
+
+
 
 
     //todo dtolar yapilsin
