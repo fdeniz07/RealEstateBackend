@@ -5,6 +5,7 @@ import com.prettier.entity.concretes.*;
 import com.prettier.entity.enums.AdvertStatus;
 import com.prettier.payload.request.abstracts.BaseEntityRequest;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,8 @@ import java.util.Set;
 @SuperBuilder
 public class AdvertRequest extends BaseEntityRequest{
 
-    @Size(min = 5, max = 150)
+    @NotNull(message = "Please enter title")
+    @Size(min = 5, max = 150, message = "Your title should be between 5 and 150 chars")
     private String title;
 
     @Size(max = 300)

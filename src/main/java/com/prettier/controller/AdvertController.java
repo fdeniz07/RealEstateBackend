@@ -30,27 +30,6 @@ public class AdvertController {
     private final AdvertService advertService;
     private final AdvertMapper advertMapper;
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/{language}/add")
-    public InternalApiResponse<AdvertResponse> addAdvert(@PathVariable("language") Language language, @RequestBody AdvertRequest advertRequest) {
-
-        log.debug("[{}][createAdvert] -> request: {}", this.getClass().getSimpleName(), advertRequest);
-        Advert advert = advertService.add(language, advertRequest);
-
-        AdvertResponse advertResponse = advertMapper.toResponse(advert);
-        log.debug("[{}][createAdvert] -> response: {}", this.getClass().getSimpleName(), advertResponse);
-
-        return InternalApiResponse.<AdvertResponse>builder()
-                .friendlyMessage(FriendlyMessage.builder()
-                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
-                        .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.ADVERT_SUCCESSFULLY_CREATED))
-                        .build()
-                ).httpStatus(HttpStatus.CREATED)
-                .hasError(false)
-                .payload(advertResponse)
-                .build();
-    }
-
     @GetMapping("/{language}/getAll")
     public Page<AdvertResponse> getAll(
             @PathVariable("language") Language language,
@@ -77,6 +56,28 @@ public class AdvertController {
     ) {
 
         return advertService.getListWithActive(language, page, size, sort, type);
+    }
+
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(value = "/{language}/add")
+    public InternalApiResponse<AdvertResponse> addAdvert(@PathVariable("language") Language language, @RequestBody AdvertRequest advertRequest) {
+
+        log.debug("[{}][createAdvert] -> request: {}", this.getClass().getSimpleName(), advertRequest);
+        Advert advert = advertService.add(language, advertRequest);
+
+        AdvertResponse advertResponse = advertMapper.toResponse(advert);
+        log.debug("[{}][createAdvert] -> response: {}", this.getClass().getSimpleName(), advertResponse);
+
+        return InternalApiResponse.<AdvertResponse>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.ADVERT_SUCCESSFULLY_CREATED))
+                        .build()
+                ).httpStatus(HttpStatus.CREATED)
+                .hasError(false)
+                .payload(advertResponse)
+                .build();
     }
 
     @ResponseStatus(HttpStatus.OK)
