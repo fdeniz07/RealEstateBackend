@@ -12,8 +12,8 @@ import com.prettier.shared.exception.exceptions.categories.CategoryNotCreatedExc
 import com.prettier.shared.exception.exceptions.categories.CategoryNotFoundException;
 import com.prettier.shared.exception.exceptions.categoryPropertyKey.CategoryPropertyKeyAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.categoryPropertyKey.CategoryPropertyKeyAlreadyExistsException;
-import com.prettier.shared.exception.exceptions.categoryPropertyKey.CategoryPropertyKeyNotCreatedException;
 import com.prettier.shared.exception.exceptions.categoryPropertyKey.CategoryPropertyKeyNotFoundException;
+import com.prettier.shared.exception.exceptions.categoryPropertyKey.CategoryPropertyKeyNotCreatedException;
 import com.prettier.shared.exception.exceptions.cities.CityAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.cities.CityNotCreatedException;
 import com.prettier.shared.exception.exceptions.cities.CityNotFoundException;

@@ -19,8 +19,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-
-
 public class TourRequest extends BaseEntity{
 
     private LocalDateTime tourDate;
@@ -45,6 +43,4 @@ public class TourRequest extends BaseEntity{
     @JoinColumn(name = "guest_user_id", nullable = false)
     @JsonIgnore
     private User guestUser;
-
-
 }
