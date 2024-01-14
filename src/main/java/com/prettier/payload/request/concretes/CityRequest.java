@@ -1,6 +1,7 @@
 package com.prettier.payload.request.concretes;
 
 import com.prettier.payload.request.abstracts.BaseEntityRequest;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +14,10 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class CityRequest extends BaseEntityRequest {
 
-    @Size(min = 2, max = 50)
+    @NotNull(message = "Please enter city name")
+    @Size(min = 2, max = 50, message = "City name should be between 2 and 50 chars")
     private String name;
 
+    @NotNull(message = "Please select country")
     private CountryRequest country;
 }
