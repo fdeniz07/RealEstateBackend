@@ -48,4 +48,10 @@ public class MapperConfig {
 
         return new CategoryPropertyKeyMapperImpl();
     }
+
+    @Bean
+    public TourRequestMapper tourRequestMapper(){
+
+        return new TourRequestMapperImpl();
+    }
 }

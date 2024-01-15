@@ -25,6 +25,10 @@ import com.prettier.shared.exception.exceptions.districts.DistrictAlreadyDeleted
 import com.prettier.shared.exception.exceptions.districts.DistrictAlreadyExistsException;
 import com.prettier.shared.exception.exceptions.districts.DistrictNotCreatedException;
 import com.prettier.shared.exception.exceptions.districts.DistrictNotFoundException;
+import com.prettier.shared.exception.exceptions.tourRequests.TourRequestAlreadyDeletedException;
+import com.prettier.shared.exception.exceptions.tourRequests.TourRequestAlreadyExistsException;
+import com.prettier.shared.exception.exceptions.tourRequests.TourRequestNotCreatedException;
+import com.prettier.shared.exception.exceptions.tourRequests.TourRequestNotFoundException;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -82,7 +86,6 @@ public class GlobalExceptionHandler {
                 .errorMessages(Collections.singletonList(exception.getMessage()))
                 .build();
     }
-
 
     /////////////////// CITY \\\\\\\\\\\\\\\
 
@@ -233,7 +236,6 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(DistrictAlreadyExistsException.class)
     public InternalApiResponse<String> handleDistrictAlreadyExistsException(DistrictAlreadyExistsException exception) {
@@ -293,7 +295,6 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(CategoryAlreadyExistsException.class)
     public InternalApiResponse<String> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException exception) {
@@ -308,7 +309,7 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-    /////////////////// CategoryPropertyKey \\\\\\\\\\\\\\\
+    /////////////////// CATEGORYPROPERTYKEY \\\\\\\\\\\\\\\
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CategoryPropertyKeyNotCreatedException.class)
@@ -353,10 +354,68 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(CategoryPropertyKeyAlreadyExistsException.class)
     public InternalApiResponse<String> handleCategoryPropertyKeyAlreadyExistsException(CategoryPropertyKeyAlreadyExistsException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.CONFLICT)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    /////////////////// TOURREQUEST \\\\\\\\\\\\\\\
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(TourRequestNotCreatedException.class)
+    public InternalApiResponse<String> handleTourRequestNotCreatedException(TourRequestNotCreatedException exception) {
+
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(TourRequestNotFoundException.class)
+    public InternalApiResponse<String> handleTourRequestNotFoundException(TourRequestNotFoundException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(TourRequestAlreadyDeletedException.class)
+    public InternalApiResponse<String> handleTourRequestAlreadyDeletedException(TourRequestAlreadyDeletedException exception) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(TourRequestAlreadyExistsException.class)
+    public InternalApiResponse<String> handleTourRequestAlreadyExistsException(TourRequestAlreadyExistsException exception) {
         return InternalApiResponse.<String>builder()
                 .friendlyMessage(FriendlyMessage.builder()
                         .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
