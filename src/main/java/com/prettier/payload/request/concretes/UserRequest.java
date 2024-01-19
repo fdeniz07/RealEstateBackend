@@ -64,11 +64,13 @@ public class UserRequest extends BaseEntityRequest {
     @JsonIgnore
     private boolean isActive=true;
 
+    //Eğer bu metodun bir Set döndürmesi gerekiyorsa, bu metodun başlangıcında bir Set örneği oluşturduğunuzdan ve döndürdüğünüzden emin olun.
     public Set<Long> getRoleIds() {
         if (this.roleIds == null) {
             this.roleIds = new HashSet<>();
         }
         return this.roleIds;
     }
+    //Yukarıdaki örnekte, getRoleIds() metodu, eğer roleIds örneği null ise bir HashSet oluşturarak bunu döndürüyor. Böylece, herhangi bir yerde bu metodu çağırdığınızda null bir değerle karşılaşmamış olacaksınız. Eğer başka bir şekilde roleIds set'inin oluşturulduğundan eminseniz, sadece getRoleIds() metodunu düzeltebilirsiniz.
 
 }
