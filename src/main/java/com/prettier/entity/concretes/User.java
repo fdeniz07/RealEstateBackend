@@ -1,13 +1,16 @@
 package com.prettier.entity.concretes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,7 +21,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     @Column(name = "first_name", nullable = false)
     @Size(min = 2, max = 30)
@@ -33,7 +36,7 @@ public class User extends BaseEntity{
     private String email;
 
     @Column(nullable = false, unique = true)
-    @Size(min = 8, max = 20)
+    @Size(min = 2, max = 20)
     private String userName;
 
     @Column(nullable = false)
@@ -41,8 +44,10 @@ public class User extends BaseEntity{
 
 
     @Column(name = "password_hash", nullable = false)
-   //@JsonIgnore
-   // @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",message = "{hoaxify.constraint.password.pattern}") //"Your password must consist of the characters a-z, A-Z, 0-9."
+    @JsonProperty(access = JsonProperty.Access.AUTO)
+    @JsonIgnore
+   // @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{FriendlyMessageCodes__CONSTRAINT_PASSWORD_PATTERN}")
+    //"Your password must consist of the characters a-z, A-Z, 0-9."
     private String passwordHash;
 
     @Column(name = "reset_password_code")
@@ -52,11 +57,10 @@ public class User extends BaseEntity{
     private boolean builtIn;
 
     @JsonIgnore
-    private boolean isActive=true;
+    private boolean isActive = true;
 
-//    @JsonIgnore
-//    String activationToken;
-
+    @JsonIgnore
+    String activationToken;
 
 
     @OneToMany(mappedBy = "user")
@@ -82,15 +86,20 @@ public class User extends BaseEntity{
     // -----------RELATIONS -------------------------------------------------
 //Relations with Sibling "roles" Table
 
-    @ManyToMany
+    @ManyToMany (fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinTable(
             name = "user_roles"
-            ,joinColumns = @JoinColumn(name = "user_id")
-            ,inverseJoinColumns = @JoinColumn(name = "role_id")
+            , joinColumns = @JoinColumn(name = "user_id")
+            , inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     @ToString.Exclude
-    private Set<Role> roleSet ;
+    private Set<Role> roles = new HashSet<>();
 
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
 
 
 //

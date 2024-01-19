@@ -2,6 +2,7 @@ package com.prettier.payload.request.concretes;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.prettier.entity.concretes.Role;
 import com.prettier.entity.enums.TourRequestStatus;
 import com.prettier.payload.request.abstracts.BaseEntityRequest;
 import jakarta.persistence.Column;
@@ -18,6 +19,9 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -45,16 +49,26 @@ public class UserRequest extends BaseEntityRequest {
     @NotNull(message = "Please enter your phone number")
     private String phone;
 
-
-    //@Column(name = "password_hash", nullable = false)
+      //@Column(name = "password_hash", nullable = false)
     @JsonIgnore
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",message = "{FriendlyMessageCodes__CONSTRAINT_PASSWORD_PATTERN}") //"Your password must consist of the characters a-z, A-Z, 0-9."
+    //@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",message = "{FriendlyMessageCodes__CONSTRAINT_PASSWORD_PATTERN}") //"Your password must consist of the characters a-z, A-Z, 0-9."
     private String passwordHash;
+
+    @JsonIgnore
+    private Set<Long> roleIds;
+
 
     @JsonIgnore
     private boolean builtIn;
 
     @JsonIgnore
     private boolean isActive=true;
+
+    public Set<Long> getRoleIds() {
+        if (this.roleIds == null) {
+            this.roleIds = new HashSet<>();
+        }
+        return this.roleIds;
+    }
 
 }
