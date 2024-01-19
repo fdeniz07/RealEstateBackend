@@ -12,6 +12,7 @@ import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -68,7 +69,7 @@ public class ContactController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add") // http://localhost:8080/contact-messages/EN/add
     public InternalApiResponse<ContactResponse> addContact(@PathVariable("language") Language language,
-                                                           @RequestBody ContactRequest contactRequest
+                                                           @RequestBody @Valid ContactRequest contactRequest
     ) {
         log.debug("[{}][createContact] -> request: {}", this.getClass().getSimpleName(), contactRequest);
         Contact contact = contactService.add(language, contactRequest);

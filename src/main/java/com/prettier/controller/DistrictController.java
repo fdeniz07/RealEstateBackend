@@ -13,6 +13,7 @@ import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -70,7 +71,7 @@ public class DistrictController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add")
     public InternalApiResponse<DistrictResponse> addDistrict(@PathVariable("language") Language language,
-                                                             @RequestBody DistrictRequest districtRequest
+                                                             @RequestBody @Valid DistrictRequest districtRequest
     ) {
         log.debug("[{}][createDistrict] -> request: {}", this.getClass().getSimpleName(), districtRequest);
         DistrictResponse districtResponse = districtService.add(language, districtRequest);
@@ -93,7 +94,7 @@ public class DistrictController {
     @PutMapping(value = "/{language}/update/{districtId}")
     public InternalApiResponse<DistrictResponse> updateDistrict(@PathVariable("language") Language language,
                                                                 @PathVariable("districtId") Long id,
-                                                                @RequestBody DistrictUpdateRequest districtUpdateRequest
+                                                                @RequestBody @Valid  DistrictUpdateRequest districtUpdateRequest
     ) {
         log.debug("[{}][updateDistrict] -> request: {} {}", this.getClass().getSimpleName(), id, districtUpdateRequest);
         DistrictResponse districtResponse = districtService.update(language, districtUpdateRequest, id);
