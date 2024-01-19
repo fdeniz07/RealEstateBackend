@@ -13,6 +13,7 @@ import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -70,7 +71,7 @@ public class CountryController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add")
     public InternalApiResponse<CountryResponse> addCountry(@PathVariable("language") Language language,
-                                                           @RequestBody CountryRequest countryRequest
+                                                           @RequestBody @Valid CountryRequest countryRequest
     ) {
         log.debug("[{}][createCountry] -> request: {}", this.getClass().getSimpleName(), countryRequest);
         Country country = countryService.add(language, countryRequest);
@@ -94,7 +95,7 @@ public class CountryController {
     @PutMapping(value = "/{language}/update/{countryId}")
     public InternalApiResponse<CountryResponse> update(@PathVariable("language") Language language,
                                                        @PathVariable("countryId") Long id,
-                                                       @RequestBody CountryUpdateRequest countryUpdateRequest
+                                                       @RequestBody @Valid  CountryUpdateRequest countryUpdateRequest
     ) {
         log.debug("[{}][updateCountry] -> request: {} {}", this.getClass().getSimpleName(), id, countryUpdateRequest);
         CountryResponse countryResponse = countryService.update(language, countryUpdateRequest, id);

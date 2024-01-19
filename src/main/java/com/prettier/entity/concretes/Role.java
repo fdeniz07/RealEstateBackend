@@ -3,11 +3,10 @@ package com.prettier.entity.concretes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prettier.entity.enums.RoleType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,21 +14,30 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@SuperBuilder
+@AllArgsConstructor
+@Builder(toBuilder = true)
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role_name", nullable = false)
-    private RoleType roleType;
+//  @Enumerated(EnumType.STRING)
+    @Column(name = "role_name", nullable = false, unique = true)
+    private String name;
+//    private RoleType roleName;
 
+    private String description;
 
     // Entity Relations
-    @JsonIgnore
-   @ManyToMany(mappedBy = "roleSet")
-    private Set<User> userSet;
+    @ManyToMany //(mappedBy = "roles")
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users = new HashSet<>();
 
+
+//    public Role(RoleType roleType) {
+//    }
 }

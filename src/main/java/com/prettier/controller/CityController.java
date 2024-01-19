@@ -12,6 +12,7 @@ import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -69,7 +70,7 @@ public class CityController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add")
     public InternalApiResponse<CityResponse> addCity(@PathVariable("language") Language language,
-                                                     @RequestBody CityRequest cityRequest
+                                                     @RequestBody @Valid CityRequest cityRequest
     ) {
         log.debug("[{}][createCity] -> request: {}", this.getClass().getSimpleName(), cityRequest);
         CityResponse cityResponse = cityService.add(language, cityRequest);
@@ -92,7 +93,7 @@ public class CityController {
     @PutMapping(value = "/{language}/update/{cityId}")
     public InternalApiResponse<CityResponse> updateCity(@PathVariable("language") Language language,
                                                         @PathVariable("cityId") Long id,
-                                                        @RequestBody CityUpdateRequest cityUpdateRequest
+                                                        @RequestBody @Valid  CityUpdateRequest cityUpdateRequest
     ) {
 
         log.debug("[{}][updateCity] -> request: {} {}", this.getClass().getSimpleName(), id, cityUpdateRequest);
@@ -116,7 +117,7 @@ public class CityController {
 //    @PutMapping(value = "/{language}/update2/{cityId}")
 //    public InternalApiResponse<CityResponse> updateCity2(@PathVariable("language") Language language,
 //                                                         @PathVariable("cityId") Long id,
-//                                                         @RequestBody CityUpdateRequest cityUpdateRequest) {
+//                                                         @RequestBody @Valid  CityUpdateRequest cityUpdateRequest) {
 //
 //        log.debug("[{}][updateCity] -> request: {} {}", this.getClass().getSimpleName(), id, cityUpdateRequest);
 //        CityResponse cityResponse = cityService.update2(language, cityUpdateRequest ,id);

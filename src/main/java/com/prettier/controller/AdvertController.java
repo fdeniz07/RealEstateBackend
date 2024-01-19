@@ -13,6 +13,7 @@ import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +62,7 @@ public class AdvertController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add")
-    public InternalApiResponse<AdvertResponse> addAdvert(@PathVariable("language") Language language, @RequestBody AdvertRequest advertRequest) {
+    public InternalApiResponse<AdvertResponse> addAdvert(@PathVariable("language") Language language, @RequestBody @Valid AdvertRequest advertRequest) {
 
         log.debug("[{}][createAdvert] -> request: {}", this.getClass().getSimpleName(), advertRequest);
         Advert advert = advertService.add(language, advertRequest);
@@ -84,7 +85,7 @@ public class AdvertController {
     @PutMapping("/{language}/update/{advertId}")
     public InternalApiResponse<AdvertResponse> updateAdvert(@PathVariable("language") Language language,
                                                             @PathVariable("advertId") Long id,
-                                                            @RequestBody AdvertUpdateRequest advertUpdateRequest) {
+                                                            @RequestBody  @Valid AdvertUpdateRequest advertUpdateRequest) {
 
         log.debug("[{}][updateAdvert] -> request: {} {}", this.getClass().getSimpleName(), id, advertUpdateRequest);
         Advert advert = advertService.update(language, advertUpdateRequest, id);

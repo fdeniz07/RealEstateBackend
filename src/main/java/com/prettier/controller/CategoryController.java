@@ -14,6 +14,7 @@ import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -105,7 +106,7 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add")
     public InternalApiResponse<CategoryResponse> addCategory(@PathVariable("language") Language language,
-                                                             @RequestBody CategoryRequest categoryRequest) {
+                                                             @RequestBody @Valid CategoryRequest categoryRequest) {
         log.debug("[{}][createCategory] -> request: {}", this.getClass().getSimpleName(), categoryRequest);
         CategoryResponse categoryResponse = categoryService.add(language, categoryRequest);
 
@@ -130,7 +131,7 @@ public class CategoryController {
     @PutMapping("/{language}/update/{categoryId}")
     public InternalApiResponse<CategoryResponse> updateCategory(@PathVariable("language") Language language,
                                                                 @PathVariable("categoryId") Long id,
-                                                                @RequestBody CategoryUpdateRequest categoryUpdateRequest) {
+                                                                @RequestBody @Valid  CategoryUpdateRequest categoryUpdateRequest) {
 
         log.debug("[{}][updateCategory] -> request: {} {}", this.getClass().getSimpleName(), id, categoryUpdateRequest);
         CategoryResponse categoryResponse = categoryService.update(language, categoryUpdateRequest, id);
@@ -197,7 +198,7 @@ public class CategoryController {
     @PostMapping("/{id}/properties")
     public InternalApiResponse<Set<CategoryPropertyKeyResponse>> createCategoryPropertyKey(@PathVariable("language") Language language,
                                                                                            @PathVariable("id") Long categoryId,
-                                                                                           @RequestBody CategoryPropertyKey categoryPropertyKey) {
+                                                                                           @RequestBody @Valid  CategoryPropertyKey categoryPropertyKey) {
 
         log.debug("[{}][getProperties] -> request categoryId: {}", this.getClass().getSimpleName(), categoryId);
         Set<CategoryPropertyKeyResponse> categoryPropertyKeyResponse = categoryService.getProperties(language, categoryId);

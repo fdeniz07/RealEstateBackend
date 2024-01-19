@@ -123,7 +123,9 @@ public enum FriendlyMessageCodes implements IFriendlyMessageCode {
     USER_SUCCESSFULLY_UPDATED(2903),
     USER_ALREADY_DELETED(2904),
     USER_SUCCESSFULLY_DELETED(2905),
-    USER_ALREADY_EXISTS(2906);
+    USER_NAME_ALREADY_EXISTS(2906),
+    EMAIl_ALREADY_EXISTS(2906),
+    PHONE_NUMBER_ALREADY_EXISTS(2906);
 
     private final int value;
 

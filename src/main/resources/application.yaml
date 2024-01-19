@@ -18,7 +18,7 @@ server:
 
 logging:
   level:
-    root: off
+    root:
     com.prettier: DEBUG
 ---
 spring:
@@ -29,6 +29,7 @@ spring:
     config:
       uri: http://localhost:8080
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
