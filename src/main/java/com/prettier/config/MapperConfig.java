@@ -54,4 +54,16 @@ public class MapperConfig {
 
         return new TourRequestMapperImpl();
     }
+
+    @Bean
+    public UserMapper userMapper(){
+
+        return new UserMapperImpl();
+    }
+
+    @Bean
+    public RoleMapper roleMapper(){
+
+        return new RoleMapperImpl();
+    }
 }

@@ -1,7 +1,9 @@
 package com.prettier.config;
 
+import com.prettier.shared.utils.enums.Language;
 import org.mapstruct.MapperConfig;
 import org.mapstruct.ReportingPolicy;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 //@Configuration
