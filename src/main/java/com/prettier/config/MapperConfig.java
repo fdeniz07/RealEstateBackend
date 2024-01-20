@@ -1,5 +1,6 @@
 package com.prettier.config;
 
+import com.prettier.entity.concretes.User;
 import com.prettier.payload.mapper.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,62 +9,68 @@ import org.springframework.context.annotation.Configuration;
 public class MapperConfig {
 
     @Bean
-    public AdvertMapper advertMapper(){
+    public AdvertMapper advertMapper() {
 
         return new AdvertMapperImpl();
     }
 
     @Bean
-    public CategoryMapper categoryMapper(){
+    public CategoryMapper categoryMapper() {
 
         return new CategoryMapperImpl();
     }
 
     @Bean
-    public CityMapper cityMapper(){
+    public CityMapper cityMapper() {
 
         return new CityMapperImpl();
     }
 
     @Bean
-    public CountryMapper countryMapper(){
+    public CountryMapper countryMapper() {
 
         return new CountryMapperImpl();
     }
 
     @Bean
-    public DistrictMapper districtMapper(){
+    public DistrictMapper districtMapper() {
 
         return new DistrictMapperImpl();
     }
 
     @Bean
-    public FavoriteMapper favoriteMapper(){
+    public FavoriteMapper favoriteMapper() {
 
         return new FavoriteMapperImpl();
     }
 
     @Bean
-    public CategoryPropertyKeyMapper categoryPropertyKeyMapper(){
+    public CategoryPropertyKeyMapper categoryPropertyKeyMapper() {
 
         return new CategoryPropertyKeyMapperImpl();
     }
 
     @Bean
-    public TourRequestMapper tourRequestMapper(){
+    public TourRequestMapper tourRequestMapper() {
 
         return new TourRequestMapperImpl();
     }
 
     @Bean
-    public UserMapper userMapper(){
+    public UserMapper userMapper() {
 
         return new UserMapperImpl();
     }
 
     @Bean
-    public RoleMapper roleMapper(){
+    public RoleMapper roleMapper() {
 
         return new RoleMapperImpl();
+    }
+
+    @Bean
+    public UserRoleMapper userRoleMapper() {
+
+        return new UserRoleMapperImpl();
     }
 }

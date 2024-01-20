@@ -17,13 +17,13 @@ public interface UserService extends Serializable {
     UserResponse register(Language language, UserRequest userRequest);
 
     //Runner tarafi icin gerekli method
-    public long countAllAdmin();
+   long countAllAdmin();
 
-    //    // NOT: RoleService icin yazilan metotlar
+//    NOT: RoleService icin yazilan metotlar
 //    public List<Role> getUserByIds(Long[] userIds);
 //    public Set<Role> getRolesById(Set<Long> roleIds);
 
     //Runner tarafi icin gerekli method
-    public UserResponse save(Language language, UserRequest userRequest);
+//    UserResponse save(Language language, UserRequest userRequest);
 
 }

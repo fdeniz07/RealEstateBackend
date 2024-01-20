@@ -1,15 +1,13 @@
 package com.prettier.payload.response.concretes;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.prettier.payload.response.abstracts.BaseEntityResponse;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,6 +25,8 @@ public class UserResponse extends BaseEntityResponse {
     private String userName;
 
     private String phone;
+
+    private Set<RoleResponse> roles;
 
     private boolean builtIn;
 

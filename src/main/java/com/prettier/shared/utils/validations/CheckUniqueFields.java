@@ -32,11 +32,11 @@ public class CheckUniqueFields {
 
         } else if (userRepository.existsByEmail(parameter2)) {
 
-            throw new ConflictException(language, FriendlyMessageCodes.USER_NAME_ALREADY_EXISTS, "user request: " + parameter2);
+            throw new ConflictException(language, FriendlyMessageCodes.EMAIl_ALREADY_EXISTS, "user request: " + parameter2);
 
         } else if (userRepository.existsByPhone(parameter3)) {
 
-            throw new ConflictException(language, FriendlyMessageCodes.USER_NAME_ALREADY_EXISTS, "user request: " + parameter3);
+            throw new ConflictException(language, FriendlyMessageCodes.PHONE_NUMBER_ALREADY_EXISTS, "user request: " + parameter3);
 
         }
     }
