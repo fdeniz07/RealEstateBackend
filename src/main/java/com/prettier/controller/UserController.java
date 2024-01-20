@@ -33,10 +33,9 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/register")
     public InternalApiResponse<UserResponse> registerUser(@PathVariable("language") Language language,
-                                                          @RequestBody UserRequest userRequest)
-    {
+                                                          @RequestBody UserRequest userRequest) {
         log.debug("[{}][registerUser] -> request: {}", this.getClass().getSimpleName(), userRequest);
-        UserResponse userResponse = userService.register(language,userRequest);
+        UserResponse userResponse = userService.register(language, userRequest);
 
         log.debug("[{}][registerUser] -> response: {}", this.getClass().getSimpleName(), userResponse);
 
@@ -50,4 +49,15 @@ public class UserController {
                 .payload(userResponse)
                 .build();
     }
+
+    /*
+        {
+          "firstName": "Elia",
+          "lastName": "Doe",
+          "email": "elia.doe@mail.com",
+          "userName": "EliaDoe",
+          "phone": "222-2223-4445",
+          "passwordHash": "P4ssw0rd"
+        }
+     */
 }

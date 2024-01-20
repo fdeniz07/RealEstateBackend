@@ -46,7 +46,7 @@ public class User extends BaseEntity {
     @Column(name = "password_hash", nullable = false)
     @JsonProperty(access = JsonProperty.Access.AUTO)
     @JsonIgnore
-   // @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{FriendlyMessageCodes__CONSTRAINT_PASSWORD_PATTERN}")
+    // @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{FriendlyMessageCodes__CONSTRAINT_PASSWORD_PATTERN}")
     //"Your password must consist of the characters a-z, A-Z, 0-9."
     private String passwordHash;
 
@@ -86,18 +86,16 @@ public class User extends BaseEntity {
     // -----------RELATIONS -------------------------------------------------
 //Relations with Sibling "roles" Table
 
-    @ManyToMany (fetch = FetchType.EAGER)
-    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL) //(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_roles"
-            , joinColumns = @JoinColumn(name = "user_id")
-            , inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    @ToString.Exclude
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
 
     public void addRole(Role role) {
+
         this.roles.add(role);
     }
 

@@ -2,7 +2,7 @@ package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Role;
 import com.prettier.entity.concretes.User;
-import com.prettier.payload.mapper.UserMapper;
+import com.prettier.payload.mapper.UserRoleMapper;
 import com.prettier.payload.request.concretes.UserRequest;
 import com.prettier.payload.response.concretes.UserResponse;
 import com.prettier.repository.RoleRepository;
@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -28,7 +29,7 @@ public class UserManager implements UserService {
     private final RoleService roleService;
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final UserRoleMapper userRoleMapper;
     private final CheckUniqueFields checkUniqueFields;
 
 
@@ -45,7 +46,7 @@ public class UserManager implements UserService {
                 userRequest.getPhone()
         );
 
-        //!!! Toplantiya katilacak ögrenciler icin yeni meeting saatlerinde cakisma var mi kontrolü
+        //!!! Ilgili rol DB de var mi kontrolü
         for (Long roleId : userRequest.getRoleIds()) {
             boolean check = roleRepository.existsById(roleId);
             if (!check)
@@ -53,10 +54,16 @@ public class UserManager implements UserService {
         }
 
         //Set<Role> roles = roleService.getRoleByIds(userRequest.getRoleIds());
-        User user = userMapper.toUser(userRequest);
+        User user = userRoleMapper.toUser(userRequest);
+        Set<Role> roles = new HashSet<>();
+        for (Long roleId : userRequest.getRoleIds()) {
+            Role role = roleRepository.findById(roleId)
+                    .orElseThrow(() -> new RuntimeException("Role not found with id: " + roleId));
+            roles.add(role);
+        }
 
+        user.setRoles(roles);
 
-//        Set<Role> roles = new HashSet<>();
 //        for (Role roleName : userRequest.getRoles()) {
 //            Role role = roleService.getRoleByType(roleName);
 //
@@ -66,7 +73,7 @@ public class UserManager implements UserService {
 //        user.setRoles(roles);
         User userResponse = userRepository.save(user);
         log.debug("[{}][registerUser] -> response: {}", this.getClass().getSimpleName(), userResponse);
-        return userMapper.toResponse(userResponse);
+        return userRoleMapper.toResponse(userResponse);
     }
 
     //Runner tarafi icin gerekli method
@@ -82,18 +89,18 @@ public class UserManager implements UserService {
 //        return userRepository.findByRole_IdsEquals(roleIds);
 //    }
 
-    @Override
-    public UserResponse save(Language language, UserRequest userRequest) {
-
-        log.debug("[{}][createRole] -> request: {}", this.getClass().getSimpleName(), userRequest);
-//List<Role> roles = userRepository.
-
-        return null;
-    }
-
-//    // NOT: RoleService icin yazilan metotlar
-//    public List<Role> getUserByIds(Long[] userIds) {
-//        //return userRepository.findByIdsEquals(userIds);
-//        return userRepository.findByRoleIdsEquals(userIds);
+//    @Override
+//    public UserResponse save(Language language, UserRequest userRequest) {
+//
+//        log.debug("[{}][createRole] -> request: {}", this.getClass().getSimpleName(), userRequest);
+////List<Role> roles = userRepository.
+//
+//        return null;
 //    }
+//
+////    // NOT: RoleService icin yazilan metotlar
+////    public List<Role> getUserByIds(Long[] userIds) {
+////        //return userRepository.findByIdsEquals(userIds);
+////        return userRepository.findByRoleIdsEquals(userIds);
+////    }
 }

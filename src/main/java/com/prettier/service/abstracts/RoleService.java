@@ -14,16 +14,17 @@ import java.util.Set;
 
 public interface RoleService extends Serializable {
 
-    //Runner tarafi icin gerekli method
-    public List<Role> getAllUserRole();
+    //NOT: *********** Data Inilitalizer icin gerekli metotlar *************************
 
-    //Runner tarafi icin gerekli method
-    public RoleResponse save(Language language, RoleRequest roleRequest);
+    List<Role> getAllUserRole();
 
-    public Role builtInSave(Language language, RoleType roleType);
+    Set<Role> findByRoleName(String roleName);
 
 
-    Set<Role> getRoleByIds(Long[] roleIds);
+    //NOT: *********** Role Manager standart metotlar *************************************
 
+    List<Role> getRoles();
+
+    RoleResponse save(Language language, RoleRequest roleRequest);
 
 }
