@@ -1,5 +1,6 @@
 package com.prettier.entity.concretes;
 
+import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,11 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Role {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Role extends BaseEntity {
 
     @Column(name = "role_name", nullable = false, unique = true)
     private String name;
@@ -25,7 +22,7 @@ public class Role {
     private String description;
 
     // Entity Relations
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "role_id"),

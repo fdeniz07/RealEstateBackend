@@ -86,7 +86,7 @@ public class User extends BaseEntity {
     // -----------RELATIONS -------------------------------------------------
 //Relations with Sibling "roles" Table
 
-    @ManyToMany(cascade = CascadeType.ALL) //(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

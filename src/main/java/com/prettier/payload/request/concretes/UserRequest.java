@@ -40,7 +40,6 @@ public class UserRequest extends BaseEntityRequest {
     @NotNull(message = "Please enter your phone number")
     private String phone;
 
-      //@Column(name = "password_hash", nullable = false)
     @NotNull(message = "Please enter your password")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",message = "{FriendlyMessageCodes__CONSTRAINT_PASSWORD_PATTERN}") //"Your password must consist of the characters a-z, A-Z, 0-9."
     private String passwordHash;
@@ -49,10 +48,10 @@ public class UserRequest extends BaseEntityRequest {
     private Set<Long> roleIds;
 
 
-    //@JsonIgnore
+    @JsonIgnore
     private boolean builtIn;
 
-    //@JsonIgnore
+    @JsonIgnore
     private boolean isActive=true;
 
     //Eğer bu metodun bir Set döndürmesi gerekiyorsa, bu metodun başlangıcında bir Set örneği oluşturduğunuzdan ve döndürdüğünüzden emin olun.

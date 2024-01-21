@@ -46,6 +46,8 @@ public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa
             user.setEmail("admin@mail.com");
             user.setPhone("000000000000");
             user.setPasswordHash("P4ssword");
+            user.setBuiltIn(true);
+            user.setActive(true);
 
             //DB deki role tablosunda ADMIN rolünü getir
             Set<Role> adminRole = roleService.findByRoleName("ADMIN");
