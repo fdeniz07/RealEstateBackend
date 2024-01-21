@@ -3,6 +3,7 @@ package com.prettier.service.abstracts;
 import com.prettier.entity.concretes.Role;
 import com.prettier.entity.enums.RoleType;
 import com.prettier.payload.request.concretes.RoleRequest;
+import com.prettier.payload.request.concretes.RoleUpdateRequest;
 import com.prettier.payload.request.concretes.UserRequest;
 import com.prettier.payload.response.concretes.RoleResponse;
 import com.prettier.shared.utils.enums.Language;
@@ -25,6 +26,14 @@ public interface RoleService extends Serializable {
 
     List<Role> getRoles();
 
+    RoleResponse getById(Language language, Long id);
+
     RoleResponse save(Language language, RoleRequest roleRequest);
+
+    RoleResponse add(Language language, RoleRequest roleRequest);
+
+    RoleResponse update(Language language, RoleUpdateRequest roleUpdateRequest);
+
+    RoleResponse softdelete(Language language,  Long id);
 
 }

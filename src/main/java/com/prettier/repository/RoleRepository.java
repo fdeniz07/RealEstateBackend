@@ -16,4 +16,6 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     @Query("SELECT r FROM Role r WHERE r.name = ?1") //PHQL olarak  sorgu olusturuldu (?1 ilk parametreyi getir (roleType))
     Role findByNameEquals(String name);
 
+    //@Query("SELECT r FROM Role r WHERE r.name = ?1")
+    boolean existsByNameEquals(String roleName);
 }

@@ -47,13 +47,7 @@ public class UserManager implements UserService {
         );
 
         //!!! Ilgili rol DB de var mi kontrolü
-        for (Long roleId : userRequest.getRoleIds()) {
-            boolean check = roleRepository.existsById(roleId);
-            if (!check)
-                throw new RoleNotFoundException(language, FriendlyMessageCodes.ROLE_ALREADY_EXISTS, "Role already exists");
-        }
 
-        //Set<Role> roles = roleService.getRoleByIds(userRequest.getRoleIds());
         User user = userRoleMapper.toUser(userRequest);
         Set<Role> roles = new HashSet<>();
         for (Long roleId : userRequest.getRoleIds()) {
@@ -64,13 +58,6 @@ public class UserManager implements UserService {
 
         user.setRoles(roles);
 
-//        for (Role roleName : userRequest.getRoles()) {
-//            Role role = roleService.getRoleByType(roleName);
-//
-//            roles.add(role);
-//        }
-//
-//        user.setRoles(roles);
         User userResponse = userRepository.save(user);
         log.debug("[{}][registerUser] -> response: {}", this.getClass().getSimpleName(), userResponse);
         return userRoleMapper.toResponse(userResponse);
@@ -84,23 +71,4 @@ public class UserManager implements UserService {
 
     }
 
-//    @Override
-//    public Set<Role> getRolesById(Set<Long> roleIds) {
-//        return userRepository.findByRole_IdsEquals(roleIds);
-//    }
-
-//    @Override
-//    public UserResponse save(Language language, UserRequest userRequest) {
-//
-//        log.debug("[{}][createRole] -> request: {}", this.getClass().getSimpleName(), userRequest);
-////List<Role> roles = userRepository.
-//
-//        return null;
-//    }
-//
-////    // NOT: RoleService icin yazilan metotlar
-////    public List<Role> getUserByIds(Long[] userIds) {
-////        //return userRepository.findByIdsEquals(userIds);
-////        return userRepository.findByRoleIdsEquals(userIds);
-////    }
 }

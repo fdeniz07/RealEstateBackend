@@ -57,7 +57,55 @@ public class UserController {
           "email": "elia.doe@mail.com",
           "userName": "EliaDoe",
           "phone": "222-2223-4445",
-          "passwordHash": "P4ssw0rd"
+          "passwordHash": "P4ssw0rd",
+          "roleIds": [
+            1
+          ],
+          "builtIn": false,
+          "active": true
         }
-     */
+
+       {
+          "firstName": "John",
+          "lastName": "Doe",
+          "email": "john.doe@mail.com",
+          "userName": "JohnDoe",
+          "phone": "111-2223-4445",
+          "passwordHash": "P4ssw0rd",
+          "roleIds": [
+            2
+          ],
+          "builtIn": false,
+          "active": true
+       }
+
+     {
+          "firstName": "Martin",
+          "lastName": "Müller",
+          "email": "martin@muller.com",
+          "userName": "MMuller",
+          "phone": "333-2223-4445",
+          "passwordHash": "P4ssw0rd",
+          "roleIds": [
+            3
+          ],
+          "builtIn": false,
+          "active": true
+     }
+
+             {
+          "firstName": "Sam",
+          "lastName": "Koch",
+          "email": "sam-koch@mail.com",
+          "userName": "SamKoch",
+          "phone": "3333-2223-4445",
+          "passwordHash": "P4ssw0rd",
+          "roleIds": [
+            2
+          ],
+          "builtIn": false,
+          "active": true
+        }
+
+    */
 }

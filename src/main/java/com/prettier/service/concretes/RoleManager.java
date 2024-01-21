@@ -1,12 +1,14 @@
 package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Role;
-import com.prettier.entity.enums.RoleType;
 import com.prettier.payload.mapper.RoleMapper;
 import com.prettier.payload.request.concretes.RoleRequest;
+import com.prettier.payload.request.concretes.RoleUpdateRequest;
 import com.prettier.payload.response.concretes.RoleResponse;
 import com.prettier.repository.RoleRepository;
 import com.prettier.service.abstracts.RoleService;
+import com.prettier.shared.exception.enums.FriendlyMessageCodes;
+import com.prettier.shared.exception.exceptions.roles.RoleNotFoundException;
 import com.prettier.shared.utils.enums.Language;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +31,7 @@ public class RoleManager implements RoleService {
     @Override
     public Set<Role> findByRoleName(String roleName) {
 
-        Role role =  roleRepository.findByNameEquals("ADMIN");
+        Role role = roleRepository.findByNameEquals("ADMIN");
         Set<Role> roleSet = new HashSet<>();
 
         return roleSet;
@@ -51,49 +53,46 @@ public class RoleManager implements RoleService {
     }
 
     @Override
+    public RoleResponse getById(Language language, Long id) {
+        return null;
+    }
+
+    @Override
     public RoleResponse save(Language language, RoleRequest roleRequest) {
 
         log.debug("[{}][createRole] -> request: {}", this.getClass().getSimpleName(), roleRequest);
-
-        //!!! User'e ait Role'ler getiriliyor mu?
-//        Set<Role> roles = userService.getRolesById(roleRequest.getUserIds());
-
-//        if (roles.isEmpty()) {
-//            throw new RoleNotFoundException(language, FriendlyMessageCodes.ROLE_NOT_FOUND_EXCEPTION, "role request: " + roleRequest);
-//        }
-
         Role role = roleMapper.toRole(roleRequest);
 
         Role roleResponse = roleRepository.save(role);
         log.debug("[{}][createRole] -> response: {}", this.getClass().getSimpleName(), roleResponse);
         return roleMapper.toResponse(roleResponse);
+    }
 
+    @Override
+    public RoleResponse add(Language language, RoleRequest roleRequest) {
 
-//        // Veritabanındaki tüm rolleri getir
-//        Set<Role> dbRoles = new HashSet<>(roleRepository.findAll());
-//
-//
-//        // Kullanıcı rollerini ve veritabanındaki rolleri karşılaştır
-//        Set<Role> missingRoles = new HashSet<>(userRequest.getRoles());
-//        missingRoles.removeAll(dbRoles); // Eksik olan rolleri belirle
-//
-//
-//        // Eksik olan rolleri veritabanına ekle
-//        for (Role missingRole : missingRoles) {
-//            roleRepository.save(missingRole);
-//        }
-//
-//        // Veritabanındaki tüm rolleri tekrar getir ve döndür
-//        return new HashSet<>(roleRepository.findAll());
+        log.debug("[{}][newRole] -> request: {}", this.getClass().getSimpleName(), roleRequest);
 
+        //Rol var mi kontrolü
+        if(roleRepository.existsByNameEquals(roleRequest.getRoleName())){
+            throw new RoleNotFoundException(language, FriendlyMessageCodes.ROLE_ALREADY_EXISTS, "Role already exists");
+        }
 
-//        if (areRolesValid(userRequest.getRoles())) { //role varsa
-//
-//            throw new ConflictException(language, FriendlyMessageCodes.ROLE_ALREADY_EXISTS, "Role already exists");
-//        }
-//
-//
-//        return roleRepository.save(role);
+        Role role = roleMapper.toRole(roleRequest);
+        Role newRole = roleRepository.save(role);
+
+        log.debug("[{}][newRole] -> response: {}", this.getClass().getSimpleName(), roleRequest);
+        return roleMapper.toResponse(newRole);
+    }
+
+    @Override
+    public RoleResponse update(Language language, RoleUpdateRequest roleUpdateRequest) {
+        return null;
+    }
+
+    @Override
+    public RoleResponse softdelete(Language language, Long id) {
+        return null;
     }
 
 

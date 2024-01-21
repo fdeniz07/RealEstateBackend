@@ -9,10 +9,7 @@ import com.prettier.payload.request.concretes.UserRequest;
 import com.prettier.payload.request.concretes.UserUpdateRequest;
 import com.prettier.payload.response.concretes.RoleResponse;
 import com.prettier.payload.response.concretes.UserResponse;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValueMappingStrategy;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 
@@ -25,6 +22,7 @@ public interface RoleMapper {
 
     RoleResponse toResponse(Role role);
 
+    @Mapping(target = "name",source = "roleName")
     Role toRole(RoleRequest roleRequest);
 
     //@Mapping(target = "id", source = "userUpdateRequest")
