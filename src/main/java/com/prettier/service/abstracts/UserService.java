@@ -19,6 +19,8 @@ public interface UserService extends Serializable {
     //Runner tarafi icin gerekli method
    long countAllAdmin();
 
+    UserResponse login(Language language, UserRequest userRequest);
+
 //    NOT: RoleService icin yazilan metotlar
 //    public List<Role> getUserByIds(Long[] userIds);
 //    public Set<Role> getRolesById(Set<Long> roleIds);
