@@ -50,6 +50,29 @@ public class UserController {
                 .build();
     }
 
+
+    //Not: login() ******************************************************************************************************
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(value = "/{language}/register")
+    public InternalApiResponse<UserResponse> login(@PathVariable("language") Language language,
+                                                          @RequestBody UserRequest userRequest) {
+        log.debug("[{}][registerUser] -> request: {}", this.getClass().getSimpleName(), userRequest);
+        UserResponse userResponse = userService.login(language, userRequest);
+
+        log.debug("[{}][registerUser] -> response: {}", this.getClass().getSimpleName(), userResponse);
+
+        return InternalApiResponse.<UserResponse>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.USER_LOGIN_SUCCESSFULLY))
+                        .build())
+                .httpStatus(HttpStatus.CREATED)
+                .hasError(false)
+                .payload(userResponse)
+                .build();
+    }
+
+
     /*
         {
           "firstName": "Elia",
