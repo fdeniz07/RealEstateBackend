@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,10 +40,10 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String phone;
 
-
     @Column(name = "password_hash", nullable = false)
-    @JsonProperty(access = JsonProperty.Access.AUTO)
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    // Client'den DB'ye giderken yazma islemi olsun, Db'den Client'e giderken Okuma islemi olmasin. Hassas veri oldugu icin okuma islemlerinde kullanilmaz
+    @JsonIgnore //passwordu ön tarafa plaintext olarak gönderme
     // @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{FriendlyMessageCodes__CONSTRAINT_PASSWORD_PATTERN}")
     //"Your password must consist of the characters a-z, A-Z, 0-9."
     private String passwordHash;
@@ -61,7 +59,6 @@ public class User extends BaseEntity {
 
     @JsonIgnore
     String activationToken;
-
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
@@ -84,9 +81,8 @@ public class User extends BaseEntity {
     private Set<Advert> advertSet;
 
     // -----------RELATIONS -------------------------------------------------
-//Relations with Sibling "roles" Table
 
-    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -97,23 +93,7 @@ public class User extends BaseEntity {
     public void addRole(Role role) {
 
         this.roles.add(role);
+//        this.authorities.add(new SimpleGrantedAuthority(role.getName()));
     }
-
-
-//
-//    //Relation with Child Advert
-//    @OneToMany(mappedBy = "user",targetEntity = Advert.class, fetch = FetchType.EAGER)
-//    private Set<Advert> advertSet;
-//
-//    // Relation with Child "tour_requests"  ownerUser
-//    @OneToMany(mappedBy = "ownerUser", fetch = FetchType.EAGER)
-//    private Set<TourRequest> tourRequestSetForOwner;
-//    // Relation with Child "tour_requests"  ownerUser
-//    @OneToMany(mappedBy = "guestUser", fetch = FetchType.EAGER)
-//    private Set<TourRequest> tourRequestSetForGuest;
-//    // Relation with Child logs Table
-//    @OneToMany(mappedBy = "user", targetEntity = Log.class, fetch = FetchType.EAGER)
-//    private Set<Log> logSet;
-//
 
 }

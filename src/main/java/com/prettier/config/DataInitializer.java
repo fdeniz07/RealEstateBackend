@@ -9,6 +9,7 @@ import com.prettier.service.abstracts.RoleService;
 import com.prettier.service.abstracts.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -20,7 +21,7 @@ public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa
     private final RoleRepository roleRepository;
     private final RoleService roleService;
 
-    private final UserService userService;
+    //private final UserService userService;
     private final UserRepository userRepository;
 
     @Override
@@ -37,7 +38,9 @@ public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa
         }
 
         //!!! Admin olusturulacak built_in
-        if (userService.countAllAdmin() == 0) {
+        //User adminAccount = roleRepository.findByRoleName("ADMIN");
+        //User adminAccount = userRepository.findByRole(roleRepository.findByRoleName("ADMIN"));
+        if (userRepository.count() == 0 ) { //|| adminAccount == null
 
             User user = new User();
             user.setUserName("Admin");
@@ -45,7 +48,7 @@ public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa
             user.setLastName("User");
             user.setEmail("admin@mail.com");
             user.setPhone("000000000000");
-            user.setPasswordHash("P4ssword");
+            user.setPasswordHash(new BCryptPasswordEncoder().encode("P4ssword")); //P4ssword
             user.setBuiltIn(true);
             user.setActive(true);
 
