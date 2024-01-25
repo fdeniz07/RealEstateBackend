@@ -73,4 +73,10 @@ public class MapperConfig {
 
         return new UserRoleMapperImpl();
     }
+
+    @Bean
+    public AuthMapper authMapper() {
+
+        return new AuthMapperImpl();
+    }
 }

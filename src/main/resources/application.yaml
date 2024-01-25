@@ -42,6 +42,10 @@ spring:
     url: "jdbc:postgresql://localhost:5433/real_estate_db"
     username: db_user
     password:  db_password
+  security:
+    user:
+      name: test
+      password: test123
 
 prettier:
   openapi:
@@ -49,3 +53,8 @@ prettier:
     prod-url: https://prettier.com
 
 #    Swagger arayüzü : http://localhost:8080/swagger-ui/index.html
+
+backendapi:
+  app:
+    jwtSecret: real-estate
+    jwtExpressionMS: 86400000

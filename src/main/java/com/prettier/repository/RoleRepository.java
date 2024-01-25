@@ -1,6 +1,7 @@
 package com.prettier.repository;
 
 import com.prettier.entity.concretes.Role;
+import com.prettier.entity.concretes.User;
 import com.prettier.entity.enums.RoleType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,10 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
     //@Query("SELECT r FROM Role r WHERE r.name = ?1")
     boolean existsByNameEquals(String roleName);
+
+//    Role findByRoleName(String roleName);
+
+
+    //Optional<Set<Role>> findByRoleName(String roleName);
+
 }

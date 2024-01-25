@@ -15,7 +15,7 @@ public class UserRoleMapper2 {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
-                .userName(user.getUserName())
+                //.userName(user.getUserName())
                 .phone(user.getPhone())
                 .isActive(user.isActive())
                 .build();

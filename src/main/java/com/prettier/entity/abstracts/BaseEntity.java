@@ -13,12 +13,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@MappedSuperclass //Db de user tablosu olusmadan bu sinifin anac sinif olarak kullanilmasini saglar
+@MappedSuperclass //Db de user tablosu olusmadan bu sinifin anac sinif olarak kullanilmasini saglar. DB de tablo olusmaz ama bu classi miras alan siniflar db de buradaki field lere sahip olurlar
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@SuperBuilder
+@SuperBuilder //Miras alan child class'larin buradaki field leri kullanmasina izin verir. Hem parent a hem de child de SuperBuilder annotation yazilmalidir.
 @EntityListeners(AuditingEntityListener.class)
 //Auditing: You've included auditing information using @CreatedDate and @EntityListeners(AuditingEntityListener.class). This is useful for tracking when entities are created and updated.
 
