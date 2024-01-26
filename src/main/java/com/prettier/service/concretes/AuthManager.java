@@ -38,7 +38,6 @@ public class AuthManager implements AuthService {
 
         log.debug("[{}][signUp] -> request: {}", this.getClass().getSimpleName(), signUpRequest);
 
-
         // Username, Email ve Phone var mi kontrolü
         if (checkUniqueFields.checkDuplicate(language, signUpRequest.getUserName(), signUpRequest.getEmail(), signUpRequest.getPhone())) {
             throw new SignUpFailedException(language, FriendlyMessageCodes.SIGN_UP_FAILED_EXCEPTION, "Sign up failed!");
