@@ -10,10 +10,7 @@ import com.prettier.repository.UserRepository;
 import com.prettier.service.abstracts.AuthService;
 import com.prettier.service.abstracts.RoleService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
-import com.prettier.shared.exception.enums.IFriendlyMessageCode;
 import com.prettier.shared.exception.exceptions.auths.SignUpFailedException;
-import com.prettier.shared.exception.exceptions.roles.RoleNotFoundException;
-import com.prettier.shared.exception.exceptions.users.ConflictException;
 import com.prettier.shared.utils.enums.Language;
 import com.prettier.shared.utils.validations.CheckUniqueFields;
 import lombok.RequiredArgsConstructor;
@@ -30,21 +27,16 @@ import java.util.Set;
 public class AuthManager implements AuthService {
 
     private final UserRepository userRepository;
-
-    private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
-
     private final RoleService roleService;
-
+    private final PasswordEncoder passwordEncoder;
     private final AuthMapper authMapper;
-
     private final CheckUniqueFields checkUniqueFields;
 
 
     public SignUpResponse signUp(Language language, SignUpRequest signUpRequest) {
 
         log.debug("[{}][signUp] -> request: {}", this.getClass().getSimpleName(), signUpRequest);
-
 
         // Username, Email ve Phone var mi kontrolü
         if (checkUniqueFields.checkDuplicate(language, signUpRequest.getUserName(), signUpRequest.getEmail(), signUpRequest.getPhone())) {
@@ -60,6 +52,19 @@ public class AuthManager implements AuthService {
 
         log.debug("[{}][signUp] -> response: {}", this.getClass().getSimpleName(), newUser);
         SignUpResponse response = authMapper.toResponse(newUser);
+
+//        SignUpResponse response = new SignUpResponse();
+//        response.setFirstName(newUser.getFirstName());
+//        response.setLastName(newUser.getLastName());
+//        response.setUserName(newUser.getUserName());
+//        response.setEmail(newUser.getEmail());
+//        response.setPhone(newUser.getPhone());
+//
+//
+//        Set<Role> roles = new HashSet<>();
+//        roles.addAll(roleService.getByUser(user));
+//
+//        response.setRolesIds(roles);
         return response;
 
 

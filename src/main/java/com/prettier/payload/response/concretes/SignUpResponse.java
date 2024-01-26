@@ -24,5 +24,8 @@ public class SignUpResponse extends BaseEntityResponse {
     private String email;
     private String password;
     private String phone;
-    private Set<Role> roleNames;
+    private Set<RoleResponse> roles;
+//    private Set<Role> rolesIds;
+
+
 }

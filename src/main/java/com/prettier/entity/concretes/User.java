@@ -96,4 +96,6 @@ public class User extends BaseEntity {
 //        this.authorities.add(new SimpleGrantedAuthority(role.getName()));
     }
 
+
+
 }

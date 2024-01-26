@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RoleResponse extends BaseEntityResponse {
 
-    private String roleName;
+    private String name;
 
     private String description;
 }

@@ -1,6 +1,7 @@
 package com.prettier.service.abstracts;
 
 import com.prettier.entity.concretes.Role;
+import com.prettier.entity.concretes.User;
 import com.prettier.entity.enums.RoleType;
 import com.prettier.payload.request.concretes.RoleRequest;
 import com.prettier.payload.request.concretes.RoleUpdateRequest;
@@ -21,6 +22,7 @@ public interface RoleService extends Serializable {
 
    Set<Role> getByRoleName(String roleName);
 
+   Set<Role> getByUser(User user);
 
     //NOT: *********** Role Manager standart metotlar *************************************
 
