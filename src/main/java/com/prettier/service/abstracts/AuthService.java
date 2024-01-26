@@ -7,5 +7,5 @@ import com.prettier.shared.utils.enums.Language;
 
 public interface AuthService {
 
-    User signUp(Language language, SignUpRequest signUpRequest);
+    SignUpResponse signUp(Language language, SignUpRequest signUpRequest);
 }

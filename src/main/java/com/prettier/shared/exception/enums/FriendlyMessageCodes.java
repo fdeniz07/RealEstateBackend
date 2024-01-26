@@ -128,7 +128,8 @@ public enum FriendlyMessageCodes implements IFriendlyMessageCode {
     PHONE_NUMBER_ALREADY_EXISTS(2906),
     USER_LOGIN_SUCCESSFULLY(2907),
 
-    SIGN_UP_SUCCESSFULLY(3000);
+    SIGN_UP_SUCCESSFULLY(3000),
+    SIGN_UP_FAILED_EXCEPTION(3001);
 
     private final int value;
 

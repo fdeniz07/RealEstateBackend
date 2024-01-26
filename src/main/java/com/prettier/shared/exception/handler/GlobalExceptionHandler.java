@@ -6,6 +6,7 @@ import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.exceptions.adverts.AdvertAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.adverts.AdvertNotCreatedException;
 import com.prettier.shared.exception.exceptions.adverts.AdvertNotFoundException;
+import com.prettier.shared.exception.exceptions.auths.SignUpFailedException;
 import com.prettier.shared.exception.exceptions.categories.CategoryAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.categories.CategoryAlreadyExistsException;
 import com.prettier.shared.exception.exceptions.categories.CategoryNotCreatedException;
@@ -422,6 +423,23 @@ public class GlobalExceptionHandler {
                         .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
                         .build())
                 .httpStatus(HttpStatus.CONFLICT)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    /////////////////// AUTH \\\\\\\\\\\\\\\
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(SignUpFailedException.class)
+    public InternalApiResponse<String> handleSignUpFailedException(SignUpFailedException exception) {
+
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
                 .hasError(true)
                 .errorMessages(Collections.singletonList(exception.getMessage()))
                 .build();

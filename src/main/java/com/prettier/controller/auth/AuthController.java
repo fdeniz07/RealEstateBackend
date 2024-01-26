@@ -4,11 +4,13 @@ import com.prettier.entity.concretes.User;
 import com.prettier.payload.request.concretes.SignUpRequest;
 import com.prettier.payload.response.FriendlyMessage;
 import com.prettier.payload.response.InternalApiResponse;
+import com.prettier.payload.response.concretes.SignUpResponse;
 import com.prettier.service.abstracts.AuthService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,15 +28,17 @@ public class AuthController {
     //Not: signUp() ******************************************************************************************************
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/signUp")
-    public InternalApiResponse<User> signUp(@PathVariable("language") Language language,
-                                            @RequestBody SignUpRequest signUpRequest) {
+    public InternalApiResponse<SignUpResponse> signUp(@PathVariable("language") Language language,
+                                                      @Valid
+                                                      @RequestBody SignUpRequest signUpRequest)
+    {
         log.debug("[{}][signUp] -> request: {}", this.getClass().getSimpleName(), signUpRequest);
-        //SignUpResponse signUpResponse = authService.signUp(language, signUpRequest);
-        User signUpResponse = authService.signUp(language, signUpRequest);
+
+        SignUpResponse signUpResponse = authService.signUp(language, signUpRequest);
 
         log.debug("[{}][signUp] -> response: {}", this.getClass().getSimpleName(), signUpResponse);
 
-        return InternalApiResponse.<User>builder()
+        return InternalApiResponse.<SignUpResponse>builder()
                 .friendlyMessage(FriendlyMessage.builder()
                         .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
                         .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SIGN_UP_SUCCESSFULLY))
@@ -44,7 +48,5 @@ public class AuthController {
                 .payload(signUpResponse)
                 .build();
     }
-
-
 
 }

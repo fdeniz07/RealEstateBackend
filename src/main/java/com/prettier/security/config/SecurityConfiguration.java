@@ -23,6 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -106,8 +108,15 @@ public class SecurityConfiguration {
 //        // in general, not required for sateteless REST APIs that use POST,PUT,DELETE and/or PATCH
 
         http.csrf(AbstractHttpConfigurer::disable) //csrf.disable() etmemmizin sebebi, update metotlarimiz düzgün calismayabilir
-                .authorizeHttpRequests(request -> request.requestMatchers("/api/v1.0/auth/**")
-                        .permitAll()
+
+                .authorizeHttpRequests(request -> request
+//                        .requestMatchers(antMatcher("/api/v1.0/auth/**")).hasRole("ADMIN")
+//                        .requestMatchers(antMatcher("/api/v1.0/auth/**")).hasRole("MANAGER")
+//                        .requestMatchers(antMatcher("/api/v1.0/auth/**")).hasRole("CUSTOMER")
+                        .requestMatchers("/api/v1.0/auth/**").permitAll()
+                        .requestMatchers(AUTH_WHITE_LIST).permitAll()
+//                        .requestMatchers("/api/v1.0/auth/**")
+//                        .permitAll()
 //                        .requestMatchers("/api/v1.0/admins").hasAnyAuthority(roleRepository.findByNameEquals("ADMIN").getName())
 //                        .requestMatchers("/api/v1.0/users").hasAnyAuthority(roleRepository.findByNameEquals("ADMIN").getName())
 //                        .requestMatchers("/api/v1.0/managers").hasAnyAuthority(roleRepository.findByNameEquals("MANAGER").getName())
@@ -143,7 +152,7 @@ public class SecurityConfiguration {
             "/static/**",
             "/*.js",
             "/*.json",
-            "/contactMessages/save",
+            "/contact-Messages/**",
             "/auth/login",
             "/v3/api-docs/**",
             "/swagger-ui/**",
