@@ -1,5 +1,6 @@
 package com.prettier.security.config;
 
+import com.prettier.entity.enums.RoleType;
 import com.prettier.repository.RoleRepository;
 import com.prettier.security.jwt.AuthEntryPointJwt;
 import com.prettier.security.jwt.AuthTokenFilter;
@@ -108,12 +109,15 @@ public class SecurityConfiguration {
 //        // in general, not required for sateteless REST APIs that use POST,PUT,DELETE and/or PATCH
 
         http.csrf(AbstractHttpConfigurer::disable) //csrf.disable() etmemmizin sebebi, update metotlarimiz düzgün calismayabilir
-
                 .authorizeHttpRequests(request -> request
 //                        .requestMatchers(antMatcher("/api/v1.0/auth/**")).hasRole("ADMIN")
 //                        .requestMatchers(antMatcher("/api/v1.0/auth/**")).hasRole("MANAGER")
 //                        .requestMatchers(antMatcher("/api/v1.0/auth/**")).hasRole("CUSTOMER")
                         .requestMatchers("/api/v1.0/auth/**").permitAll()
+//                        .requestMatchers(antMatcher("/api/v1.0/admin")).hasAnyAuthority(RoleType.ADMIN.getRoleName())
+//                        .requestMatchers(antMatcher("/api/v1.0/manager")).hasAnyAuthority(RoleType.MANAGER.getRoleName())
+//                        .requestMatchers(antMatcher("/api/v1.0/customer")).hasAnyAuthority(RoleType.CUSTOMER.getRoleName())
+//                        .requestMatchers(antMatcher("/api/v1.0/personal")).hasAnyAuthority(RoleType.PERSONAL.getRoleName())
                         .requestMatchers(AUTH_WHITE_LIST).permitAll()
 //                        .requestMatchers("/api/v1.0/auth/**")
 //                        .permitAll()
@@ -130,9 +134,9 @@ public class SecurityConfiguration {
 
 
         http.cors(cors -> cors.disable()); //cors --> tarayici tarafli güvenlik protokolleri- server baska bir sunucuda, Db baska bir sunucuda, frontend baska tarafta olabilir
-        http.authenticationProvider(authenticationProvider());
-         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-//
+//        http.authenticationProvider(authenticationProvider());
+//        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
 
     }

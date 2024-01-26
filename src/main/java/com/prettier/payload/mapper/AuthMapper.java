@@ -6,6 +6,7 @@ import com.prettier.entity.concretes.Role;
 import com.prettier.entity.concretes.User;
 import com.prettier.payload.request.concretes.*;
 import com.prettier.payload.response.concretes.CityResponse;
+import com.prettier.payload.response.concretes.RoleResponse;
 import com.prettier.payload.response.concretes.SignUpResponse;
 import com.prettier.payload.response.concretes.UserResponse;
 import com.prettier.security.service.UserDetailsImp;
@@ -17,6 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mapper(config = MapStructConfig.class,
+        uses = {UserMapper.class,RoleMapper.class},
         nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface AuthMapper {
@@ -29,7 +31,7 @@ public interface AuthMapper {
 //    @Mapping(target = "userName", source = "userName")
 //    @Mapping(target = "email", source = "email")
 //    @Mapping(target = "phone", source = "phone")
-    @Mapping(target = "roleNames", source = "roles")
+    @Mapping(target = "roles", source = "user.roles")
     SignUpResponse toResponse(User user);//,Role role
 
 //    @Mapping(target = "id", ignore = true)
@@ -52,10 +54,16 @@ public interface AuthMapper {
                 .collect(Collectors.toSet());
     }
 
-    default Set<String> mapRoles(Set<Role> roles) {
-        return roles.stream()
-                .map(Role::getName)
+    @Named("stringSetToRoleSet")
+    default Set<Role> stringSetToRoleSet(Set<String> roleIds) {
+        return roleIds.stream()
+                .map(roleName -> {
+                    Role role = new Role();
+                    role.setName(roleName);
+                    return role;
+                })
                 .collect(Collectors.toSet());
     }
+
 
 }

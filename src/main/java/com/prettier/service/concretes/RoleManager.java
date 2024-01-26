@@ -1,6 +1,7 @@
 package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Role;
+import com.prettier.entity.concretes.User;
 import com.prettier.payload.mapper.RoleMapper;
 import com.prettier.payload.request.concretes.RoleRequest;
 import com.prettier.payload.request.concretes.RoleUpdateRequest;
@@ -9,11 +10,11 @@ import com.prettier.repository.RoleRepository;
 import com.prettier.service.abstracts.RoleService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.exceptions.roles.RoleAlreadyExistsException;
-import com.prettier.shared.exception.exceptions.roles.RoleNotFoundException;
 import com.prettier.shared.utils.enums.Language;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors;
 
 import java.util.HashSet;
 import java.util.List;
@@ -37,6 +38,20 @@ public class RoleManager implements RoleService {
         roleSet.add(role);
 
         return roleSet;
+    }
+
+
+    @Override
+    public Set<Role> getByUser(User user) {
+
+        Set<Long> roleIds= user.getRoles().stream()
+                .map(Role::getId)
+                .collect(Collectors.toSet());
+
+        Set<Role> roles = new HashSet<>();
+        roles.addAll(roleRepository.findAllById(roleIds));
+
+        return roles;
     }
 
     @Override

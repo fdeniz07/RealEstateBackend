@@ -27,38 +27,40 @@ public class JWTServiceImpl implements JWTService {
     //JWT Loginden sonra cagirilir
 
     public String generateToken(UserDetails userDetails) {
-
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(new Date().getTime() + jwtExpirationMs)) //Burada biz anlik zamani al, daha önce belirledigimiz süreyi (1 gün) üzerine ekle ve gecerlilik süresi olarak kabul et diyoruz
-//                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
-                //.signWith(SignatureAlgorithm.HS512, jwtSecret)  //Hangi sifreleme algoritmasini kullanacagimizi seciyoruz
-                .signWith(getSiginKey(), SignatureAlgorithm.HS256)
+//              .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24)) // Burada süreyi 1 gün ayarliyoruz ama yukaridaki kod ile hazir veriyoruz
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)  //Hangi sifreleme algoritmasini kullanacagimizi seciyoruz
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
+    //Not: JWT Token üzerinden alinan claim bilgisinin cözümlenmesi *****************
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {
-
         final Claims claims = extractAllClaims(token);
         return claimsResolvers.apply(claims);
     }
 
-    //!!! Artik kullanmiyoruz, degeri application.yaml dan okuyoruz
-    private Key getSiginKey() {
-        byte[] key = Decoders.BASE64.decode("413F4428472B4B6250655368566D5970337336763979244226452948404D6351");
+    //NOT: Token icin secret key olusturuyoruz, degeri application.yaml dan okuyoruz
+    private Key getSignInKey() {
+        byte[] key = Decoders.BASE64.decode(jwtSecret);
         return Keys.hmacShaKeyFor(key);
     }
 
+
+    //Not: JWT Token üzerinden username alma ***************************************
     public String extractUserName(String token) {
 
         return extractClaim(token, Claims::getSubject);
     }
 
 
+    //Not: JWT Token üzerinden claim bilgisini alma ********************************
     private Claims extractAllClaims(String token) {
 
-        return Jwts.parserBuilder().setSigningKey(getSiginKey()).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
     }
 
     //Not: Validate JWT **********************************************************
@@ -68,6 +70,7 @@ public class JWTServiceImpl implements JWTService {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
+    //Not: Token Süre Kontrolü ******************************************************
     private boolean isTokenExpired(String token) {
 
         return extractClaim(token, Claims::getExpiration).before(new Date());
