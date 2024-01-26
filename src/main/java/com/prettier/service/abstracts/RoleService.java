@@ -19,7 +19,7 @@ public interface RoleService extends Serializable {
 
     List<Role> getAllUserRole();
 
-    Set<Role> findByRoleName(String roleName);
+   Set<Role> getByRoleName(String roleName);
 
 
     //NOT: *********** Role Manager standart metotlar *************************************

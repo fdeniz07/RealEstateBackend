@@ -82,7 +82,7 @@ public class User extends BaseEntity {
 
     // -----------RELATIONS -------------------------------------------------
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany//(cascade = CascadeType.PERSIST)  // (fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

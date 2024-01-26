@@ -3,7 +3,6 @@ package com.prettier.shared.utils.validations;
 import com.prettier.repository.UserRepository;
 
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
-import com.prettier.shared.exception.enums.IFriendlyMessageCode;
 import com.prettier.shared.exception.exceptions.users.ConflictException;
 import com.prettier.shared.utils.enums.Language;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,7 @@ public class CheckUniqueFields {
 
     private final UserRepository userRepository;
 
-    public void checkDuplicate(Language language,String... values) { //varargs kullanimi sayesinde istedigimiz kadar parametre girebiliriz
+    public boolean checkDuplicate(Language language, String... values) { //varargs kullanimi sayesinde istedigimiz kadar parametre girebiliriz
         String parameter1 = values[0];
         String parameter2 = values[1];
         String parameter3 = "";
@@ -39,5 +38,6 @@ public class CheckUniqueFields {
             throw new ConflictException(language, FriendlyMessageCodes.PHONE_NUMBER_ALREADY_EXISTS, "user request: " + parameter3);
 
         }
+        return false;
     }
 }

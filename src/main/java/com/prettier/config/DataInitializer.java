@@ -12,6 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Component
@@ -40,7 +41,7 @@ public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa
         //!!! Admin olusturulacak built_in
         //User adminAccount = roleRepository.findByRoleName("ADMIN");
         //User adminAccount = userRepository.findByRole(roleRepository.findByRoleName("ADMIN"));
-        if (userRepository.count() == 0 ) { //|| adminAccount == null
+        if (userRepository.count() == 0) { //|| adminAccount == null
 
             User user = new User();
             user.setUserName("Admin");
@@ -53,7 +54,7 @@ public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa
             user.setActive(true);
 
             //DB deki role tablosunda ADMIN rolünü getir
-            Set<Role> adminRole = roleService.findByRoleName("ADMIN");
+            Set<Role> adminRole = roleService.getByRoleName("ADMIN");
             user.setRoles(adminRole);
             userRepository.save(user);
 

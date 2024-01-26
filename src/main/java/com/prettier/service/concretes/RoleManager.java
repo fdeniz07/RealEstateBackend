@@ -8,6 +8,7 @@ import com.prettier.payload.response.concretes.RoleResponse;
 import com.prettier.repository.RoleRepository;
 import com.prettier.service.abstracts.RoleService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
+import com.prettier.shared.exception.exceptions.roles.RoleAlreadyExistsException;
 import com.prettier.shared.exception.exceptions.roles.RoleNotFoundException;
 import com.prettier.shared.utils.enums.Language;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +30,11 @@ public class RoleManager implements RoleService {
     //NOT: *********** Data Inilitalizer icin gerekli metotlar *************************
 
     @Override
-    public Set<Role> findByRoleName(String roleName) {
+    public Set<Role> getByRoleName(String roleName) {
 
-        Role role = roleRepository.findByNameEquals("ADMIN");
+        Role role = roleRepository.findByNameEquals(roleName);
         Set<Role> roleSet = new HashSet<>();
+        roleSet.add(role);
 
         return roleSet;
     }
@@ -75,8 +77,8 @@ public class RoleManager implements RoleService {
         log.debug("[{}][newRole] -> request: {}", this.getClass().getSimpleName(), roleRequest);
 
         //Rol var mi kontrolü
-        if(roleRepository.existsByNameEquals(roleRequest.getRoleName())){
-            throw new RoleNotFoundException(language, FriendlyMessageCodes.ROLE_ALREADY_EXISTS, "Role already exists");
+        if (roleRepository.existsByNameEquals(roleRequest.getRoleName())) {
+            throw new RoleAlreadyExistsException(language, FriendlyMessageCodes.ROLE_ALREADY_EXISTS, "Role already exists");
         }
 
         Role role = roleMapper.toRole(roleRequest);

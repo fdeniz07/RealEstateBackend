@@ -8,6 +8,7 @@ import com.prettier.payload.request.concretes.*;
 import com.prettier.payload.response.concretes.CityResponse;
 import com.prettier.payload.response.concretes.SignUpResponse;
 import com.prettier.payload.response.concretes.UserResponse;
+import com.prettier.security.service.UserDetailsImp;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -16,19 +17,24 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mapper(config = MapStructConfig.class,
-        uses = {UserMapper.class,RoleMapper.class},
         nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface AuthMapper {
 
     AuthMapper INSTANCE = Mappers.getMapper(AuthMapper.class);
 
-    @Mapping(target = "id", source = "user.id")
-    SignUpResponse toResponse(User user);
+//    @Mapping(target = "id", source = "id")
+//    @Mapping(target = "firstName", source = "firstName")
+//    @Mapping(target = "lastName", source = "lastName")
+//    @Mapping(target = "userName", source = "userName")
+//    @Mapping(target = "email", source = "email")
+//    @Mapping(target = "phone", source = "phone")
+    @Mapping(target = "roleNames", source = "roles")
+    SignUpResponse toResponse(User user);//,Role role
 
 //    @Mapping(target = "id", ignore = true)
 //    @Mapping(target = "roles", source = "signUpRequest.roleIds", qualifiedByName = "longSetToRoleSet")
-//    User toUser(SignUpRequest signUpRequest);
+    User toUser(SignUpRequest signUpRequest);
 
     //@Mapping(target = "id", source = "userUpdateRequest")
     //UserRequest toUpdatedUser(UserUpdateRequest userUpdateRequest, @MappingTarget UserRequest existing);
@@ -46,5 +52,10 @@ public interface AuthMapper {
                 .collect(Collectors.toSet());
     }
 
+    default Set<String> mapRoles(Set<Role> roles) {
+        return roles.stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
+    }
 
 }
