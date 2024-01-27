@@ -7,9 +7,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -19,7 +21,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class User extends BaseEntity {
+public class User extends BaseEntity implements UserDetails {
 
     @Column(name = "first_name", nullable = false)
     @Size(min = 2, max = 30)
@@ -35,7 +37,7 @@ public class User extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     @Size(min = 2, max = 20)
-    private String userName;
+    private String username;
 
     @Column(nullable = false)
     private String phone;
@@ -82,20 +84,93 @@ public class User extends BaseEntity {
 
     // -----------RELATIONS -------------------------------------------------
 
-    @ManyToMany//(cascade = CascadeType.PERSIST)  // (fetch = FetchType.EAGER)
+    @ManyToMany//(cascade = CascadeType.ALL,fetch = FetchType.EAGER) //
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @Transient
+    private Collection<? extends GrantedAuthority> authorities;
 
-    public void addRole(Role role) {
+    public User(Long id, String userName, String firstName, String lastName, String email, String phone, String password,Set<Role> roles ) {
+        super.setId(id);
+        this.username = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.passwordHash = password;
 
-        this.roles.add(role);
-//        this.authorities.add(new SimpleGrantedAuthority(role.getName()));
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (Role role : roles) {
+
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName())); // Role'ü SimpleGrantedAuthority'ye dönüştürüp listeye ekleyin
+        }
+        this.authorities = grantedAuthorities;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+//        for (Role role : roles) {
+//
+//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName())); // Role'ü SimpleGrantedAuthority'ye dönüştürüp listeye ekleyin
+//        }
+//        this.authorities = grantedAuthorities;
+        return authorities;
+        //  return List.of(new SimpleGrantedAuthority(role.getName()));
+    }
 
+    @Override
+    public String getPassword() {
 
+        return passwordHash;
+//        return getPasswordHash();
+    }
+
+    @Override
+    public String getUsername() {
+
+        return email; //Biz email e göre eslestirme yapmayi tercih ediyoruz
+//        return getUsername();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+
+        return true;
+    }
+
+    //iki tane userdetails türünde nesne gelecekse ve birbiriyle kiyaslanacaksa ve bu kiyaslanma kriterini kendimizi göre özellestireceksek;
+    public boolean equals(Object o) {
+
+        if (this == o)//kendisi ile kiyasliyorsak
+            return true;
+
+        if (o == null || getClass() != o.getClass()) //iki farkli objeyi karsilastiriyoruz, ayni degeri döndürüp döndürmedigini kiyasliyoruz
+            return false;
+
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId()); // id ile kiyaslama
+    }
 }

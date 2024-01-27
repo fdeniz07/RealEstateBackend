@@ -1,19 +1,13 @@
 package com.prettier.payload.mapper;
 
 import com.prettier.config.MapStructConfig;
-import com.prettier.entity.concretes.City;
 import com.prettier.entity.concretes.Role;
 import com.prettier.entity.concretes.User;
-import com.prettier.payload.request.concretes.*;
-import com.prettier.payload.response.concretes.CityResponse;
-import com.prettier.payload.response.concretes.RoleResponse;
+import com.prettier.payload.request.concretes.SignUpRequest;
 import com.prettier.payload.response.concretes.SignUpResponse;
-import com.prettier.payload.response.concretes.UserResponse;
-import com.prettier.security.service.UserDetailsImp;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,7 +25,7 @@ public interface AuthMapper {
 //    @Mapping(target = "userName", source = "userName")
 //    @Mapping(target = "email", source = "email")
 //    @Mapping(target = "phone", source = "phone")
-    @Mapping(target = "roles", source = "user.roles")
+ //   @Mapping(target = "roles", source = "user.roles")
     SignUpResponse toResponse(User user);//,Role role
 
 //    @Mapping(target = "id", ignore = true)

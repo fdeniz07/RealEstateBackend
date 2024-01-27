@@ -2,6 +2,7 @@ package com.prettier.payload.request.concretes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prettier.payload.request.abstracts.BaseEntityRequest;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -25,9 +26,10 @@ public class SignUpRequest extends BaseEntityRequest {
 
     @NotNull(message = "Please enter your username")
     @Size(min = 5, max = 20)
-    private String userName;
+    private String username;
 
     @NotNull(message = "Please enter your email")
+    @Email (message = "Please verify your email")
     @Size(min = 10, max = 80)
     private String email;
 

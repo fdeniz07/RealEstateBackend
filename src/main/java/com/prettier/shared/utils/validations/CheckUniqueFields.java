@@ -25,7 +25,7 @@ public class CheckUniqueFields {
             parameter3 = values[2];
         }
 
-        if (userRepository.existsByUserName(parameter1)) {
+        if (userRepository.existsByUsername(parameter1)) {
 
             throw new ConflictException(language, FriendlyMessageCodes.USER_NAME_ALREADY_EXISTS, "user request: " + parameter1);
 
