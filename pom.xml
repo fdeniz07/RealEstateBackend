@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>3.0.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.prettier</groupId>
@@ -18,6 +18,12 @@
         <!--        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>-->
     </properties>
     <dependencies>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.0.0.Final</version> <!-- Güncel Hibernate sürümü -->
+        </dependency>
 
         <!-- Actuator -->
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
@@ -64,7 +70,7 @@
         </dependency>
 
 
-        <!--    JSON Web Token (JWT)-->
+        <!-- JSON Web Token (JWT)-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -83,6 +89,7 @@
             <version>0.11.5</version>
         </dependency>
 
+        <!-- JSON Web Token (JWT) yardimci paket -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>

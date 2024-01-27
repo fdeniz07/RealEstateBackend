@@ -56,5 +56,5 @@ prettier:
 
 backendapi:
   app:
-    jwtSecret: real-estate
+    jwtSecret: bb49490d292ac397763193a0c15b04318860445f8e5588f5a35b34fb7cfb4e80
     jwtExpressionMS: 86400000

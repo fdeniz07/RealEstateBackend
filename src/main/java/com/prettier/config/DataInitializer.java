@@ -6,13 +6,11 @@ import com.prettier.entity.enums.RoleType;
 import com.prettier.repository.RoleRepository;
 import com.prettier.repository.UserRepository;
 import com.prettier.service.abstracts.RoleService;
-import com.prettier.service.abstracts.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Component
@@ -44,7 +42,7 @@ public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa
         if (userRepository.count() == 0) { //|| adminAccount == null
 
             User user = new User();
-            user.setUserName("Admin");
+            user.setUsername("Admin");
             user.setFirstName("Super");
             user.setLastName("User");
             user.setEmail("admin@mail.com");

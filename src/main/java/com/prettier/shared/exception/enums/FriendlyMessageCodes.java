@@ -129,7 +129,9 @@ public enum FriendlyMessageCodes implements IFriendlyMessageCode {
     USER_LOGIN_SUCCESSFULLY(2907),
 
     SIGN_UP_SUCCESSFULLY(3000),
-    SIGN_UP_FAILED_EXCEPTION(3001);
+    SIGN_UP_FAILED_EXCEPTION(3001),
+    LOGIN_SUCCESSFULLY(3002),
+    LOGIN_FAILED_EXCEPTION(3003);
 
     private final int value;
 
