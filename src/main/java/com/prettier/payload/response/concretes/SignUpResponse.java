@@ -18,13 +18,13 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SignUpResponse extends BaseEntityResponse {
 
-//    private String firstName;
-//    private String lastName;
-//    private String userName;
-//    private String email;
-//    private String password;
-//    private String phone;
-//    private Set<RoleResponse> roles;
+    private String firstName;
+    private String lastName;
+    private String userName;
+    private String email;
+    private String password;
+    private String phone;
+    private Set<RoleResponse> roles;
     private String token;
 //    private Set<Role> rolesIds;
 

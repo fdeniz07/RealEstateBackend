@@ -18,9 +18,9 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class LoginRequest extends BaseEntityRequest {
 
-//    @NotNull(message = "Please enter your email")
-//    @Email(message = "Please verify your email")
-//    @Size(min = 10, max = 80)
+    @NotNull(message = "Please enter your email")
+    @Email(message = "Please verify your email")
+    @Size(min = 10, max = 80)
     private String email;
 
     @NotNull(message = "Please enter your password")
