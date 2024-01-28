@@ -19,7 +19,7 @@ server:
 logging:
   level:
     root:
-    com.prettier: ERROR
+    com.prettier: TRACE
 ---
 spring:
   config:

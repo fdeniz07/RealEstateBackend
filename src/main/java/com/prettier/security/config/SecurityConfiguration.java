@@ -26,7 +26,7 @@ public class SecurityConfiguration {
         http
                 .cors().and()
                 .csrf().disable()
-                //.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1.0/auth/**").permitAll()
                 .requestMatchers(AUTH_WHITE_LIST).permitAll()

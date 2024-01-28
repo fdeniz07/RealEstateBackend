@@ -100,6 +100,11 @@ public class JWTService{
     //Not: getUsernameForJwt *****************************************************
     public String getUserNameFromJwtToken(String token) {
 
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+        return Jwts
+                .parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 }

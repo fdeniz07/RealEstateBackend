@@ -24,19 +24,15 @@ import java.util.*;
 public class User extends BaseEntity implements UserDetails {
 
     @Column(name = "first_name", nullable = false)
-    @Size(min = 2, max = 30)
     private String firstName;
 
     @Column(name = "last_name", nullable = false)
-    @Size(min = 2, max = 30)
     private String lastName;
 
     @Column(nullable = false, unique = true)
-    @Size(min = 10, max = 80)
     private String email;
 
     @Column(nullable = false, unique = true)
-    @Size(min = 2, max = 20)
     private String username;
 
     @Column(nullable = false)
@@ -94,14 +90,8 @@ public class User extends BaseEntity implements UserDetails {
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
 
-    public User(Long id, String userName, String firstName, String lastName, String email, String phone, String password,Set<Role> roles ) {
-        super.setId(id);
-        this.username = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.passwordHash = password;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         for (Role role : roles) {
@@ -109,18 +99,7 @@ public class User extends BaseEntity implements UserDetails {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName())); // Role'ü SimpleGrantedAuthority'ye dönüştürüp listeye ekleyin
         }
         this.authorities = grantedAuthorities;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-//        for (Role role : roles) {
-//
-//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName())); // Role'ü SimpleGrantedAuthority'ye dönüştürüp listeye ekleyin
-//        }
-//        this.authorities = grantedAuthorities;
         return authorities;
-        //  return List.of(new SimpleGrantedAuthority(role.getName()));
     }
 
     @Override
@@ -161,16 +140,16 @@ public class User extends BaseEntity implements UserDetails {
         return true;
     }
 
-    //iki tane userdetails türünde nesne gelecekse ve birbiriyle kiyaslanacaksa ve bu kiyaslanma kriterini kendimizi göre özellestireceksek;
-    public boolean equals(Object o) {
-
-        if (this == o)//kendisi ile kiyasliyorsak
-            return true;
-
-        if (o == null || getClass() != o.getClass()) //iki farkli objeyi karsilastiriyoruz, ayni degeri döndürüp döndürmedigini kiyasliyoruz
-            return false;
-
-        User user = (User) o;
-        return Objects.equals(getId(), user.getId()); // id ile kiyaslama
-    }
+//    //iki tane userdetails türünde nesne gelecekse ve birbiriyle kiyaslanacaksa ve bu kiyaslanma kriterini kendimizi göre özellestireceksek;
+//    public boolean equals(Object o) {
+//
+//        if (this == o)//kendisi ile kiyasliyorsak
+//            return true;
+//
+//        if (o == null || getClass() != o.getClass()) //iki farkli objeyi karsilastiriyoruz, ayni degeri döndürüp döndürmedigini kiyasliyoruz
+//            return false;
+//
+//        User user = (User) o;
+//        return Objects.equals(getId(), user.getId()); // id ile kiyaslama
+//    }
 }

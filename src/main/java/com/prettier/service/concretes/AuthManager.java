@@ -68,13 +68,13 @@ public class AuthManager implements AuthService {
         return SignUpResponse.builder()
                 .token(jwtToken)
                 .id(user.getId())
-//                .userName(user.getUsername())
-//                .firstName(user.getFirstName())
-//                .lastName(user.getLastName())
-//                .email(user.getEmail())
-//                .phone(user.getPhone())
-//                .password(user.getPasswordHash())
-//                .createAt(user.getCreateAt())
+                .userName(user.getUsername())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .password(user.getPasswordHash())
+                .createAt(user.getCreateAt())
                 .build();
     }
 
