@@ -1,6 +1,5 @@
 package com.prettier.config;
 
-import com.prettier.entity.concretes.User;
 import com.prettier.payload.mapper.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

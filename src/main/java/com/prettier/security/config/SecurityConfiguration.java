@@ -4,12 +4,16 @@ import com.prettier.security.jwt.AuthEntryPointJwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +32,7 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .authorizeHttpRequests()
+                //.requestMatchers(HttpMethod.GET,"/api/**").permitAll()
                 .requestMatchers("/api/v1.0/auth/**").permitAll()
                 .requestMatchers(AUTH_WHITE_LIST).permitAll()
                 .anyRequest().authenticated()
@@ -38,6 +43,7 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.headers().frameOptions().sameOrigin();
+        http.httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
@@ -55,4 +61,18 @@ public class SecurityConfiguration {
             "/swagger-ui/**",
             "/swagger*/**"
     };
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer(){
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+
+                registry.addMapping("/**") // tüm URL'leri kapsayacagini söyledik
+                        .allowedOrigins("*") // Tüm kaynaklara izin veriliyor
+                        .allowedHeaders("*") //Tüm header'lara izin verilecegini söyledik
+                        .allowedMethods("*"); //Bütün HTTP metodlarina izin verildi
+            }
+        };
+    }
 }

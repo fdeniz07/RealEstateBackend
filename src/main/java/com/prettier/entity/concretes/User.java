@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
@@ -80,7 +79,7 @@ public class User extends BaseEntity implements UserDetails {
 
     // -----------RELATIONS -------------------------------------------------
 
-    @ManyToMany//(cascade = CascadeType.ALL,fetch = FetchType.EAGER) //
+    @ManyToMany(fetch = FetchType.EAGER)//(cascade = CascadeType.ALL,fetch = FetchType.EAGER) //
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -90,8 +89,15 @@ public class User extends BaseEntity implements UserDetails {
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+    public User(Long id, String firstName, String lastName, String email, String username, String phone, String passwordHash, Set<Role> roles) {
+        super.setId(id);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+        this.phone = phone;
+        this.passwordHash = passwordHash;
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         for (Role role : roles) {
@@ -99,6 +105,17 @@ public class User extends BaseEntity implements UserDetails {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName())); // Role'ü SimpleGrantedAuthority'ye dönüştürüp listeye ekleyin
         }
         this.authorities = grantedAuthorities;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+//        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+//        for (Role role : roles) {
+//
+//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName())); // Role'ü SimpleGrantedAuthority'ye dönüştürüp listeye ekleyin
+//        }
+//        this.authorities = grantedAuthorities;
         return authorities;
     }
 
@@ -140,16 +157,16 @@ public class User extends BaseEntity implements UserDetails {
         return true;
     }
 
-//    //iki tane userdetails türünde nesne gelecekse ve birbiriyle kiyaslanacaksa ve bu kiyaslanma kriterini kendimizi göre özellestireceksek;
-//    public boolean equals(Object o) {
-//
-//        if (this == o)//kendisi ile kiyasliyorsak
-//            return true;
-//
-//        if (o == null || getClass() != o.getClass()) //iki farkli objeyi karsilastiriyoruz, ayni degeri döndürüp döndürmedigini kiyasliyoruz
-//            return false;
-//
-//        User user = (User) o;
-//        return Objects.equals(getId(), user.getId()); // id ile kiyaslama
-//    }
+    //iki tane userdetails türünde nesne gelecekse ve birbiriyle kiyaslanacaksa ve bu kiyaslanma kriterini kendimizi göre özellestireceksek;
+    public boolean equals(Object o) {
+
+        if (this == o)//kendisi ile kiyasliyorsak
+            return true;
+
+        if (o == null || getClass() != o.getClass()) //iki farkli objeyi karsilastiriyoruz, ayni degeri döndürüp döndürmedigini kiyasliyoruz
+            return false;
+
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId()); // id ile kiyaslama
+    }
 }

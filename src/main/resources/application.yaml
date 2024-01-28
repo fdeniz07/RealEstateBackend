@@ -19,7 +19,7 @@ server:
 logging:
   level:
     root:
-    com.prettier: TRACE
+    com.prettier: DEBUG
 ---
 spring:
   config:
@@ -37,6 +37,7 @@ spring:
       hibernate:
 #        default_schema: real_estate_db
         format_sql: true
+    open-in-view: true
   datasource:
 #    jdbc:postgresql://localhost:5432/real_estate_db olacak default port olarak!!!
     url: "jdbc:postgresql://localhost:5433/real_estate_db"
