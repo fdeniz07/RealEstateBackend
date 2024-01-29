@@ -1,5 +1,7 @@
 package com.prettier.service.abstracts;
 
+import com.prettier.entity.concretes.City;
+import com.prettier.entity.concretes.District;
 import com.prettier.payload.request.concretes.DistrictRequest;
 import com.prettier.payload.request.concretes.DistrictUpdateRequest;
 import com.prettier.payload.response.concretes.DistrictResponse;
@@ -7,8 +9,17 @@ import com.prettier.shared.utils.enums.Language;
 import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
+import java.util.List;
 
 public interface DistrictService extends Serializable {
+
+    //NOT: *********** Data Inilitalizer icin gerekli metotlar *************************
+
+    List<District> getAllDistricts();
+
+
+    //NOT: *********** District Manager standart metotlar *************************************
+
 
     Page<DistrictResponse> getDistricts(Language language, int page, int size, String sort, String type);
 

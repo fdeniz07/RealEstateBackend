@@ -35,6 +35,23 @@ public class CityManager implements CityService {
     private final CityMapper cityMapper;
     private CountryMapper countryMapper;
 
+    //NOT: *********** Data Inilitalizer icin gerekli metotlar *************************
+
+    @Override
+    public List<City> getAllCities() {
+
+        return cityRepository.findAll();
+    }
+
+    @Override
+    public City getById(Integer id) {
+
+        return cityRepository.findById(id);
+    }
+
+
+    //NOT: *********** City Manager standart metotlar *************************************
+
     //Not: getAll() *********************************************************************************************************************************
 
     @Override

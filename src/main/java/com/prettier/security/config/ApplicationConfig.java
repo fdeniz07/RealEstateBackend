@@ -1,6 +1,7 @@
 package com.prettier.security.config;
 
 import com.prettier.repository.UserRepository;
+import com.prettier.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,20 +18,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private  UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserDetailsServiceImpl userDetailsService;
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-
-        return email -> userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//
+//        return email -> userRepository.findByEmail(email)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+//    }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
         //olusan obje üzerinden Encoder ve UserDetailService'i tanistirmaliyiz
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;

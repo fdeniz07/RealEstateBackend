@@ -39,6 +39,17 @@ public class DistrictManager implements DistrictService {
     private final CityService cityService;
     private final CityMapper cityMapper;
 
+    //NOT: *********** Data Inilitalizer icin gerekli metotlar *************************
+
+    @Override
+    public List<District> getAllDistricts() {
+
+        return districtRepository.findAll();
+    }
+
+
+    //NOT: *********** District Manager standart metotlar *************************************
+
     //Not: getAll() *********************************************************************************************************************************
 
     @Override

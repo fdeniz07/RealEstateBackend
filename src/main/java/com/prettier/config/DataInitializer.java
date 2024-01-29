@@ -1,15 +1,26 @@
 package com.prettier.config;
 
-import com.prettier.entity.concretes.Role;
-import com.prettier.entity.concretes.User;
+import com.prettier.entity.concretes.*;
+import com.prettier.entity.enums.CitiesOfTurkey;
+import com.prettier.entity.enums.Countries;
+import com.prettier.entity.enums.DistrictsOfTurkey;
 import com.prettier.entity.enums.RoleType;
-import com.prettier.repository.RoleRepository;
-import com.prettier.repository.UserRepository;
+import com.prettier.repository.*;
+import com.prettier.service.abstracts.CityService;
+import com.prettier.service.abstracts.CountryService;
+import com.prettier.service.abstracts.DistrictService;
 import com.prettier.service.abstracts.RoleService;
+import com.prettier.shared.exception.exceptions.users.NotFoundException;
+import jakarta.transaction.TransactionManager;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Set;
 
@@ -17,11 +28,17 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa calistiginda builtin olarak gecilecek degerler
 
-    private final RoleRepository roleRepository;
     private final RoleService roleService;
+    private final CityService cityService;
+    private final CountryService countryService;
+    private final DistrictService districtService;
 
-    //private final UserService userService;
+    private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+    private final CityRepository cityRepository;
+    private final CountryRepository countryRepository;
+    private final DistrictRepository districtRepository;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -33,6 +50,42 @@ public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa
                 role.setName(roleType.getRoleName());
                 role.setDescription(roleType.getDescription());
                 roleRepository.save(role);
+            }
+        }
+
+        // Countries Enum'daki değerleri Countries tablosuna ekliyoruz
+        if (countryService.getAllCountries().isEmpty()) {
+            for (Countries countries : Countries.values()) {
+                Country country = new Country();
+                country.setName(countries.getName());
+                country.setCode(countries.getCode());
+                countryRepository.save(country);
+            }
+        }
+
+        // CitiesOfTurkey Enum'daki değerleri Cities tablosuna ekliyoruz
+        if (cityService.getAllCities().isEmpty()) {
+            for (CitiesOfTurkey cities : CitiesOfTurkey.values()) {
+                City city = new City();
+                city.setName(cities.getCityName());
+                city.setPlateNumber(cities.getPlateNumber());
+
+                Country turkeyCode = countryService.getById(222);
+                city.setCountry(turkeyCode);
+                cityRepository.save(city);
+
+            }
+        }
+
+        // DistrictsOfTurkey Enum'daki değerleri Districts tablosuna ekliyoruz
+        if (districtService.getAllDistricts().isEmpty()) {
+            for (DistrictsOfTurkey districts : DistrictsOfTurkey.values()) {
+                District district = new District();
+                district.setName(districts.getName());
+
+                City city = cityService.getById(districts.getCity_id());
+                district.setCity(city);
+                districtRepository.save(district);
             }
         }
 

@@ -3,6 +3,7 @@ package com.prettier.entity.concretes;
 import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,12 +15,13 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Role extends BaseEntity {
+public class Role extends BaseEntity{
 
     @Column(name = "role_name", nullable = false, unique = true)
     private String name;
 
     private String description;
+
 
     // Entity Relations
     @ManyToMany()

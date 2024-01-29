@@ -1,10 +1,10 @@
 package com.prettier.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,8 @@ public class JWTService{
 
     @Value("${backendapi.app.jwtExpressionMS}")
     private Long jwtExpirationMs;
+
+    private static final Logger logger = LoggerFactory.getLogger(JWTService.class);
 
     //Not: Generate JWT **********************************************************
     //JWT Loginden sonra cagirilir
@@ -83,7 +85,19 @@ public class JWTService{
     public boolean isTokenValid(String token, UserDetails userDetails) {
 
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+
+        try {
+            return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        } catch (ExpiredJwtException e) {
+            logger.error("Jwt token is expired : {}", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            logger.error("Jwt token is unsupported : {}", e.getMessage());
+        } catch (MalformedJwtException e) {
+            logger.error("Invalid Jwt token : {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            logger.error("Jwt claims string is empty : {}", e.getMessage());
+        }
+        return false;
     }
 
     //Not: Token Süre Kontrolü ******************************************************
@@ -97,14 +111,4 @@ public class JWTService{
         return extractClaim(token, Claims::getExpiration);
     }
 
-    //Not: getUsernameForJwt *****************************************************
-    public String getUserNameFromJwtToken(String token) {
-
-        return Jwts
-                .parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
-    }
 }
