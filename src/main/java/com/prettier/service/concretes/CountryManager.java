@@ -1,5 +1,6 @@
 package com.prettier.service.concretes;
 
+import com.prettier.entity.concretes.City;
 import com.prettier.entity.concretes.Country;
 import com.prettier.payload.mapper.CountryMapper;
 import com.prettier.payload.request.concretes.CountryRequest;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -33,6 +35,23 @@ public class CountryManager implements CountryService {
 
     private final CountryRepository countryRepository;
     private final CountryMapper countryMapper;
+
+    //NOT: *********** Data Inilitalizer icin gerekli metotlar *************************
+
+    @Override
+    public List<Country> getAllCountries() {
+
+        return countryRepository.findAll();
+    }
+
+    @Override
+    public Country getById(Integer id) {
+
+        return countryRepository.findById(id);
+    }
+
+
+    //NOT: *********** City Manager standart metotlar *************************************
 
     //Not: getAll() *********************************************************************************************************************************
     @Override

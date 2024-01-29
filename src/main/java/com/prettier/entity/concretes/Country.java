@@ -1,10 +1,7 @@
 package com.prettier.entity.concretes;
 
 import com.prettier.entity.abstracts.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -24,6 +21,11 @@ public class Country extends BaseEntity{
     @Column(name = "name", nullable = false)
     @Size(min = 2, max = 50)
     private String name;
+
+    @Column(name = "code", nullable = false)
+    @Size(min = 1, max = 3)
+    private String code;
+
 
     @OneToMany(mappedBy = "country")
     private Set<City> citySet;

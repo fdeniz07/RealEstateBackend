@@ -24,7 +24,7 @@ public class District extends BaseEntity{
     @Size(min = 2, max = 50)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.PERSIST) // cascade = CascadeType.ALL ifadesi, District sınıfının kaydedilmesi durumunda ilişkili City nesnesinin de otomatik olarak kaydedilmesini sağlar.
+    @ManyToOne//(cascade = CascadeType.PERSIST) // cascade = CascadeType.ALL ifadesi, District sınıfının kaydedilmesi durumunda ilişkili City nesnesinin de otomatik olarak kaydedilmesini sağlar.
     @JoinColumn(name = "city_id")
     @JsonIgnore    //coklu iliskilerde tablonun birinde bu annotation kullanilir, aksi durumda sout yapildiginda sonsuz döngüye girer!
     @JsonIgnoreProperties("city")
