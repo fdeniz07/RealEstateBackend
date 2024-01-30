@@ -10,17 +10,10 @@ import com.prettier.service.abstracts.CityService;
 import com.prettier.service.abstracts.CountryService;
 import com.prettier.service.abstracts.DistrictService;
 import com.prettier.service.abstracts.RoleService;
-import com.prettier.shared.exception.exceptions.users.NotFoundException;
-import jakarta.transaction.TransactionManager;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Set;
 

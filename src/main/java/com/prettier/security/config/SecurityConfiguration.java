@@ -1,10 +1,10 @@
 package com.prettier.security.config;
 
-import com.prettier.security.jwt.AuthEntryPointJwt;
+import com.prettier.security.exception.AuthEntryPointJwt;
+import com.prettier.security.exception.CustomAuthenticationFailureHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,14 +23,18 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final AuthEntryPointJwt unauthorizedHandler;
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
                 .cors().and()
                 .csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+                .and()
+                .formLogin()
+                //.loginPage("/api/v1.0/auth/{language}/login")
+                .failureHandler(customAuthenticationFailureHandler).and()
                 .authorizeHttpRequests()
                 //.requestMatchers(HttpMethod.GET,"/api/**").permitAll()
                 .requestMatchers("/api/v1.0/auth/**").permitAll()
@@ -63,7 +67,7 @@ public class SecurityConfiguration {
     };
 
     @Bean
-    public WebMvcConfigurer corsConfigurer(){
+    public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
