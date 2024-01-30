@@ -1,11 +1,13 @@
 package com.prettier.controller.auth;
 
 import com.prettier.payload.request.concretes.LoginRequest;
-import com.prettier.payload.response.concretes.LoginResponse;
 import com.prettier.payload.request.concretes.SignUpRequest;
 import com.prettier.payload.response.FriendlyMessage;
 import com.prettier.payload.response.InternalApiResponse;
+import com.prettier.payload.response.concretes.LoginResponse;
 import com.prettier.payload.response.concretes.SignUpResponse;
+import com.prettier.security.exception.CustomAuthenticationFailureHandler;
+import com.prettier.security.exception.DuplicateUserException;
 import com.prettier.service.abstracts.AuthService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
@@ -19,44 +21,54 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Auth", description = "Prettier Real Estate APIs") //Swagger dökümani icin
+@Tag(name = "Auth", description = "Prettier Real Estate APIs")
 @RequestMapping(value = "api/v1.0/auth")
-@Slf4j //Log eklemek icin kullaniyoruz
+@Slf4j
 public class AuthController {
 
     private final AuthService authService;
+    private final  CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     //Not: signUp() ******************************************************************************************************
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/signUp")
     public InternalApiResponse<SignUpResponse> signUp(@PathVariable("language") Language language,
                                                       @Valid
-                                                      @RequestBody SignUpRequest signUpRequest)
-    {
+                                                      @RequestBody SignUpRequest signUpRequest) {
         log.debug("[{}][signUp] -> request: {}", this.getClass().getSimpleName(), signUpRequest);
 
-        SignUpResponse signUpResponse = authService.signUp(language, signUpRequest);
+        try{
+            SignUpResponse signUpResponse = authService.signUp(language, signUpRequest);
+            log.debug("[{}][signUp] -> response: {}", this.getClass().getSimpleName(), signUpResponse);
 
-        log.debug("[{}][signUp] -> response: {}", this.getClass().getSimpleName(), signUpResponse);
-
-        return InternalApiResponse.<SignUpResponse>builder()
-                .friendlyMessage(FriendlyMessage.builder()
-                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
-                        .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SIGN_UP_SUCCESSFULLY))
-                        .build())
-                .httpStatus(HttpStatus.CREATED)
-                .hasError(false)
-                .payload(signUpResponse)
-                .build();
+            return InternalApiResponse.<SignUpResponse>builder()
+                    .friendlyMessage(FriendlyMessage.builder()
+                            .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
+                            .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SIGN_UP_SUCCESSFULLY))
+                            .build())
+                    .httpStatus(HttpStatus.CREATED)
+                    .hasError(false)
+                    .payload(signUpResponse)
+                    .build();
+        }catch (DuplicateUserException e){
+            // Aynı bilgilerle kayıt olmaya çalışıldığında fırlatılan özel istisnayı yakalayarak özel bir hata mesajı dönebilirsiniz.
+            return InternalApiResponse.<SignUpResponse>builder()
+                    .friendlyMessage(FriendlyMessage.builder()
+                            .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.ERROR))//"Duplicate User"
+                            .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.USER_ALREADY_EXIST))
+                            .build())
+                    .httpStatus(HttpStatus.BAD_REQUEST) // 400 Bad Request
+                    .hasError(true)
+                    .build();
+        }
     }
 
-    //Not: signUp() ******************************************************************************************************
+    //Not: login() ******************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(value = "/{language}/login")
     public InternalApiResponse<LoginResponse> login(@PathVariable("language") Language language,
-                                                     @Valid
-                                                      @RequestBody LoginRequest loginRequest)
-    {
+                                                    @Valid
+                                                    @RequestBody LoginRequest loginRequest) {
         log.debug("[{}][login] -> request: {}", this.getClass().getSimpleName(), loginRequest);
 
         LoginResponse loginResponse = authService.login(language, loginRequest);
@@ -68,13 +80,42 @@ public class AuthController {
                         .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
                         .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.LOGIN_SUCCESSFULLY))
                         .build())
-                .httpStatus(HttpStatus.CREATED)
+                .httpStatus(HttpStatus.OK)
                 .hasError(false)
                 .payload(loginResponse)
                 .build();
     }
 
+
+
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    InternalApiAuthResponse<HttpServletResponse> handleMethodArgNotValidEx(AuthenticationException exception, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//
+//      customAuthenticationFailureHandler.onAuthenticationFailure(request,response,exception);
+//
+//        return InternalApiAuthResponse.<HttpServletResponse>builder()
+//                .httpStatus(HttpStatus.BAD_REQUEST)
+//                .hasError(true)
+//                .payload(response)
+//                .build();
+//    }
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
 
 
     /*

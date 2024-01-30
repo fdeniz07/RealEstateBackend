@@ -1,5 +1,10 @@
 package com.prettier.shared.exception.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum FriendlyMessageCodes implements IFriendlyMessageCode {
     OK(1000),
     ERROR(1001),
@@ -131,16 +136,14 @@ public enum FriendlyMessageCodes implements IFriendlyMessageCode {
     SIGN_UP_SUCCESSFULLY(3000),
     SIGN_UP_FAILED_EXCEPTION(3001),
     LOGIN_SUCCESSFULLY(3002),
-    LOGIN_FAILED_EXCEPTION(3003);
+    LOGIN_FAILED_EXCEPTION(3003),
+    USER_ALREADY_EXIST(3004);
 
     private final int value;
 
-    FriendlyMessageCodes(int value) {
-        this.value = value;
-    }
-
     @Override
     public int getFriendlyMessageCode() {
+
         return value;
     }
 }

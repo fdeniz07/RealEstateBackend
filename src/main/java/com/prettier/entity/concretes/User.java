@@ -37,6 +37,12 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private String phone;
 
+    @Column(name = "profile-image")
+    private String image;
+
+    @Column(name = "user-info")
+    private String userInfo;
+
     @Column(name = "password_hash", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     // Client'den DB'ye giderken yazma islemi olsun, Db'den Client'e giderken Okuma islemi olmasin. Hassas veri oldugu icin okuma islemlerinde kullanilmaz
@@ -52,7 +58,7 @@ public class User extends BaseEntity implements UserDetails {
     private boolean builtIn;
 
     @JsonIgnore
-    private boolean isActive = true;
+    private boolean isActive = false;
 
     @JsonIgnore
     String activationToken;
@@ -76,6 +82,10 @@ public class User extends BaseEntity implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private Set<Advert> advertSet;
+
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    private Set<Social> socials;
 
     // -----------RELATIONS -------------------------------------------------
 

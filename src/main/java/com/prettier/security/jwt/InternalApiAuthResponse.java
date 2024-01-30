@@ -1,4 +1,4 @@
-package com.prettier.payload.response;
+package com.prettier.security.jwt;
 
 import lombok.Builder;
 import lombok.Data;
@@ -11,9 +11,8 @@ import java.util.Map;
 
 @Data
 @Builder
-public class InternalApiResponse<T> {
+public class InternalApiAuthResponse<T> {
 
-    private FriendlyMessage friendlyMessage;
     private T payload;
     private boolean hasError;
     private List<String> errorMessages;
