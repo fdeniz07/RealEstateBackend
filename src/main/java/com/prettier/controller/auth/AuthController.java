@@ -7,7 +7,6 @@ import com.prettier.payload.response.InternalApiResponse;
 import com.prettier.payload.response.concretes.LoginResponse;
 import com.prettier.payload.response.concretes.SignUpResponse;
 import com.prettier.security.exception.CustomAuthenticationFailureHandler;
-import com.prettier.security.exception.DuplicateUserException;
 import com.prettier.service.abstracts.AuthService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
