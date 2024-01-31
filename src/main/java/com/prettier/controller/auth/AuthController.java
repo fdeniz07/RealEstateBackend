@@ -2,8 +2,8 @@ package com.prettier.controller.auth;
 
 import com.prettier.payload.request.concretes.LoginRequest;
 import com.prettier.payload.request.concretes.SignUpRequest;
-import com.prettier.payload.response.FriendlyMessage;
-import com.prettier.payload.response.InternalApiResponse;
+import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;
+import com.prettier.shared.exception.globalExceptionHandling.InternalApiResponse;
 import com.prettier.payload.response.concretes.LoginResponse;
 import com.prettier.payload.response.concretes.SignUpResponse;
 import com.prettier.security.exception.CustomAuthenticationFailureHandler;
@@ -36,7 +36,6 @@ public class AuthController {
                                                       @RequestBody SignUpRequest signUpRequest) {
         log.debug("[{}][signUp] -> request: {}", this.getClass().getSimpleName(), signUpRequest);
 
-//        try{
             SignUpResponse signUpResponse = authService.signUp(language, signUpRequest);
             log.debug("[{}][signUp] -> response: {}", this.getClass().getSimpleName(), signUpResponse);
 
@@ -49,17 +48,6 @@ public class AuthController {
                     .hasError(false)
                     .payload(signUpResponse)
                     .build();
-//        }catch (DuplicateUserException e){
-//            // Aynı bilgilerle kayıt olmaya çalışıldığında fırlatılan özel istisnayı yakalayarak özel bir hata mesajı dönebilirsiniz.
-//            return InternalApiResponse.<SignUpResponse>builder()
-//                    .friendlyMessage(FriendlyMessage.builder()
-//                            .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.ERROR))//"Duplicate User"
-//                            .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.USER_ALREADY_EXIST))
-//                            .build())
-//                    .httpStatus(HttpStatus.BAD_REQUEST) // 400 Bad Request
-//                    .hasError(true)
-//                    .build();
-//        }
     }
 
     //Not: login() ******************************************************************************************************
@@ -84,30 +72,6 @@ public class AuthController {
                 .payload(loginResponse)
                 .build();
     }
-
-
-
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    InternalApiAuthResponse<HttpServletResponse> handleMethodArgNotValidEx(AuthenticationException exception, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//
-//      customAuthenticationFailureHandler.onAuthenticationFailure(request,response,exception);
-//
-//        return InternalApiAuthResponse.<HttpServletResponse>builder()
-//                .httpStatus(HttpStatus.BAD_REQUEST)
-//                .hasError(true)
-//                .payload(response)
-//                .build();
-//    }
-
-
-
-
-
-
-
-
-
-
 }
 
 

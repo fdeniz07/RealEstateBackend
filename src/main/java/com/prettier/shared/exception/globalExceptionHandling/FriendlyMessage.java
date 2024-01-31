@@ -1,4 +1,4 @@
-package com.prettier.payload.response;
+package com.prettier.shared.exception.globalExceptionHandling;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

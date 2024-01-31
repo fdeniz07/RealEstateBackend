@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-    private final long timestamp = new Date().getTime();
+    private final LocalDateTime timestamp = LocalDateTime.now();
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
@@ -40,16 +41,6 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         responseBody.put("status", HttpStatus.UNAUTHORIZED.value());
         responseBody.put("error", "Unauthorized");
         responseBody.put("timestamp", timestamp);
-
-        if (exception instanceof BadCredentialsException) {
-            // Eğer kullanıcı email veya şifre geçerli değilse
-            responseBody.put("message", "Invalid email or password");
-        } else if (exception instanceof DuplicateUserException) {
-            responseBody.put("message", "This user already exist");
-        } else {
-            // Diğer türde hatalar için genel bir mesaj
-            responseBody.put("message", "Authentication failed");
-        }
         responseBody.put("path", request.getServletPath());
         return responseBody;
     }
