@@ -1,5 +1,6 @@
-package com.prettier.shared.exception;
+package com.prettier.shared.exception.commons;
 
+import com.prettier.shared.exception.globalExceptionHandling.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

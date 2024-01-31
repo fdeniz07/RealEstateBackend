@@ -1,23 +1,20 @@
-package com.prettier.payload.response;
+package com.prettier.shared.exception.globalExceptionHandling;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
-@Builder
-public class InternalApiResponse<T> {
-
+public class ApiErrorResponse {
     private FriendlyMessage friendlyMessage;
-    private T payload;
     private boolean hasError;
     private List<String> errorMessages;
     private HttpStatus httpStatus;
     private LocalDateTime timeStamp;
     private String path;
+
 }

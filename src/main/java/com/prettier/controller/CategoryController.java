@@ -5,8 +5,8 @@ import com.prettier.entity.concretes.CategoryPropertyKey;
 import com.prettier.payload.mapper.CategoryMapper;
 import com.prettier.payload.request.concretes.CategoryRequest;
 import com.prettier.payload.request.concretes.CategoryUpdateRequest;
-import com.prettier.payload.response.FriendlyMessage;
-import com.prettier.payload.response.InternalApiResponse;
+import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;
+import com.prettier.shared.exception.globalExceptionHandling.InternalApiResponse;
 import com.prettier.payload.response.concretes.CategoryPropertyKeyResponse;
 import com.prettier.payload.response.concretes.CategoryResponse;
 import com.prettier.service.concretes.CategoryManager;
@@ -22,7 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController

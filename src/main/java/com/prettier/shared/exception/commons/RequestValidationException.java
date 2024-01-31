@@ -1,4 +1,4 @@
-package com.prettier.shared.exception;
+package com.prettier.shared.exception.commons;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

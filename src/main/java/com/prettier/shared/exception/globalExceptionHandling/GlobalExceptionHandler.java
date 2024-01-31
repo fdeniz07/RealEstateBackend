@@ -1,7 +1,5 @@
-package com.prettier.shared.exception;
+package com.prettier.shared.exception.globalExceptionHandling;
 
-import com.prettier.payload.response.FriendlyMessage;
-import com.prettier.payload.response.InternalApiResponse;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.exceptions.adverts.AdvertAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.adverts.AdvertNotCreatedException;
@@ -35,8 +33,6 @@ import com.prettier.shared.exception.exceptions.tourRequests.TourRequestNotFound
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
