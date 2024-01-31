@@ -14,9 +14,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.time.Instant;
 
 @Service
-public class JWTService{
+public class JWTUtils {
 
     @Value("${backendapi.app.jwtSecret}")
     //application.properties'den degeri al diyoruz. Bu sekilde sabit degerlerimizi kodlar arasinda degil,ayar dosyasinda degistirebiliyoruz
@@ -25,7 +26,7 @@ public class JWTService{
     @Value("${backendapi.app.jwtExpressionMS}")
     private Long jwtExpirationMs;
 
-    private static final Logger logger = LoggerFactory.getLogger(JWTService.class);
+    private static final Logger logger = LoggerFactory.getLogger(JWTUtils.class);
 
     //Not: Generate JWT **********************************************************
     //JWT Loginden sonra cagirilir
@@ -52,7 +53,7 @@ public class JWTService{
 
     //Not: JWT Token üzerinden alinan claim bilgisinin cözümlenmesi *****************
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
+        final Claims claims = getClaims(token);
         return claimsResolver.apply(claims);
     }
 
@@ -64,51 +65,43 @@ public class JWTService{
 
 
     //Not: JWT Token üzerinden username alma ***************************************
-    public String extractUsername(String token) {
+    public String getSubject(String token) {
 
-        return extractClaim(token, Claims::getSubject);
+        return getClaims(token).getSubject();
     }
 
 
     //Not: JWT Token üzerinden claim bilgisini alma ********************************
-    private Claims extractAllClaims(String token) {
-
-        return Jwts
+    private Claims getClaims(String token) {
+        Claims claims = Jwts
                 .parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+        return claims;
     }
 
     //Not: Validate JWT **********************************************************
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-
-        final String username = extractUsername(token);
-
-        try {
-            return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
-        } catch (ExpiredJwtException e) {
-            logger.error("Jwt token is expired : {}", e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            logger.error("Jwt token is unsupported : {}", e.getMessage());
-        } catch (MalformedJwtException e) {
-            logger.error("Invalid Jwt token : {}", e.getMessage());
-        } catch (IllegalArgumentException e) {
-            logger.error("Jwt claims string is empty : {}", e.getMessage());
-        }
-        return false;
+    public boolean isTokenValid(String jwt, String username) {
+        String subject = getSubject(jwt);
+        return subject.equals(username) && !isTokenExpired(jwt);
     }
 
     //Not: Token Süre Kontrolü ******************************************************
-    private boolean isTokenExpired(String token) {
-
-        return extractExpiration(token).before(new Date());
+    private boolean isTokenExpired(String jwt) {
+        Date today = Date.from(Instant.now());
+        return getClaims(jwt).getExpiration().before(today);
     }
 
-    private Date extractExpiration(String token) {
-
-        return extractClaim(token, Claims::getExpiration);
-    }
+//    private boolean isTokenExpired(String token) {
+//
+//        return extractExpiration(token).before(new Date());
+//    }
+//
+//    private Date extractExpiration(String token) {
+//
+//        return extractClaim(token, Claims::getExpiration);
+//    }
 
 }
