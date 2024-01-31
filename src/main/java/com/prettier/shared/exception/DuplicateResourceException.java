@@ -3,10 +3,10 @@ package com.prettier.shared.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(code = HttpStatus.REQUEST_TIMEOUT)
-public class InvalidTimeException extends  RuntimeException{
+@ResponseStatus(code = HttpStatus.CONFLICT)
+public class DuplicateResourceException extends RuntimeException {
 
-    public InvalidTimeException(String message) {
+    public DuplicateResourceException(String message) {
 
         super(message);
     }

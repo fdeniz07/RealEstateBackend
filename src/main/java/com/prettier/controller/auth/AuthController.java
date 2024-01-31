@@ -37,7 +37,7 @@ public class AuthController {
                                                       @RequestBody SignUpRequest signUpRequest) {
         log.debug("[{}][signUp] -> request: {}", this.getClass().getSimpleName(), signUpRequest);
 
-        try{
+//        try{
             SignUpResponse signUpResponse = authService.signUp(language, signUpRequest);
             log.debug("[{}][signUp] -> response: {}", this.getClass().getSimpleName(), signUpResponse);
 
@@ -50,17 +50,17 @@ public class AuthController {
                     .hasError(false)
                     .payload(signUpResponse)
                     .build();
-        }catch (DuplicateUserException e){
-            // Aynı bilgilerle kayıt olmaya çalışıldığında fırlatılan özel istisnayı yakalayarak özel bir hata mesajı dönebilirsiniz.
-            return InternalApiResponse.<SignUpResponse>builder()
-                    .friendlyMessage(FriendlyMessage.builder()
-                            .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.ERROR))//"Duplicate User"
-                            .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.USER_ALREADY_EXIST))
-                            .build())
-                    .httpStatus(HttpStatus.BAD_REQUEST) // 400 Bad Request
-                    .hasError(true)
-                    .build();
-        }
+//        }catch (DuplicateUserException e){
+//            // Aynı bilgilerle kayıt olmaya çalışıldığında fırlatılan özel istisnayı yakalayarak özel bir hata mesajı dönebilirsiniz.
+//            return InternalApiResponse.<SignUpResponse>builder()
+//                    .friendlyMessage(FriendlyMessage.builder()
+//                            .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.ERROR))//"Duplicate User"
+//                            .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.USER_ALREADY_EXIST))
+//                            .build())
+//                    .httpStatus(HttpStatus.BAD_REQUEST) // 400 Bad Request
+//                    .hasError(true)
+//                    .build();
+//        }
     }
 
     //Not: login() ******************************************************************************************************

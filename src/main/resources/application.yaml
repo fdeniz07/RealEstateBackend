@@ -16,6 +16,25 @@ server:
     include-message: always
     include-stacktrace: never
 
+cors:
+  allowed-origins: "*" ## Tüm kaynaklara izin veriliyor
+  allowed-methods: "*" ## Bütün HTTP metodlarina izin verildi
+  allowed-headers: "*" ## Tüm header'lara izin verilecegini söyledik
+  exposed-headers: "*"
+
+#aws:
+#  region: eu-west-1
+#  s3:
+#    mock: true
+#    buckets:
+#      customer: fs-prettier-customer-test
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "realestate,info"
+
 logging:
   level:
     root:
@@ -47,6 +66,14 @@ spring:
     user:
       name: test
       password: test123
+#  main:
+#    web-application-type: servlet
+#  servlet:
+#    multipart:
+#      max-file-size: 10MB
+#      max-request-size: 10MB
+#  codec:
+#    max-in-memory-size: 10MB
 
 prettier:
   openapi:
