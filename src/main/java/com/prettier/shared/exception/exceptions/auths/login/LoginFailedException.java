@@ -1,4 +1,4 @@
-package com.prettier.shared.exception.exceptions.auths;
+package com.prettier.shared.exception.exceptions.auths.login;
 
 import com.prettier.shared.exception.enums.IFriendlyMessageCode;
 import com.prettier.shared.utils.FriendlyMessageUtils;
