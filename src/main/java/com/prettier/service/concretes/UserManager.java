@@ -1,47 +1,50 @@
 package com.prettier.service.concretes;
 
+import com.prettier.payload.request.concretes.UserRequest;
+import com.prettier.payload.request.concretes.UserUpdateRequest;
+import com.prettier.payload.response.concretes.UserResponse;
 import com.prettier.repository.UserRepository;
 import com.prettier.service.abstracts.UserService;
+import com.prettier.shared.utils.enums.Language;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 
 @Service
 @RequiredArgsConstructor
-public class UserManager implements UserService { //Bu sinif ile UserDetailImpl sinifimizi security'e tanitiyoruz
+public class UserManager implements UserService {
 
     private final UserRepository userRepository;
 
-//    @Override
-//    public long countAllAdmin() {
-//
-//        return userRepository.count();
-//    }
 
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//
-////        return username -> userRepository.findByUserName(username)
-////                .orElseThrow(() -> new UsernameNotFoundException("User '" + username + "' not found"));
-//        return userRepository::findByUserNameEquals;
-//    }
+    @Override
+    public Page<UserResponse> getUsersByActive(Language language, int page, int size, String sort, String type) {
+        return null;
+    }
 
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//
-//        User user = userRepository.findByUserNameEquals(username);
-//
-//        if (user != null) {
-//            return new UserDetailsImpl(user.getId(),
-//                    user.getUserName(),
-//                    user.getFirstName(),
-//                    user.getLastName(),
-//                    user.getEmail(),
-//                    user.getPhone(),
-//                    user.getPasswordHash(),
-//                    String.valueOf(user.getRoles())
-//            );
-//        }
-//        //TODO --> Security katmani icin exception handle class'i olusturulacak
-//        throw new UsernameNotFoundException("User '" + username + "' not found"); //Spring Security'e ait bir exception
-//    }
+    @Override
+    public Page<UserResponse> getUsers(Language language, int page, int size, String sort, String type) {
+        return null;
+    }
+
+    @Override
+    public UserResponse getByUserId(Language language, Long id) {
+        return null;
+    }
+
+    @Override
+    public UserResponse add(Language language, UserRequest userRequest) {
+        return null;
+    }
+
+    @Override
+    public UserResponse update(Language language, UserUpdateRequest userUpdateRequest, Long id) {
+        return null;
+    }
+
+    @Override
+    public UserResponse softDelete(Language language, Long id) {
+        return null;
+    }
 }

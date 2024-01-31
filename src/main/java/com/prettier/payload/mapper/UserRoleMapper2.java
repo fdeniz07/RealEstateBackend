@@ -29,7 +29,7 @@ public class UserRoleMapper2 {
                 .email(userRequest.getEmail())
                 .username(userRequest.getUserName())
                 .phone(userRequest.getPhone())
-                .isActive(userRequest.isActive())
+//                .isActive(userRequest.isActive())
                 .build();
     }
 
@@ -43,7 +43,7 @@ public class UserRoleMapper2 {
                 .email(userUpdateRequest.getEmail())
                 .username(userUpdateRequest.getUserName())
                 .phone(userUpdateRequest.getPhone())
-                .isActive(userUpdateRequest.isActive())
+//                .isActive(userUpdateRequest.isActive())
                 .build();
     }
 }

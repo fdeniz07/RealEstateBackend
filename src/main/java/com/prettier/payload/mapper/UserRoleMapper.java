@@ -25,7 +25,7 @@ public interface UserRoleMapper {
     UserResponse toResponse(User user);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "roles", source = "userRequest.roleIds", qualifiedByName = "longSetToRoleSet")
+//    @Mapping(target = "roles", source = "userRequest.roleIds", qualifiedByName = "longSetToRoleSet")
     User toUser(UserRequest userRequest);
 
     //@Mapping(target = "id", source = "userUpdateRequest")

@@ -44,23 +44,7 @@ public class UserRequest extends BaseEntityRequest {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",message = "{FriendlyMessageCodes__CONSTRAINT_PASSWORD_PATTERN}") //"Your password must consist of the characters a-z, A-Z, 0-9."
     private String passwordHash;
 
-   // @JsonIgnore
-    private Set<Long> roleIds;
+//    private Set<Long> roleIds;
 
-
-    @JsonIgnore
-    private boolean builtIn;
-
-    @JsonIgnore
-    private boolean isActive=true;
-
-    //Eğer bu metodun bir Set döndürmesi gerekiyorsa, bu metodun başlangıcında bir Set örneği oluşturduğunuzdan ve döndürdüğünüzden emin olun.
-//    public Set<Long> getRoleIds() {
-//        if (this.roleIds == null) {
-//            this.roleIds = new HashSet<>();
-//        }
-//        return this.roleIds;
-//    }
-    //Yukarıdaki örnekte, getRoleIds() metodu, eğer roleIds örneği null ise bir HashSet oluşturarak bunu döndürüyor. Böylece, herhangi bir yerde bu metodu çağırdığınızda null bir değerle karşılaşmamış olacaksınız. Eğer başka bir şekilde roleIds set'inin oluşturulduğundan eminseniz, sadece getRoleIds() metodunu düzeltebilirsiniz.
 
 }
