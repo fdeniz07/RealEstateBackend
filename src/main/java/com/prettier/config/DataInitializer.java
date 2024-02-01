@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -94,6 +95,7 @@ public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa
             user.setEmail("admin@mail.com");
             user.setPhone("000000000000");
             user.setPasswordHash(new BCryptPasswordEncoder().encode("P4ssword")); //P4ssword
+            user.setActivationToken(UUID.randomUUID().toString());
             user.setBuiltIn(true);
             user.setActive(true);
 

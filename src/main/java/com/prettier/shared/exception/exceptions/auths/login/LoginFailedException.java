@@ -5,10 +5,12 @@ import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 
 @Slf4j
 @Getter
-public class LoginFailedException extends RuntimeException {
+public class LoginFailedException extends AuthenticationException {
 
     private final Language language;
     private final IFriendlyMessageCode friendlyMessageCode;
@@ -19,9 +21,4 @@ public class LoginFailedException extends RuntimeException {
         this.friendlyMessageCode = friendlyMessageCode;
         log.error("[LoginFailedException] -> message:{} developer message: {}", FriendlyMessageUtils.getFriendlyMessage(language, friendlyMessageCode), message);
     }
-
-
-//    public NotFoundException(long id){
-//        super(Messages.getMessageForLocale("FriendlyMessageCodes__USER_NOT_FOUND", LocaleContextHolder.getLocale(), id));
-//    }
 }

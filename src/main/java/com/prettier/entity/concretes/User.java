@@ -3,6 +3,7 @@ package com.prettier.entity.concretes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.prettier.entity.abstracts.BaseEntity;
+import com.prettier.entity.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -10,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -37,10 +39,17 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private String phone;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Gender gender = Gender.UNKNOWN;
+
     @Column(name = "profile-image")
     private String image;
 
-    @Column(name = "user-info")
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
+
+    @Column(name = "user_info")
     private String userInfo;
 
     @Column(name = "password_hash", nullable = false)

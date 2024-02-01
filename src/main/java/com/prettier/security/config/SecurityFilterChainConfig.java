@@ -1,6 +1,5 @@
 package com.prettier.security.config;
 
-import com.prettier.security.exception.DelegatedAuthEntryPoint;
 import com.prettier.security.exception.CustomAuthenticationFailureHandler;
 import com.prettier.security.jwt.JWTAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,8 +33,6 @@ public class SecurityFilterChainConfig {
         this.authEntryPointJwt = authEntryPointJwt;
         this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
     }
-
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
