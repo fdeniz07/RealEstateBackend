@@ -78,4 +78,11 @@ public class MapperConfig {
 
         return new AuthMapperImpl();
     }
+
+    @Bean
+    public MessageMapper messageMapper() {
+
+        return new MessageMapper() {
+        };
+    }
 }
