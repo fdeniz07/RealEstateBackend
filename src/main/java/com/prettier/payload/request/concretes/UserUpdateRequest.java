@@ -1,6 +1,8 @@
 package com.prettier.payload.request.concretes;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.prettier.entity.enums.Gender;
 import com.prettier.payload.request.abstracts.BaseEntityRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -10,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -42,6 +46,12 @@ public class UserUpdateRequest extends BaseEntityRequest {
     @JsonIgnore
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",message = "{FriendlyMessageCodes__CONSTRAINT_PASSWORD_PATTERN}") //"Your password must consist of the characters a-z, A-Z, 0-9."
     private String passwordHash;
+
+    @NotNull(message = "Please enter your gender")
+    private Gender gender;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy")
+    private LocalDate birthDate;
 
     @JsonIgnore
     private boolean builtIn;

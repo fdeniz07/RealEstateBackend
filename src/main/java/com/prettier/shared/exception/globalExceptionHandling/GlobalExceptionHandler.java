@@ -4,6 +4,7 @@ import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.exceptions.adverts.AdvertAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.adverts.AdvertNotCreatedException;
 import com.prettier.shared.exception.exceptions.adverts.AdvertNotFoundException;
+import com.prettier.shared.exception.exceptions.auths.login.LoginFailedException;
 import com.prettier.shared.exception.exceptions.auths.signUp.EmailAlreadyExistsException;
 import com.prettier.shared.exception.exceptions.auths.signUp.PhoneAlreadyExistsException;
 import com.prettier.shared.exception.exceptions.auths.signUp.UsernameAlreadyExistsException;
@@ -32,6 +33,7 @@ import com.prettier.shared.exception.exceptions.tourRequests.TourRequestNotCreat
 import com.prettier.shared.exception.exceptions.tourRequests.TourRequestNotFoundException;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -40,8 +42,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
-@RestControllerAdvice
-//Bu anostasyonun eklenmesinin nedeni burada exception handling yapabilmektir. Ve exception handler'lerimizi tek bir genel hata componentinde birlestirmemize olonak saglar.
+@RestControllerAdvice //Bu anostasyonun eklenmesinin nedeni burada exception handling yapabilmektir. Ve exception handler'lerimizi tek bir genel hata componentinde birlestirmemize olonak saglar.
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
 
@@ -484,7 +486,7 @@ public class GlobalExceptionHandler {
 
     /////////////////// AUTH \\\\\\\\\\\\\\\
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(UsernameAlreadyExistsException.class)
     public InternalApiResponse<String> handleUsernameAlreadyExistsException(UsernameAlreadyExistsException exception, HttpServletRequest request) {
 
@@ -493,7 +495,7 @@ public class GlobalExceptionHandler {
                         .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
                         .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
                         .build())
-                .httpStatus(HttpStatus.BAD_REQUEST)
+                .httpStatus(HttpStatus.CONFLICT)
                 .hasError(true)
                 .errorMessages(Collections.singletonList(exception.getMessage()))
                 .timeStamp(LocalDateTime.now())
@@ -501,7 +503,7 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public InternalApiResponse<String> handleEmailAlreadyExistsException(EmailAlreadyExistsException exception, HttpServletRequest request) {
 
@@ -510,7 +512,7 @@ public class GlobalExceptionHandler {
                         .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
                         .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
                         .build())
-                .httpStatus(HttpStatus.BAD_REQUEST)
+                .httpStatus(HttpStatus.CONFLICT)
                 .hasError(true)
                 .errorMessages(Collections.singletonList(exception.getMessage()))
                 .timeStamp(LocalDateTime.now())
@@ -518,7 +520,7 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(PhoneAlreadyExistsException.class)
     public InternalApiResponse<String> handlePhoneAlreadyExistsException(PhoneAlreadyExistsException exception, HttpServletRequest request) {
 
@@ -527,7 +529,24 @@ public class GlobalExceptionHandler {
                         .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
                         .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
                         .build())
-                .httpStatus(HttpStatus.BAD_REQUEST)
+                .httpStatus(HttpStatus.CONFLICT)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .timeStamp(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(LoginFailedException.class)
+    public InternalApiResponse<String> handleLoginFailedException(LoginFailedException exception, HttpServletRequest request) {
+
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.UNAUTHORIZED)
                 .hasError(true)
                 .errorMessages(Collections.singletonList(exception.getMessage()))
                 .timeStamp(LocalDateTime.now())

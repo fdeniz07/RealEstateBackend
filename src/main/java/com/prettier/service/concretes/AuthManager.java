@@ -18,11 +18,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,6 +59,8 @@ public class AuthManager implements AuthService {
             user.setEmail(signUpRequest.getEmail());
             user.setPhone(signUpRequest.getPhone());
             user.setPasswordHash(passwordEncoder.encode(signUpRequest.getPassword()));
+            user.setGender(signUpRequest.getGender());
+            user.setBirthDate(signUpRequest.getBirthDate());
             user.setActivationToken(UUID.randomUUID().toString());
 
             Set<Role> defaultRole = roleService.getByRoleName("CUSTOMER");
@@ -73,6 +80,8 @@ public class AuthManager implements AuthService {
                     .email(user.getEmail())
                     .phone(user.getPhone())
                     .password(user.getPasswordHash())
+                    .gender(user.getGender())
+                    .birthDate(user.getBirthDate())
                     .createAt(user.getCreateAt())
                     .build();
         }
@@ -82,21 +91,57 @@ public class AuthManager implements AuthService {
     @Override
     public LoginResponse login(Language language, LoginRequest loginRequest) {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
-        );
-        var user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow();
+        log.debug("[{}][login] -> request: {}", this.getClass().getSimpleName(), loginRequest);
 
-        var jwtToken = jwtService.generateToken(user);
+        //!!! Gelen request'in icinden email ve password bilgisi aliniyor
+        String username = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
 
+        //!!! authenticationManager üzerinden kullaniciyi valide ediyoruz
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+//        authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        loginRequest.getEmail(),
+//                        loginRequest.getPassword()
+//                )
+//        );
+
+        //!!! Valide edilen kullanici context'e atiliyor
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
+        //!!! GranteAuthority türündeki role yapisi String türüne ceviriliyor
+        //authentication.getPrincipal() --> Anlik olarak login olan kullanicinin security katmanindaki userDetails bilgisini döndürür
+        User userDetails = (User) authentication.getPrincipal();
+
+        Set<String> roles = userDetails
+                .getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority) //rolleri bizim anlayacagimiz türe(Admin,Manager...) ceviriyor
+                .collect(Collectors.toSet());
+
+        Optional<String> role = roles.stream().findFirst(); //Find gibi metotlar hata vermeye acik oldugu icin Option türünde alarak NullPointerException'unun önüne gecmis oluruz.
+
+        //!!! JWT Token olusturuluyor
+        var jwtToken = jwtService.generateToken(userDetails);
+//        var user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow();
+
+        log.debug("[{}][login] -> response: {}", this.getClass().getSimpleName(), jwtToken);
         return LoginResponse.builder()
                 .token(jwtToken)
 //                .userName(loginRequest.getUserName())
 //                .password(loginRequest.getPassword())
                 .build();
     }
-
 }
+
+//{
+//        "firstName":"user",
+//        "lastName":"user1",
+//        "username":"user1",
+//        "email":"user1@mail.com",
+//        "phone":"1111-111-1111",
+//        "password":"P4ssword",
+//        "gender":"MALE",
+//        "birthDate":"01-05-1994"
+//}

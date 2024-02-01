@@ -1,6 +1,8 @@
 package com.prettier.payload.request.concretes;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.prettier.entity.enums.Gender;
 import com.prettier.payload.request.abstracts.BaseEntityRequest;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +10,8 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -39,6 +43,12 @@ public class SignUpRequest extends BaseEntityRequest {
 
     @NotNull(message = "Please enter your phone number")
     private String phone;
+
+    @NotNull(message = "Please enter your gender")
+    private Gender gender=Gender.UNKNOWN;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy")
+    private LocalDate birthDate;
 
     @JsonIgnore
     private boolean builtIn;

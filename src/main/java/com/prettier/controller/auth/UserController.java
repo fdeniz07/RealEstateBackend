@@ -20,7 +20,7 @@ public class UserController {
     private final UserMapper userMapper;
 
 
-    //Not: registerUser() ******************************************************************************************************
+    //Not: getUsers() ******************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{language}/")
     public ResponseEntity<String> sayHello() {
@@ -28,5 +28,7 @@ public class UserController {
         return ResponseEntity.ok("Hello from secured endpoint");
     }
 
+
+    //Not: getUser() ******************************************************************************************************
 
 }
