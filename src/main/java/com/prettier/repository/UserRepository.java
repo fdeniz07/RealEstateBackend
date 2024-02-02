@@ -1,6 +1,8 @@
 package com.prettier.repository;
 
 import com.prettier.entity.concretes.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,23 +13,25 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    //DB de kayitli email ve username var mi?
-    boolean existsByUsername(String username);
-
+    //DB de kayitli email var mi?
     boolean existsByEmail(String email);
 
     boolean existsByPhone(String phone);
 
-    //    Optional<User> findByUserName(String userName);
+    Page<User> findByActiveTrue(Pageable pageable);
 
-    // Optional<User> findByUserName(@Param("username") String userName);
+    Page<User> findByActiveFalse(Pageable pageable);
 
-    @Query("SELECT u FROM User u WHERE u.username = :username")
-    User findByUsername(@Param("username") String username);
+
+    //Role adina göre User üzerinden Roles ara tabloya git, Role tablosundaki name alanina esit degerdeki kullanicilari getir
+    @Query("SELECT DISTINCT u FROM User u JOIN u.roles r WHERE r.name =:roleName")
+    Page<User> getUsersByRoleName(@Param("roleName") String roleName, Pageable pageable);
 
 
     @Query("SELECT u FROM User u WHERE u.email = :email")
     Optional<User> findByEmail(@Param("email") String email);
+
+   // boolean existsByName(String userName);
 
 
 //@Query("Select r.* from users u join user_roles ur on u.id = ur.user_id join roles r on ur.role_id = r.id where u.user_name =:username")

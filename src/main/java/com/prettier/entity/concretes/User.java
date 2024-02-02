@@ -33,9 +33,6 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
-    private String username;
-
     @Column(nullable = false)
     private String phone;
 
@@ -43,7 +40,7 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Gender gender = Gender.UNKNOWN;
 
-    @Column(name = "profile-image")
+    @Column(name = "profile_image")
     private String image;
 
     @Column(name = "birth_date")
@@ -63,14 +60,14 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "reset_password_code")
     private String resetPasswordCode; //hash
 
-    @JsonIgnore
     private boolean builtIn;
 
     @JsonIgnore
-    private boolean isActive = false;
+    @Column(name = "is_active")
+    private boolean active=false;
 
-    @JsonIgnore
-    String activationToken;
+
+    private String activationToken;
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
@@ -97,7 +94,6 @@ public class User extends BaseEntity implements UserDetails {
     private Set<Social> socials;
 
     // -----------RELATIONS -------------------------------------------------
-
     @ManyToMany(fetch = FetchType.EAGER)//(cascade = CascadeType.ALL,fetch = FetchType.EAGER) //
     @JoinTable(
             name = "user_roles",
@@ -109,12 +105,11 @@ public class User extends BaseEntity implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
 
-    public User(Long id, String firstName, String lastName, String email, String username, String phone, String passwordHash, Set<Role> roles) {
+    public User(Long id, String firstName, String lastName, String email, String phone, String passwordHash, Set<Role> roles) {
         super.setId(id);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.username = username;
         this.phone = phone;
         this.passwordHash = passwordHash;
 

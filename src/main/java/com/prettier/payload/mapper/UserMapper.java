@@ -21,8 +21,8 @@ public interface UserMapper {
 
     User toUser(UserRequest userRequest);
 
-    //@Mapping(target = "id", source = "userUpdateRequest")
-    UserRequest toUpdatedUser(UserUpdateRequest userUpdateRequest, @MappingTarget UserRequest existing);
+//    @Mapping(target = "user", source = "userUpdateRequest")
+    User toUpdatedUser(UserUpdateRequest userUpdateRequest, @MappingTarget User existing);
 
 
 }

@@ -43,7 +43,7 @@ public class UserController {
 
 
     //Not: getUserById() ******************************************************************************************************
-    @GetMapping(value = "/{language}/getUser") //http://localhost:8080/countries/getAll
+    @GetMapping(value = "/{language}/getUser/{userId}") //http://localhost:8080/countries/getAll
     public InternalApiResponse<UserResponse> getUserById(@PathVariable("language") Language language,
                                                          @PathVariable("userId") Long id
     ) {
@@ -52,6 +52,10 @@ public class UserController {
 
         log.debug("[{}][getUser] -> response: {}", this.getClass().getSimpleName(), userResponse);
         return InternalApiResponse.<UserResponse>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.USER_FOUND))
+                        .build())
                 .httpStatus(HttpStatus.OK)
                 .hasError(false)
                 .payload(userResponse)

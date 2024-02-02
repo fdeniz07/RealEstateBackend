@@ -34,29 +34,21 @@ public class UserUpdateRequest extends BaseEntityRequest {
     @Size(min = 10, max = 80)
     private String email;
 
-    @NotNull(message = "Please enter your username")
-    @Size(min = 8, max = 20)
-    private String userName;
-
     @NotNull(message = "Please enter your phone number")
     private String phone;
 
-
-    //@Column(name = "password_hash", nullable = false)
     @JsonIgnore
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",message = "{FriendlyMessageCodes__CONSTRAINT_PASSWORD_PATTERN}") //"Your password must consist of the characters a-z, A-Z, 0-9."
     private String passwordHash;
 
-    @NotNull(message = "Please enter your gender")
     private Gender gender;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
 
-    @JsonIgnore
-    private boolean builtIn;
+    @Size(min=0, max=250, message = "Path can be contains max 250 chars")
+    private String image;
 
-    @JsonIgnore
-    private boolean isActive=true;
-
+    @Size(min=0, max=50, message = "Path can be contains max 50 chars")
+    private String userInfo;
 }

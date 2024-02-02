@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prettier.entity.enums.Gender;
 import com.prettier.payload.request.abstracts.BaseEntityRequest;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -36,10 +37,6 @@ public class UserRequest extends BaseEntityRequest {
     @Size(min = 10, max = 80)
     private String email;
 
-    @NotNull(message = "Please enter your username")
-    @Size(min = 8, max = 20)
-    private String userName;
-
     @NotNull(message = "Please enter your phone number")
     private String phone;
 
@@ -52,6 +49,12 @@ public class UserRequest extends BaseEntityRequest {
 
     @NotNull(message = "Please enter your gender")
     private Gender gender;
+
+    @Size(min=0, max=250, message = "Path can be contains max 250 chars")
+    private String image;
+
+    @Size(min=0, max=50, message = "Path can be contains max 50 chars")
+    private String userInfo;
 
 
 //    private Set<Long> roleIds;

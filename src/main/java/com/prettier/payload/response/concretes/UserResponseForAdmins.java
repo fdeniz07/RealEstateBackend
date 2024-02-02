@@ -1,10 +1,7 @@
 package com.prettier.payload.response.concretes;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.prettier.entity.enums.Gender;
 import com.prettier.payload.response.abstracts.BaseEntityResponse;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,8 +14,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @SuperBuilder
-
-public class UserResponse extends BaseEntityResponse {
+public class UserResponseForAdmins extends BaseEntityResponse {
 
     private String firstName;
 
@@ -26,12 +22,23 @@ public class UserResponse extends BaseEntityResponse {
 
     private String email;
 
-    private String password;
-
     private String phone;
+
+    private Set<RoleResponse> roles;
 
     private Gender gender;
 
     private LocalDate birthDate;
 
+    private String image;
+
+    private String userInfo;
+
+    private String resetPasswordCode;
+
+    private boolean builtIn;
+
+    private boolean active;
+
+    private String activationToken;
 }

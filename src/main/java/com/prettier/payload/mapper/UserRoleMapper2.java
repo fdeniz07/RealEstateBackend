@@ -15,9 +15,8 @@ public class UserRoleMapper2 {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
-                //.userName(user.getUserName())
+                .gender(user.getGender())
                 .phone(user.getPhone())
-                .isActive(user.isActive())
                 .build();
     }
 
@@ -27,9 +26,7 @@ public class UserRoleMapper2 {
                 .firstName(userRequest.getFirstName())
                 .lastName(userRequest.getLastName())
                 .email(userRequest.getEmail())
-                .username(userRequest.getUserName())
                 .phone(userRequest.getPhone())
-//                .isActive(userRequest.isActive())
                 .build();
     }
 
@@ -41,9 +38,8 @@ public class UserRoleMapper2 {
                 .firstName(userUpdateRequest.getFirstName())
                 .lastName(userUpdateRequest.getLastName())
                 .email(userUpdateRequest.getEmail())
-                .username(userUpdateRequest.getUserName())
                 .phone(userUpdateRequest.getPhone())
-//                .isActive(userUpdateRequest.isActive())
+                .gender(userUpdateRequest.getGender())
                 .build();
     }
 }
