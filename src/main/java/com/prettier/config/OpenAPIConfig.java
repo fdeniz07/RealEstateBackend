@@ -2,6 +2,10 @@ package com.prettier.config;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,9 +20,10 @@ import io.swagger.v3.oas.models.servers.Server;
 //Swagger ile ilgili site: https://www.bezkoder.com/spring-boot-swagger-3/
 
 @Configuration
-//@OpenAPIDefinition(info = @Info(title = "RealEstate API", version = "1.0.0"))//-->Swagger ile ilgili tüm döküman islemlerini icin gerekli islemleri hazirliyor
-//security =@SecurityRequirement(name = "Bearer"))
-//@SecurityScheme(name = "Bearer", type = SecuritySchemeType.HTTP, scheme ="Bearer")
+@OpenAPIDefinition(info = @io.swagger.v3.oas.annotations.info.Info(title = "RealEstate API", version = "1.0.0"),
+        security = @SecurityRequirement(name = "Bearer"))
+//-->Swagger ile ilgili tüm döküman islemlerini icin gerekli islemleri hazirliyor
+@SecurityScheme(name = "Bearer", type = SecuritySchemeType.HTTP, scheme = "Bearer")
 public class OpenAPIConfig {
 
     @Value("${prettier.openapi.dev-url}")

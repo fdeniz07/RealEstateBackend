@@ -4,18 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "messages")
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@Builder
 @Getter
 @Setter
-@ToString
 public class Message extends BaseEntity {
 
     @Column(nullable = false)
@@ -49,7 +47,6 @@ public class Message extends BaseEntity {
     @JsonIgnore
     private User receiver;
 
-    @OneToMany(mappedBy = "file")
-    @ToString.Exclude
-    private Set<File> fileSet;
+    @OneToMany
+    private List<AttachFile> files;
 }

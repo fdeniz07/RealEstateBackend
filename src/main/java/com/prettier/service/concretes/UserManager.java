@@ -9,6 +9,7 @@ import com.prettier.shared.utils.enums.Language;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -17,32 +18,31 @@ public class UserManager implements UserService {
 
     private final UserRepository userRepository;
 
-
+    //Not: getUserById() ******************************************************************************************************
     @Override
-    public Page<UserResponse> getUsersByActive(Language language, int page, int size, String sort, String type) {
+    public UserResponse getUserById(Language language, Long id) {
         return null;
     }
 
-    @Override
-    public Page<UserResponse> getUsers(Language language, int page, int size, String sort, String type) {
-        return null;
-    }
-
-    @Override
-    public UserResponse getByUserId(Language language, Long id) {
-        return null;
-    }
-
-    @Override
-    public UserResponse add(Language language, UserRequest userRequest) {
-        return null;
-    }
-
+    //Not: updateUser() *******************************************************************************************************
     @Override
     public UserResponse update(Language language, UserUpdateRequest userUpdateRequest, Long id) {
         return null;
     }
 
+    //Not: uploadProfileImage() ***********************************************************************************************
+    @Override
+    public UserResponse uploadUserProfileImage(Language language, Long id, MultipartFile file) {
+        return null;
+    }
+
+    //Not: getProfileImage() **************************************************************************************************
+    @Override
+    public UserResponse getUserProfileImage(Language language, Long id) {
+        return null;
+    }
+
+    //Not: deleteUser() *******************************************************************************************************
     @Override
     public UserResponse softDelete(Language language, Long id) {
         return null;
