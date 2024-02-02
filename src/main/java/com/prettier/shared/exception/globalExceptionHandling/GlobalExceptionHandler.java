@@ -1,5 +1,6 @@
 package com.prettier.shared.exception.globalExceptionHandling;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.exceptions.adverts.AdvertAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.adverts.AdvertNotCreatedException;
@@ -44,6 +45,7 @@ import java.util.Collections;
 
 @RestControllerAdvice //Bu anostasyonun eklenmesinin nedeni burada exception handling yapabilmektir. Ve exception handler'lerimizi tek bir genel hata componentinde birlestirmemize olonak saglar.
 @RequiredArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GlobalExceptionHandler {
 
 

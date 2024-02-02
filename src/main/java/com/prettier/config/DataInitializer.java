@@ -89,7 +89,6 @@ public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa
         if (userRepository.count() == 0) { //|| adminAccount == null
 
             User user = new User();
-            user.setUsername("Admin");
             user.setFirstName("Super");
             user.setLastName("User");
             user.setEmail("admin@mail.com");

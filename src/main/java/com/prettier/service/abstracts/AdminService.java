@@ -1,7 +1,8 @@
 package com.prettier.service.abstracts;
 
 import com.prettier.payload.request.concretes.UserRequest;
-import com.prettier.payload.response.concretes.UserResponse;
+import com.prettier.payload.request.concretes.UserRequestForAdmin;
+import com.prettier.payload.response.concretes.UserResponseForAdmins;
 import com.prettier.shared.utils.enums.Language;
 import org.springframework.data.domain.Page;
 
@@ -9,18 +10,20 @@ import java.io.Serializable;
 
 public interface AdminService  extends Serializable {
 
-    Page<UserResponse> getAllUsersByActive(Language language, int page, int size, String sort, String type);
+    Page<UserResponseForAdmins> getAllUsers(Language language, int page, int size, String sort, String type);
 
-    Page<UserResponse> getAllUsers(Language language, int page, int size, String sort, String type);
+    Page<UserResponseForAdmins> getAllUsersByActive(Language language, int page, int size, String sort, String type);
 
-    Page<UserResponse> getAllManagers(Language language, int page, int size, String sort, String type);
+    Page<UserResponseForAdmins> getAllUsersByInactive(Language language, int page, int size, String sort, String type);
 
-    Page<UserResponse> getAllCustomers(Language language, int page, int size, String sort, String type);
+    Page<UserResponseForAdmins> getAllManagers(Language language, int page, int size, String sort, String type);
 
-    UserResponse add(Language language, UserRequest userRequest);
+    Page<UserResponseForAdmins> getAllCustomers(Language language, int page, int size, String sort, String type);
 
-    UserResponse changeUserRole(Language language, Long id);
+    UserResponseForAdmins add(Language language, UserRequestForAdmin userRequest);
 
-    UserResponse changeUserStatus(Language language, Long id);
+    UserResponseForAdmins changeUserRole(Language language, Long id);
+
+    UserResponseForAdmins changeUserStatus(Language language, Long id);
 
 }

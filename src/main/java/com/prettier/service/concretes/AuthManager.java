@@ -49,13 +49,12 @@ public class AuthManager implements AuthService {
         log.debug("[{}][signUp] -> request: {}", this.getClass().getSimpleName(), signUpRequest);
 
         // Username, Email ve Phone var mi kontrolü
-        if (!checkUniqueFields.checkDuplicate(language, signUpRequest.getUsername(), signUpRequest.getEmail(), signUpRequest.getPhone())) {
+        if (!checkUniqueFields.checkDuplicate(language,  signUpRequest.getEmail(), signUpRequest.getPhone())) {
 
             // User user = authMapper.toUser(signUpRequest);
             User user = new User();
             user.setFirstName(signUpRequest.getFirstName());
             user.setLastName(signUpRequest.getLastName());
-            user.setUsername(signUpRequest.getUsername());
             user.setEmail(signUpRequest.getEmail());
             user.setPhone(signUpRequest.getPhone());
             user.setPasswordHash(passwordEncoder.encode(signUpRequest.getPassword()));
@@ -66,7 +65,7 @@ public class AuthManager implements AuthService {
             Set<Role> defaultRole = roleService.getByRoleName("CUSTOMER");
             user.setRoles(defaultRole);
 
-            userRepository.save(user);
+            userRepository.saveAndFlush(user);
             var jwtToken = jwtService.generateToken(user);
 
             log.debug("[{}][signUp] -> response: {}", this.getClass().getSimpleName(), jwtToken);
@@ -74,7 +73,6 @@ public class AuthManager implements AuthService {
             return SignUpResponse.builder()
                     .token(jwtToken)
                     .id(user.getId())
-                    .userName(user.getUsername())
                     .firstName(user.getFirstName())
                     .lastName(user.getLastName())
                     .email(user.getEmail())

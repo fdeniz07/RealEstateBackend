@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MapperConfig {
 
+    // *************   MAPSTRUCT MAPPING BEANS   ***************************************************************
+
     @Bean
     public AdvertMapper advertMapper() {
 
@@ -84,5 +86,14 @@ public class MapperConfig {
 
         return new MessageMapper() {
         };
+    }
+
+
+    // *************   MANUEL MAPPING BEANS   ***************************************************************
+
+    @Bean
+    public UserMapperForAdmins userMapperForAdmins() {
+
+        return new UserMapperForAdmins();
     }
 }

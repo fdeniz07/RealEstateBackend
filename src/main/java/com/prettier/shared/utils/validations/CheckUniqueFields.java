@@ -25,12 +25,7 @@ public class CheckUniqueFields {
         if (values.length == 3) {
             parameter3 = values[2];
         }
-
-        if (userRepository.existsByUsername(parameter1)) {
-
-            throw new UsernameAlreadyExistsException(language, FriendlyMessageCodes.USER_NAME_ALREADY_EXISTS, "Sign up failed! : This Username already exists. : " + parameter1);
-
-        } else if (userRepository.existsByEmail(parameter2)) {
+        if (userRepository.existsByEmail(parameter2)) {
 
             throw new EmailAlreadyExistsException(language, FriendlyMessageCodes.EMAIl_ALREADY_EXISTS, "Sign up failed! : This Email already exists. : " + parameter2);
 
