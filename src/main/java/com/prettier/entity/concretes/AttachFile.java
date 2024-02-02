@@ -5,17 +5,16 @@ import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "files")
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@Builder
 @Getter
 @Setter
 @ToString
-public class File extends BaseEntity{
+public class AttachFile extends BaseEntity{
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -31,7 +30,7 @@ public class File extends BaseEntity{
     private boolean featured;
 
     @ManyToOne
-    @JoinColumn(name = "message_id", nullable = false)
+    @JoinColumn(name = "file_id")
     @JsonIgnore //coklu iliskilerde tablonun birinde bu annotation kullanilir, aksi durumda sout yapildiginda sonsuz döngüye girer!
     private Message message;
 }

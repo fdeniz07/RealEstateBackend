@@ -94,7 +94,7 @@ public class CountryController {
     @PutMapping(value = "/{language}/update/{countryId}")
     public InternalApiResponse<CountryResponse> update(@PathVariable("language") Language language,
                                                        @PathVariable("countryId") Long id,
-                                                       @RequestBody @Valid  CountryUpdateRequest countryUpdateRequest
+                                                       @RequestBody @Valid CountryUpdateRequest countryUpdateRequest
     ) {
         log.debug("[{}][updateCountry] -> request: {} {}", this.getClass().getSimpleName(), id, countryUpdateRequest);
         CountryResponse countryResponse = countryService.update(language, countryUpdateRequest, id);
