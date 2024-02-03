@@ -2,30 +2,28 @@ package com.prettier.payload.mapper;
 
 import com.prettier.entity.concretes.Role;
 import com.prettier.entity.concretes.User;
-import com.prettier.payload.request.concretes.UserRequest;
 import com.prettier.payload.request.concretes.UserRequestForAdmin;
 import com.prettier.payload.request.concretes.UserUpdateRequest;
+import com.prettier.payload.response.concretes.RoleResponse;
 import com.prettier.payload.response.concretes.UserResponseForAdmins;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
-//@Mapper(config = MapStructConfig.class)
 @Data
 @RequiredArgsConstructor
 public class UserMapperForAdmins {
 
-//    UserMapperForAdmins INSTANCE = Mappers.getMapper(UserMapperForAdmins.class);
-//
-//    UserResponseForAdmins toResponse(User user);
-//
-//    User toUser(UserRequest userRequest);
-//
-////    @Mapping(target = "user", source = "userUpdateRequest")
-//    User toUpdatedUser(UserUpdateRequest userUpdateRequest, @MappingTarget User existing);
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     public User toUser(UserRequestForAdmin userRequest) {
@@ -43,7 +41,7 @@ public class UserMapperForAdmins {
             user.phone(userRequest.getPhone());
             user.gender(userRequest.getGender());
             user.birthDate(userRequest.getBirthDate());
-            user.passwordHash(userRequest.getPasswordHash());
+            user.passwordHash(passwordEncoder.encode(userRequest.getPasswordHash()));
             user.gender(userRequest.getGender());
             user.userInfo(userRequest.getUserInfo());
             user.image(userRequest.getImage());
@@ -73,6 +71,8 @@ public class UserMapperForAdmins {
             userResponse.builtIn(user.isBuiltIn());
             userResponse.active(user.isActive());
             userResponse.activationToken(user.getActivationToken());
+
+            userResponse.roles(roleSetToRoleResponseSet( user.getRoles() ));
         }
         return userResponse.build();
     }
@@ -121,5 +121,18 @@ public class UserMapperForAdmins {
         }
 
         return existing;
+    }
+
+    protected Set<RoleResponse> roleSetToRoleResponseSet(Set<Role> set) {
+        if ( set == null ) {
+            return new HashSet<RoleResponse>();
+        }
+
+        Set<RoleResponse> set1 = new HashSet<RoleResponse>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
+        for ( Role role : set ) {
+            set1.add( roleMapper.toResponse( role ) );
+        }
+
+        return set1;
     }
 }

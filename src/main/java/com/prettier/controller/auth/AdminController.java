@@ -1,10 +1,6 @@
 package com.prettier.controller.auth;
 
-import com.prettier.payload.request.concretes.CityRequest;
-import com.prettier.payload.request.concretes.UserRequest;
 import com.prettier.payload.request.concretes.UserRequestForAdmin;
-import com.prettier.payload.response.concretes.CityResponse;
-import com.prettier.payload.response.concretes.UserResponse;
 import com.prettier.payload.response.concretes.UserResponseForAdmins;
 import com.prettier.service.abstracts.AdminService;
 import com.prettier.service.abstracts.UserService;
@@ -32,7 +28,7 @@ public class AdminController {
     private final UserService userService;
 
     //Not: getAllUsers() ******************************************************************************************************
-    @GetMapping(value = "/{language}/getAll") //http://localhost:8080/countries/getAll
+    @GetMapping(value = "/{language}/getAllUsers") //http://localhost:8080/countries/getAll
     public InternalApiResponse<Page<UserResponseForAdmins>> getAllUsers(@PathVariable("language") Language language,
                                                                         @RequestParam(value = "page", defaultValue = "0") int page,
                                                                         @RequestParam(value = "size", defaultValue = "41") int size,
@@ -55,7 +51,7 @@ public class AdminController {
     }
 
     //Not: getAllUsersByActive() **********************************************************************************************
-    @GetMapping(value = "/{language}/getAllByActive") //http://localhost:8080/countries/getAll
+    @GetMapping(value = "/{language}/getAllUsersByActive") //http://localhost:8080/countries/getAll
     public InternalApiResponse<Page<UserResponseForAdmins>> getAllUsersByActive(@PathVariable("language") Language language,
                                                                @RequestParam(value = "page", defaultValue = "0") int page,
                                                                @RequestParam(value = "size", defaultValue = "41") int size,
@@ -78,7 +74,7 @@ public class AdminController {
     }
 
     //Not: getAllUsersByInactive() **********************************************************************************************
-    @GetMapping(value = "/{language}/getAllByInactive") //http://localhost:8080/countries/getAll
+    @GetMapping(value = "/{language}/getAllUsersByInactive") //http://localhost:8080/countries/getAll
     public InternalApiResponse<Page<UserResponseForAdmins>> getAllUsersByInactive(@PathVariable("language") Language language,
                                                                                 @RequestParam(value = "page", defaultValue = "0") int page,
                                                                                 @RequestParam(value = "size", defaultValue = "41") int size,
@@ -124,7 +120,6 @@ public class AdminController {
     }
 
 
-
     //Not: getAllCustomers() **************************************************************************************************
     @GetMapping(value = "/{language}/getAllCustomers") //http://localhost:8080/countries/getAll
     public InternalApiResponse<Page<UserResponseForAdmins>> getAllCustomers(@PathVariable("language") Language language,
@@ -150,7 +145,7 @@ public class AdminController {
 
     //Not: addUser() **********************************************************************************************************
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/{language}/add")
+    @PostMapping(value = "/{language}/addUser")
     public InternalApiResponse<UserResponseForAdmins> addUser(@PathVariable("language") Language language,
                                                      @RequestBody @Valid UserRequestForAdmin userRequest
     ) {
@@ -169,7 +164,6 @@ public class AdminController {
                 .payload(userResponses)
                 .build();
     }
-
 
     //Not: changeUserRole() ***************************************************************************************************
 
