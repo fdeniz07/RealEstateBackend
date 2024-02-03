@@ -1,5 +1,6 @@
 package com.prettier.entity.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prettier.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,6 +26,7 @@ public class Role extends BaseEntity{
 
     // Entity Relations
     @ManyToMany()
+    @JsonIgnore
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "role_id"),

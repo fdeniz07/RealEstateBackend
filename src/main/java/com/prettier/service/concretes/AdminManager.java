@@ -22,10 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -152,20 +149,33 @@ public class AdminManager implements AdminService {
 
         log.debug("[{}][addUser] -> request: {}", this.getClass().getSimpleName(), userRequest);
 
+
         // Kullanici email, telefon veritabaninda mevcut mu kontrolü
-        checkUniqueFields.checkDuplicate(language, userRequest.getEmail(), userRequest.getPhone());
+        if (!checkUniqueFields.checkDuplicate(language, userRequest.getEmail(), userRequest.getPhone())) {
 
-        User user = userMapperForAdmins.toUser(userRequest);
+            User user = new User();
+            user = userMapperForAdmins.toUser(userRequest);
 
-        //TODO : Requestteki roller kullaniciya atanacak
-//
-//            user.setRoles(userRequest.getRoles());
-//
-//            roleService.add(language, userRequest.getRoles())
-        UserResponseForAdmins response = userMapperForAdmins.toResponse(user);
-        log.debug("[{}][addUser] -> response: {}", this.getClass().getSimpleName(), response);
+            // Requestteki rolleri kontrol et
+            Set<Role> roles = new HashSet<>();
 
-        return response;
+            if (userRequest.getRoles() != null && !userRequest.getRoles().isEmpty()) {
+                //Eger requestteki role/roller bos degilse atamasini yap.
+                roles.addAll(userRequest.getRoles());
+                user.setRoles(roles);
+            } else {
+                //Requestte role girilmemisse default olarka "CUSTOMER" ata
+                user.setRoles(roleService.getByRoleName("CUSTOMER"));
+            }
+            user.setActivationToken(UUID.randomUUID().toString());
+            userRepository.saveAndFlush(user);
+
+            UserResponseForAdmins response = userMapperForAdmins.toResponse(user);
+            log.debug("[{}][addUser] -> response: {}", this.getClass().getSimpleName(), response);
+
+            return response;
+        }
+        return null;
     }
 
 
@@ -181,3 +191,18 @@ public class AdminManager implements AdminService {
         return null;
     }
 }
+
+
+
+//{
+//        "firstName":"user4",
+//        "lastName":"user4",
+//        "email":"user4@mail.com",
+//        "phone":"1114-1111-1111",
+//        "passwordHash":"P4ssword",
+//        "birthDate":"22-09-2010",
+//        "gender":"FEMALE",
+//        "image":"~/src/img/profile2.jpeg",
+//        "userInfo":"Dogru Satis"
+//
+//}
