@@ -2,7 +2,9 @@ package com.prettier.service.abstracts;
 
 import com.prettier.payload.request.concretes.UserRequest;
 import com.prettier.payload.request.concretes.UserRequestForAdmin;
+import com.prettier.payload.request.concretes.UserRoleChangeRequest;
 import com.prettier.payload.response.concretes.UserResponseForAdmins;
+import com.prettier.payload.response.concretes.UserRoleChangeResponse;
 import com.prettier.shared.utils.enums.Language;
 import org.springframework.data.domain.Page;
 
@@ -22,7 +24,7 @@ public interface AdminService  extends Serializable {
 
     UserResponseForAdmins add(Language language, UserRequestForAdmin userRequest);
 
-    UserResponseForAdmins changeUserRole(Language language, Long id);
+    UserRoleChangeResponse changeUserRole(Language language, UserRoleChangeRequest request,Long id);
 
     UserResponseForAdmins changeUserStatus(Language language, Long id);
 

@@ -8,7 +8,9 @@ import com.prettier.payload.mapper.UserMapper;
 import com.prettier.payload.mapper.UserMapperForAdmins;
 import com.prettier.payload.request.concretes.UserRequest;
 import com.prettier.payload.request.concretes.UserRequestForAdmin;
+import com.prettier.payload.request.concretes.UserRoleChangeRequest;
 import com.prettier.payload.response.concretes.UserResponseForAdmins;
+import com.prettier.payload.response.concretes.UserRoleChangeResponse;
 import com.prettier.repository.UserRepository;
 import com.prettier.service.abstracts.AdminService;
 import com.prettier.service.abstracts.RoleService;
@@ -181,17 +183,38 @@ public class AdminManager implements AdminService {
 
     //Not: changeUserRole() ***************************************************************************************************
     @Override
-    public UserResponseForAdmins changeUserRole(Language language, Long id) {
-        return null;
+    public UserRoleChangeResponse changeUserRole(Language language, UserRoleChangeRequest request,Long id) {
+
+        log.debug("[{}][changeUserRole] -> request", this.getClass().getSimpleName());
+
+        Set<Role> roles = userRepository.getRolesByUserId(id);
+
+        User user = userRepository.findById(id).orElse(new User());
+        user.setRoles(request.getRoles());
+        userRepository.saveAndFlush(user);
+
+        UserRoleChangeResponse response = userMapperForAdmins.toRoleChangeResponse(user);
+        log.debug("[{}][addUser] -> response: {}", this.getClass().getSimpleName(), response);
+
+        return response;
     }
 
     //Not: changeUserStatus() *************************************************************************************************
     @Override
     public UserResponseForAdmins changeUserStatus(Language language, Long id) {
-        return null;
+
+        log.debug("[{}][changeUserStatus] -> request", this.getClass().getSimpleName());
+
+        User user = userRepository.findById(id).orElse(new User());
+        user.setActive(true);
+        userRepository.saveAndFlush(user);
+
+        UserResponseForAdmins response = userMapperForAdmins.toResponse(user);
+
+        log.debug("[{}][addUser] -> response: {}", this.getClass().getSimpleName(), response);
+        return response;
     }
 }
-
 
 
 //{

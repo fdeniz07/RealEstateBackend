@@ -1,5 +1,6 @@
 package com.prettier.repository;
 
+import com.prettier.entity.concretes.Role;
 import com.prettier.entity.concretes.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -26,6 +28,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     //Role adina göre User üzerinden Roles ara tabloya git, Role tablosundaki name alanina esit degerdeki kullanicilari getir
     @Query("SELECT DISTINCT u FROM User u JOIN u.roles r WHERE r.name =:roleName")
     Page<User> getUsersByRoleName(@Param("roleName") String roleName, Pageable pageable);
+
+
+    @Query("SELECT DISTINCT r FROM User u JOIN u.roles r WHERE u.id = :userId")
+    Set<Role> getRolesByUserId(@Param("userId") Long userId);
 
 
     @Query("SELECT u FROM User u WHERE u.email = :email")
