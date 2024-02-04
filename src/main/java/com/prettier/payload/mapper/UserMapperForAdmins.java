@@ -6,6 +6,7 @@ import com.prettier.payload.request.concretes.UserRequestForAdmin;
 import com.prettier.payload.request.concretes.UserUpdateRequest;
 import com.prettier.payload.response.concretes.RoleResponse;
 import com.prettier.payload.response.concretes.UserResponseForAdmins;
+import com.prettier.payload.response.concretes.UserRoleChangeResponse;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,10 +73,22 @@ public class UserMapperForAdmins {
             userResponse.active(user.isActive());
             userResponse.activationToken(user.getActivationToken());
 
-            userResponse.roles(roleSetToRoleResponseSet( user.getRoles() ));
+            userResponse.roles(roleSetToRoleResponseSet(user.getRoles()));
         }
         return userResponse.build();
     }
+
+
+    public UserRoleChangeResponse toRoleChangeResponse(User user) {
+
+        UserRoleChangeResponse.UserRoleChangeResponseBuilder<?, ?> userResponse = UserRoleChangeResponse.builder();
+
+        if (user != null) {
+            userResponse.roles(roleSetToRoleResponseSet(user.getRoles()));
+        }
+        return userResponse.build();
+    }
+
 
     public User toUpdatedUser(UserUpdateRequest userUpdateRequest, User existing) {
 
@@ -123,14 +136,15 @@ public class UserMapperForAdmins {
         return existing;
     }
 
+
     protected Set<RoleResponse> roleSetToRoleResponseSet(Set<Role> set) {
-        if ( set == null ) {
+        if (set == null) {
             return new HashSet<RoleResponse>();
         }
 
-        Set<RoleResponse> set1 = new HashSet<RoleResponse>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( Role role : set ) {
-            set1.add( roleMapper.toResponse( role ) );
+        Set<RoleResponse> set1 = new HashSet<RoleResponse>(Math.max((int) (set.size() / .75f) + 1, 16));
+        for (Role role : set) {
+            set1.add(roleMapper.toResponse(role));
         }
 
         return set1;

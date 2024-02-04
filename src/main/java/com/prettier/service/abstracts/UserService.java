@@ -1,5 +1,6 @@
 package com.prettier.service.abstracts;
 
+import com.prettier.payload.request.concretes.UserRoleChangeRequest;
 import com.prettier.payload.request.concretes.UserUpdateRequest;
 import com.prettier.payload.response.concretes.UserResponse;
 import com.prettier.shared.utils.enums.Language;
