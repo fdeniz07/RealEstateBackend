@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "User", description = "Prettier Real Estate APIs") //Swagger dökümani icin
+@Tag(name = "User", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
 @RequestMapping(value = "api/v1.0/users")
 @Slf4j //Log eklemek icin kullaniyoruz
 public class UserController {
@@ -88,7 +88,7 @@ public class UserController {
 
     //Not: uploadProfileImage() ***********************************************************************************************
     @ResponseStatus(HttpStatus.CREATED)
-    @PutMapping(value = "/{language}/update/{userId}/profile-image",
+    @PutMapping(value = "/{language}/update/profile-image/{userId}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public InternalApiResponse<UserResponse> uploadUserProfileImage(@PathVariable("language") Language language,
@@ -113,7 +113,7 @@ public class UserController {
 
     //Not: getProfileImage() **************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(value = "/{language}/update/{userId}/profile-image",
+    @PutMapping(value = "/{language}/update/profile-image/{userId}",
             produces = MediaType.IMAGE_JPEG_VALUE
     )
     public InternalApiResponse<byte[]> getCustomerProfileImage(@PathVariable("language") Language language,

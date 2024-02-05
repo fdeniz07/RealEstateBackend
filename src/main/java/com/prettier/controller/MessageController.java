@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Message", description = "Prettier Real Estate APIs") //Swagger dökümani icin
+@Tag(name = "Message", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
 @RequestMapping(value = "api/v1.0/messages")
 @Slf4j
 public class MessageController {

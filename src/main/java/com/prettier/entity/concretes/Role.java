@@ -23,6 +23,7 @@ public class Role extends BaseEntity{
 
     private String description;
 
+    private boolean isActive=true;
 
     // Entity Relations
     @ManyToMany()

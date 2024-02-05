@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Advert", description = "Prettier Real Estate APIs") //Swagger dökümani icin
+@Tag(name = "Advert", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
 @RequestMapping(value = "api/v1.0/adverts")
 @Slf4j //Log eklemek icin kullaniyoruz
 public class AdvertController {
@@ -43,10 +43,10 @@ public class AdvertController {
         return advertService.getAll(language, page, size, sort, type);
     }
 
-    @Operation(
-            summary = "Retrieve a Advert with Active by Id",
-            description = "Get a Advert object by specifying its id. The response is Advert object with id, title, description and published status.",
-            tags = {"advert", "get"})
+//    @Operation(
+//            summary = "Retrieve a Advert with Active by Id",
+//            description = "Get a Advert object by specifying its id. The response is Advert object with id, title, description and published status.",
+//            tags = {"advert", "get"})
     @GetMapping("/{language}/getListWithActive")
     public Page<AdvertResponse> getListWithActive(
             @PathVariable("language") Language language,

@@ -63,10 +63,10 @@ public class CityManager implements CityService {
             PageRequest.of(page, size, Sort.by(sort).descending());
         }
 
-        List<CityResponse> cities = cityRepository.findAll()
+        List<CityResponse> cities = getAllCities()
                 .stream()
                 .map(cityMapper::toResponse)
-                .collect(Collectors.toList());
+                .toList();
 
         if (cities.isEmpty()) {
             throw new CityNotFoundException(language, FriendlyMessageCodes.CITY_NOT_FOUND_EXCEPTION, "Cities not found");
@@ -184,12 +184,12 @@ public class CityManager implements CityService {
     //!!! Ilgili CityName, City tablosunda var mi kontrolü
     public boolean existsByCityName(Language language, String cityName) {
 
-        log.debug("[{}][getCity] -> request cityName: {}", this.getClass().getSimpleName(), cityName);
+        log.debug("[{}][existsByCityName] -> request cityName: {}", this.getClass().getSimpleName(), cityName);
         if (cityRepository.existsByName(cityName)) {
             throw new CityAlreadyExistsException(language, FriendlyMessageCodes.CITY_ALREADY_EXISTS, "This City already exists for city name: " + cityName);
         }
 
-        log.debug("[{}][getCity] -> response: {}", this.getClass().getSimpleName(), cityName);
+        log.debug("[{}][existsByCityName] -> response: {}", this.getClass().getSimpleName(), cityName);
         return false;
     }
 

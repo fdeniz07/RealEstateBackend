@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Auth", description = "Prettier Real Estate APIs")
+@Tag(name = "Auth", description = "Prettier Homes - Real Estate APIs")
 @RequestMapping(value = "api/v1.0/auth")
 @Slf4j
 public class AuthController {

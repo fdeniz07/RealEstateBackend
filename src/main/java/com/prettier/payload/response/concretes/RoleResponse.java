@@ -17,4 +17,6 @@ public class RoleResponse extends BaseEntityResponse {
     private String name;
 
     private String description;
+
+    private boolean isActive;
 }

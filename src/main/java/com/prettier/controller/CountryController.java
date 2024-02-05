@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Country", description = "Prettier Real Estate APIs") //Swagger dökümani icin
+@Tag(name = "Country", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
 @RequestMapping(value = "api/v1.0/countries")
 @Slf4j
 public class CountryController {
