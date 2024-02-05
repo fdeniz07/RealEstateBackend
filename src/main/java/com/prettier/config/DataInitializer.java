@@ -38,7 +38,7 @@ public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa
     public void run(String... args) throws Exception {
 
         // RoleType Enum'daki değerleri Role tablosuna ekliyoruz
-        if (roleService.getAllUserRole().isEmpty()) { //role tablosu bossa
+        if (roleService.getRoleList().isEmpty()) { //role tablosu bossa
             for (RoleType roleType : RoleType.values()) {
                 Role role = new Role();
                 role.setName(roleType.getRoleName());

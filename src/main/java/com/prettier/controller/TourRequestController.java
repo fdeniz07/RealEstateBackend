@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Tour-Requests", description = "Prettier Real Estate APIs") //Swagger dökümani icin
+@Tag(name = "Tour-Request", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
 @RequestMapping(value = "api/v1.0/tour-requests")
 @Slf4j
 public class TourRequestController {

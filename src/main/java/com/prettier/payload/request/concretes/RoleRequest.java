@@ -17,11 +17,11 @@ import lombok.experimental.SuperBuilder;
 public class RoleRequest extends BaseEntityRequest {
 
     @NotNull(message = "Enter role name")
-    @Size(max = 20, message = "Role name musst be 20 chars")
+    @Size(max = 20, message = "Role name must be 20 chars")
     private String roleName;
 
     @NotNull(message = "Enter role description")
-    @Size(max = 100, message = "Role description musst be 100 chars")
+    @Size(max = 100, message = "Role description must be 100 chars")
     private String description;
 
     private boolean isActive=true;

@@ -27,7 +27,7 @@ import java.util.Set;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Category", description = "Prettier Real Estate APIs") //Swagger dökümani icin
+@Tag(name = "Category", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
 @RequestMapping(value = "api/v1.0/categories")
 public class CategoryController {
 
@@ -175,7 +175,7 @@ public class CategoryController {
     //Not: getProperties() ************************************************************************************************************************
 
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    @GetMapping(value = "/{language}/{id}/properties")
+    @GetMapping(value = "/{language}/properties/{id}")
     public InternalApiResponse<Set<CategoryPropertyKeyResponse>> getCategoryProperties(@PathVariable("language") Language language,
                                                                                        @PathVariable("id") Long categoryId) {
 
@@ -194,7 +194,7 @@ public class CategoryController {
     //Not: addProperty() ****************************************************************************************************************************
 
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    @PostMapping("/{id}/properties")
+    @PostMapping("/{language}/properties/{id}")
     public InternalApiResponse<Set<CategoryPropertyKeyResponse>> createCategoryPropertyKey(@PathVariable("language") Language language,
                                                                                            @PathVariable("id") Long categoryId,
                                                                                            @RequestBody @Valid  CategoryPropertyKey categoryPropertyKey) {
@@ -214,7 +214,7 @@ public class CategoryController {
     //Not: ****() *********************************************************************************************************************************
 
     //  @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    @PutMapping("/properties/{id}")
+    @PutMapping("/{language}/properties/{id}")
     public ResponseEntity<CategoryPropertyKey> updateCategoryProperty(@PathVariable("id") Long propertyKeyId, @RequestBody CategoryPropertyKey updatedProperty) {
         return categoryService.updateCategoryProperty(propertyKeyId, updatedProperty);
     }
@@ -223,7 +223,7 @@ public class CategoryController {
     //Not: ****() *********************************************************************************************************************************
 
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    @DeleteMapping("/proporties/{id}")
+    @DeleteMapping("/{language}/properties/{id}")
     public ResponseEntity<CategoryPropertyKey> deleteCategoryProperty(@PathVariable("id") Long propertyId) {
         return categoryService.deleteCategoryProperty(propertyId);
     }

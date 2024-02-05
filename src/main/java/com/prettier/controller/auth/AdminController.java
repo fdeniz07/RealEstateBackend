@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Admin", description = "Prettier Real Estate APIs") //Swagger dökümani icin
+@Tag(name = "Admin", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
 @RequestMapping(value = "api/v1.0/admins")
 @Slf4j //Log eklemek icin kullaniyoruz
 public class AdminController {
@@ -171,7 +171,7 @@ public class AdminController {
 
     //!!! TODO : Bu kisim ilgili user login olduktan sonra bilgisi alinarak role degisimleri yapilacak !!!
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/{language}/changeUserRole/{userId}")
+    @PutMapping(value = "/{language}/changeUserRole/{userId}")
     public InternalApiResponse<UserRoleChangeResponse> changeUserRole(@PathVariable("language") Language language,
                                                                       @PathVariable @Valid UserRoleChangeRequest request,
                                                                       @PathVariable("userId") Long id
@@ -213,5 +213,4 @@ public class AdminController {
                 .payload(userResponses)
                 .build();
     }
-
 }
