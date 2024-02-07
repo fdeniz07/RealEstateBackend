@@ -36,14 +36,18 @@ import com.prettier.shared.utils.FriendlyMessageUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-@RestControllerAdvice //Bu anostasyonun eklenmesinin nedeni burada exception handling yapabilmektir. Ve exception handler'lerimizi tek bir genel hata componentinde birlestirmemize olonak saglar.
+@RestControllerAdvice
+//Bu anostasyonun eklenmesinin nedeni burada exception handling yapabilmektir. Ve exception handler'lerimizi tek bir genel hata componentinde birlestirmemize olonak saglar.
 @RequiredArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GlobalExceptionHandler {
@@ -556,9 +560,28 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ApiErrorResponse handleMethodArgNotValidEx(MethodArgumentNotValidException exception, HttpServletRequest request) {
+
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse();
+        apiErrorResponse.setHttpStatus(HttpStatus.BAD_REQUEST);
+        apiErrorResponse.setHasError(true);
+        apiErrorResponse.setErrorMessages("Validation Error");
+        apiErrorResponse.setTimeStamp(LocalDateTime.now());
+        apiErrorResponse.setPath(request.getRequestURI());
+        Map<String, String> validationErrors = new HashMap<>();
+
+        for (var fieldError : exception.getBindingResult().getFieldErrors()) {
+            validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+        apiErrorResponse.setValidationErrors(validationErrors);
+        return apiErrorResponse;
+    }
+
+
 //    @ExceptionHandler(InsufficientAuthenticationException.class)
 //    @ExceptionHandler(BadCredentialsException.class)
-
 
 
 }

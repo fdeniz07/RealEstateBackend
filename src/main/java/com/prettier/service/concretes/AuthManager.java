@@ -12,6 +12,7 @@ import com.prettier.repository.UserRepository;
 import com.prettier.security.jwt.JWTUtils;
 import com.prettier.service.abstracts.AuthService;
 import com.prettier.service.abstracts.RoleService;
+import com.prettier.shared.exception.globalExceptionHandling.ApiErrorResponse;
 import com.prettier.shared.utils.enums.Language;
 import com.prettier.shared.utils.validations.CheckUniqueFields;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Optional;
 import java.util.Set;
@@ -50,6 +53,8 @@ public class AuthManager implements AuthService {
 
         // Username, Email ve Phone var mi kontrolü
         if (!checkUniqueFields.checkDuplicate(language,  signUpRequest.getEmail(), signUpRequest.getPhone())) {
+
+            //!!! TODO !!! : Ya validasyonlardan gecemezse, frontend e BAD Request ile ilgili bir AuthenticationException firlatmaliyiz !!!
 
             // User user = authMapper.toUser(signUpRequest);
             User user = new User();
@@ -131,6 +136,7 @@ public class AuthManager implements AuthService {
 //                .password(loginRequest.getPassword())
                 .build();
     }
+
 }
 
 //{
