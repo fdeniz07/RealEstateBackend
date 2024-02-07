@@ -23,12 +23,14 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Auth", description = "Prettier Homes - Real Estate APIs")
 @RequestMapping(value = "api/v1.0/auth")
 @Slf4j
+//@CrossOrigin //CrossOrigin tabanli istekleri destekledigini belirtiyoruz
 public class AuthController {
 
     private final AuthService authService;
     private final  CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     //Not: signUp() ******************************************************************************************************
+    @CrossOrigin //CrossOrigin tabanli istekleri destekledigini belirtiyoruz //Frontend tarafinda proxy kullanilarak cözülecek !!!
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/signUp")
     public InternalApiResponse<SignUpResponse> signUp(@PathVariable("language") Language language,

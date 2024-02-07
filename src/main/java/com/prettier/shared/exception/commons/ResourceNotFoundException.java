@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @ResponseStatus(HttpStatus.NOT_FOUND) //status kodunu görmek istiyorsak
 public class ResourceNotFoundException extends RuntimeException {
@@ -20,7 +22,7 @@ public class ResourceNotFoundException extends RuntimeException {
 
         response.setHttpStatus(HttpStatus.NOT_FOUND);
                response.setHasError(true);
-               response.setErrorMessages(Collections.singletonList(e.getMessage()));
+               response.setErrorMessages(e.getMessage());
                response.setPath(request.getRequestURI());
                response.setTimeStamp(LocalDateTime.now());
 
