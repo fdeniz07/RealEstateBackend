@@ -20,7 +20,10 @@ public class FriendlyMessageUtils {
     public static String getFriendlyMessage(Language language, IFriendlyMessageCode messageCode) {
         String messageKey = null;
         try {
-            Locale locale = new Locale(language.name());
+            //Language alani bos mu diye kontrol ediyoruz, eger bossa hata firlatmasi yerine EN olarak set ediyoruz
+            String defaultLanguage = checkLanguageIsNull(language);
+
+            Locale locale = new Locale(defaultLanguage);
             ResourceBundle resourceBundle = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, locale); //Hangi dil bundle secilecegini geciyoruz
             messageKey = messageCode.getClass().getSimpleName() + SPECIAL_CHARACTER + messageCode;
             return resourceBundle.getString(messageKey);
@@ -28,5 +31,13 @@ public class FriendlyMessageUtils {
             log.error("Friendly message not found for key: {}", messageKey); //{} ilgili degiskenin degerini(messageKey) atamak icin kullanilir
             return null;
         }
+    }
+
+    private static String checkLanguageIsNull(Language language){
+
+        if (language.name().isEmpty()){
+           return Language.EN.name();
+        }
+        return language.name();
     }
 }

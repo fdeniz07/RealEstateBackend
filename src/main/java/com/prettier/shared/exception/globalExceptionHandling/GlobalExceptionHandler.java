@@ -8,6 +8,7 @@ import com.prettier.shared.exception.exceptions.adverts.AdvertNotFoundException;
 import com.prettier.shared.exception.exceptions.auths.login.LoginFailedException;
 import com.prettier.shared.exception.exceptions.auths.signUp.EmailAlreadyExistsException;
 import com.prettier.shared.exception.exceptions.auths.signUp.PhoneAlreadyExistsException;
+import com.prettier.shared.exception.exceptions.auths.signUp.SignUpCredentialsException;
 import com.prettier.shared.exception.exceptions.auths.signUp.UsernameAlreadyExistsException;
 import com.prettier.shared.exception.exceptions.categories.CategoryAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.categories.CategoryAlreadyExistsException;
@@ -36,6 +37,9 @@ import com.prettier.shared.utils.FriendlyMessageUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -45,6 +49,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 //Bu anostasyonun eklenmesinin nedeni burada exception handling yapabilmektir. Ve exception handler'lerimizi tek bir genel hata componentinde birlestirmemize olonak saglar.
@@ -560,9 +565,9 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    //    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiErrorResponse handleMethodArgNotValidEx(MethodArgumentNotValidException exception, HttpServletRequest request) {
+    public ResponseEntity<ApiErrorResponse> handleMethodArgNotValidEx(MethodArgumentNotValidException exception, HttpServletRequest request) {
 
         ApiErrorResponse apiErrorResponse = new ApiErrorResponse();
         apiErrorResponse.setHttpStatus(HttpStatus.BAD_REQUEST);
@@ -570,16 +575,42 @@ public class GlobalExceptionHandler {
         apiErrorResponse.setErrorMessages("Validation Error");
         apiErrorResponse.setTimeStamp(LocalDateTime.now());
         apiErrorResponse.setPath(request.getRequestURI());
-        Map<String, String> validationErrors = new HashMap<>();
 
-        for (var fieldError : exception.getBindingResult().getFieldErrors()) {
-            validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
-        }
+//        Map<String, String> validationErrors = new HashMap<>();
+//        for (var fieldError : exception.getBindingResult().getFieldErrors()) {
+//            validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
+//        }
+
+        //Yukaridaki kodun stream api ile yazimi:
+        var validationErrors = exception
+                .getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .collect(Collectors
+                        .toMap(FieldError::getField,
+                                FieldError::getDefaultMessage
+                        ));
         apiErrorResponse.setValidationErrors(validationErrors);
-        return apiErrorResponse;
+//        return apiErrorResponse;
+        return ResponseEntity.badRequest().body(apiErrorResponse);
     }
 
-
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(SignUpCredentialsException.class)
+    public InternalApiResponse<String> handleException(SignUpCredentialsException exception,
+                                                    HttpServletRequest request) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .timeStamp(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .build();
+    }
 //    @ExceptionHandler(InsufficientAuthenticationException.class)
 //    @ExceptionHandler(BadCredentialsException.class)
 
