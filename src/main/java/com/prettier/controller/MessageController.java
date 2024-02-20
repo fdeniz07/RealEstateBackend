@@ -6,6 +6,7 @@ import com.prettier.payload.mapper.MessageMapper;
 import com.prettier.payload.request.concretes.CountryRequest;
 import com.prettier.payload.request.concretes.CountryUpdateRequest;
 import com.prettier.payload.response.concretes.CountryResponse;
+import com.prettier.payload.response.concretes.MessageResponse;
 import com.prettier.service.abstracts.MessageService;
 import com.prettier.service.concretes.CountryManager;
 import com.prettier.service.concretes.MessageManager;
@@ -22,6 +23,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
+import java.io.StringReader;
+
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Message", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
@@ -34,10 +38,44 @@ public class MessageController {
 
 
     //Not: getListInbox() **********************************************************************************************************
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("{language}/getListInbox")
+    public InternalApiResponse<Page<MessageResponse>> getListInbox(@PathVariable("language") Language language,
+                                                                   @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                   @RequestParam(value = "size", defaultValue = "50") int size,
+                                                                   @RequestParam(value = "sort", defaultValue = "createAt") String sort,
+                                                                   @RequestParam(value = "type", defaultValue = "desc") String type
+    ) {
+        log.debug("[{}][getListInbox]", this.getClass().getSimpleName());
+        Page<MessageResponse> messageResponses = messageService.getListInbox(language, page, size, sort, type);
 
+        log.debug("[{}][getListInbox] -> response: {}", this.getClass().getSimpleName(), messageResponses);
+        return InternalApiResponse.<Page<MessageResponse>>builder()
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(messageResponses)
+                .build();
+    }
 
     //Not: getListSendbox() ********************************************************************************************************
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("{language}/getListSendbox")
+    public InternalApiResponse<Page<MessageResponse>> getListSendbox(@PathVariable("languege") Language language,
+                                                                     @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                     @RequestParam(value = "size", defaultValue = "0") int size,
+                                                                     @RequestParam(value = "sort", defaultValue = "createAt") String sort,
+                                                                     @RequestParam(value = "type", defaultValue = "desc") String type
+    ) {
+        log.debug("[{}][getListSendbox]", this.getClass().getSimpleName());
+        Page<MessageResponse> messageResponses = messageService.getListSendbox(language, page, size, sort, type);
 
+        log.debug("[{}][getListInbox] -> response: {}", this.getClass().getSimpleName(), messageResponses);
+        return InternalApiResponse.<Page<MessageResponse>>builder()
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(messageResponses)
+                .build();
+    }
 
     //Not: getReadList() ***********************************************************************************************************
 
@@ -70,8 +108,6 @@ public class MessageController {
 
 
     //Not: delete() ****************************************************************************************************************
-
-
 
 
 }
