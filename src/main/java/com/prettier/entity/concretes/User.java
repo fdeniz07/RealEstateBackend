@@ -94,6 +94,13 @@ public class User extends BaseEntity implements UserDetails {
     private Set<Social> socials;
 
     // -----------RELATIONS -------------------------------------------------
+    @OneToMany()
+    @ToString.Exclude
+    private Set<Message> messages;
+
+
+
+
     @ManyToMany(fetch = FetchType.EAGER)//(cascade = CascadeType.ALL,fetch = FetchType.EAGER) //
     @JoinTable(
             name = "user_roles",
