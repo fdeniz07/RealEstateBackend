@@ -1,8 +1,8 @@
 package com.prettier.service.abstracts;
 
 import com.prettier.entity.concretes.Advert;
-import com.prettier.payload.request.concretes.AdvertRequest;
-import com.prettier.payload.request.concretes.AdvertUpdateRequest;
+import com.prettier.entity.concretes.Message;
+import com.prettier.payload.request.concretes.*;
 import com.prettier.payload.response.concretes.AdvertResponse;
 import com.prettier.payload.response.concretes.MessageResponse;
 import com.prettier.shared.utils.enums.Language;
@@ -14,7 +14,7 @@ public interface MessageService extends Serializable {
 
     Page<MessageResponse> getListInbox(Language language, int page, int size, String sort, String type);
 
-    Page<MessageResponse> getListSendbox(Language language, int page, int size, String sort, String type);
+    Page<MessageResponse> getListSendBox(Language language, int page, int size, String sort, String type);
 
     Page<MessageResponse> getReadList(Language language, int page, int size, String sort, String type);
 
@@ -28,14 +28,14 @@ public interface MessageService extends Serializable {
 
     Page<MessageResponse> getListSpam(Language language, int page, int size, String sort, String type);
 
-    Page<MessageResponse> getBySenderId(Language language, Long id);
+    Page<MessageResponse> getListBySenderId(Language language, Long id, int page, int size, String sort, String type);
 
-    MessageResponse getMessageId(Language language, Long id);
+    MessageResponse getMessageById(Language language, Long id);
 
-    Advert add(Language language, AdvertRequest advertRequest);
+    MessageResponse send(Language language, NewMessageRequest messageRequest);
 
-    Advert update(Language language, AdvertUpdateRequest advertUpdateRequest, Long id);
+    MessageResponse update(Language language, MessageUpdateRequest messageUpdateRequest, Long id);
 
-    Advert delete(Language language, Long id);
+    MessageResponse softDelete(Language language, Long id);
 
 }

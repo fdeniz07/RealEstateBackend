@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @NoArgsConstructor
 @SuperBuilder
-public class MessageRequest  extends BaseEntityRequest {
+public class MessageUpdateRequest extends BaseEntityRequest {
 
     @NotNull(message = "Please enter subject")
     @Size(min = 5, max = 150, message = "Subject should be between 5 and 150 chars")
@@ -27,8 +27,10 @@ public class MessageRequest  extends BaseEntityRequest {
     private boolean isImportant;
     private boolean isSpam;
 
+    private User sender;
+
     @NotNull(message = "Please enter receiver")
-    private String receiver;
+    private User receiver;
 
 }
 

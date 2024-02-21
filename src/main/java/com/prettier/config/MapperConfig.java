@@ -84,8 +84,7 @@ public class MapperConfig {
     @Bean
     public MessageMapper messageMapper() {
 
-        return new MessageMapper() {
-        };
+        return new MessageMapperImpl();
     }
 
 
