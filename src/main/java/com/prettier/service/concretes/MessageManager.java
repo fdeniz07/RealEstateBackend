@@ -1,6 +1,7 @@
 package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Message;
+import com.prettier.entity.concretes.User;
 import com.prettier.payload.mapper.MessageMapper;
 import com.prettier.payload.request.concretes.MessageUpdateRequest;
 import com.prettier.payload.request.concretes.NewMessageRequest;
@@ -186,16 +187,26 @@ public class MessageManager implements MessageService {
         log.debug("[{}][sendMessage]", this.getClass().getSimpleName());
 
         try {
-            Message message = messageMapper.toMessage(messageRequest);
-            MessageResponse sentMessage = messageMapper.toResponse(messageRepository.save(message));
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
 
-            log.debug("[{}][sendMessage] -> response: {}", this.getClass().getSimpleName(), sentMessage);
-            return sentMessage;
+                String loginUser = userDetails.getUsername();
+                User sender = userService.getUserByEmail(language, loginUser);
+
+                User receiver = userService.getUserByEmail(language, messageRequest.getReceiver());
+                Message message = messageMapper.toMessage(messageRequest);
+                message.setReceiver(receiver);
+                message.setSender(sender);
+                MessageResponse sentMessage = messageMapper.toResponse(messageRepository.save(message));
+
+                log.debug("[{}][sendMessage] -> response: {}", this.getClass().getSimpleName(), sentMessage);
+                return sentMessage;
+            }
         } catch (Exception e) {
             throw new MessageNotSentException(language, FriendlyMessageCodes.MESSAGE_NOT_SENT_EXCEPTION, "message request: " + messageRequest.toString());
         }
 
-
+        return null;
     }
 
     //Not: update() ****************************************************************************************************************

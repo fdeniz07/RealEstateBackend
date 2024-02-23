@@ -1,34 +1,22 @@
 package com.prettier.controller;
 
-import com.prettier.entity.concretes.Country;
-import com.prettier.entity.concretes.Message;
-import com.prettier.payload.mapper.CountryMapper;
 import com.prettier.payload.mapper.MessageMapper;
-import com.prettier.payload.request.concretes.*;
-import com.prettier.payload.response.concretes.CountryResponse;
+import com.prettier.payload.request.concretes.MessageUpdateRequest;
+import com.prettier.payload.request.concretes.NewMessageRequest;
 import com.prettier.payload.response.concretes.MessageResponse;
 import com.prettier.service.abstracts.MessageService;
-import com.prettier.service.concretes.CountryManager;
-import com.prettier.service.concretes.MessageManager;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;
 import com.prettier.shared.exception.globalExceptionHandling.InternalApiResponse;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
-import java.io.StringReader;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,7 +31,7 @@ public class MessageController {
 
     //Not: getListInbox() **********************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("{language}/getListInbox")
+    @GetMapping("/{language}/getListInbox")
     public InternalApiResponse<Page<MessageResponse>> getListInbox(@PathVariable("language") Language language,
                                                                    @RequestParam(value = "page", defaultValue = "0") int page,
                                                                    @RequestParam(value = "size", defaultValue = "50") int size,
@@ -63,7 +51,7 @@ public class MessageController {
 
     //Not: getListSendbox() ********************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("{language}/getListSendBox")
+    @GetMapping("/{language}/getListSendBox")
     public InternalApiResponse<Page<MessageResponse>> getListSendBox(@PathVariable("language") Language language,
                                                                      @RequestParam(value = "page", defaultValue = "0") int page,
                                                                      @RequestParam(value = "size", defaultValue = "50") int size,
@@ -83,7 +71,7 @@ public class MessageController {
 
     //Not: getReadList() ***********************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("{language}/getReadList")
+    @GetMapping("/{language}/getReadList")
     public InternalApiResponse<Page<MessageResponse>> getReadList(@PathVariable("language") Language language,
                                                                   @RequestParam(value = "page", defaultValue = "0") int page,
                                                                   @RequestParam(value = "size", defaultValue = "30") int size,
@@ -103,7 +91,7 @@ public class MessageController {
 
     //Not: getUnReadList() *********************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("{language}/getUnReadList")
+    @GetMapping("/{language}/getUnReadList")
     public InternalApiResponse<Page<MessageResponse>> getUnReadList(@PathVariable("language") Language language,
                                                                     @RequestParam(value = "page", defaultValue = "0") int page,
                                                                     @RequestParam(value = "size", defaultValue = "30") int size,
@@ -123,7 +111,7 @@ public class MessageController {
 
     //Not: getListDraft() **********************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("{language}/getListDraft")
+    @GetMapping("/{language}/getListDraft")
     public InternalApiResponse<Page<MessageResponse>> getListDraft(@PathVariable("language") Language language,
                                                                    @RequestParam(value = "page", defaultValue = "0") int page,
                                                                    @RequestParam(value = "size", defaultValue = "20") int size,
@@ -143,7 +131,7 @@ public class MessageController {
 
     //Not: getListTrash() **********************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("{language}/getListTrash")
+    @GetMapping("/{language}/getListTrash")
     public InternalApiResponse<Page<MessageResponse>> getListTrash(@PathVariable("language") Language language,
                                                                    @RequestParam(value = "page", defaultValue = "0") int page,
                                                                    @RequestParam(value = "size", defaultValue = "20") int size,
@@ -163,7 +151,7 @@ public class MessageController {
 
     //Not: getListImportant() ******************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("{language}/getListImportant")
+    @GetMapping("/{language}/getListImportant")
     public InternalApiResponse<Page<MessageResponse>> getListImportant(@PathVariable("language") Language language,
                                                                        @RequestParam(value = "page", defaultValue = "0") int page,
                                                                        @RequestParam(value = "size", defaultValue = "20") int size,
@@ -183,7 +171,7 @@ public class MessageController {
 
     //Not: getListSpam() ***********************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("{language}/getListSpam")
+    @GetMapping("/{language}/getListSpam")
     public InternalApiResponse<Page<MessageResponse>> getListSpam(@PathVariable("language") Language language,
                                                                   @RequestParam(value = "page", defaultValue = "0") int page,
                                                                   @RequestParam(value = "size", defaultValue = "20") int size,
@@ -203,7 +191,7 @@ public class MessageController {
 
     //Not: getListBySenderId() ******************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("{language}/{senderId}")
+    @GetMapping("/{language}/{senderId}")
     public InternalApiResponse<Page<MessageResponse>> getListBySenderId(@PathVariable("language") Language language,
                                                                         @PathVariable("senderId") Long id,
                                                                         @RequestParam(value = "page", defaultValue = "0") int page,
@@ -225,7 +213,7 @@ public class MessageController {
 
     //Not: getMessageById() ********************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("{language}/{id}")
+    @GetMapping("/{language}/{id}")
     public InternalApiResponse<MessageResponse> getMessageById(@PathVariable("language") Language language,
                                                                @PathVariable("id") Long id
     ) {
@@ -243,10 +231,9 @@ public class MessageController {
 
     //Not: send() *******************************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("{language}/createMessage")
+    @PostMapping("/{language}/sendMessage")
     public InternalApiResponse<MessageResponse> sendMessage(@PathVariable("language") Language language,
-                                                              @Valid
-                                                              @RequestBody NewMessageRequest request
+                                                            @RequestBody @Valid NewMessageRequest request
     ) {
 
         log.debug("[{}][sendMessage] -> request: {}", this.getClass().getSimpleName(), request);
