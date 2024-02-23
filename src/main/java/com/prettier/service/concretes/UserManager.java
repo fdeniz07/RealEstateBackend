@@ -100,4 +100,14 @@ public class UserManager implements UserService {
         log.debug("[{}][getUser] -> response: {}", this.getClass().getSimpleName(), email);
         return false;
     }
+
+
+    public User getUserByEmail(Language language, String email){
+
+       User user =  userRepository
+               .findByEmail(email)
+               .orElseThrow(()->new UserNotFoundException(language,FriendlyMessageCodes.USER_NOT_FOUND_EXCEPTION,email));
+
+       return user;
+    }
 }

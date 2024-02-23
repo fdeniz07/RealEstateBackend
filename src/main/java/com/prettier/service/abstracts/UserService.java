@@ -1,5 +1,6 @@
 package com.prettier.service.abstracts;
 
+import com.prettier.entity.concretes.User;
 import com.prettier.payload.request.concretes.UserRoleChangeRequest;
 import com.prettier.payload.request.concretes.UserUpdateRequest;
 import com.prettier.payload.response.concretes.UserResponse;
@@ -20,5 +21,5 @@ public interface UserService extends Serializable {
 
     UserResponse softDelete(Language language, Long id);
 
-
+    User getUserByEmail(Language language, String email);
 }
