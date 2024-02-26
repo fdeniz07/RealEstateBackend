@@ -14,10 +14,11 @@ public interface MessageMapper {
 
     MessageMapper INSTANCE = Mappers.getMapper(MessageMapper.class);
 
-    @Mapping(target = "receiver.email", source = "receiver")
+    @Mapping(target = "receiver.email", source = "receiverMail")
     Message toMessage(NewMessageRequest messageRequest);
 
     @Mapping(target = "receiverMail", source = "receiver.email")
+    @Mapping(target = "senderMail", source = "sender.email")
     MessageResponse toResponse(Message message);
 
 }
