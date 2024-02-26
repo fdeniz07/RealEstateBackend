@@ -11,6 +11,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 //    @Query("SELECT m FROM Message m WHERE m.receiver.id = ?1")
 //    Page<Message> findByReceiver(Long userId, Pageable pageable);
 
+    @Query("SELECT m FROM Message m WHERE m.sender.email=?1")
     Page<Message> findAllByReceiverEquals(String email, Pageable pageable);
 
     @Query("SELECT m FROM Message m WHERE m.isRead = true")

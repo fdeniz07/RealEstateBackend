@@ -17,6 +17,7 @@ public interface MessageMapper {
     @Mapping(target = "receiver.email", source = "receiver")
     Message toMessage(NewMessageRequest messageRequest);
 
+    @Mapping(target = "receiverMail", source = "receiver.email")
     MessageResponse toResponse(Message message);
 
 }
