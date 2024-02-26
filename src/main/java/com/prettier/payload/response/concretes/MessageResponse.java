@@ -24,7 +24,7 @@ public class MessageResponse  extends BaseEntityResponse {
     private boolean isRead;
     private boolean isImportant;
     private boolean isSpam;
-    private User sender;
-    private User receiver;
+    private String senderMail;
+    private String receiverMail;
 
 }
