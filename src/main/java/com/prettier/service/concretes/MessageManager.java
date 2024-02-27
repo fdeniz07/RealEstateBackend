@@ -193,7 +193,7 @@ public class MessageManager implements MessageService {
                 String loginUser = userDetails.getUsername();
                 User sender = userService.getUserByEmail(language, loginUser);
 
-                User receiver = userService.getUserByEmail(language, messageRequest.getReceiver());
+                User receiver = userService.getUserByEmail(language, messageRequest.getReceiverMail());
                 Message message = messageMapper.toMessage(messageRequest);
                 message.setReceiver(receiver);
                 message.setSender(sender);

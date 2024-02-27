@@ -28,7 +28,7 @@ public class MessageRequest  extends BaseEntityRequest {
     private boolean isSpam;
 
     @NotNull(message = "Please enter receiver")
-    private String receiver;
+    private String receiverMail;
 
 }
 
