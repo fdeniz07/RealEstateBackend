@@ -107,7 +107,7 @@ public class MessageManager implements MessageService {
     @Override
     public Page<MessageResponse> getReadList(Language language, int page, int size, String sort, String type) {
 
-        log.debug("[{}][getListInbox]", this.getClass().getSimpleName());
+        log.debug("[{}][getReadList]", this.getClass().getSimpleName());
 
         Pageable pageable;
         if (Objects.equals(type, "desc")) {
@@ -130,7 +130,7 @@ public class MessageManager implements MessageService {
             if (messages.isEmpty()) {
                 throw new MessageNotFoundException(language, FriendlyMessageCodes.MESSAGE_NOT_FOUND_EXCEPTION, "Messages not found");
             }
-            log.debug("[{}][getListInbox] -> response: {}", this.getClass().getSimpleName(), messages);
+            log.debug("[{}][getReadList] -> response: {}", this.getClass().getSimpleName(), messages);
 
             return new PageImpl<>(messages, pageable, messagePage.getTotalElements());
         }
@@ -140,43 +140,232 @@ public class MessageManager implements MessageService {
     //Not: getUnReadList() *********************************************************************************************************
     @Override
     public Page<MessageResponse> getUnReadList(Language language, int page, int size, String sort, String type) {
+
+        log.debug("[{}][getUnReadList]", this.getClass().getSimpleName());
+
+        Pageable pageable;
+        if (Objects.equals(type, "desc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
+
+            String email = userDetails.getUsername();
+
+            Page<Message> messagePage = messageRepository.findAllByReceiverEqualsAndReadFalse(email, pageable);
+
+            List<MessageResponse> messages = messagePage.getContent().stream()
+                    .map(messageMapper::toResponse)
+                    .collect(Collectors.toList());
+
+            if (messages.isEmpty()) {
+                throw new MessageNotFoundException(language, FriendlyMessageCodes.MESSAGE_NOT_FOUND_EXCEPTION, "Messages not found");
+            }
+            log.debug("[{}][getUnReadList] -> response: {}", this.getClass().getSimpleName(), messages);
+
+            return new PageImpl<>(messages, pageable, messagePage.getTotalElements());
+        }
         return null;
     }
 
     //Not: getListDraft() **********************************************************************************************************
     @Override
     public Page<MessageResponse> getListDraft(Language language, int page, int size, String sort, String type) {
+
+        log.debug("[{}][getListDraft]", this.getClass().getSimpleName());
+
+        Pageable pageable;
+        if (Objects.equals(type, "desc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
+
+            String email = userDetails.getUsername();
+
+            Page<Message> messagePage = messageRepository.findAllByReceiverEqualsAndDraftTrue(email, pageable);
+
+            List<MessageResponse> messages = messagePage.getContent().stream()
+                    .map(messageMapper::toResponse)
+                    .collect(Collectors.toList());
+
+            if (messages.isEmpty()) {
+                throw new MessageNotFoundException(language, FriendlyMessageCodes.MESSAGE_NOT_FOUND_EXCEPTION, "Messages not found");
+            }
+            log.debug("[{}][getListDraft] -> response: {}", this.getClass().getSimpleName(), messages);
+
+            return new PageImpl<>(messages, pageable, messagePage.getTotalElements());
+        }
         return null;
     }
 
     //Not: getListTrash() **********************************************************************************************************
     @Override
     public Page<MessageResponse> getListTrash(Language language, int page, int size, String sort, String type) {
+
+        log.debug("[{}][getListTrash]", this.getClass().getSimpleName());
+
+        Pageable pageable;
+        if (Objects.equals(type, "desc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
+
+            String email = userDetails.getUsername();
+
+            Page<Message> messagePage = messageRepository.findAllByReceiverEqualsAndTrashTrue(email, pageable);
+
+            List<MessageResponse> messages = messagePage.getContent().stream()
+                    .map(messageMapper::toResponse)
+                    .collect(Collectors.toList());
+
+            if (messages.isEmpty()) {
+                throw new MessageNotFoundException(language, FriendlyMessageCodes.MESSAGE_NOT_FOUND_EXCEPTION, "Messages not found");
+            }
+            log.debug("[{}][getListTrash] -> response: {}", this.getClass().getSimpleName(), messages);
+
+            return new PageImpl<>(messages, pageable, messagePage.getTotalElements());
+        }
         return null;
     }
 
     //Not: getListImportant() ******************************************************************************************************
     @Override
     public Page<MessageResponse> getListImportant(Language language, int page, int size, String sort, String type) {
+
+        log.debug("[{}][getListImportant]", this.getClass().getSimpleName());
+
+        Pageable pageable;
+        if (Objects.equals(type, "desc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
+
+            String email = userDetails.getUsername();
+
+            Page<Message> messagePage = messageRepository.findAllByReceiverEqualsAndImportantTrue(email, pageable);
+
+            List<MessageResponse> messages = messagePage.getContent().stream()
+                    .map(messageMapper::toResponse)
+                    .collect(Collectors.toList());
+
+            if (messages.isEmpty()) {
+                throw new MessageNotFoundException(language, FriendlyMessageCodes.MESSAGE_NOT_FOUND_EXCEPTION, "Messages not found");
+            }
+            log.debug("[{}][getListImportant] -> response: {}", this.getClass().getSimpleName(), messages);
+
+            return new PageImpl<>(messages, pageable, messagePage.getTotalElements());
+        }
         return null;
     }
 
     //Not: getListSpam() ***********************************************************************************************************
     @Override
     public Page<MessageResponse> getListSpam(Language language, int page, int size, String sort, String type) {
+
+        //!!! TODO: For spams must be a spamList create !!!
+
+        log.debug("[{}][getListSpam]", this.getClass().getSimpleName());
+
+        Pageable pageable;
+        if (Objects.equals(type, "desc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
+
+            String email = userDetails.getUsername();
+
+            Page<Message> messagePage = messageRepository.findAllByReceiverEqualsAndSpamTrue(email, pageable);
+
+            List<MessageResponse> messages = messagePage.getContent().stream()
+                    .map(messageMapper::toResponse)
+                    .collect(Collectors.toList());
+
+            if (messages.isEmpty()) {
+                throw new MessageNotFoundException(language, FriendlyMessageCodes.MESSAGE_NOT_FOUND_EXCEPTION, "Messages not found");
+            }
+            log.debug("[{}][getListSpam] -> response: {}", this.getClass().getSimpleName(), messages);
+
+            return new PageImpl<>(messages, pageable, messagePage.getTotalElements());
+        }
         return null;
     }
 
     //Not: getListBySenderId() ******************************************************************************************************
     @Override
-    public Page<MessageResponse> getListBySenderId(Language language, Long id, int page, int size, String
-            sort, String type) {
+    public Page<MessageResponse> getListBySenderId(Language language, Long id, int page, int size, String sort, String type)
+     {
+
+        log.debug("[{}][getListBySenderId]", this.getClass().getSimpleName());
+
+        Pageable pageable;
+        if (Objects.equals(type, "desc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
+
+            String email = userDetails.getUsername();
+
+            String senderEmail = userService.getUserMailById(id);
+
+            Page<Message> messagePage = messageRepository.findAllBySender(email, senderEmail, pageable);
+
+            List<MessageResponse> messages = messagePage.getContent().stream()
+                    .map(messageMapper::toResponse)
+                    .collect(Collectors.toList());
+
+            if (messages.isEmpty()) {
+                throw new MessageNotFoundException(language, FriendlyMessageCodes.MESSAGE_NOT_FOUND_EXCEPTION, "Messages not found");
+            }
+            log.debug("[{}][getListBySenderId] -> response: {}", this.getClass().getSimpleName(), messages);
+
+            return new PageImpl<>(messages, pageable, messagePage.getTotalElements());
+        }
         return null;
     }
 
     //Not: getMessageById() **********************************************************************************************************
     @Override
     public MessageResponse getMessageById(Language language, Long id) {
+
+        log.debug("[{}][getListBySenderId]", this.getClass().getSimpleName());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
+
+            String email = userDetails.getUsername();
+
+            Message message = messageRepository.findById(id)
+                    .orElseThrow(() -> new MessageNotFoundException(language, FriendlyMessageCodes.MESSAGE_NOT_FOUND_EXCEPTION, "Messages not found"));
+
+            MessageResponse response = messageMapper.toResponse(message);
+
+            log.debug("[{}][getListBySenderId] -> response: {}", this.getClass().getSimpleName(), response);
+
+            return response;
+        }
         return null;
     }
 

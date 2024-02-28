@@ -22,4 +22,6 @@ public interface UserService extends Serializable {
     UserResponse softDelete(Language language, Long id);
 
     User getUserByEmail(Language language, String email);
+
+    String getUserMailById(Long id);
 }

@@ -102,12 +102,17 @@ public class UserManager implements UserService {
     }
 
 
-    public User getUserByEmail(Language language, String email){
+    public User getUserByEmail(Language language, String email) {
 
-       User user =  userRepository
-               .findByEmail(email)
-               .orElseThrow(()->new UserNotFoundException(language,FriendlyMessageCodes.USER_NOT_FOUND_EXCEPTION,email));
+        User user = userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException(language, FriendlyMessageCodes.USER_NOT_FOUND_EXCEPTION, email));
 
-       return user;
+        return user;
+    }
+
+    public String getUserMailById(Long id) {
+
+        return userRepository.findEmailById(id);
     }
 }
