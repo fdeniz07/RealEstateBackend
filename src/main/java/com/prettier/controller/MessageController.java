@@ -191,7 +191,7 @@ public class MessageController {
 
     //Not: getListBySenderId() ******************************************************************************************************
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{language}/{senderId}")
+    @GetMapping("/{language}/getMessages/{senderId}")
     public InternalApiResponse<Page<MessageResponse>> getListBySenderId(@PathVariable("language") Language language,
                                                                         @PathVariable("senderId") Long id,
                                                                         @RequestParam(value = "page", defaultValue = "0") int page,
