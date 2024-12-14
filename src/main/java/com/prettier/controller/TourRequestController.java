@@ -1,7 +1,7 @@
 package com.prettier.controller;
 
 
-import com.prettier.payload.mapper.TourRequestMapper;
+import com.prettier.payloads.mapper.TourRequestMapper;
 import com.prettier.service.concretes.TourRequestManager;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

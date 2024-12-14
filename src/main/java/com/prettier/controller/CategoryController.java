@@ -2,13 +2,13 @@ package com.prettier.controller;
 
 
 import com.prettier.entity.concretes.CategoryPropertyKey;
-import com.prettier.payload.mapper.CategoryMapper;
-import com.prettier.payload.request.concretes.CategoryRequest;
-import com.prettier.payload.request.concretes.CategoryUpdateRequest;
+import com.prettier.payloads.mapper.CategoryMapper;
+import com.prettier.payloads.request.concretes.CategoryRequest;
+import com.prettier.payloads.request.concretes.CategoryUpdateRequest;
 import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;
 import com.prettier.shared.exception.globalExceptionHandling.InternalApiResponse;
-import com.prettier.payload.response.concretes.CategoryPropertyKeyResponse;
-import com.prettier.payload.response.concretes.CategoryResponse;
+import com.prettier.payloads.response.concretes.CategoryPropertyKeyResponse;
+import com.prettier.payloads.response.concretes.CategoryResponse;
 import com.prettier.service.concretes.CategoryManager;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;

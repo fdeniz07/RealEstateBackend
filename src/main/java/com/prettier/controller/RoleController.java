@@ -1,10 +1,10 @@
 package com.prettier.controller;
 
-import com.prettier.payload.mapper.RoleMapper;
-import com.prettier.payload.request.concretes.RoleRequest;
+import com.prettier.payloads.mapper.RoleMapper;
+import com.prettier.payloads.request.concretes.RoleRequest;
 import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;
 import com.prettier.shared.exception.globalExceptionHandling.InternalApiResponse;
-import com.prettier.payload.response.concretes.RoleResponse;
+import com.prettier.payloads.response.concretes.RoleResponse;
 import com.prettier.service.abstracts.RoleService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;

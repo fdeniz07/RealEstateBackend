@@ -1,10 +1,10 @@
 package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Contact;
-import com.prettier.payload.mapper.ContactMapper;
-import com.prettier.payload.request.concretes.ContactRequest;
-import com.prettier.payload.request.concretes.ContactUpdateRequest;
-import com.prettier.payload.response.concretes.ContactResponse;
+import com.prettier.payloads.mapper.ContactMapper;
+import com.prettier.payloads.request.concretes.ContactRequest;
+import com.prettier.payloads.request.concretes.ContactUpdateRequest;
+import com.prettier.payloads.response.concretes.ContactResponse;
 import com.prettier.repository.ContactRepository;
 import com.prettier.service.abstracts.ContactService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
@@ -13,7 +13,6 @@ import com.prettier.shared.exception.exceptions.contacts.ContactNotFoundExceptio
 import com.prettier.shared.utils.enums.Language;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

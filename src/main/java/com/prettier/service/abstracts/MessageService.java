@@ -1,10 +1,7 @@
 package com.prettier.service.abstracts;
 
-import com.prettier.entity.concretes.Advert;
-import com.prettier.entity.concretes.Message;
-import com.prettier.payload.request.concretes.*;
-import com.prettier.payload.response.concretes.AdvertResponse;
-import com.prettier.payload.response.concretes.MessageResponse;
+import com.prettier.payloads.request.concretes.*;
+import com.prettier.payloads.response.concretes.MessageResponse;
 import com.prettier.shared.utils.enums.Language;
 import org.springframework.data.domain.Page;
 

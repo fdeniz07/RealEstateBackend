@@ -1,11 +1,10 @@
 package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Advert;
-import com.prettier.entity.concretes.City;
-import com.prettier.payload.mapper.AdvertMapper;
-import com.prettier.payload.request.concretes.AdvertRequest;
-import com.prettier.payload.request.concretes.AdvertUpdateRequest;
-import com.prettier.payload.response.concretes.AdvertResponse;
+import com.prettier.payloads.mapper.AdvertMapper;
+import com.prettier.payloads.request.concretes.AdvertRequest;
+import com.prettier.payloads.request.concretes.AdvertUpdateRequest;
+import com.prettier.payloads.response.concretes.AdvertResponse;
 import com.prettier.repository.AdvertRepository;
 import com.prettier.service.abstracts.AdvertService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;

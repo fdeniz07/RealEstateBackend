@@ -1,9 +1,9 @@
 package com.prettier.service.abstracts;
 
 import com.prettier.entity.concretes.Contact;
-import com.prettier.payload.request.concretes.ContactRequest;
-import com.prettier.payload.request.concretes.ContactUpdateRequest;
-import com.prettier.payload.response.concretes.ContactResponse;
+import com.prettier.payloads.request.concretes.ContactRequest;
+import com.prettier.payloads.request.concretes.ContactUpdateRequest;
+import com.prettier.payloads.response.concretes.ContactResponse;
 import com.prettier.shared.utils.enums.Language;
 import org.springframework.data.domain.Page;
 

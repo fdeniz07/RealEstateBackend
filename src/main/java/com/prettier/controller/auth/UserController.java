@@ -1,10 +1,8 @@
 package com.prettier.controller.auth;
 
-import com.prettier.payload.mapper.UserMapper;
-import com.prettier.payload.request.concretes.CountryUpdateRequest;
-import com.prettier.payload.request.concretes.UserUpdateRequest;
-import com.prettier.payload.response.concretes.CountryResponse;
-import com.prettier.payload.response.concretes.UserResponse;
+import com.prettier.payloads.mapper.UserMapper;
+import com.prettier.payloads.request.concretes.UserUpdateRequest;
+import com.prettier.payloads.response.concretes.UserResponse;
 import com.prettier.service.abstracts.UserService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;
@@ -15,7 +13,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

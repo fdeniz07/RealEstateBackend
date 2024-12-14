@@ -1,11 +1,11 @@
 package com.prettier.controller;
 
-import com.prettier.payload.mapper.CityMapper;
-import com.prettier.payload.request.concretes.CityRequest;
-import com.prettier.payload.request.concretes.CityUpdateRequest;
+import com.prettier.payloads.mapper.CityMapper;
+import com.prettier.payloads.request.concretes.CityRequest;
+import com.prettier.payloads.request.concretes.CityUpdateRequest;
 import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;
 import com.prettier.shared.exception.globalExceptionHandling.InternalApiResponse;
-import com.prettier.payload.response.concretes.CityResponse;
+import com.prettier.payloads.response.concretes.CityResponse;
 import com.prettier.service.concretes.CityManager;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;

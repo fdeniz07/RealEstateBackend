@@ -2,10 +2,10 @@ package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Message;
 import com.prettier.entity.concretes.User;
-import com.prettier.payload.mapper.MessageMapper;
-import com.prettier.payload.request.concretes.MessageUpdateRequest;
-import com.prettier.payload.request.concretes.NewMessageRequest;
-import com.prettier.payload.response.concretes.MessageResponse;
+import com.prettier.payloads.mapper.MessageMapper;
+import com.prettier.payloads.request.concretes.MessageUpdateRequest;
+import com.prettier.payloads.request.concretes.NewMessageRequest;
+import com.prettier.payloads.response.concretes.MessageResponse;
 import com.prettier.repository.MessageRepository;
 import com.prettier.service.abstracts.MessageService;
 import com.prettier.service.abstracts.UserService;

@@ -1,9 +1,8 @@
 package com.prettier.service.abstracts;
 
 import com.prettier.entity.concretes.User;
-import com.prettier.payload.request.concretes.UserRoleChangeRequest;
-import com.prettier.payload.request.concretes.UserUpdateRequest;
-import com.prettier.payload.response.concretes.UserResponse;
+import com.prettier.payloads.request.concretes.UserUpdateRequest;
+import com.prettier.payloads.response.concretes.UserResponse;
 import com.prettier.shared.utils.enums.Language;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,6 +1,6 @@
 package com.prettier.controller;
 
-import com.prettier.payload.response.concretes.FavoriteResponse;
+import com.prettier.payloads.response.concretes.FavoriteResponse;
 import com.prettier.service.concretes.FavoriteService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

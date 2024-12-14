@@ -2,11 +2,11 @@ package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Category;
 import com.prettier.entity.concretes.CategoryPropertyKey;
-import com.prettier.payload.mapper.CategoryMapper;
-import com.prettier.payload.request.concretes.CategoryRequest;
-import com.prettier.payload.request.concretes.CategoryUpdateRequest;
-import com.prettier.payload.response.concretes.CategoryPropertyKeyResponse;
-import com.prettier.payload.response.concretes.CategoryResponse;
+import com.prettier.payloads.mapper.CategoryMapper;
+import com.prettier.payloads.request.concretes.CategoryRequest;
+import com.prettier.payloads.request.concretes.CategoryUpdateRequest;
+import com.prettier.payloads.response.concretes.CategoryPropertyKeyResponse;
+import com.prettier.payloads.response.concretes.CategoryResponse;
 import com.prettier.repository.CategoryPropertyKeyRepository;
 import com.prettier.repository.CategoryPropertyValueRepository;
 import com.prettier.repository.CategoryRepository;

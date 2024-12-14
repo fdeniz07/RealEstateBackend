@@ -1,6 +1,6 @@
 package com.prettier.service.concretes;
 
-import com.prettier.payload.mapper.UserRoleMapper;
+import com.prettier.payloads.mapper.UserRoleMapper;
 import com.prettier.repository.RoleRepository;
 import com.prettier.repository.UserRepository;
 import com.prettier.service.abstracts.RoleService;

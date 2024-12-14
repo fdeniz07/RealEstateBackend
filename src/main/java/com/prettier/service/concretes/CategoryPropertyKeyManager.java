@@ -1,8 +1,8 @@
 package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.CategoryPropertyKey;
-import com.prettier.payload.mapper.CategoryPropertyKeyMapper;
-import com.prettier.payload.response.concretes.CategoryPropertyKeyResponse;
+import com.prettier.payloads.mapper.CategoryPropertyKeyMapper;
+import com.prettier.payloads.response.concretes.CategoryPropertyKeyResponse;
 import com.prettier.repository.CategoryPropertyKeyRepository;
 import com.prettier.service.abstracts.CategoryPropertyKeyService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Set;
 
 @Service

@@ -1,16 +1,14 @@
 package com.prettier.service.abstracts;
 
-import com.prettier.entity.concretes.City;
 import com.prettier.entity.concretes.Country;
-import com.prettier.payload.request.concretes.CountryRequest;
-import com.prettier.payload.request.concretes.CountryUpdateRequest;
-import com.prettier.payload.response.concretes.CountryResponse;
+import com.prettier.payloads.request.concretes.CountryRequest;
+import com.prettier.payloads.request.concretes.CountryUpdateRequest;
+import com.prettier.payloads.response.concretes.CountryResponse;
 import com.prettier.shared.utils.enums.Language;
 import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 public interface CountryService extends Serializable {
 

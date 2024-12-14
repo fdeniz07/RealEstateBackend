@@ -2,8 +2,8 @@ package com.prettier.service.abstracts;
 
 import com.prettier.entity.concretes.Role;
 import com.prettier.entity.concretes.User;
-import com.prettier.payload.request.concretes.RoleRequest;
-import com.prettier.payload.response.concretes.RoleResponse;
+import com.prettier.payloads.request.concretes.RoleRequest;
+import com.prettier.payloads.response.concretes.RoleResponse;
 import com.prettier.shared.utils.enums.Language;
 import org.springframework.data.domain.Page;
 

@@ -1,17 +1,14 @@
 package com.prettier.service.concretes;
 
-import com.prettier.entity.concretes.City;
 import com.prettier.entity.concretes.Role;
 import com.prettier.entity.concretes.User;
-import com.prettier.payload.mapper.RoleMapper;
-import com.prettier.payload.request.concretes.RoleRequest;
-import com.prettier.payload.response.concretes.CityResponse;
-import com.prettier.payload.response.concretes.RoleResponse;
+import com.prettier.payloads.mapper.RoleMapper;
+import com.prettier.payloads.request.concretes.RoleRequest;
+import com.prettier.payloads.response.concretes.RoleResponse;
 import com.prettier.repository.RoleRepository;
 import com.prettier.service.abstracts.RoleService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.exceptions.cities.CityAlreadyExistsException;
-import com.prettier.shared.exception.exceptions.cities.CityNotFoundException;
 import com.prettier.shared.exception.exceptions.roles.RoleAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.roles.RoleAlreadyExistsException;
 import com.prettier.shared.exception.exceptions.roles.RoleNotFoundException;

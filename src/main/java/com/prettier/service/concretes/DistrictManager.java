@@ -2,11 +2,11 @@ package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.City;
 import com.prettier.entity.concretes.District;
-import com.prettier.payload.mapper.CityMapper;
-import com.prettier.payload.mapper.DistrictMapper;
-import com.prettier.payload.request.concretes.DistrictRequest;
-import com.prettier.payload.request.concretes.DistrictUpdateRequest;
-import com.prettier.payload.response.concretes.DistrictResponse;
+import com.prettier.payloads.mapper.CityMapper;
+import com.prettier.payloads.mapper.DistrictMapper;
+import com.prettier.payloads.request.concretes.DistrictRequest;
+import com.prettier.payloads.request.concretes.DistrictUpdateRequest;
+import com.prettier.payloads.response.concretes.DistrictResponse;
 import com.prettier.repository.DistrictRepository;
 import com.prettier.service.abstracts.CityService;
 import com.prettier.service.abstracts.DistrictService;

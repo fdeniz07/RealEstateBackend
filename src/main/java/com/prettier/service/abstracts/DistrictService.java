@@ -1,10 +1,9 @@
 package com.prettier.service.abstracts;
 
-import com.prettier.entity.concretes.City;
 import com.prettier.entity.concretes.District;
-import com.prettier.payload.request.concretes.DistrictRequest;
-import com.prettier.payload.request.concretes.DistrictUpdateRequest;
-import com.prettier.payload.response.concretes.DistrictResponse;
+import com.prettier.payloads.request.concretes.DistrictRequest;
+import com.prettier.payloads.request.concretes.DistrictUpdateRequest;
+import com.prettier.payloads.response.concretes.DistrictResponse;
 import com.prettier.shared.utils.enums.Language;
 import org.springframework.data.domain.Page;
 

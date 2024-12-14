@@ -1,11 +1,10 @@
 package com.prettier.service.concretes;
 
-import com.prettier.entity.concretes.City;
 import com.prettier.entity.concretes.Country;
-import com.prettier.payload.mapper.CountryMapper;
-import com.prettier.payload.request.concretes.CountryRequest;
-import com.prettier.payload.request.concretes.CountryUpdateRequest;
-import com.prettier.payload.response.concretes.CountryResponse;
+import com.prettier.payloads.mapper.CountryMapper;
+import com.prettier.payloads.request.concretes.CountryRequest;
+import com.prettier.payloads.request.concretes.CountryUpdateRequest;
+import com.prettier.payloads.response.concretes.CountryResponse;
 import com.prettier.repository.CountryRepository;
 import com.prettier.service.abstracts.CountryService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 

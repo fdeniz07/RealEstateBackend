@@ -1,12 +1,10 @@
 package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Favorite;
-import com.prettier.entity.concretes.User;
-import com.prettier.payload.mapper.FavoriteMapper;
-import com.prettier.payload.response.concretes.FavoriteResponse;
+import com.prettier.payloads.mapper.FavoriteMapper;
+import com.prettier.payloads.response.concretes.FavoriteResponse;
 import com.prettier.repository.FavoriteRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;

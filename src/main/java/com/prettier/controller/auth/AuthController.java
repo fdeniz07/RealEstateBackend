@@ -1,11 +1,11 @@
 package com.prettier.controller.auth;
 
-import com.prettier.payload.request.concretes.LoginRequest;
-import com.prettier.payload.request.concretes.SignUpRequest;
+import com.prettier.payloads.request.concretes.LoginRequest;
+import com.prettier.payloads.request.concretes.SignUpRequest;
 import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;
 import com.prettier.shared.exception.globalExceptionHandling.InternalApiResponse;
-import com.prettier.payload.response.concretes.LoginResponse;
-import com.prettier.payload.response.concretes.SignUpResponse;
+import com.prettier.payloads.response.concretes.LoginResponse;
+import com.prettier.payloads.response.concretes.SignUpResponse;
 import com.prettier.security.exception.CustomAuthenticationFailureHandler;
 import com.prettier.service.abstracts.AuthService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;

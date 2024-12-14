@@ -1,17 +1,16 @@
 package com.prettier.controller;
 
 import com.prettier.entity.concretes.Advert;
-import com.prettier.payload.mapper.AdvertMapper;
-import com.prettier.payload.request.concretes.AdvertRequest;
-import com.prettier.payload.request.concretes.AdvertUpdateRequest;
+import com.prettier.payloads.mapper.AdvertMapper;
+import com.prettier.payloads.request.concretes.AdvertRequest;
+import com.prettier.payloads.request.concretes.AdvertUpdateRequest;
 import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;
 import com.prettier.shared.exception.globalExceptionHandling.InternalApiResponse;
-import com.prettier.payload.response.concretes.AdvertResponse;
+import com.prettier.payloads.response.concretes.AdvertResponse;
 import com.prettier.service.abstracts.AdvertService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;
 import com.prettier.shared.utils.enums.Language;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

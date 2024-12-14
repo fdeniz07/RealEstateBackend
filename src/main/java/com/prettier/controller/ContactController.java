@@ -1,11 +1,11 @@
 package com.prettier.controller;
 
 import com.prettier.entity.concretes.Contact;
-import com.prettier.payload.mapper.ContactMapper;
-import com.prettier.payload.request.concretes.ContactRequest;
+import com.prettier.payloads.mapper.ContactMapper;
+import com.prettier.payloads.request.concretes.ContactRequest;
 import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;
 import com.prettier.shared.exception.globalExceptionHandling.InternalApiResponse;
-import com.prettier.payload.response.concretes.ContactResponse;
+import com.prettier.payloads.response.concretes.ContactResponse;
 import com.prettier.service.abstracts.ContactService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;

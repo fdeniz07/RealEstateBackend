@@ -1,11 +1,11 @@
 package com.prettier.controller;
 
-import com.prettier.payload.mapper.DistrictMapper;
-import com.prettier.payload.request.concretes.DistrictRequest;
-import com.prettier.payload.request.concretes.DistrictUpdateRequest;
+import com.prettier.payloads.mapper.DistrictMapper;
+import com.prettier.payloads.request.concretes.DistrictRequest;
+import com.prettier.payloads.request.concretes.DistrictUpdateRequest;
 import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;
 import com.prettier.shared.exception.globalExceptionHandling.InternalApiResponse;
-import com.prettier.payload.response.concretes.DistrictResponse;
+import com.prettier.payloads.response.concretes.DistrictResponse;
 import com.prettier.service.concretes.DistrictManager;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;

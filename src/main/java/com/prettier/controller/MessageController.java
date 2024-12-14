@@ -1,9 +1,9 @@
 package com.prettier.controller;
 
-import com.prettier.payload.mapper.MessageMapper;
-import com.prettier.payload.request.concretes.MessageUpdateRequest;
-import com.prettier.payload.request.concretes.NewMessageRequest;
-import com.prettier.payload.response.concretes.MessageResponse;
+import com.prettier.payloads.mapper.MessageMapper;
+import com.prettier.payloads.request.concretes.MessageUpdateRequest;
+import com.prettier.payloads.request.concretes.NewMessageRequest;
+import com.prettier.payloads.response.concretes.MessageResponse;
 import com.prettier.service.abstracts.MessageService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;

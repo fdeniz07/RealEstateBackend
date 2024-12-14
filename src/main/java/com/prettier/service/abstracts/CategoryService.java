@@ -1,9 +1,9 @@
 package com.prettier.service.abstracts;
 
-import com.prettier.payload.request.concretes.CategoryRequest;
-import com.prettier.payload.request.concretes.CategoryUpdateRequest;
-import com.prettier.payload.response.concretes.CategoryPropertyKeyResponse;
-import com.prettier.payload.response.concretes.CategoryResponse;
+import com.prettier.payloads.request.concretes.CategoryRequest;
+import com.prettier.payloads.request.concretes.CategoryUpdateRequest;
+import com.prettier.payloads.response.concretes.CategoryPropertyKeyResponse;
+import com.prettier.payloads.response.concretes.CategoryResponse;
 import com.prettier.shared.utils.enums.Language;
 import org.springframework.data.domain.Page;
 

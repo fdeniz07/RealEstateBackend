@@ -1,12 +1,12 @@
 package com.prettier.controller;
 
 import com.prettier.entity.concretes.Country;
-import com.prettier.payload.mapper.CountryMapper;
-import com.prettier.payload.request.concretes.CountryRequest;
-import com.prettier.payload.request.concretes.CountryUpdateRequest;
+import com.prettier.payloads.mapper.CountryMapper;
+import com.prettier.payloads.request.concretes.CountryRequest;
+import com.prettier.payloads.request.concretes.CountryUpdateRequest;
 import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;
 import com.prettier.shared.exception.globalExceptionHandling.InternalApiResponse;
-import com.prettier.payload.response.concretes.CountryResponse;
+import com.prettier.payloads.response.concretes.CountryResponse;
 import com.prettier.service.concretes.CountryManager;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.utils.FriendlyMessageUtils;

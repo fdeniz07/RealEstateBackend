@@ -1,6 +1,6 @@
 package com.prettier.config;
 
-import com.prettier.payload.mapper.*;
+import com.prettier.payloads.mapper.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

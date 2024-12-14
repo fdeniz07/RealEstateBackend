@@ -1,9 +1,9 @@
 package com.prettier.controller.auth;
 
-import com.prettier.payload.request.concretes.UserRequestForAdmin;
-import com.prettier.payload.request.concretes.UserRoleChangeRequest;
-import com.prettier.payload.response.concretes.UserResponseForAdmins;
-import com.prettier.payload.response.concretes.UserRoleChangeResponse;
+import com.prettier.payloads.request.concretes.UserRequestForAdmin;
+import com.prettier.payloads.request.concretes.UserRoleChangeRequest;
+import com.prettier.payloads.response.concretes.UserResponseForAdmins;
+import com.prettier.payloads.response.concretes.UserRoleChangeResponse;
 import com.prettier.service.abstracts.AdminService;
 import com.prettier.service.abstracts.UserService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;

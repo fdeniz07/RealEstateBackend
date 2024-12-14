@@ -1,16 +1,14 @@
 package com.prettier.service.concretes;
 
-import com.prettier.payload.request.concretes.TourRequestRequest;
-import com.prettier.payload.request.concretes.TourRequestUpdateRequest;
-import com.prettier.payload.response.concretes.TourRequestResponse;
+import com.prettier.payloads.request.concretes.TourRequestRequest;
+import com.prettier.payloads.request.concretes.TourRequestUpdateRequest;
+import com.prettier.payloads.response.concretes.TourRequestResponse;
 import com.prettier.repository.TourRequestRepository;
 import com.prettier.service.abstracts.TourRequestService;
 import com.prettier.shared.utils.enums.Language;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
 
 @Service
 @RequiredArgsConstructor

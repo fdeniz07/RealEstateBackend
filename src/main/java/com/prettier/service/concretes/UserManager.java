@@ -1,15 +1,13 @@
 package com.prettier.service.concretes;
 
-import com.prettier.entity.concretes.City;
 import com.prettier.entity.concretes.User;
-import com.prettier.payload.mapper.UserMapper;
-import com.prettier.payload.request.concretes.UserUpdateRequest;
-import com.prettier.payload.response.concretes.UserResponse;
+import com.prettier.payloads.mapper.UserMapper;
+import com.prettier.payloads.request.concretes.UserUpdateRequest;
+import com.prettier.payloads.response.concretes.UserResponse;
 import com.prettier.repository.UserRepository;
 import com.prettier.service.abstracts.UserService;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.exceptions.cities.CityAlreadyExistsException;
-import com.prettier.shared.exception.exceptions.cities.CityNotFoundException;
 import com.prettier.shared.exception.exceptions.users.UserNotFoundException;
 import com.prettier.shared.utils.enums.Language;
 import lombok.RequiredArgsConstructor;

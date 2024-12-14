@@ -1,10 +1,9 @@
 package com.prettier.service.abstracts;
 
-import com.prettier.payload.request.concretes.UserRequest;
-import com.prettier.payload.request.concretes.UserRequestForAdmin;
-import com.prettier.payload.request.concretes.UserRoleChangeRequest;
-import com.prettier.payload.response.concretes.UserResponseForAdmins;
-import com.prettier.payload.response.concretes.UserRoleChangeResponse;
+import com.prettier.payloads.request.concretes.UserRequestForAdmin;
+import com.prettier.payloads.request.concretes.UserRoleChangeRequest;
+import com.prettier.payloads.response.concretes.UserResponseForAdmins;
+import com.prettier.payloads.response.concretes.UserRoleChangeResponse;
 import com.prettier.shared.utils.enums.Language;
 import org.springframework.data.domain.Page;
 

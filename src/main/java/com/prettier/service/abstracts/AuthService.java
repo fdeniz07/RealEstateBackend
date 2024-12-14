@@ -1,9 +1,9 @@
 package com.prettier.service.abstracts;
 
-import com.prettier.payload.request.concretes.LoginRequest;
-import com.prettier.payload.response.concretes.LoginResponse;
-import com.prettier.payload.request.concretes.SignUpRequest;
-import com.prettier.payload.response.concretes.SignUpResponse;
+import com.prettier.payloads.request.concretes.LoginRequest;
+import com.prettier.payloads.response.concretes.LoginResponse;
+import com.prettier.payloads.request.concretes.SignUpRequest;
+import com.prettier.payloads.response.concretes.SignUpResponse;
 import com.prettier.shared.utils.enums.Language;
 
 public interface AuthService {

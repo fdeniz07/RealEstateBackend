@@ -1,8 +1,8 @@
 package com.prettier.service.abstracts;
 
-import com.prettier.payload.request.concretes.TourRequestRequest;
-import com.prettier.payload.request.concretes.TourRequestUpdateRequest;
-import com.prettier.payload.response.concretes.TourRequestResponse;
+import com.prettier.payloads.request.concretes.TourRequestRequest;
+import com.prettier.payloads.request.concretes.TourRequestUpdateRequest;
+import com.prettier.payloads.response.concretes.TourRequestResponse;
 import com.prettier.shared.utils.enums.Language;
 import org.springframework.data.domain.Page;
 
