@@ -5,6 +5,9 @@
 
 ### Java 17
 ### Spring Boot 3.0
+### JPA Repository & JPQL 
+### Hibernate ORM & HQL
+### Code First
 ### JWT Token
 ### Global Exception Handling
 ### Localization & Globalization
