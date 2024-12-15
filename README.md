@@ -12,7 +12,7 @@
 ### Global Exception Handling
 ### Localization & Globalization
 ### Multi Language Support
-### Swagger
+### OpenAPI (Swagger)
 ### Postgresql
 ### Lombok
 ### Mapstruct
@@ -25,6 +25,7 @@
 ### Spring AOP & Cross-Cutting Concerns
 ### Chat module with SignalR
 ### Docker Container support
+### Unit Testing with JUnit & Mockito
 
 <hr/>
 
