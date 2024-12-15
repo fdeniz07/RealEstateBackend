@@ -17,34 +17,34 @@
 
 <hr/>
 
- <p>Swagger UI - Message<p/>
+### <p>Swagger UI - Message<p/>
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Message.png" />
 
-   <p>Swagger UI - Admin<p/>
+###   <p>Swagger UI - Admin<p/>
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Admin.png" />
 
-   <p>Swagger UI - Country & City<p/>
+###   <p>Swagger UI - Country & City<p/>
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Country%20%26%20City.png" />
 
-   <p>Swagger UI - Auth & User<p/>
+###  <p>Swagger UI - Auth & User<p/>
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Auth%20%26%20User.png" />
 
-   <p>Swagger UI - Favorite - Contact Message - Advert<p/>
+###  <p>Swagger UI - Favorite - Contact Message - Advert<p/>
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Favorite%20-%20Contact%20Message%20-%20Advert.png" />
 
-   <p>Swagger UI - District<p/>
+###   <p>Swagger UI - District<p/>
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20District.png" />
 
-   <p>Swagger UI - Role<p/>
+###   <p>Swagger UI - Role<p/>
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Role.png" />
 
-   <p>Swagger UI - Category<p/>
+###   <p>Swagger UI - Category<p/>
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Role.png" />
 
-   <p>Swagger UI - Login<p/>
+###   <p>Swagger UI - Login<p/>
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Login.png" />
 
-   <p>Swagger UI - Country - getAll<p/>
+###   <p>Swagger UI - Country - getAll<p/>
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Country%20-%20getAll.png" />
 
 
