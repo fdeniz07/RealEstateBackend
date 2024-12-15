@@ -15,7 +15,9 @@
 ### OpenAPI (Swagger)
 ### Postgresql
 ### Lombok
+### Actuator
 ### Mapstruct
+### Java Faker (Fakedata)
 ### N-Tier Architect
 
 ## Planned technology stack additions:
