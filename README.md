@@ -30,7 +30,7 @@
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Auth%20%26%20User.png" />
 
    <p>Swagger UI - Favorite - Contact Message - Advert<p/>
-  <img src="Swagger UI - Favorite - Contact Message - Advert" />
+  <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Favorite%20-%20Contact%20Message%20-%20Advert.png" />
 
    <p>Swagger UI - District<p/>
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20District.png" />
