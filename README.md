@@ -18,6 +18,14 @@
 ### Mapstruct
 ### N-Tier Architect
 
+## Planned technology stack additions:
+### RabbitMQ
+### Redis
+### Elasticsearch
+### Spring AOP & Cross-Cutting Concerns
+### Chat module with SignalR
+### Docker Container support
+
 <hr/>
 
 ###  <p>Infrastructure<p/>
