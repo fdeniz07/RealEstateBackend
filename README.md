@@ -29,28 +29,23 @@
    <p>Swagger UI - Auth & User<p/>
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Auth%20%26%20User.png" />
 
-   <p>Gallery<p/>
-  <img src="" />
+   <p>Swagger UI - Favorite - Contact Message - Advert<p/>
+  <img src="Swagger UI - Favorite - Contact Message - Advert" />
 
-   <p>Gallery<p/>
-  <img src="" />
+   <p>Swagger UI - District<p/>
+  <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20District.png" />
 
-   <p>Gallery<p/>
-  <img src="" />
+   <p>Swagger UI - Role<p/>
+  <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Role.png" />
 
-   <p>Gallery<p/>
-  <img src="" />
+   <p>Swagger UI - Category<p/>
+  <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Role.png" />
 
-   <p>Gallery<p/>
-  <img src="" />
+   <p>Swagger UI - Login<p/>
+  <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Login.png" />
 
-   <p>Gallery<p/>
-  <img src="" />
+   <p>Swagger UI - Country - getAll<p/>
+  <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Country%20-%20getAll.png" />
 
-   <p>Gallery<p/>
-  <img src="" />
-
-   <p>Gallery<p/>
-  <img src="" />
 
   
