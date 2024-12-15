@@ -16,6 +16,8 @@
 ### N-Tier Architect
 
 <hr/>
+### <p>Infrastructure<p/>
+  <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Infrastructure.png" />
 
 ### <p>Swagger UI - Message<p/>
   <img src="https://github.com/fdeniz07/RealEstateBackend/blob/Fatih/img/Swagger%20UI%20-%20Message.png" />
