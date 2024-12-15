@@ -18,6 +18,7 @@ import io.swagger.v3.oas.models.servers.Server;
 
 
 //Swagger ile ilgili site: https://www.bezkoder.com/spring-boot-swagger-3/
+// https://localhost:5001/swagger/index.html
 
 @Configuration
 @OpenAPIDefinition(info = @io.swagger.v3.oas.annotations.info.Info(title = "RealEstate API", version = "1.0.0"),
