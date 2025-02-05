@@ -23,6 +23,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+/**
+ * Admin işlemlerini yöneten servis sınıfı.
+ * Bu sınıf, kullanıcı yönetimi, rol değişiklikleri ve kullanıcı durumu güncellemeleri gibi
+ * admin seviyesinde işlemleri gerçekleştirir.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -36,6 +41,17 @@ public class AdminManager implements AdminService {
     private final CheckUniqueFields checkUniqueFields;
 
     //Not: getAllUsers() ******************************************************************************************************
+    /**
+     * Tüm kullanıcıları sayfalı şekilde getirir.
+     *
+     * @param language Kullanılacak dil
+     * @param page Sayfa numarası
+     * @param size Sayfa başına kayıt sayısı
+     * @param sort Sıralama yapılacak alan
+     * @param type Sıralama tipi (asc/desc)
+     * @return Kullanıcı listesini içeren sayfa
+     * @throws UserNotFoundException Kullanıcı bulunamadığında
+     */
     @Override
     public Page<UserResponseForAdmins> getAllUsers(Language language, int page, int size, String sort, String type) {
 
@@ -58,6 +74,17 @@ public class AdminManager implements AdminService {
     }
 
     //Not: getAllUsersByActive() **********************************************************************************************
+    /**
+     * Aktif kullanıcıları sayfalı şekilde getirir.
+     *
+     * @param language Kullanılacak dil
+     * @param page Sayfa numarası
+     * @param size Sayfa başına kayıt sayısı
+     * @param sort Sıralama yapılacak alan
+     * @param type Sıralama tipi (asc/desc)
+     * @return Aktif kullanıcı listesini içeren sayfa
+     * @throws UserNotFoundException Aktif kullanıcı bulunamadığında
+     */
     @Override
     public Page<UserResponseForAdmins> getAllUsersByActive(Language language, int page, int size, String sort, String type) {
 
@@ -80,6 +107,17 @@ public class AdminManager implements AdminService {
 
 
     //Not: getAllUsersByInactive() **********************************************************************************************
+    /**
+     * İnaktif kullanıcıları sayfalı şekilde getirir.
+     *
+     * @param language Kullanılacak dil
+     * @param page Sayfa numarası
+     * @param size Sayfa başına kayıt sayısı
+     * @param sort Sıralama yapılacak alan
+     * @param type Sıralama tipi (asc/desc)
+     * @return İnaktif kullanıcı listesini içeren sayfa
+     * @throws UserNotFoundException İnaktif kullanıcı bulunamadığında
+     */
     @Override
     public Page<UserResponseForAdmins> getAllUsersByInactive(Language language, int page, int size, String sort, String type) {
 
@@ -100,6 +138,17 @@ public class AdminManager implements AdminService {
         return inactiveUsers.map(userMapperForAdmins::toResponse);
     }
 
+    /**
+     * Tüm yöneticileri sayfalı şekilde getirir.
+     *
+     * @param language Kullanılacak dil
+     * @param page Sayfa numarası
+     * @param size Sayfa başına kayıt sayısı
+     * @param sort Sıralama yapılacak alan
+     * @param type Sıralama tipi (asc/desc)
+     * @return Yönetici listesini içeren sayfa
+     * @throws UserNotFoundException Yönetici bulunamadığında
+     */
     //Not: getAllManagers() ***************************************************************************************************
     @Override
     public Page<UserResponseForAdmins> getAllManagers(Language language, int page, int size, String sort, String type) {
@@ -122,6 +171,17 @@ public class AdminManager implements AdminService {
     }
 
     //Not: getAllCustomers() **************************************************************************************************
+    /**
+     * Tüm müşterileri sayfalı şekilde getirir.
+     *
+     * @param language Kullanılacak dil
+     * @param page Sayfa numarası
+     * @param size Sayfa başına kayıt sayısı
+     * @param sort Sıralama yapılacak alan
+     * @param type Sıralama tipi (asc/desc)
+     * @return Müşteri listesini içeren sayfa
+     * @throws UserNotFoundException Müşteri bulunamadığında
+     */
     @Override
     public Page<UserResponseForAdmins> getAllCustomers(Language language, int page, int size, String sort, String type) {
 
@@ -143,6 +203,14 @@ public class AdminManager implements AdminService {
     }
 
     //Not: addUser() **********************************************************************************************************
+    /**
+     * Yeni kullanıcı ekler.
+     * Eğer rol belirtilmemişse varsayılan olarak CUSTOMER rolü atanır.
+     *
+     * @param language Kullanılacak dil
+     * @param userRequest Eklenecek kullanıcı bilgileri
+     * @return Eklenen kullanıcı bilgileri
+     */
     @Override
     public UserResponseForAdmins add(Language language, UserRequestForAdmin userRequest) {
 
@@ -179,6 +247,14 @@ public class AdminManager implements AdminService {
 
 
     //Not: changeUserRole() ***************************************************************************************************
+    /**
+     * Kullanıcının rollerini değiştirir.
+     *
+     * @param language Kullanılacak dil
+     * @param request Yeni rol bilgilerini içeren istek
+     * @param id Rolü değiştirilecek kullanıcının ID'si
+     * @return Güncellenen kullanıcı rol bilgileri
+     */
     @Override
     public UserRoleChangeResponse changeUserRole(Language language, UserRoleChangeRequest request,Long id) {
 
@@ -197,6 +273,14 @@ public class AdminManager implements AdminService {
     }
 
     //Not: changeUserStatus() *************************************************************************************************
+    /**
+     * Kullanıcının aktiflik durumunu değiştirir.
+     * Kullanıcıyı aktif duruma getirir.
+     *
+     * @param language Kullanılacak dil
+     * @param id Durumu değiştirilecek kullanıcının ID'si
+     * @return Güncellenen kullanıcı bilgileri
+     */
     @Override
     public UserResponseForAdmins changeUserStatus(Language language, Long id) {
 
