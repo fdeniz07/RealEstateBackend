@@ -22,6 +22,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+/**
+ * İlan işlemlerini yöneten servis sınıfı.
+ * Bu sınıf, ilanların listelenmesi, eklenmesi, güncellenmesi ve silinmesi gibi
+ * temel CRUD operasyonlarını gerçekleştirir.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -30,6 +35,17 @@ public class AdvertManager implements AdvertService {
     private final AdvertRepository advertRepository;
     private final AdvertMapper advertMapper;
 
+
+    /**
+     * Tüm ilanları sayfalı şekilde getirir.
+     *
+     * @param language Kullanılacak dil
+     * @param page Sayfa numarası
+     * @param size Sayfa başına kayıt sayısı
+     * @param sort Sıralama yapılacak alan
+     * @param type Sıralama tipi (asc/desc)
+     * @return İlanların listesini içeren sayfa
+     */
     @Override
     public Page<AdvertResponse> getAll(Language language, int page, int size, String sort, String type) {
 
@@ -41,6 +57,16 @@ public class AdvertManager implements AdvertService {
         return advertRepository.findAll(pageable).map(advertMapper::toResponse);
     }
 
+    /**
+     * Aktif ilanları sayfalı şekilde getirir.
+     *
+     * @param language Kullanılacak dil
+     * @param page Sayfa numarası
+     * @param size Sayfa başına kayıt sayısı
+     * @param sort Sıralama yapılacak alan
+     * @param type Sıralama tipi (asc/desc)
+     * @return Aktif ilanların listesini içeren sayfa
+     */
     @Override
     public Page<AdvertResponse> getListWithActive(Language language, int page, int size, String sort, String type) {
 
@@ -52,11 +78,26 @@ public class AdvertManager implements AdvertService {
         return advertRepository.findAllActive(pageable).map(advertMapper::toResponse);
     }
 
+    /**
+     * ID'ye göre tüm durumda olan ilanı getirir.
+     *
+     * @param language Kullanılacak dil
+     * @param id İlanın ID'si
+     * @return İlan detayları
+     */
     @Override
     public AdvertResponse getByIdAllType(Language language, Long id) {
         return null;
     }
 
+    /**
+     * ID'ye göre aktif ilanı getirir.
+     *
+     * @param language Kullanılacak dil
+     * @param id İlanın ID'si
+     * @return Aktif ilan detayları
+     * @throws AdvertNotFoundException İlan bulunamadığında
+     */
     @Override
     public AdvertResponse getByIdActive(Language language, Long id) {
         log.debug("[{}][getAdvert] -> request advertId: {}", this.getClass().getSimpleName(), id);
@@ -69,6 +110,14 @@ public class AdvertManager implements AdvertService {
     }
 
 
+    /**
+     * Yeni bir ilan ekler.
+     *
+     * @param language Kullanılacak dil
+     * @param advertRequest Eklenecek ilan bilgileri
+     * @return Eklenen ilan
+     * @throws AdvertNotCreatedException İlan oluşturulamadığında
+     */
     @Override
     public Advert add(Language language, AdvertRequest advertRequest) {
 
@@ -83,6 +132,16 @@ public class AdvertManager implements AdvertService {
         }
     }
 
+
+    /**
+     * Var olan bir ilanı günceller.
+     *
+     * @param language Kullanılacak dil
+     * @param advertUpdateRequest Güncellenecek ilan bilgileri
+     * @param id Güncellenecek ilanın ID'si
+     * @return Güncellenmiş ilan
+     * @throws AdvertNotFoundException İlan bulunamadığında
+     */
     @Override
     public Advert update(Language language, AdvertUpdateRequest advertUpdateRequest, Long id) {
         log.debug("[{}][updateAdvert] -> request: {} {}", this.getClass().getSimpleName(), id, advertUpdateRequest);
@@ -96,6 +155,15 @@ public class AdvertManager implements AdvertService {
         return updatedAdvert;
     }
 
+
+    /**
+     * İlanı pasif duruma getirir (soft delete).
+     *
+     * @param language Kullanılacak dil
+     * @param id Silinecek ilanın ID'si
+     * @return Pasif duruma getirilmiş ilan
+     * @throws AdvertAlreadyDeletedException İlan zaten silinmiş olduğunda
+     */
     @Override
     public Advert delete(Language language, Long id) {
         log.debug("[{}][deleteAdvert] -> request advertId: {}", this.getClass().getSimpleName(), id);
@@ -107,6 +175,14 @@ public class AdvertManager implements AdvertService {
     }
 
     // Ilgili Id, Advert tablosunda var mi kontrolü
+    /**
+     * ID'ye göre ilanı getirir. Bulunamazsa hata fırlatır.
+     *
+     * @param language Kullanılacak dil
+     * @param advertId İlanın ID'si
+     * @return Bulunan ilan
+     * @throws AdvertNotFoundException İlan bulunamadığında
+     */
     public Advert getAdvert(Language language, Long advertId) {
 
         log.debug("[{}][getAdvert] -> request advertId: {}", this.getClass().getSimpleName(), advertId);
@@ -115,6 +191,4 @@ public class AdvertManager implements AdvertService {
         log.debug("[{}][getAdvert] -> response: {}", this.getClass().getSimpleName(), advert);
         return advert;
     }
-
-
 }
