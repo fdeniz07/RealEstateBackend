@@ -29,6 +29,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * This service class handles authentication operations such as sign-up and login.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -44,6 +47,14 @@ public class AuthManager implements AuthService {
     private final AuthenticationManager authenticationManager;
 
 
+
+    /**
+     * Registers a new user.
+     *
+     * @param language The language to be used
+     * @param signUpRequest The sign-up request containing user details
+     * @return The response containing the JWT token and user details
+     */
     public SignUpResponse signUp(Language language, SignUpRequest signUpRequest) {
 
         log.debug("[{}][signUp] -> request: {}", this.getClass().getSimpleName(), signUpRequest);
@@ -88,6 +99,14 @@ public class AuthManager implements AuthService {
         return null;
     }
 
+
+    /**
+     * Registers a new user.
+     *
+     * @param language The language to be used
+     * @param loginRequest The sign-up request containing user details
+     * @return The response containing the JWT token and user details
+     */
     @Override
     public LoginResponse login(Language language, LoginRequest loginRequest) {
 
