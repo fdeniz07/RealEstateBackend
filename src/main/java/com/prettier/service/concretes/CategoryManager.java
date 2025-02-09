@@ -34,6 +34,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Service implementation class that manages Category-related operations.
+ * This class handles CRUD operations, pagination, and property management for Categories.
+ * Implements the CategoryService interface to provide category management functionality.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -49,7 +54,17 @@ public class CategoryManager implements CategoryService {
 
 
     //Not: getAllWithActives() *********************************************************************************************************************************
-
+    /**
+     * Retrieves a paginated list of active categories.
+     *
+     * @param language The language for error messages and localization
+     * @param page The page number for pagination
+     * @param size The number of items per page
+     * @param sort The field to sort by
+     * @param type The sort direction ("asc" or "desc")
+     * @return A Page of CategoryResponse containing active categories
+     * @throws CategoryNotFoundException if no categories are found
+     */
     @Override
     public Page<CategoryResponse> getCategoriesByActive(Language language, int page, int size, String sort, String type) {
 
@@ -73,7 +88,17 @@ public class CategoryManager implements CategoryService {
 
 
     //Not: getAll() *********************************************************************************************************************************
-
+    /**
+     * Retrieves a paginated list of all categories.
+     *
+     * @param language The language for error messages and localization
+     * @param page The page number for pagination
+     * @param size The number of items per page
+     * @param sort The field to sort by
+     * @param type The sort direction ("asc" or "desc")
+     * @return A Page of CategoryResponse containing all categories
+     * @throws CategoryNotFoundException if no categories are found
+     */
     @Override
     public Page<CategoryResponse> getCategories(Language language, int page, int size, String sort, String type) {
 
@@ -97,7 +122,14 @@ public class CategoryManager implements CategoryService {
 
 
     //Not: getById() *********************************************************************************************************************************
-
+    /**
+     * Retrieves a specific category by its ID.
+     *
+     * @param language The language for error messages and localization
+     * @param id The ID of the category to retrieve
+     * @return CategoryResponse containing the category details
+     * @throws CategoryNotFoundException if the category is not found
+     */
     @Override
     public CategoryResponse getByCategoryId(Language language, Long id) {
 
@@ -111,7 +143,15 @@ public class CategoryManager implements CategoryService {
 
 
     //Not: add() ****************************************************************************************************************************************
-    
+    /**
+     * Creates a new category.
+     *
+     * @param language The language for error messages and localization
+     * @param categoryRequest The category creation request containing category details
+     * @return CategoryResponse containing the created category details
+     * @throws CategoryNotCreatedException if the category cannot be created
+     * @throws CategoryAlreadyExistsException if a category with the same title already exists
+     */
     @Override
     public CategoryResponse add(Language language, CategoryRequest categoryRequest) {
 
@@ -139,6 +179,15 @@ public class CategoryManager implements CategoryService {
 
 
     //Not: update() *********************************************************************************************************************************
+    /**
+     * Updates an existing category.
+     *
+     * @param language The language for error messages and localization
+     * @param categoryUpdateRequest The category update request containing updated details
+     * @param id The ID of the category to update
+     * @return CategoryResponse containing the updated category details
+     * @throws CategoryNotFoundException if the category is not found
+     */
     @Override
     public CategoryResponse update(Language language, CategoryUpdateRequest categoryUpdateRequest, Long id) {
 
@@ -163,6 +212,15 @@ public class CategoryManager implements CategoryService {
 
 
     //Not: delete() *********************************************************************************************************************************
+    /**
+     * Performs a soft delete on a category by marking it as deleted.
+     *
+     * @param language The language for error messages and localization
+     * @param id The ID of the category to delete
+     * @return CategoryResponse containing the deleted category details
+     * @throws CategoryNotFoundException if the category is not found
+     * @throws CategoryAlreadyDeletedException if the category is already deleted
+     */
     @Override
     public CategoryResponse softDelete(Language language, Long id) {
 
@@ -184,6 +242,13 @@ public class CategoryManager implements CategoryService {
 
 
     //Not: getProperties() *************************************************************************************************************
+    /**
+     * Retrieves all properties associated with a specific category.
+     *
+     * @param language The language for error messages and localization
+     * @param id The ID of the category whose properties to retrieve
+     * @return Set of CategoryPropertyKeyResponse containing the category's properties
+     */
     @Override
     public Set<CategoryPropertyKeyResponse> getProperties(Language language, Long id) {
 
@@ -201,6 +266,13 @@ public class CategoryManager implements CategoryService {
 
 
     //todo dtolar yapilsin
+    /**
+     * Retrieves category properties with basic error handling.
+     *
+     * @param categoryId The ID of the category whose properties to retrieve
+     * @return ResponseEntity containing a Set of CategoryPropertyKey
+     * @throws ResourceAccessException if the category is not found
+     */
     public ResponseEntity<Set<CategoryPropertyKey>> getCategoryProperties(Long categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> {
             throw new ResourceAccessException("");//todo
@@ -213,6 +285,14 @@ public class CategoryManager implements CategoryService {
 
 
     //todo categoryproportieskeyrepo kullanilacak
+    /**
+     * Creates a new property for a specific category.
+     *
+     * @param categoryId The ID of the category to create the property for
+     * @param categoryPropertyKey The property to create
+     * @return ResponseEntity containing the created CategoryPropertyKey
+     * @throws ResourceAccessException if the category is not found
+     */
     public ResponseEntity<CategoryPropertyKey> createCategoryProperty(Long categoryId, CategoryPropertyKey categoryPropertyKey) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> {
             throw new ResourceAccessException("");//todo
@@ -222,6 +302,15 @@ public class CategoryManager implements CategoryService {
         return ResponseEntity.ok(createdCategoryProperty);
     }
 
+
+    /**
+     * Updates an existing category property.
+     *
+     * @param propertyKeyId The ID of the property to update
+     * @param updatedProperty The updated property details
+     * @return ResponseEntity containing the updated CategoryPropertyKey
+     * @throws ResourceAccessException if the property is not found
+     */
     public ResponseEntity<CategoryPropertyKey> updateCategoryProperty(Long propertyKeyId, CategoryPropertyKey updatedProperty) {
 
         CategoryPropertyKey existingProperty = categoryPropertyKeyRepository.findById(propertyKeyId).orElseThrow(() -> {
@@ -240,6 +329,14 @@ public class CategoryManager implements CategoryService {
 
     }
 
+
+    /**
+     * Deletes a category property.
+     *
+     * @param propertyId The ID of the property to delete
+     * @return ResponseEntity containing the deleted CategoryPropertyKey
+     * @throws ResourceAccessException if the property is not found
+     */
     public ResponseEntity<CategoryPropertyKey> deleteCategoryProperty(Long propertyId) {
         CategoryPropertyKey existingProperty = categoryPropertyKeyRepository.findById(propertyId).orElseThrow(() -> {
             throw new ResourceAccessException("");//todo
@@ -258,7 +355,14 @@ public class CategoryManager implements CategoryService {
 
 
     //Not: Other *********************************************************************************************************************************
-
+    /**
+     * Helper method to retrieve a category by ID.
+     *
+     * @param language The language for error messages and localization
+     * @param categoryId The ID of the category to retrieve
+     * @return Category entity
+     * @throws CategoryNotFoundException if the category is not found
+     */
     //!!! Ilgili Id, Category tablosunda var mi kontrolü
     public Category getCategory(Language language, Long categoryId) {
 
@@ -269,6 +373,16 @@ public class CategoryManager implements CategoryService {
         return category;
     }
 
+
+
+    /**
+     * Helper method to check if a category with the given title exists.
+     *
+     * @param language The language for error messages and localization
+     * @param categoryTitle The title to check
+     * @return boolean indicating whether the category exists
+     * @throws CategoryAlreadyExistsException if a category with the given title exists
+     */
     //!!! Ilgili CategoryName, Category tablosunda var mi kontrolü
     public boolean existsByCategoryTitle(Language language, String categoryTitle) {
 
