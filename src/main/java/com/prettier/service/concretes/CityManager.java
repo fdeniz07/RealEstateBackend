@@ -25,6 +25,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Service implementation class that manages City-related operations.
+ * This class handles CRUD operations and pagination for Cities, implementing
+ * the CityService interface to provide city management functionality.
+ * Includes methods for both internal service operations and data initialization.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -35,13 +41,28 @@ public class CityManager implements CityService {
     private CountryMapper countryMapper;
 
     //NOT: *********** Data Inilitalizer icin gerekli metotlar *************************
+    // Data Initializer Methods
 
+    /**
+     * Retrieves all cities from the database.
+     * Used primarily for data initialization purposes.
+     *
+     * @return List of all City entities in the database
+     */
     @Override
     public List<City> getAllCities() {
 
         return cityRepository.findAll();
     }
 
+
+    /**
+     * Retrieves a city by its ID.
+     * Used primarily for data initialization purposes.
+     *
+     * @param id The ID of the city to retrieve
+     * @return The City entity with the specified ID
+     */
     @Override
     public City getById(Integer id) {
 
@@ -52,7 +73,17 @@ public class CityManager implements CityService {
     //NOT: *********** City Manager standart metotlar *************************************
 
     //Not: getAll() *********************************************************************************************************************************
-
+    /**
+     * Retrieves a paginated list of all cities.
+     *
+     * @param language The language for error messages and localization
+     * @param page The page number for pagination
+     * @param size The number of items per page
+     * @param sort The field to sort by
+     * @param type The sort direction ("asc" or "desc")
+     * @return A Page of CityResponse containing all cities
+     * @throws CityNotFoundException if no cities are found
+     */
     @Override
     public Page<CityResponse> getCities(Language language, int page, int size, String sort, String type) {
 
@@ -76,6 +107,14 @@ public class CityManager implements CityService {
 
 
     //Not: getByIdResponse() ****************************************************************************************************************************
+    /**
+     * Retrieves a city by ID and returns it as a response object.
+     *
+     * @param language The language for error messages and localization
+     * @param id The ID of the city to retrieve
+     * @return CityResponse containing the city details
+     * @throws CityNotFoundException if the city is not found
+     */
     @Override
     public CityResponse getByCityIdResponse(Language language, Long id) {
 
@@ -88,6 +127,15 @@ public class CityManager implements CityService {
     }
 
     //Not: add() ****************************************************************************************************************************************
+    /**
+     * Creates a new city.
+     *
+     * @param language The language for error messages and localization
+     * @param cityRequest The city creation request containing city details
+     * @return CityResponse containing the created city details
+     * @throws CityNotCreatedException if the city cannot be created
+     * @throws CityAlreadyExistsException if a city with the same name already exists
+     */
     @Override
     public CityResponse add(Language language, CityRequest cityRequest) {
 
@@ -108,6 +156,15 @@ public class CityManager implements CityService {
     }
 
     //Not: update() *********************************************************************************************************************************
+    /**
+     * Updates an existing city.
+     *
+     * @param language The language for error messages and localization
+     * @param cityUpdateRequest The city update request containing updated details
+     * @param id The ID of the city to update
+     * @return CityResponse containing the updated city details
+     * @throws CityNotFoundException if the city is not found
+     */
     @Override
     public CityResponse update(Language language, CityUpdateRequest cityUpdateRequest, Long id) {
 
@@ -149,6 +206,15 @@ public class CityManager implements CityService {
 //    }
 
     //Not: delete() *********************************************************************************************************************************
+    /**
+     * Performs a soft delete on a city by marking it as deleted.
+     *
+     * @param language The language for error messages and localization
+     * @param id The ID of the city to delete
+     * @return CityResponse containing the deleted city details
+     * @throws CityNotFoundException if the city is not found
+     * @throws CityAlreadyDeletedException if the city is already deleted
+     */
     @Override
     public CityResponse softDelete(Language language, Long id) {
 
@@ -169,7 +235,16 @@ public class CityManager implements CityService {
     }
 
     //Not: Other *********************************************************************************************************************************
+    // Helper Methods
 
+    /**
+     * Helper method to retrieve a city entity by ID.
+     *
+     * @param language The language for error messages and localization
+     * @param cityId The ID of the city to retrieve
+     * @return City entity
+     * @throws CityNotFoundException if the city is not found
+     */
     //!!! Ilgili Id, City tablosunda var mi kontrolü
     public City getCity(Language language, Long cityId) {
 
@@ -180,6 +255,15 @@ public class CityManager implements CityService {
         return city;
     }
 
+
+    /**
+     * Helper method to check if a city with the given name exists.
+     *
+     * @param language The language for error messages and localization
+     * @param cityName The name to check
+     * @return boolean indicating whether the city exists
+     * @throws CityAlreadyExistsException if a city with the given name exists
+     */
     //!!! Ilgili CityName, City tablosunda var mi kontrolü
     public boolean existsByCityName(Language language, String cityName) {
 
@@ -193,6 +277,14 @@ public class CityManager implements CityService {
     }
 
     //Not: getById() for out Service ************************************************************************************************************
+    /**
+     * Retrieves a city entity by ID for external service use.
+     *
+     * @param language The language for error messages and localization
+     * @param id The ID of the city to retrieve
+     * @return City entity
+     * @throws CityNotFoundException if the city is not found
+     */
     @Override
     public City getByCityId(Language language, Long id) {
 
