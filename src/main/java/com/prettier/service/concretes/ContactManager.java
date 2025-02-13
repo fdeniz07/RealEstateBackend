@@ -23,6 +23,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Service implementation class that manages Contact-related operations.
+ * This class handles CRUD operations and pagination for Contacts.
+ * Implements the ContactService interface to provide contact management functionality.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -32,6 +37,17 @@ public class ContactManager implements ContactService {
     private final ContactMapper contactMapper;
 
     //Not: getAll() *********************************************************************************************************************************
+    /**
+     * Retrieves a paginated list of all contacts.
+     *
+     * @param language The language for error messages and localization
+     * @param page The page number for pagination
+     * @param size The number of items per page
+     * @param sort The field to sort by
+     * @param type The sort direction ("asc" or "desc")
+     * @return A Page of ContactResponse containing all contacts
+     * @throws ContactNotFoundException if no contacts are found
+     */
     @Override
     public Page<ContactResponse> getContacts(Language language, int page, int size, String sort, String type) {
 
@@ -54,6 +70,14 @@ public class ContactManager implements ContactService {
     }
 
     //Not: getById() *********************************************************************************************************************************
+    /**
+     * Retrieves a specific contact by its ID.
+     *
+     * @param language The language for error messages and localization
+     * @param id The ID of the contact to retrieve
+     * @return ContactResponse containing the contact details
+     * @throws ContactNotFoundException if the contact is not found
+     */
     @Override
     public ContactResponse getByContactId(Language language, Long id) {
 
@@ -66,6 +90,14 @@ public class ContactManager implements ContactService {
     }
 
     //Not: add() ****************************************************************************************************************************************
+    /**
+     * Creates a new contact.
+     *
+     * @param language The language for error messages and localization
+     * @param contactRequest The contact creation request containing contact details
+     * @return Contact entity containing the created contact details
+     * @throws ContactNotCreatedException if the contact cannot be created
+     */
     @Override
     public Contact add(Language language, ContactRequest contactRequest) {
 
@@ -82,12 +114,31 @@ public class ContactManager implements ContactService {
     }
 
     //Not: update() *********************************************************************************************************************************
+    /**
+     * Updates an existing contact.
+     * Currently not implemented.
+     *
+     * @param language The language for error messages and localization
+     * @param contactUpdateRequest The contact update request containing updated details
+     * @param id The ID of the contact to update
+     * @return Contact entity containing the updated contact details
+     * @throws ContactNotFoundException if the contact is not found
+     */
     @Override
     public Contact update(Language language, ContactUpdateRequest contactUpdateRequest, Long id) {
         return null;
     }
 
     //Not: delete() *********************************************************************************************************************************
+    /**
+     * Performs a soft delete on a contact by marking it as deleted.
+     * Currently not implemented.
+     *
+     * @param language The language for error messages and localization
+     * @param id The ID of the contact to delete
+     * @return ContactResponse containing the deleted contact details
+     * @throws ContactNotFoundException if the contact is not found
+     */
     @Override
     public ContactResponse softDelete(Language language, Long id) {
         return null;
