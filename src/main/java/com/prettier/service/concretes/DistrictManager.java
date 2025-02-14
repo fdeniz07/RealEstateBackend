@@ -28,6 +28,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Service implementation class that manages District-related operations.
+ * This class handles CRUD operations and pagination for Districts.
+ * Implements the DistrictService interface to provide district management functionality.
+ * Includes interaction with City service for maintaining district-city relationships.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -41,6 +47,12 @@ public class DistrictManager implements DistrictService {
 
     //NOT: *********** Data Inilitalizer icin gerekli metotlar *************************
 
+    /**
+     * Retrieves all districts from the database.
+     * Used primarily for data initialization purposes.
+     *
+     * @return List of all District entities in the database
+     */
     @Override
     public List<District> getAllDistricts() {
 
@@ -51,7 +63,17 @@ public class DistrictManager implements DistrictService {
     //NOT: *********** District Manager standart metotlar *************************************
 
     //Not: getAll() *********************************************************************************************************************************
-
+    /**
+     * Retrieves a paginated list of all districts.
+     *
+     * @param language The language for error messages and localization
+     * @param page The page number for pagination
+     * @param size The number of items per page
+     * @param sort The field to sort by
+     * @param type The sort direction ("asc" or "desc")
+     * @return A Page of DistrictResponse containing all districts
+     * @throws DistrictNotFoundException if no districts are found
+     */
     @Override
     public Page<DistrictResponse> getDistricts(Language language, int page, int size, String sort, String type) {
 
@@ -75,6 +97,14 @@ public class DistrictManager implements DistrictService {
 
 
     //Not: getById() *********************************************************************************************************************************
+    /**
+     * Retrieves a specific district by its ID.
+     *
+     * @param language The language for error messages and localization
+     * @param id The ID of the district to retrieve
+     * @return DistrictResponse containing the district details
+     * @throws DistrictNotFoundException if the district is not found
+     */
     @Override
     public DistrictResponse getByDistrictId(Language language, Long id) {
 
@@ -87,6 +117,15 @@ public class DistrictManager implements DistrictService {
     }
 
     //Not: add() ****************************************************************************************************************************************
+    /**
+     * Creates a new district.
+     *
+     * @param language The language for error messages and localization
+     * @param districtRequest The district creation request containing district details
+     * @return DistrictResponse containing the created district details
+     * @throws DistrictNotCreatedException if the district cannot be created
+     * @throws DistrictAlreadyExistsException if a district with the same name already exists
+     */
     @Override
     public DistrictResponse add(Language language, DistrictRequest districtRequest) {
 
@@ -113,6 +152,15 @@ public class DistrictManager implements DistrictService {
     }
 
     //Not: update() *********************************************************************************************************************************
+    /**
+     * Updates an existing district.
+     *
+     * @param language The language for error messages and localization
+     * @param districtUpdateRequest The district update request containing updated details
+     * @param id The ID of the district to update
+     * @return DistrictResponse containing the updated district details
+     * @throws DistrictNotFoundException if the district is not found
+     */
     @Override
     public DistrictResponse update(Language language, DistrictUpdateRequest districtUpdateRequest, Long id) {
 
@@ -136,6 +184,15 @@ public class DistrictManager implements DistrictService {
     }
 
     //Not: delete() *********************************************************************************************************************************
+    /**
+     * Performs a soft delete on a district by marking it as deleted.
+     *
+     * @param language The language for error messages and localization
+     * @param id The ID of the district to delete
+     * @return DistrictResponse containing the deleted district details
+     * @throws DistrictNotFoundException if the district is not found
+     * @throws DistrictAlreadyDeletedException if the district is already deleted
+     */
     @Override
     public DistrictResponse softDelete(Language language, Long id) {
 
@@ -157,6 +214,14 @@ public class DistrictManager implements DistrictService {
 
     //Not: Other *********************************************************************************************************************************
 
+    /**
+     * Helper method to retrieve a district entity by ID.
+     *
+     * @param language The language for error messages and localization
+     * @param districtId The ID of the district to retrieve
+     * @return District entity
+     * @throws DistrictNotFoundException if the district is not found
+     */
     //!!! Ilgili Id, District tablosunda var mi kontrolü
     public District getDistrict(Language language, Long districtId) {
 
@@ -167,6 +232,15 @@ public class DistrictManager implements DistrictService {
         return district;
     }
 
+
+    /**
+     * Helper method to check if a district with the given name exists.
+     *
+     * @param language The language for error messages and localization
+     * @param districtName The name to check
+     * @return boolean indicating whether the district exists
+     * @throws DistrictAlreadyExistsException if a district with the given name exists
+     */
     //!!! Ilgili DistrictName, District tablosunda var mi kontrolü
     public boolean existsByDistrictName(Language language, String districtName) {
 
