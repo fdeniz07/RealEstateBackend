@@ -25,7 +25,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-
+/**
+ * Service implementation class that manages Country-related operations.
+ * This class handles CRUD operations and pagination for Countries.
+ * Implements the CountryService interface to provide country management functionality.
+ * Includes methods for both internal service operations and data initialization.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -35,13 +40,25 @@ public class CountryManager implements CountryService {
     private final CountryMapper countryMapper;
 
     //NOT: *********** Data Inilitalizer icin gerekli metotlar *************************
-
+    /**
+     * Retrieves all countries from the database.
+     * Used primarily for data initialization purposes.
+     *
+     * @return List of all Country entities in the database
+     */
     @Override
     public List<Country> getAllCountries() {
 
         return countryRepository.findAll();
     }
 
+    /**
+     * Retrieves a country by its ID.
+     * Used primarily for data initialization purposes.
+     *
+     * @param id The ID of the country to retrieve
+     * @return The Country entity with the specified ID
+     */
     @Override
     public Country getById(Integer id) {
 
@@ -52,6 +69,17 @@ public class CountryManager implements CountryService {
     //NOT: *********** City Manager standart metotlar *************************************
 
     //Not: getAll() *********************************************************************************************************************************
+    /**
+     * Retrieves a paginated list of all countries.
+     *
+     * @param language The language for error messages and localization
+     * @param page The page number for pagination
+     * @param size The number of items per page
+     * @param sort The field to sort by
+     * @param type The sort direction ("asc" or "desc")
+     * @return A Page of CountryResponse containing all countries
+     * @throws CountryNotFoundException if no countries are found
+     */
     @Override
     public Page<CountryResponse> getCountries(Language language, int page, int size, String sort, String type) {
 
@@ -74,6 +102,14 @@ public class CountryManager implements CountryService {
     }
 
     //Not: getById() *********************************************************************************************************************************
+    /**
+     * Retrieves a specific country by its ID.
+     *
+     * @param language The language for error messages and localization
+     * @param id The ID of the country to retrieve
+     * @return CountryResponse containing the country details
+     * @throws CountryNotFoundException if the country is not found
+     */
     @Override
     public CountryResponse getByCountryId(Language language, Long id) {
 
@@ -86,6 +122,15 @@ public class CountryManager implements CountryService {
     }
 
     //Not: add() ****************************************************************************************************************************************
+    /**
+     * Creates a new country.
+     *
+     * @param language The language for error messages and localization
+     * @param countryRequest The country creation request containing country details
+     * @return Country entity containing the created country details
+     * @throws CountryNotCreatedException if the country cannot be created
+     * @throws CountryAlreadyExistsException if a country with the same name already exists
+     */
     @Override
     public Country add(Language language, CountryRequest countryRequest) {
 
@@ -113,6 +158,15 @@ public class CountryManager implements CountryService {
     }
 
     //Not: update() *********************************************************************************************************************************
+    /**
+     * Updates an existing country.
+     *
+     * @param language The language for error messages and localization
+     * @param countryUpdateRequest The country update request containing updated details
+     * @param id The ID of the country to update
+     * @return CountryResponse containing the updated country details
+     * @throws CountryNotFoundException if the country is not found
+     */
     @Override
     public CountryResponse update(Language language, CountryUpdateRequest countryUpdateRequest, Long id) {
 
@@ -136,6 +190,15 @@ public class CountryManager implements CountryService {
     }
 
     //Not: delete() *********************************************************************************************************************************
+    /**
+     * Performs a soft delete on a country by marking it as deleted.
+     *
+     * @param language The language for error messages and localization
+     * @param id The ID of the country to delete
+     * @return CountryResponse containing the deleted country details
+     * @throws CountryNotFoundException if the country is not found
+     * @throws CountryAlreadyDeletedException if the country is already deleted
+     */
     @Override
     public CountryResponse softDelete(Language language, Long id) {
 
@@ -157,6 +220,14 @@ public class CountryManager implements CountryService {
 
     //Not: Other *********************************************************************************************************************************
 
+    /**
+     * Helper method to retrieve a country entity by ID.
+     *
+     * @param language The language for error messages and localization
+     * @param countryId The ID of the country to retrieve
+     * @return Country entity
+     * @throws CountryNotFoundException if the country is not found
+     */
     //!!! Ilgili Id, Country tablosunda var mi kontrolü
     public Country getCountry(Language language, Long countryId) {
 
@@ -167,6 +238,15 @@ public class CountryManager implements CountryService {
         log.debug("[{}][getCountry] -> response: {}", this.getClass().getSimpleName(), country);
         return country;
     }
+
+    /**
+     * Helper method to check if a country with the given name exists.
+     *
+     * @param language The language for error messages and localization
+     * @param countryName The name to check
+     * @return boolean indicating whether the country exists
+     * @throws CountryAlreadyExistsException if a country with the given name exists
+     */
 
     //!!! Ilgili CountryName, Country tablosunda var mi kontrolü
     public boolean existsByCountryName(Language language, String countryName) {
