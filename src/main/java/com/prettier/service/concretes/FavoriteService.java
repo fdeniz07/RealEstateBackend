@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * FavoriteService.java
+ * Service class for managing user favorites functionality.
+ * Handles operations related to user's favorite items/adverts.
+ */
 @Service
 @RequiredArgsConstructor
 public class FavoriteService {
@@ -37,6 +42,12 @@ public class FavoriteService {
 
   //  }
 
+
+    /**
+     * Retrieves favorites for a specific user.
+     * @param userId The ID of the user whose favorites are being retrieved
+     * @return ResponseEntity containing a list of favorite responses
+     */
     public ResponseEntity<List<FavoriteResponse>> getUserFavorites(Long userId) {
         // Kullanıcının favori verilerini al
         List<Favorite> favorites = favoriteRepository.findByUserId(userId);
@@ -97,6 +108,10 @@ public class FavoriteService {
 //        }
 //    }
 
+    /**
+     * Deletes all favorites in the system.
+     * @return ResponseEntity with success message
+     */
     public ResponseEntity<String> deleteAllFavorites() {
         // Tüm favori verilerini sil
         favoriteRepository.deleteAll();
@@ -105,6 +120,12 @@ public class FavoriteService {
         return ResponseEntity.ok("All favorites deleted successfully");
     }
 
+
+    /**
+     * Deletes a specific favorite by its ID.
+     * @param favoriteId The ID of the favorite to delete
+     * @return ResponseEntity with success/not found message
+     */
     public ResponseEntity<String> deleteFavoriteById(Long favoriteId) {
         // Check if the favorite exists
         Optional<Favorite> favoriteOptional = favoriteRepository.findById(favoriteId);
