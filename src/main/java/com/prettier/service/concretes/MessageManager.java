@@ -25,6 +25,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * MessageManager.java
+ * Service class for managing message operations in the system.
+ * Handles various types of message listings and operations.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -36,6 +41,15 @@ public class MessageManager implements MessageService {
 
 
     //Not: getListInbox() **********************************************************************************************************
+    /**
+     * Retrieves inbox messages for the authenticated user.
+     * @param language Language preference for response messages
+     * @param page Page number for pagination
+     * @param size Number of items per page
+     * @param sort Sort field
+     * @param type Sort direction ("asc" or "desc")
+     * @return Page of MessageResponse objects
+     */
     @Override
     public Page<MessageResponse> getListInbox(Language language, int page, int size, String sort, String type) {
 
@@ -70,6 +84,10 @@ public class MessageManager implements MessageService {
     }
 
     //Not: getListSendBox() ********************************************************************************************************
+    /**
+     * Retrieves sent messages for the authenticated user.
+     * Similar parameters to getListInbox()
+     */
     @Override
     public Page<MessageResponse> getListSendBox(Language language, int page, int size, String sort, String type) {
 
@@ -104,6 +122,10 @@ public class MessageManager implements MessageService {
     }
 
     //Not: getReadList() ***********************************************************************************************************
+    /**
+     * Retrieves read messages for the authenticated user.
+     * Similar parameters to getListInbox()
+     */
     @Override
     public Page<MessageResponse> getReadList(Language language, int page, int size, String sort, String type) {
 
@@ -138,6 +160,10 @@ public class MessageManager implements MessageService {
     }
 
     //Not: getUnReadList() *********************************************************************************************************
+    /**
+     * Retrieves unread messages for the authenticated user.
+     * Similar parameters to getListInbox()
+     */
     @Override
     public Page<MessageResponse> getUnReadList(Language language, int page, int size, String sort, String type) {
 
@@ -172,6 +198,10 @@ public class MessageManager implements MessageService {
     }
 
     //Not: getListDraft() **********************************************************************************************************
+    /**
+     * Retrieves draft messages for the authenticated user.
+     * Similar parameters to getListInbox()
+     */
     @Override
     public Page<MessageResponse> getListDraft(Language language, int page, int size, String sort, String type) {
 
@@ -370,6 +400,12 @@ public class MessageManager implements MessageService {
     }
 
     //Not: send() *******************************************************************************************************************
+    /**
+     * Sends a new message.
+     * @param language Language preference for response messages
+     * @param messageRequest Contains message details including recipient and content
+     * @return MessageResponse containing sent message details
+     */
     @Override
     public MessageResponse send(Language language, NewMessageRequest messageRequest) {
 
