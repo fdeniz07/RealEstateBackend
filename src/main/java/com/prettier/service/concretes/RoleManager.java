@@ -27,6 +27,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * RoleManager.java
+ * Service class for managing user roles in the system.
+ * Handles CRUD operations for roles and role assignments.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -36,7 +41,11 @@ public class RoleManager implements RoleService {
     private final RoleMapper roleMapper;
 
     //NOT: *********** Data Inilitalizer icin gerekli metotlar *************************
-
+    /**
+     * Retrieves roles by role name.
+     * @param roleName Name of the role to retrieve
+     * @return Set of Role objects
+     */
     @Override
     public Set<Role> getByRoleName(String roleName) {
 
@@ -48,6 +57,11 @@ public class RoleManager implements RoleService {
     }
 
     //Not: getByUser() ********************************************************************
+    /**
+     * Retrieves roles associated with a user.
+     * @param user User whose roles are being retrieved
+     * @return Set of Role objects
+     */
     @Override
     public Set<Role> getByUser(User user) {
 
@@ -121,7 +135,12 @@ public class RoleManager implements RoleService {
 
 
     //Not: addRole() ******************************************************************************************************
-
+    /**
+     * Creates a new role.
+     * @param language Language preference for response messages
+     * @param roleRequest Contains role details
+     * @return RoleResponse containing created role details
+     */
     @Override
     public RoleResponse add(Language language, RoleRequest roleRequest) {
 
@@ -140,6 +159,12 @@ public class RoleManager implements RoleService {
     }
 
     //Not: updateRole() ******************************************************************************************************
+    /**
+     * Updates an existing role.
+     * @param language Language preference for response messages
+     * @param roleRequest Contains updated role details
+     * @return RoleResponse containing updated role details
+     */
     @Override
     public RoleResponse update(Language language, RoleRequest roleRequest) {
 
@@ -160,6 +185,12 @@ public class RoleManager implements RoleService {
     }
 
     //Not: delete() ************************************************************************************************************
+    /**
+     * Soft deletes a role by marking it as deleted.
+     * @param language Language preference for response messages
+     * @param id ID of the role to delete
+     * @return RoleResponse containing deleted role details
+     */
     @Override
     public RoleResponse softdelete(Language language, Long id) {
 
