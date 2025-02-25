@@ -15,7 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-
+/**
+ * UserManager.java
+ * Service class for managing user operations in the system.
+ * Handles user-related CRUD operations and profile management.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -25,6 +29,12 @@ public class UserManager implements UserService {
     private final UserMapper userMapper;
 
     //Not: getUserById() ******************************************************************************************************
+    /**
+     * Retrieves user details by ID.
+     * @param language Language preference for response messages
+     * @param id ID of the user to retrieve
+     * @return UserResponse containing user details
+     */
     @Override
     public UserResponse getUserById(Language language, Long id) {
 
@@ -39,6 +49,13 @@ public class UserManager implements UserService {
     }
 
     //Not: updateUser() *******************************************************************************************************
+    /**
+     * Updates user information.
+     * @param language Language preference for response messages
+     * @param userUpdateRequest Contains updated user details
+     * @param id ID of the user to update
+     * @return UserResponse containing updated user details
+     */
     @Override
     public UserResponse update(Language language, UserUpdateRequest userUpdateRequest, Long id) {
 
@@ -58,6 +75,13 @@ public class UserManager implements UserService {
     }
 
     //Not: uploadProfileImage() ***********************************************************************************************
+    /**
+     * Uploads a user's profile image.
+     * @param language Language preference for response messages
+     * @param id ID of the user
+     * @param file MultipartFile containing the image
+     * @return UserResponse containing updated user details
+     */
     @Override
     public UserResponse uploadUserProfileImage(Language language, Long id, MultipartFile file) {
         return null;
@@ -99,7 +123,13 @@ public class UserManager implements UserService {
         return false;
     }
 
-
+    /**
+     * Retrieves a user by their email address.
+     * @param language Language preference for response messages
+     * @param email Email address of the user
+     * @return User object
+     * @throws UserNotFoundException if user not found
+     */
     public User getUserByEmail(Language language, String email) {
 
         User user = userRepository
