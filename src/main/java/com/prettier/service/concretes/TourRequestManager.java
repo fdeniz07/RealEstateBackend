@@ -10,12 +10,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+/**
+ * TourRequestManager.java
+ * Service class for managing tour requests in the system.
+ * Handles different operations for both customers and managers.
+ */
 @Service
 @RequiredArgsConstructor
 public class TourRequestManager implements TourRequestService {
 
    private final TourRequestRepository tourRequestRepository;
 
+   /**
+    * Retrieves tour requests for a customer.
+    * @param language Language preference for response messages
+    * @param tourRequestRequest Contains request parameters
+    * @return Page of TourRequestResponse objects
+    */
    @Override
    public Page<TourRequestResponse> getTourRequestsForCustomer(Language language, TourRequestRequest tourRequestRequest) {
       return null;
@@ -51,11 +62,22 @@ public class TourRequestManager implements TourRequestService {
       return null;
    }
 
+   /**
+    * Approves a tour request.
+    * @param language Language preference for response messages
+    * @param tourRequestUpdateRequest Contains update details
+    * @param id ID of the tour request
+    * @return TourRequestResponse containing approved request details
+    */
    @Override
    public TourRequestResponse approve(Language language, TourRequestUpdateRequest tourRequestUpdateRequest, Long id) {
       return null;
    }
 
+   /**
+    * Declines a tour request.
+    * Similar parameters to approve()
+    */
    @Override
    public TourRequestResponse decline(Language language, TourRequestUpdateRequest tourRequestUpdateRequest, Long id) {
       return null;
