@@ -11,6 +11,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
+/**
+ * DistrictUpdateRequest.java
+ * Request class for updating district information in the system.
+ * Extends BaseEntityRequest to inherit common request properties.
+ */
 public class DistrictUpdateRequest extends BaseEntityRequest {
 
     @NotNull(message = "Please enter district name")
