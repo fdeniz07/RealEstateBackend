@@ -20,6 +20,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST controller for managing advertisement operations in the system.
+ * Handles endpoints for creating, retrieving, updating, and deleting advertisements.
+ *
+ * <p>This controller provides functionality for real estate advertisements
+ * with support for different languages and pagination.</p>
+ *
+ * @author Fatih Deniz
+ * @version 1.0
+ */
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Advert", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
@@ -30,6 +40,16 @@ public class AdvertController {
     private final AdvertService advertService;
     private final AdvertMapper advertMapper;
 
+    /**
+     * Retrieves all advertisements with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (asc or desc)
+     * @return A page of advertisement responses
+     */
     @GetMapping("/{language}/getAll")
     public Page<AdvertResponse> getAll(
             @PathVariable("language") Language language,
@@ -46,6 +66,16 @@ public class AdvertController {
 //            summary = "Retrieve a Advert with Active by Id",
 //            description = "Get a Advert object by specifying its id. The response is Advert object with id, title, description and published status.",
 //            tags = {"advert", "get"})
+    /**
+     * Retrieves all advertisements with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (asc or desc)
+     * @return A page of advertisement responses
+     */
     @GetMapping("/{language}/getListWithActive")
     public Page<AdvertResponse> getListWithActive(
             @PathVariable("language") Language language,
@@ -59,6 +89,13 @@ public class AdvertController {
     }
 
 
+    /**
+     * Creates a new advertisement in the system.
+     *
+     * @param language The language for the response content
+     * @param advertRequest The advertisement data to create
+     * @return An internal API response containing the created advertisement
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add")
     public InternalApiResponse<AdvertResponse> addAdvert(@PathVariable("language") Language language, @RequestBody @Valid AdvertRequest advertRequest) {
@@ -80,6 +117,15 @@ public class AdvertController {
                 .build();
     }
 
+
+    /**
+     * Updates an existing advertisement in the system.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the advertisement to update
+     * @param advertUpdateRequest The updated advertisement data
+     * @return An internal API response containing the updated advertisement
+     */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{language}/update/{advertId}")
     public InternalApiResponse<AdvertResponse> updateAdvert(@PathVariable("language") Language language,
@@ -103,6 +149,14 @@ public class AdvertController {
                 .build();
     }
 
+
+    /**
+     * Deletes an advertisement from the system.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the advertisement to delete
+     * @return An internal API response containing the deleted advertisement
+     */
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/{language}/delete/{advertId}")
     public InternalApiResponse<AdvertResponse> deleteAdvert(@PathVariable("language") Language language,
