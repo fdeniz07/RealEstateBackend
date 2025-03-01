@@ -24,6 +24,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
+/**
+ * REST controller for managing property categories in the system.
+ * Handles endpoints for creating, retrieving, updating, and deleting categories and their properties.
+ *
+ * <p>This controller provides functionality for real estate categories
+ * with support for different languages and pagination.</p>
+ *
+ * @author Fatih Deniz
+ * @version 1.0
+ */
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -37,6 +47,16 @@ public class CategoryController {
 
     //Not: getAllWithActives() *********************************************************************************************************************************
 
+    /**
+     * Retrieves all active categories with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (desc by default)
+     * @return An internal API response containing a page of active category responses
+     */
     // @PreAuthorize("hasAuthority('ADMIN','MANAGER','CUSTOMER')")
     @GetMapping(value = "/{language}/categories") // http://localhost:8080/categories/EN/
     public InternalApiResponse<Page<CategoryResponse>> getCategoriesByActive(@PathVariable("language") Language language,
@@ -59,6 +79,18 @@ public class CategoryController {
 
     //Not: getAll() *********************************************************************************************************************************
 
+
+    /**
+     * Retrieves all categories (including inactive) with pagination support.
+     * Typically used by administrators.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (desc by default)
+     * @return An internal API response containing a page of all category responses
+     */
     //  @PreAuthorize("hasAuthority('ADMIN','MANAGER')")
     @GetMapping(value = "/{language}/categories/admin") // http://localhost:8080/categories/EN/admin/
     public InternalApiResponse<Page<CategoryResponse>> getAllWithPage(
@@ -82,6 +114,13 @@ public class CategoryController {
 
     //Not: getById() *********************************************************************************************************************************
 
+    /**
+     * Retrieves a specific category by its ID.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the category to retrieve
+     * @return An internal API response containing the category response
+     */
     // @PreAuthorize("hasAuthority('ADMIN','MANAGER','CUSTOMER')")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{language}/get/{categoryId}")
@@ -101,6 +140,14 @@ public class CategoryController {
 
     //Not: add() ****************************************************************************************************************************************
 
+
+    /**
+     * Creates a new category in the system.
+     *
+     * @param language The language for the response content
+     * @param categoryRequest The category data to create
+     * @return An internal API response containing the created category
+     */
     // @PreAuthorize("hasAuthority('ADMIN','MANAGER')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add")
@@ -125,6 +172,14 @@ public class CategoryController {
 
     //Not: update() *********************************************************************************************************************************
 
+    /**
+     * Updates an existing category in the system.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the category to update
+     * @param categoryUpdateRequest The updated category data
+     * @return An internal API response containing the updated category
+     */
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{language}/update/{categoryId}")
@@ -151,6 +206,13 @@ public class CategoryController {
 
     //Not: delete() *********************************************************************************************************************************
 
+    /**
+     * Soft deletes a category from the system.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the category to delete
+     * @return An internal API response containing the deleted category
+     */
     //  @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/{language}/delete/{categoryId}")
@@ -174,6 +236,13 @@ public class CategoryController {
 
     //Not: getProperties() ************************************************************************************************************************
 
+    /**
+     * Retrieves all property keys associated with a specific category.
+     *
+     * @param language The language for the response content
+     * @param categoryId The ID of the category
+     * @return An internal API response containing the set of category property keys
+     */
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     @GetMapping(value = "/{language}/properties/{id}")
     public InternalApiResponse<Set<CategoryPropertyKeyResponse>> getCategoryProperties(@PathVariable("language") Language language,
@@ -193,6 +262,15 @@ public class CategoryController {
 
     //Not: addProperty() ****************************************************************************************************************************
 
+
+    /**
+     * Creates a new property key for a specific category.
+     *
+     * @param language The language for the response content
+     * @param categoryId The ID of the category
+     * @param categoryPropertyKey The property key to create
+     * @return An internal API response containing the set of category property keys
+     */
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     @PostMapping("/{language}/properties/{id}")
     public InternalApiResponse<Set<CategoryPropertyKeyResponse>> createCategoryPropertyKey(@PathVariable("language") Language language,
@@ -213,6 +291,13 @@ public class CategoryController {
 
     //Not: ****() *********************************************************************************************************************************
 
+    /**
+     * Updates an existing category property.
+     *
+     * @param propertyKeyId The ID of the property key to update
+     * @param updatedProperty The updated property data
+     * @return A response entity containing the updated property key
+     */
     //  @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     @PutMapping("/{language}/properties/{id}")
     public ResponseEntity<CategoryPropertyKey> updateCategoryProperty(@PathVariable("id") Long propertyKeyId, @RequestBody CategoryPropertyKey updatedProperty) {
@@ -222,6 +307,12 @@ public class CategoryController {
 
     //Not: ****() *********************************************************************************************************************************
 
+    /**
+     * Deletes a category property.
+     *
+     * @param propertyId The ID of the property to delete
+     * @return A response entity containing the deleted property key
+     */
     // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     @DeleteMapping("/{language}/properties/{id}")
     public ResponseEntity<CategoryPropertyKey> deleteCategoryProperty(@PathVariable("id") Long propertyId) {
