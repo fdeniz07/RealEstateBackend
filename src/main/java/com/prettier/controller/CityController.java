@@ -18,6 +18,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST controller for managing city operations in the system.
+ * Handles endpoints for creating, retrieving, updating, and deleting cities.
+ *
+ * <p>This controller provides functionality for real estate city data
+ * with support for different languages and pagination.</p>
+ *
+ * @author Fatih Deniz
+ * @version 1.0
+ */
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "City", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
@@ -30,6 +40,16 @@ public class CityController {
 
     //Not: getAll() *********************************************************************************************************************************
 
+    /**
+     * Retrieves all cities with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (asc or desc)
+     * @return An internal API response containing a page of city responses
+     */
     @GetMapping(value = "/{language}/cities") // http://localhost:8080/cities/EN/cities
     public InternalApiResponse<Page<CityResponse>> getCities(@PathVariable("language") Language language,
                                                              @RequestParam(value = "page", defaultValue = "0") int page,
@@ -49,6 +69,13 @@ public class CityController {
     }
 
     //Not: getById() *********************************************************************************************************************************
+    /**
+     * Retrieves a specific city by its ID.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the city to retrieve
+     * @return An internal API response containing the city response
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{language}/get/{cityId}")
     public InternalApiResponse<CityResponse> getCity(@PathVariable("language") Language language,
@@ -66,6 +93,13 @@ public class CityController {
     }
 
     //Not: add() ****************************************************************************************************************************************
+    /**
+     * Creates a new city in the system.
+     *
+     * @param language The language for the response content
+     * @param cityRequest The city data to create
+     * @return An internal API response containing the created city
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add")
     public InternalApiResponse<CityResponse> addCity(@PathVariable("language") Language language,
@@ -88,6 +122,14 @@ public class CityController {
     }
 
     //Not: update() *********************************************************************************************************************************
+    /**
+     * Updates an existing city in the system.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the city to update
+     * @param cityUpdateRequest The updated city data
+     * @return An internal API response containing the updated city
+     */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/{language}/update/{cityId}")
     public InternalApiResponse<CityResponse> updateCity(@PathVariable("language") Language language,
@@ -134,6 +176,13 @@ public class CityController {
 //    }
 
     //Not: delete() *********************************************************************************************************************************
+    /**
+     * Soft deletes a city from the system.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the city to delete
+     * @return An internal API response containing the deleted city
+     */
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/{language}/delete/{cityId}")
     public InternalApiResponse<CityResponse> deleteCity(@PathVariable("language") Language language,
