@@ -18,6 +18,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST controller for managing contact messages in the system.
+ * Handles endpoints for creating and retrieving contact messages from users.
+ *
+ * <p>This controller provides functionality for managing contact form submissions
+ * with support for different languages and pagination.</p>
+ *
+ * @author Fatih Deniz
+ * @version 1.0
+ */
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Contact Message", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
@@ -29,6 +39,16 @@ public class ContactController {
     private final ContactMapper contactMapper;
 
     //Not: getAll() *********************************************************************************************************************************
+    /**
+     * Retrieves all contact messages with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (asc or desc)
+     * @return An internal API response containing a page of contact message responses
+     */
     @GetMapping(value = "/{language}/contacts") // http://localhost:8080/contact-messages/EN/getAll
     public InternalApiResponse<Page<ContactResponse>> getContactMessages(@PathVariable("language") Language language,
                                                                          @RequestParam(value = "page", defaultValue = "0") int page,
@@ -48,6 +68,13 @@ public class ContactController {
     }
 
     //Not: getById() *********************************************************************************************************************************
+    /**
+     * Retrieves a specific contact message by its ID.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the contact message to retrieve
+     * @return An internal API response containing the contact message response
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{language}/get/{contactId}") // http://localhost:8080/contact-messages/EN/get/id
     public InternalApiResponse<ContactResponse> getContact(@PathVariable("language") Language language,
@@ -65,6 +92,13 @@ public class ContactController {
     }
 
     //Not: add() ****************************************************************************************************************************************
+    /**
+     * Creates a new contact message in the system from user submissions.
+     *
+     * @param language The language for the response content
+     * @param contactRequest The contact message data to create
+     * @return An internal API response containing the created contact message
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add") // http://localhost:8080/contact-messages/EN/add
     public InternalApiResponse<ContactResponse> addContact(@PathVariable("language") Language language,
