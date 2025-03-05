@@ -19,6 +19,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST controller for managing country operations in the system.
+ * Handles endpoints for creating, retrieving, updating, and deleting countries.
+ *
+ * <p>This controller provides functionality for real estate country data
+ * with support for different languages and pagination.</p>
+ *
+ * @author Fatih Deniz
+ * @version 1.0
+ */
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Country", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
@@ -31,6 +41,16 @@ public class CountryController {
 
 
     //Not: getAll() *********************************************************************************************************************************
+    /**
+     * Retrieves all countries with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (asc or desc)
+     * @return An internal API response containing a page of country responses
+     */
     @GetMapping(value = "/{language}/getAll") //http://localhost:8080/countries/getAll
     public InternalApiResponse<Page<CountryResponse>> getCountries(@PathVariable("language") Language language,
                                                                    @RequestParam(value = "page", defaultValue = "0") int page,
@@ -50,6 +70,13 @@ public class CountryController {
     }
 
     //Not: getById() *********************************************************************************************************************************
+    /**
+     * Retrieves a specific country by its ID.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the country to retrieve
+     * @return An internal API response containing the country response
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{language}/get/{countryId}")
     public InternalApiResponse<CountryResponse> getCountry(@PathVariable("language") Language language,
@@ -67,6 +94,13 @@ public class CountryController {
     }
 
     //Not: add() ****************************************************************************************************************************************
+    /**
+     * Creates a new country in the system.
+     *
+     * @param language The language for the response content
+     * @param countryRequest The country data to create
+     * @return An internal API response containing the created country
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/add")
     public InternalApiResponse<CountryResponse> addCountry(@PathVariable("language") Language language,
@@ -90,6 +124,14 @@ public class CountryController {
 
 
     //Not: update() *********************************************************************************************************************************
+    /**
+     * Updates an existing country in the system.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the country to update
+     * @param countryUpdateRequest The updated country data
+     * @return An internal API response containing the updated country
+     */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/{language}/update/{countryId}")
     public InternalApiResponse<CountryResponse> update(@PathVariable("language") Language language,
@@ -113,6 +155,13 @@ public class CountryController {
     }
 
     //Not: delete() *********************************************************************************************************************************
+    /**
+     * Soft deletes a country from the system.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the country to delete
+     * @return An internal API response containing the deleted country
+     */
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/{language}/delete/{countryId}")
     public InternalApiResponse<CountryResponse> deleteCountry(@PathVariable("language") Language language,
