@@ -12,6 +12,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing user favorites in the system.
+ * Handles endpoints for retrieving, adding, and deleting favorite properties.
+ *
+ * <p>This controller provides functionality for users to manage their favorite
+ * real estate properties.</p>
+ *
+ * @author Fatih Deniz
+ * @version 1.0
+ */
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Favorite", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
@@ -28,6 +38,12 @@ public class FavoriteController {
 //    }
 
 
+    /**
+     * Retrieves all favorites for a specific user (admin access).
+     *
+     * @param userId The ID of the user whose favorites to retrieve
+     * @return A response entity containing a list of favorite responses
+     */
     @GetMapping("/admin/{id}")
   public ResponseEntity<List<FavoriteResponse>> getUserFavorites(@PathVariable("id") Long userId) {
        return favoriteService.getUserFavorites(userId);
@@ -42,12 +58,23 @@ public class FavoriteController {
 //       return favoriteService.deleteAllFavorites(authentication);
 //    }
 
+    /**
+     * Deletes all favorites from the system.
+     *
+     * @return A response entity containing a result message
+     */
     @DeleteMapping("ad")//todo duzelt
     public ResponseEntity<String> deleteAllFavorites() {
 
         return favoriteService.deleteAllFavorites();
     }
 
+    /**
+     * Deletes a specific favorite by its ID.
+     *
+     * @param favoriteId The ID of the favorite to delete
+     * @return A response entity containing a result message
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFavoriteById(@PathVariable("id") Long favoriteId) {
 
