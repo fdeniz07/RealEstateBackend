@@ -18,6 +18,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST controller for managing user messages in the system.
+ * Handles endpoints for creating, retrieving, updating, and deleting user messages.
+ *
+ * <p>This controller provides comprehensive functionality for managing messages
+ * between users, including inbox, outbox, drafts, and other message categories.</p>
+ *
+ * @author Fatih Deniz
+ * @version 1.0
+ */
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Message", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
@@ -30,6 +40,16 @@ public class MessageController {
 
 
     //Not: getListInbox() **********************************************************************************************************
+    /**
+     * Retrieves all inbox messages with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (desc by default)
+     * @return An internal API response containing a page of inbox message responses
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{language}/getListInbox")
     public InternalApiResponse<Page<MessageResponse>> getListInbox(@PathVariable("language") Language language,
@@ -50,6 +70,16 @@ public class MessageController {
     }
 
     //Not: getListSendbox() ********************************************************************************************************
+    /**
+     * Retrieves all sent messages with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (desc by default)
+     * @return An internal API response containing a page of sent message responses
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{language}/getListSendBox")
     public InternalApiResponse<Page<MessageResponse>> getListSendBox(@PathVariable("language") Language language,
@@ -70,6 +100,16 @@ public class MessageController {
     }
 
     //Not: getReadList() ***********************************************************************************************************
+    /**
+     * Retrieves all read messages with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (desc by default)
+     * @return An internal API response containing a page of read message responses
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{language}/getReadList")
     public InternalApiResponse<Page<MessageResponse>> getReadList(@PathVariable("language") Language language,
@@ -90,6 +130,16 @@ public class MessageController {
     }
 
     //Not: getUnReadList() *********************************************************************************************************
+    /**
+     * Retrieves all unread messages with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (desc by default)
+     * @return An internal API response containing a page of unread message responses
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{language}/getUnReadList")
     public InternalApiResponse<Page<MessageResponse>> getUnReadList(@PathVariable("language") Language language,
@@ -110,6 +160,16 @@ public class MessageController {
     }
 
     //Not: getListDraft() **********************************************************************************************************
+    /**
+     * Retrieves all draft messages with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (desc by default)
+     * @return An internal API response containing a page of draft message responses
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{language}/getListDraft")
     public InternalApiResponse<Page<MessageResponse>> getListDraft(@PathVariable("language") Language language,
@@ -130,6 +190,16 @@ public class MessageController {
     }
 
     //Not: getListTrash() **********************************************************************************************************
+    /**
+     * Retrieves all trash messages with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (desc by default)
+     * @return An internal API response containing a page of trash message responses
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{language}/getListTrash")
     public InternalApiResponse<Page<MessageResponse>> getListTrash(@PathVariable("language") Language language,
@@ -150,6 +220,16 @@ public class MessageController {
     }
 
     //Not: getListImportant() ******************************************************************************************************
+    /**
+     * Retrieves all important messages with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (desc by default)
+     * @return An internal API response containing a page of important message responses
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{language}/getListImportant")
     public InternalApiResponse<Page<MessageResponse>> getListImportant(@PathVariable("language") Language language,
@@ -170,6 +250,16 @@ public class MessageController {
     }
 
     //Not: getListSpam() ***********************************************************************************************************
+    /**
+     * Retrieves all spam messages with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (desc by default)
+     * @return An internal API response containing a page of spam message responses
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{language}/getListSpam")
     public InternalApiResponse<Page<MessageResponse>> getListSpam(@PathVariable("language") Language language,
@@ -190,6 +280,17 @@ public class MessageController {
     }
 
     //Not: getListBySenderId() ******************************************************************************************************
+    /**
+     * Retrieves all messages from a specific sender with pagination support.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the sender
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (desc by default)
+     * @return An internal API response containing a page of messages from the specified sender
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{language}/getMessages/{senderId}")
     public InternalApiResponse<Page<MessageResponse>> getListBySenderId(@PathVariable("language") Language language,
@@ -212,6 +313,13 @@ public class MessageController {
     }
 
     //Not: getMessageById() ********************************************************************************************************
+    /**
+     * Retrieves a specific message by its ID.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the message to retrieve
+     * @return An internal API response containing the message response
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{language}/{id}")
     public InternalApiResponse<MessageResponse> getMessageById(@PathVariable("language") Language language,
@@ -230,6 +338,13 @@ public class MessageController {
     }
 
     //Not: send() *******************************************************************************************************************
+    /**
+     * Sends a new message in the system.
+     *
+     * @param language The language for the response content
+     * @param request The message data to send
+     * @return An internal API response containing the sent message
+     */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/{language}/sendMessage")
     public InternalApiResponse<MessageResponse> sendMessage(@PathVariable("language") Language language,
@@ -252,6 +367,14 @@ public class MessageController {
     }
 
     //Not: update() ****************************************************************************************************************
+    /**
+     * Updates an existing message in the system.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the message to update
+     * @param request The updated message data
+     * @return An internal API response containing the updated message
+     */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/{language}/update/{messageId}")
     public InternalApiResponse<MessageResponse> updateMessage(@PathVariable("language") Language language,
@@ -274,6 +397,13 @@ public class MessageController {
     }
 
     //Not: delete() ****************************************************************************************************************
+    /**
+     * Soft deletes a message from the system.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the message to delete
+     * @return An internal API response containing the deleted message
+     */
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/{language}/delete/{messageId}")
     public InternalApiResponse<MessageResponse> deleteMessage(@PathVariable("language") Language language,
