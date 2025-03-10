@@ -17,6 +17,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST controller for managing user roles in the system.
+ * Handles endpoints for creating, retrieving, updating, and deleting roles.
+ *
+ * <p>This controller provides functionality for managing user authorization roles
+ * with support for different languages and pagination.</p>
+ *
+ * @author Fatih Deniz
+ * @version 1.0
+ */
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Role", description = "Prettier Homes - Real Estate APIs") //Swagger dökümani icin
@@ -28,7 +38,16 @@ public class RoleController {
     private final RoleMapper roleMapper;
 
     //Not: getAll() *********************************************************************************************************************************
-
+    /**
+     * Retrieves all roles with pagination support.
+     *
+     * @param language The language for the response content
+     * @param page The page number (zero-based) to retrieve
+     * @param size The size of the page to retrieve
+     * @param sort The field to sort by
+     * @param type The sort direction (asc or desc)
+     * @return An internal API response containing a page of role responses
+     */
     @GetMapping(value = "/{language}/roles") // http://localhost:8080/cities/EN/cities
     public InternalApiResponse<Page<RoleResponse>> getRoles(@PathVariable("language") Language language,
                                                              @RequestParam(value = "page", defaultValue = "0") int page,
@@ -49,6 +68,13 @@ public class RoleController {
 
 
     //Not: getById() ****************************************************************************************************
+    /**
+     * Retrieves a specific role by its ID.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the role to retrieve
+     * @return An internal API response containing the role response
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{language}/getById/{roleId}")
     public InternalApiResponse<RoleResponse> getRoleById(@PathVariable("language") Language language,
@@ -68,6 +94,13 @@ public class RoleController {
 
 
     //Not: addRole() ******************************************************************************************************
+    /**
+     * Creates a new role in the system.
+     *
+     * @param language The language for the response content
+     * @param roleRequest The role data to create
+     * @return An internal API response containing the created role
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{language}/addRole")
     public InternalApiResponse<RoleResponse> add(@PathVariable("language") Language language,
@@ -89,6 +122,14 @@ public class RoleController {
     }
 
     //Not: updateRole() ******************************************************************************************************
+    /**
+     * Updates an existing role in the system.
+     *
+     * @param language The language for the response content
+     * @param roleRequest The updated role data
+     * @param id The ID of the role to update
+     * @return An internal API response containing the updated role
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping(value = "/{language}/updateRole/{roleId}")
     public InternalApiResponse<RoleResponse> update(@PathVariable("language") Language language,
@@ -111,6 +152,13 @@ public class RoleController {
     }
 
     //Not: deleteRole() ******************************************************************************************************
+    /**
+     * Soft deletes a role from the system.
+     *
+     * @param language The language for the response content
+     * @param id The ID of the role to delete
+     * @return An internal API response containing the deleted role
+     */
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/{language}/deleteRole/{roleId}")
     public InternalApiResponse<RoleResponse> delete(@PathVariable("language") Language language,
