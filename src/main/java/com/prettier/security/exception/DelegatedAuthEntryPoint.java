@@ -41,16 +41,66 @@ public class DelegatedAuthEntryPoint implements AuthenticationEntryPoint {
                          AuthenticationException authException
     ) throws IOException, ServletException {
 
-        // Url deki {language} kısmını aliyoruz
-        String servletPath = request.getServletPath();
-        Language language = (Language.valueOf(servletPath.replace("/api/v1.0/auth/", "").replace("/login", "")));
+        // 1. Önce header'dan dene
+        Language language = getLanguageFromHeader(request);
 
-        log.debug("[{}][login] -> request: {}", this.getClass().getSimpleName(), request);
-        LoginFailedException loginFailedException = new LoginFailedException(language, FriendlyMessageCodes.LOGIN_FAILED_EXCEPTION, "Login failed! : Email or password is invalid.");
+        // 2. Header yoksa path'den dene
+        if (language == null) {
+            language = getLanguageFromPath(request.getServletPath());
+        }
 
-        handlerExceptionResolver.resolveException(
-                request, response, null, loginFailedException
+//        // Url deki {language} kısmını aliyoruz
+//        String servletPath = request.getServletPath();
+//        Language language = (Language.valueOf(servletPath.replace("/api/v1.0/auth/", "").replace("/login", "")));
+//
+//        log.debug("[{}][login] -> request: {}", this.getClass().getSimpleName(), request);
+//        LoginFailedException loginFailedException = new LoginFailedException(language, FriendlyMessageCodes.LOGIN_FAILED_EXCEPTION, "Login failed! : Email or password is invalid.");
+//
+//        handlerExceptionResolver.resolveException(
+//                request, response, null, loginFailedException
+//        );
+
+        // 3. Hala bulunamadıysa varsayılan
+        if (language == null) {
+            language = Language.EN;
+        }
+
+        log.debug("[{}][authentication failed] -> path: {}, language: {}",
+                this.getClass().getSimpleName(), request.getServletPath(), language);
+
+        LoginFailedException loginFailedException = new LoginFailedException(
+                language,
+                FriendlyMessageCodes.LOGIN_FAILED_EXCEPTION,
+                "Authentication failed! : Access denied."
         );
+
+        handlerExceptionResolver.resolveException(request, response, null, loginFailedException);
+    }
+
+    private Language getLanguageFromHeader(HttpServletRequest request) {
+        String acceptLanguage = request.getHeader("Accept-Language");
+        if (acceptLanguage != null && acceptLanguage.startsWith("tr")) {
+            return Language.TR;
+        } else if (acceptLanguage != null && acceptLanguage.startsWith("en")) {
+            return Language.EN;
+        }
+        return null;
+    }
+
+    private Language getLanguageFromPath(String servletPath) {
+        if (servletPath == null) {
+            return null;
+        }
+
+        try {
+            if (servletPath.matches("/api/v1\\.0/auth/(EN|TR)/login")) {
+                String langCode = servletPath.replace("/api/v1.0/auth/", "").replace("/login", "");
+                return Language.valueOf(langCode.toUpperCase());
+            }
+        } catch (IllegalArgumentException e) {
+            log.warn("Could not parse language from path: {}", servletPath);
+        }
+        return null;
     }
 }
 
