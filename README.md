@@ -4,7 +4,7 @@
 ## Used and supported technologies
 
 ### Java 17
-### Spring Boot 3.1
+### Spring Boot 3.0
 ### JPA Repository & JPQL 
 ### Hibernate ORM & HQL
 ### Code First
