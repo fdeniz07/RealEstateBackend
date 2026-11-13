@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-015-002 - Anonymous vs authenticated boundary</title>
+  <desc id="desc">M1 security zones for catalog reads and writes</desc>
+  <rect width="720" height="280" fill="#f8fafc"/>
+  <text x="360" y="26" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600">Proposed security boundary (design only)</text>
+  <rect x="30" y="50" width="200" height="180" rx="8" fill="#d1fae5" stroke="#059669"/>
+  <text x="130" y="78" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#047857">Anonymous GET</text>
+  <text x="130" y="105" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">catalog list</text>
+  <text x="130" y="122" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">slug detail</text>
+  <text x="130" y="139" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">public images (TBD)</text>
+  <rect x="260" y="50" width="200" height="180" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="360" y="78" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#1d4ed8">JWT user</text>
+  <text x="360" y="105" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">own adverts CRUD</text>
+  <text x="360" y="122" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">favorites, tours (future)</text>
+  <text x="360" y="139" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">contact POST J02</text>
+  <rect x="490" y="50" width="200" height="180" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="590" y="78" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#b91c1c">Manager/Admin</text>
+  <text x="590" y="105" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">getAll (all statuses)</text>
+  <text x="590" y="122" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">category/geo admin</text>
+  <text x="590" y="139" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">reports (future)</text>
+  <text x="360" y="255" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748b">AS-IS: anyRequest().authenticated() - no public catalog yet</text>
+</svg>

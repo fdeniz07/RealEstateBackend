@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 380" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-008  -  Multilingual content model alternatives</title>
+  <desc id="desc">Four database design options for localized advert title and description</desc>
+  <rect width="820" height="380" fill="#f8fafc"/>
+  <text x="410" y="30" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600">Multilingual Content Models (DEC-007  -  no decision)</text>
+  <rect x="40" y="55" width="170" height="120" rx="8" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+  <text x="125" y="82" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">M1 Single column</text>
+  <text x="125" y="108" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#475569">AS-IS today</text>
+  <text x="125" y="128" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#475569">title, desc</text>
+  <rect x="230" y="55" width="170" height="120" rx="8" fill="#fff" stroke="#64748b"/>
+  <text x="315" y="82" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">M2 Per-locale cols</text>
+  <text x="315" y="108" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#475569">title_en, title_tr</text>
+  <rect x="420" y="55" width="170" height="120" rx="8" fill="#fff" stroke="#64748b"/>
+  <text x="505" y="82" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">M3 Translation table</text>
+  <text x="505" y="108" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#475569">advert_id + locale</text>
+  <rect x="610" y="55" width="170" height="120" rx="8" fill="#fff" stroke="#64748b"/>
+  <text x="695" y="82" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">M4 JSONB map</text>
+  <text x="695" y="108" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#475569">localized_fields</text>
+  <rect x="120" y="210" width="580" height="140" rx="10" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="410" y="240" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">Separate concern: API {language} = error messages (AS-IS)</text>
+  <text x="410" y="268" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#475569">UI i18next en/tr/de (SRC-012) ` listing language</text>
+  <text x="410" y="300" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#64748b">Proposal: defer schema change until PO approves DEC-007</text>
+</svg>

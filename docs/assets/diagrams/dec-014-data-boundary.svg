@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-014-002  -  Public data boundary</title>
+  <desc id="desc">PUBLIC INTERNAL RESTRICTED CONDITIONAL zones for M1 catalog</desc>
+  <rect width="720" height="320" fill="#f8fafc"/>
+  <text x="360" y="26" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600">Data classification boundary (proposal  -  not PO-approved)</text>
+  <rect x="30" y="50" width="150" height="200" rx="8" fill="#d1fae5" stroke="#059669"/>
+  <text x="105" y="75" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#047857">PUBLIC</text>
+  <text x="105" y="100" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">title, desc, price</text>
+  <text x="105" y="118" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">location (text)</text>
+  <text x="105" y="136" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">geo names (reduced)</text>
+  <text x="105" y="154" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">category title/slug</text>
+  <text x="105" y="172" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">type title</text>
+  <text x="105" y="190" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">published images</text>
+  <rect x="200" y="50" width="150" height="200" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="275" y="75" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#b45309">CONDITIONAL</text>
+  <text x="275" y="100" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">slug, viewCount</text>
+  <text x="275" y="118" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">listing id</text>
+  <text x="275" y="136" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">image.path URL</text>
+  <text x="275" y="154" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">property values</text>
+  <text x="275" y="172" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">category builtIn/seq</text>
+  <rect x="370" y="50" width="150" height="200" rx="8" fill="#e0e7ff" stroke="#4f46e5"/>
+  <text x="445" y="75" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#4338ca">INTERNAL</text>
+  <text x="445" y="100" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">isActive, deleted</text>
+  <text x="445" y="118" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">createAt, updateAt</text>
+  <text x="445" y="136" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">advertStatus</text>
+  <text x="445" y="154" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">builtIn flags</text>
+  <text x="445" y="172" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">entity collections</text>
+  <rect x="540" y="50" width="150" height="200" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="615" y="75" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#b91c1c">RESTRICTED</text>
+  <text x="615" y="100" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">user / owner PII</text>
+  <text x="615" y="118" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">email, phone</text>
+  <text x="615" y="136" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">tours, favorites</text>
+  <text x="615" y="154" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">logs, messages</text>
+  <text x="615" y="172" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">advertSet graphs</text>
+  <text x="360" y="285" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748b">Visibility gate (DEC-006) is separate from field inclusion  -  server must filter eligible listings</text>
+</svg>

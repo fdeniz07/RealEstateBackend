@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-012-ACC  -  M1 scope vs access policy</title>
+  <desc id="desc">Product scope decision is separate from anonymous access decision DEC-001</desc>
+  <rect width="720" height="280" fill="#f8fafc"/>
+  <text x="360" y="28" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600">M1 Product Scope ` Access Policy</text>
+  <rect x="40" y="55" width="280" height="180" rx="10" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+  <text x="180" y="85" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600">M1 scope (TASK-012)</text>
+  <text x="55" y="115" font-family="Segoe UI, sans-serif" font-size="11">Include A02/A03/A04 in release?</text>
+  <text x="55" y="138" font-family="Segoe UI, sans-serif" font-size="11">Options A - D</text>
+  <text x="55" y="168" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748b">PO DECISION REQUIRED</text>
+  <rect x="400" y="55" width="280" height="180" rx="10" fill="#fff" stroke="#dc2626" stroke-width="2"/>
+  <text x="540" y="85" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600">Access policy (DEC-001)</text>
+  <text x="415" y="115" font-family="Segoe UI, sans-serif" font-size="11">Anonymous vs JWT per endpoint</text>
+  <text x="415" y="138" font-family="Segoe UI, sans-serif" font-size="11">ADR-002 still draft</text>
+  <text x="415" y="168" font-family="Segoe UI, sans-serif" font-size="10" fill="#059669">DEC-001-J02 approved: contact POST auth only</text>
+  <text x="360" y="250" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#475569">In M1 scope + JWT only is a valid combination until PO decides public GET</text>
+</svg>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-013-JRN  -  M1 catalog journey</title>
+  <desc id="desc">Anonymous vs authenticated paths for listing and detail TASK-013</desc>
+  <rect width="800" height="300" fill="#f8fafc"/>
+  <text x="400" y="28" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600">M1 Property Browse Journey (approved scope)</text>
+  <rect x="40" y="55" width="140" height="50" rx="6" fill="#fff" stroke="#64748b"/>
+  <text x="110" y="85" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11">Visitor</text>
+  <rect x="220" y="55" width="160" height="50" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="300" y="78" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10">Listing page</text>
+  <text x="300" y="94" text-anchor="middle" font-family="Consolas, monospace" font-size="9">getListWithActive</text>
+  <rect x="420" y="55" width="160" height="50" rx="6" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="500" y="78" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10">Detail page</text>
+  <text x="500" y="94" text-anchor="middle" font-family="Consolas, monospace" font-size="9">A07 slug  -  GAP</text>
+  <rect x="620" y="55" width="140" height="50" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="690" y="85" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11">Filters geo/cat</text>
+  <line x1="180" y1="80" x2="220" y2="80" stroke="#475569" marker-end="url(#m)"/>
+  <line x1="380" y1="80" x2="420" y2="80" stroke="#475569" marker-end="url(#m)"/>
+  <rect x="80" y="150" width="640" height="110" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="400" y="178" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">AS-IS: all steps require JWT today</text>
+  <text x="400" y="205" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#475569">PROPOSAL: PO may allow anonymous on subset only (DEC-001 TBD)</text>
+  <text x="400" y="232" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#64748b">A02 A03 A04 excluded M1 · J02 POST auth required</text>
+  <defs>
+    <marker id="m" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+</svg>

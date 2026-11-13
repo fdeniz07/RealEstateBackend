@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-015-005 - Image delivery M1 recommendation</title>
+  <desc id="desc">Model 2 app endpoint vs direct path</desc>
+  <rect width="720" height="220" fill="#f8fafc"/>
+  <text x="360" y="26" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600">Image delivery - workshop recommendation (PO approval required)</text>
+  <rect x="80" y="55" width="250" height="80" rx="8" fill="#fff" stroke="#94a3b8"/>
+  <text x="205" y="82" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10">JSON: imageUrl (opaque)</text>
+  <text x="205" y="102" text-anchor="middle" font-family="Consolas, monospace" font-size="9">/api/v1.0/public/images/{imageId}</text>
+  <text x="205" y="122" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="8" fill="#64748b">checks parent advert visibility</text>
+  <rect x="390" y="55" width="250" height="80" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="515" y="82" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10">Avoid raw Image.path in JSON</text>
+  <text x="515" y="102" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">TASK-014-DATA finding</text>
+  <text x="360" y="175" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10">AS-IS: ImageController empty; path semantics undefined</text>
+  <text x="360" y="198" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9" fill="#64748b">CDN/object storage - future phase (model 4)</text>
+</svg>

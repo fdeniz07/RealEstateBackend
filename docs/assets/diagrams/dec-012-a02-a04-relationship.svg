@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-012-REL  -  A02 A03 A04 relationship</title>
+  <desc id="desc">LEGACY advert discovery aggregates and popularity alongside A01 list</desc>
+  <rect width="760" height="320" fill="#f8fafc"/>
+  <text x="380" y="28" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600">A02 / A03 / A04 Feature Relationship (LEGACY)</text>
+  <rect x="280" y="55" width="200" height="56" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="380" y="88" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">A01 GET /adverts (search/list)</text>
+  <rect x="80" y="150" width="180" height="52" rx="6" fill="#ecfdf5" stroke="#059669"/>
+  <text x="170" y="172" text-anchor="middle" font-family="Consolas, monospace" font-size="11">A02 /adverts/cities</text>
+  <text x="170" y="190" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#475569">City aggregates p.26</text>
+  <rect x="290" y="150" width="180" height="52" rx="6" fill="#ecfdf5" stroke="#059669"/>
+  <text x="380" y="172" text-anchor="middle" font-family="Consolas, monospace" font-size="10">A03 /adverts/categories</text>
+  <text x="380" y="190" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#475569">Category aggregates p.27</text>
+  <rect x="500" y="150" width="180" height="52" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="590" y="172" text-anchor="middle" font-family="Consolas, monospace" font-size="10">A04 .../popular/:amount</text>
+  <text x="590" y="190" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#475569">PP formula p.28</text>
+  <line x1="380" y1="111" x2="170" y2="150" stroke="#94a3b8"/>
+  <line x1="380" y1="111" x2="380" y2="150" stroke="#94a3b8"/>
+  <line x1="380" y1="111" x2="590" y2="150" stroke="#94a3b8"/>
+  <rect x="200" y="235" width="360" height="60" rx="8" fill="#f1f5f9" stroke="#64748b"/>
+  <text x="380" y="262" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11">AS-IS: none implemented · FR-ADV-004 / FR-ADV-005 · BR-017</text>
+  <text x="380" y="282" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748b">G03 report may reuse A04 logic  -  DEC-004 TBD</text>
+</svg>

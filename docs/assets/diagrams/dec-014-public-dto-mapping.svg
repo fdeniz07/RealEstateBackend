@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-014-003  -  Public DTO mapping flow</title>
+  <desc id="desc">Entity to response mapping options A B C</desc>
+  <rect width="720" height="280" fill="#f8fafc"/>
+  <text x="360" y="26" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600">Mapping flow (target state  -  proposal only)</text>
+  <rect x="40" y="55" width="100" height="50" rx="6" fill="#fff" stroke="#64748b"/>
+  <text x="90" y="85" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11">Advert</text>
+  <text x="90" y="98" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">+ relations</text>
+  <rect x="180" y="55" width="120" height="50" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="240" y="78" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10">Visibility filter</text>
+  <text x="240" y="93" text-anchor="middle" font-family="Consolas, monospace" font-size="8">repo + rules</text>
+  <line x1="140" y1="80" x2="180" y2="80" stroke="#475569" marker-end="url(#m)"/>
+  <rect x="330" y="45" width="130" height="70" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="395" y="72" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10">Mapper profile</text>
+  <text x="395" y="88" text-anchor="middle" font-family="Consolas, monospace" font-size="8">PUBLIC</text>
+  <text x="395" y="102" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="8">Option B/C</text>
+  <line x1="300" y1="80" x2="330" y2="80" stroke="#475569" marker-end="url(#m)"/>
+  <rect x="500" y="55" width="180" height="50" rx="6" fill="#d1fae5" stroke="#059669"/>
+  <text x="590" y="78" text-anchor="middle" font-family="Consolas, monospace" font-size="10">PublicAdvertResponse</text>
+  <text x="590" y="93" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">allow-listed DTOs</text>
+  <line x1="460" y1="80" x2="500" y2="80" stroke="#475569" marker-end="url(#m)"/>
+  <rect x="180" y="150" width="360" height="95" rx="8" fill="#fff" stroke="#94a3b8" stroke-dasharray="6 4"/>
+  <text x="360" y="175" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Option A (AS-IS): AdvertMapper.toResponse - AdvertResponse + entities</text>
+  <text x="360" y="198" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#b91c1c">Risk: nested JPA graphs, isActive, no slug, Country.advertSet expansion</text>
+  <text x="360" y="220" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748b">Anonymous JSON consumer sees entity-shaped payload  -  not an approved public contract</text>
+  <defs>
+    <marker id="m" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+</svg>

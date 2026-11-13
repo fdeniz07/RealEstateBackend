@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-001  -  Public vs private read boundary (proposal)</title>
+  <desc id="desc">DEC-001 data classes for anonymous catalog vs authenticated APIs</desc>
+  <rect width="800" height="420" fill="#f8fafc"/>
+  <text x="400" y="32" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="17" font-weight="600">Public vs Private Data Boundary (proposal  -  ADR-002)</text>
+  <rect x="40" y="60" width="340" height="320" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <text x="210" y="88" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#065f46">Public read (anonymous GET)</text>
+  <text x="60" y="120" font-family="Segoe UI, sans-serif" font-size="12" fill="#047857">" Activated + isActive adverts</text>
+  <text x="60" y="148" font-family="Segoe UI, sans-serif" font-size="12" fill="#047857">" Title, price, location, slug</text>
+  <text x="60" y="176" font-family="Segoe UI, sans-serif" font-size="12" fill="#047857">" Category, type, geo metadata</text>
+  <text x="60" y="204" font-family="Segoe UI, sans-serif" font-size="12" fill="#047857">" Images (published set)</text>
+  <text x="60" y="232" font-family="Segoe UI, sans-serif" font-size="12" fill="#047857">" View count (aggregates)</text>
+  <rect x="420" y="60" width="340" height="320" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+  <text x="590" y="88" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#991b1b">JWT + RBAC only</text>
+  <text x="440" y="120" font-family="Segoe UI, sans-serif" font-size="12" fill="#b91c1c">" Owner PII (email, phone)</text>
+  <text x="440" y="148" font-family="Segoe UI, sans-serif" font-size="12" fill="#b91c1c">" Pending / rejected listings</text>
+  <text x="440" y="176" font-family="Segoe UI, sans-serif" font-size="12" fill="#b91c1c">" Tour requests on detail</text>
+  <text x="440" y="204" font-family="Segoe UI, sans-serif" font-size="12" fill="#b91c1c">" Admin lists, reports G01 - G05</text>
+  <text x="440" y="232" font-family="Segoe UI, sans-serif" font-size="12" fill="#b91c1c">" Internal messages</text>
+  <text x="440" y="260" font-family="Segoe UI, sans-serif" font-size="12" fill="#b91c1c">" User / role administration</text>
+  <rect x="300" y="300" width="200" height="56" rx="8" fill="#fff" stroke="#64748b"/>
+  <text x="400" y="332" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#475569">DTO mapper enforces boundary</text>
+</svg>

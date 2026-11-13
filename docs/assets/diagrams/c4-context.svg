@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-SAD-001-SVG  -  RealEstate System Context</title>
+  <desc id="desc">C4 context: users, React frontend, Spring Boot API, PostgreSQL</desc>
+  <rect width="720" height="400" fill="#f8fafc"/>
+  <text x="360" y="28" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600">RealEstate System Context (draft)</text>
+  <rect x="280" y="160" width="160" height="70" rx="8" fill="#2563eb" stroke="#1e40af"/>
+  <text x="360" y="195" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="13">RealEstate API</text>
+  <rect x="40" y="60" width="120" height="50" rx="6" fill="#fff" stroke="#64748b"/>
+  <text x="100" y="90" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12">Users</text>
+  <rect x="40" y="260" width="140" height="50" rx="6" fill="#fff" stroke="#64748b"/>
+  <text x="110" y="290" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12">React Frontend</text>
+  <rect x="560" y="170" width="140" height="50" rx="6" fill="#fff" stroke="#64748b"/>
+  <text x="630" y="200" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12">PostgreSQL</text>
+  <line x1="160" y1="285" x2="280" y2="200" stroke="#475569" marker-end="url(#arrow)"/>
+  <line x1="160" y1="85" x2="280" y2="175" stroke="#94a3b8" stroke-dasharray="4"/>
+  <line x1="440" y1="195" x2="560" y2="195" stroke="#475569" marker-end="url(#arrow)"/>
+  <text x="230" y="248" font-family="Segoe UI, sans-serif" font-size="11" fill="#475569">HTTPS / JWT</text>
+  <text x="490" y="185" font-family="Segoe UI, sans-serif" font-size="11" fill="#475569">JDBC</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+</svg>

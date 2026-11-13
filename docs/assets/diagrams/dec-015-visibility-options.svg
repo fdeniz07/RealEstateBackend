@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-015-004 - Visibility rule alternatives</title>
+  <desc id="desc">DEC-006 open options for public catalog</desc>
+  <rect width="720" height="240" fill="#f8fafc"/>
+  <text x="360" y="26" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600">Listing visibility alternatives (proposal - not approved)</text>
+  <rect x="30" y="50" width="150" height="70" rx="6" fill="#fff" stroke="#64748b"/>
+  <text x="105" y="72" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">V1</text>
+  <text x="105" y="92" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">isActive=true only</text>
+  <text x="105" y="108" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="8" fill="#b45309">AS-IS repo today</text>
+  <rect x="200" y="50" width="150" height="70" rx="6" fill="#fff" stroke="#64748b"/>
+  <text x="275" y="72" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">V2</text>
+  <text x="275" y="92" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">ACTIVATED only</text>
+  <rect x="370" y="50" width="150" height="70" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="445" y="72" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">V3 rec</text>
+  <text x="445" y="92" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">ACTIVATED and isActive</text>
+  <rect x="540" y="50" width="150" height="70" rx="6" fill="#fff" stroke="#64748b"/>
+  <text x="615" y="72" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">V4</text>
+  <text x="615" y="92" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9">+ not deleted</text>
+  <text x="360" y="175" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10">DTO must not bypass visibility - filter in service/repository</text>
+  <text x="360" y="198" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9" fill="#64748b">PENDING/REJECTED must not appear if V2/V3 selected</text>
+</svg>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-IMPL-017-001 - M1 implementation critical path</title>
+  <desc id="desc">PO gate through tests for public catalog</desc>
+  <rect width="720" height="200" fill="#f8fafc"/>
+  <text x="360" y="24" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600">M1 Public Catalog - critical path (proposal)</text>
+  <rect x="20" y="50" width="90" height="40" rx="5" fill="#fef3c7" stroke="#d97706"/>
+  <text x="65" y="75" text-anchor="middle" font-size="9">TASK-001 PO</text>
+  <rect x="130" y="50" width="90" height="40" rx="5" fill="#e0e7ff" stroke="#4f46e5"/>
+  <text x="175" y="75" text-anchor="middle" font-size="9">IMPL-020 DTO</text>
+  <rect x="240" y="50" width="90" height="40" rx="5" fill="#e0e7ff" stroke="#4f46e5"/>
+  <text x="285" y="75" text-anchor="middle" font-size="9">IMPL-030 Vis Q</text>
+  <rect x="350" y="50" width="90" height="40" rx="5" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="395" y="75" text-anchor="middle" font-size="9">IMPL-040 P1</text>
+  <rect x="460" y="50" width="90" height="40" rx="5" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="505" y="75" text-anchor="middle" font-size="9">IMPL-050 P2</text>
+  <rect x="570" y="50" width="90" height="40" rx="5" fill="#d1fae5" stroke="#059669"/>
+  <text x="615" y="75" text-anchor="middle" font-size="9">IMPL-070 Sec</text>
+  <line x1="110" y1="70" x2="130" y2="70" stroke="#64748b" marker-end="url(#m)"/>
+  <line x1="220" y1="70" x2="240" y2="70" stroke="#64748b" marker-end="url(#m)"/>
+  <line x1="330" y1="70" x2="350" y2="70" stroke="#64748b" marker-end="url(#m)"/>
+  <line x1="440" y1="70" x2="460" y2="70" stroke="#64748b" marker-end="url(#m)"/>
+  <line x1="550" y1="70" x2="570" y2="70" stroke="#64748b" marker-end="url(#m)"/>
+  <rect x="200" y="120" width="320" height="55" rx="6" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="360" y="142" text-anchor="middle" font-size="10">Parallel: IMPL-060 images, IMPL-010 slug DB, IMPL-080 tests, IMPL-090 docs</text>
+  <text x="360" y="162" text-anchor="middle" font-size="9" fill="#64748b">TASK-001 done - ADR-002 approved M1 baseline</text>
+  <defs>
+    <marker id="m" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>

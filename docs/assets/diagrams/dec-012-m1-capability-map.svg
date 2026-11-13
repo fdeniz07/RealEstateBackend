@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 300" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-012-M1  -  M1 browse capability map</title>
+  <desc id="desc">Validated minimal journey vs optional A02 A03 A04 enhancements</desc>
+  <rect width="780" height="300" fill="#f8fafc"/>
+  <text x="390" y="28" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600">M1 Browse Capability Map (proposal)</text>
+  <rect x="50" y="55" width="200" height="200" rx="8" fill="#dbeafe" stroke="#1d4ed8"/>
+  <text x="150" y="82" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">Core M1 (evidence)</text>
+  <text x="65" y="110" font-family="Segoe UI, sans-serif" font-size="11">A01-style list AS-IS partial</text>
+  <text x="65" y="132" font-family="Segoe UI, sans-serif" font-size="11">getListWithActive exists</text>
+  <text x="65" y="154" font-family="Segoe UI, sans-serif" font-size="11">A07 slug  -  missing TASK-014</text>
+  <text x="65" y="176" font-family="Segoe UI, sans-serif" font-size="11">Geo ref data U01-U03 partial</text>
+  <text x="65" y="210" font-family="Segoe UI, sans-serif" font-size="10" fill="#475569">FE: Home/Search shell only</text>
+  <rect x="290" y="55" width="200" height="200" rx="8" fill="#fff" stroke="#059669" stroke-dasharray="6 4"/>
+  <text x="390" y="82" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">Optional enrich A02 A03</text>
+  <text x="305" y="115" font-family="Segoe UI, sans-serif" font-size="11">City/category browse hubs</text>
+  <text x="305" y="140" font-family="Segoe UI, sans-serif" font-size="11">Not required for minimal list</text>
+  <text x="305" y="175" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748b">PROPOSAL Option D defer</text>
+  <rect x="530" y="55" width="200" height="200" rx="8" fill="#fff" stroke="#d97706" stroke-dasharray="6 4"/>
+  <text x="630" y="82" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">Optional A04 popular</text>
+  <text x="545" y="115" font-family="Segoe UI, sans-serif" font-size="11">Home marketing strip</text>
+  <text x="545" y="140" font-family="Segoe UI, sans-serif" font-size="11">Needs PP + tour data</text>
+  <text x="545" y="175" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748b">TASK-002 dependency risk</text>
+  <text x="390" y="278" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#64748b">Non-binding map  -  PO selects M1 scope</text>
+</svg>

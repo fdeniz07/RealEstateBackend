@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 340" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-007  -  Listing lifecycle states</title>
+  <desc id="desc">LEGACY advert states with optional Draft and Archived proposals</desc>
+  <rect width="820" height="340" fill="#f8fafc"/>
+  <text x="410" y="30" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600">Listing Lifecycle (DEC-006)</text>
+  <text x="410" y="52" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#64748b">Solid = evidence (PDF + AdvertStatus) · Dashed = proposal only</text>
+  <ellipse cx="120" cy="170" rx="72" ry="36" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="120" y="175" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">PENDING</text>
+  <ellipse cx="320" cy="100" rx="80" ry="36" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="320" y="105" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">ACTIVATED</text>
+  <ellipse cx="320" cy="240" rx="76" ry="36" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+  <text x="320" y="245" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">REJECTED</text>
+  <ellipse cx="560" cy="100" rx="70" ry="32" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="560" y="105" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#64748b">DRAFT?</text>
+  <ellipse cx="560" cy="240" rx="74" ry="32" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="560" y="245" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#64748b">ARCHIVED?</text>
+  <line x1="192" y1="155" x2="248" y2="115" stroke="#475569" marker-end="url(#arr)"/>
+  <text x="210" y="125" font-family="Segoe UI, sans-serif" font-size="10" fill="#475569">approve</text>
+  <line x1="192" y1="185" x2="248" y2="225" stroke="#475569" marker-end="url(#arr)"/>
+  <text x="200" y="215" font-family="Segoe UI, sans-serif" font-size="10" fill="#475569">reject</text>
+  <path d="M 320 136 L 280 170 L 192 170" fill="none" stroke="#475569" marker-end="url(#arr)"/>
+  <text x="248" y="158" font-family="Segoe UI, sans-serif" font-size="10" fill="#475569">customer edit A11</text>
+  <text x="120" y="230" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748b">create A10</text>
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+</svg>

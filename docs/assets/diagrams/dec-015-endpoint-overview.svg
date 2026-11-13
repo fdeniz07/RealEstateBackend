@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-015-001 - M1 public catalog endpoints proposal</title>
+  <desc id="desc">Listing and slug detail anonymous read paths</desc>
+  <rect width="720" height="320" fill="#f8fafc"/>
+  <text x="360" y="26" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600">M1 Public Catalog API - endpoint proposal (not approved)</text>
+  <rect x="40" y="60" width="300" height="90" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="190" y="88" text-anchor="middle" font-family="Consolas, monospace" font-size="10">GET /api/v1.0/adverts/{lang}/catalog</text>
+  <text x="190" y="108" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10">Proposal P1 - paginated listing</text>
+  <text x="190" y="128" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9" fill="#475569">Alt: getListWithActive + public DTO</text>
+  <rect x="380" y="60" width="300" height="90" rx="8" fill="#d1fae5" stroke="#059669"/>
+  <text x="530" y="88" text-anchor="middle" font-family="Consolas, monospace" font-size="10">GET /api/v1.0/adverts/{lang}/slug/{slug}</text>
+  <text x="530" y="108" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10">Proposal P2 - detail (TASK-014 impl)</text>
+  <text x="530" y="128" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9" fill="#475569">LEGACY A07 aligned</text>
+  <rect x="120" y="180" width="480" height="110" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="360" y="210" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Out of M1 anonymous scope (PO approved deferral)</text>
+  <text x="360" y="235" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10">A02 cities agg, A03 categories agg, A04 popular - deferred</text>
+  <text x="360" y="258" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10">J02 contact POST - authenticated only (DEC-001-J02)</text>
+  <text x="360" y="285" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9" fill="#64748b">Security permitAll whitelist - PO decision (see ADR-002 draft)</text>
+</svg>

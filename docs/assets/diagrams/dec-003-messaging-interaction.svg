@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 360" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-003-MSG  -  Contact vs internal messaging</title>
+  <desc id="desc">DEC-003 AS-IS Message mailbox vs LEGACY contact messages J01 J02</desc>
+  <rect width="780" height="360" fill="#f8fafc"/>
+  <text x="390" y="28" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600">Messaging Domains (DEC-003)</text>
+  <rect x="40" y="55" width="300" height="250" rx="8" fill="#fff" stroke="#0ea5e9" stroke-width="2"/>
+  <text x="190" y="85" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600">LEGACY  -  Contact J01/J02</text>
+  <text x="55" y="115" font-family="Segoe UI, sans-serif" font-size="11">J02 POST public (PDF)</text>
+  <text x="55" y="138" font-family="Segoe UI, sans-serif" font-size="11">J01 GET Manager/Admin</text>
+  <text x="55" y="161" font-family="Segoe UI, sans-serif" font-size="11">AS-IS: contact-messages API</text>
+  <text x="55" y="184" font-family="Segoe UI, sans-serif" font-size="11">JWT required today</text>
+  <text x="55" y="220" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748b">Purpose: site inquiries</text>
+  <rect x="440" y="55" width="300" height="250" rx="8" fill="#fff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="590" y="85" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600">AS-IS  -  Internal Message</text>
+  <text x="455" y="115" font-family="Segoe UI, sans-serif" font-size="11">Not in PDF 70 codes</text>
+  <text x="455" y="138" font-family="Segoe UI, sans-serif" font-size="11">MessageController 12 ops</text>
+  <text x="455" y="161" font-family="Segoe UI, sans-serif" font-size="11">Inbox / draft / trash flags</text>
+  <text x="455" y="184" font-family="Segoe UI, sans-serif" font-size="11">Scoped by JWT email (verified)</text>
+  <text x="455" y="220" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748b">Purpose: PO DECISION REQUIRED</text>
+  <text x="390" y="330" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#64748b">Do not conflate channels · FR-CNT-001 vs FR-MSG-001</text>
+</svg>

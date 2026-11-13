@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-013-ARCH  -  Architecture options A-D</title>
+  <desc id="desc">Public catalog access architecture comparison for DEC-013</desc>
+  <rect width="760" height="280" fill="#f8fafc"/>
+  <text x="380" y="28" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600">Architecture Alternatives (non-binding)</text>
+  <rect x="30" y="55" width="160" height="70" rx="6" fill="#ecfdf5" stroke="#059669"/>
+  <text x="110" y="88" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">A permitAll</text>
+  <rect x="210" y="55" width="160" height="70" rx="6" fill="#fff" stroke="#64748b"/>
+  <text x="290" y="88" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">B public API</text>
+  <rect x="390" y="55" width="160" height="70" rx="6" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="470" y="88" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">C JWT only</text>
+  <rect x="570" y="55" width="160" height="70" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="650" y="88" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">D hybrid</text>
+  <text x="380" y="165" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11">PO selects after TASK-013 · ADR-002 remains draft</text>
+  <text x="380" y="240" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748b">Non-binding lean: D for M1 minimal surface + public DTO proposal</text>
+</svg>

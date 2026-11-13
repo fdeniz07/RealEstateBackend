@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 400" role="img" aria-labelledby="title desc">
+  <title id="title">RE-FIG-DEC-004  -  LEGACY reporting flow</title>
+  <desc id="desc">Manager and Admin JWT access to G01 through G05 report endpoints</desc>
+  <rect width="780" height="400" fill="#f8fafc"/>
+  <text x="390" y="28" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600">Reporting Flow G01 - G05 (LEGACY  -  AS-IS missing)</text>
+  <rect x="40" y="70" width="140" height="50" rx="6" fill="#fff" stroke="#64748b"/>
+  <text x="110" y="100" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12">Manager / Admin</text>
+  <rect x="220" y="70" width="120" height="50" rx="6" fill="#2563eb" stroke="#1e40af"/>
+  <text x="280" y="100" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="12">JWT API</text>
+  <rect x="380" y="55" width="360" height="280" rx="8" fill="#fff" stroke="#cbd5e1"/>
+  <text x="560" y="82" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600">Report endpoints (SRC-008-PDF)</text>
+  <rect x="400" y="100" width="150" height="40" rx="4" fill="#ecfdf5" stroke="#059669"/>
+  <text x="475" y="125" text-anchor="middle" font-family="Consolas, monospace" font-size="11">G01 /report</text>
+  <rect x="570" y="100" width="150" height="40" rx="4" fill="#ecfdf5" stroke="#059669"/>
+  <text x="645" y="125" text-anchor="middle" font-family="Consolas, monospace" font-size="11">G02 adverts</text>
+  <rect x="400" y="160" width="150" height="40" rx="4" fill="#ecfdf5" stroke="#059669"/>
+  <text x="475" y="185" text-anchor="middle" font-family="Consolas, monospace" font-size="10">G03 popular</text>
+  <rect x="570" y="160" width="150" height="40" rx="4" fill="#ecfdf5" stroke="#059669"/>
+  <text x="645" y="185" text-anchor="middle" font-family="Consolas, monospace" font-size="11">G04 users</text>
+  <rect x="485" y="220" width="150" height="40" rx="4" fill="#ecfdf5" stroke="#059669"/>
+  <text x="560" y="245" text-anchor="middle" font-family="Consolas, monospace" font-size="10">G05 tours</text>
+  <line x1="180" y1="95" x2="220" y2="95" stroke="#475569" marker-end="url(#a)"/>
+  <line x1="340" y1="95" x2="380" y2="120" stroke="#475569" marker-end="url(#a)"/>
+  <text x="390" y="360" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#64748b">Task: TASK-019 · Depends on tour data for G05</text>
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+</svg>

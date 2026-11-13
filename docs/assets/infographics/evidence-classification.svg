@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" role="img">
+  <title>RE-FIG-INF-001  -  Evidence classification</title>
+  <rect width="600" height="200" fill="#fff"/>
+  <text x="300" y="30" text-anchor="middle" font-family="Segoe UI, sans-serif" font-weight="600">Evidence labels</text>
+  <rect x="30" y="60" width="120" height="40" fill="#dcfce7" stroke="#16a34a"/><text x="90" y="85" text-anchor="middle" font-size="13">AS-IS</text>
+  <rect x="170" y="60" width="120" height="40" fill="#fef9c3" stroke="#ca8a04"/><text x="230" y="85" text-anchor="middle" font-size="13">LEGACY</text>
+  <rect x="310" y="60" width="120" height="40" fill="#dbeafe" stroke="#2563eb"/><text x="370" y="85" text-anchor="middle" font-size="13">TO-BE</text>
+  <rect x="450" y="60" width="120" height="40" fill="#f3f4f6" stroke="#6b7280"/><text x="510" y="85" text-anchor="middle" font-size="13">TBD</text>
+  <text x="300" y="150" text-anchor="middle" font-size="12" fill="#475569">Use in BRD, FRD, and architecture  -  never merge silently</text>
+</svg>
