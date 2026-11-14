@@ -1,0 +1,27 @@
+# ENV-001 — local PostgreSQL only (no app services)
+# Usage: copy .env.example to .env, then: docker compose up -d
+
+name: realestate-backend
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: realestate-postgres
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - realestate_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+
+volumes:
+  realestate_pg_data:

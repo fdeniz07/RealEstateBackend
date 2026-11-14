@@ -116,6 +116,12 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Flyway (schema migrations — IMPL-010-1) -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>

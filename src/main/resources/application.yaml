@@ -47,10 +47,12 @@ spring:
   cloud:
     config:
       uri: http://localhost:8080
+  flyway:
+    enabled: true
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:

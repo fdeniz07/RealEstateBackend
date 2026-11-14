@@ -1,5 +1,10 @@
 HELP.md
 target/
+
+### Local environment (ENV-001) ###
+.env
+.env.*
+!.env.example
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
