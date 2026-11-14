@@ -11,6 +11,16 @@ updated_at: 2026-11-13
 
 # Changelog
 
+## [0.2.1] — 2026-11-14
+
+### Changed (ARCH-1)
+
+- [PRODUCT_DECISIONS.md](../08-project-management/PRODUCT_DECISIONS.md) v0.1.5 — **DEC-007 approved**; terminology; M1/M2 scope; open decisions §8.6.
+- [ADR-002](../03-architecture/ADR/ADR-002-public-read-api.md) v0.6.0 + TR — multilingual public read, language-scoped slugs, 404 policy.
+- [ROADMAP.md](../08-project-management/ROADMAP.md) v0.2.0 — product PM1/PM2 vs engineering milestones; DEC-007 critical path.
+- [I18N_STRATEGY.md](../04-development/I18N_STRATEGY.md) v0.2.0 — aligned domain content to DEC-007.
+- [DECISION_LOG.md](../08-project-management/DECISION_LOG.md) — ARCH-1 entry.
+
 ## [0.2.0] — 2026-11-13
 
 ### Added

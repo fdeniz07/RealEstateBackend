@@ -15,7 +15,9 @@ created_at: 2026-11-13
 
 Turkish: [M1-IMPLEMENTATION-PLAN-TR.md](M1-IMPLEMENTATION-PLAN-TR.md).
 
-**Architecture baseline (approved):** [M1-PUBLIC-CATALOG-ARCHITECTURE-DECISIONS.md](M1-PUBLIC-CATALOG-ARCHITECTURE-DECISIONS.md) · **ADR-002** `approved` (TASK-001).
+**Architecture baseline (approved):** [M1-PUBLIC-CATALOG-ARCHITECTURE-DECISIONS.md](M1-PUBLIC-CATALOG-ARCHITECTURE-DECISIONS.md) · **ADR-002** `approved` (TASK-001, **v0.6.0** after ARCH-1).
+
+**ARCH-1 alignment (DEC-007):** Multilingual **AdvertTranslation**, Language Registry, and **language-scoped slugs** supersede monolingual `IMPL-010` TO-BE (global `adverts.slug` uniqueness). Execute public P1/P2 against **published translations**; see [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) §8 and [ROADMAP.md](ROADMAP.md) § Product delivery. This plan’s WBS identifiers remain; **technical targets** for IMPL-010+ follow DEC-007.
 
 ---
 

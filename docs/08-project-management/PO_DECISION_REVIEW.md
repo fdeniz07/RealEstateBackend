@@ -1,13 +1,13 @@
 ---
 document_id: RE-PM-PO-REV-001
 title: Product Owner Decision Review Package
-version: 0.1.3
+version: 0.1.4
 status: draft
 language: en
 owner: Product Owner
 prepared_by: TASK-011
 created_at: 2026-11-13
-updated_at: 2026-11-13
+updated_at: 2026-11-14
 baseline: PRODUCT_DECISIONS v0.1.3, BRD/FRD v0.2.0
 source_references:
   - SRC-008-PDF
@@ -22,6 +22,14 @@ related_documents:
 ---
 
 # Product Owner Decision Review (TASK-011)
+
+## Historical status notice (read first)
+
+> **Snapshot document:** This package reflects Product Owner review **status as of 2026-11-13** (TASK-011, baseline [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) v0.1.3). Overview tables and per-DEC sections below are **historical evidence** — they are **not** rewritten to match later approvals.
+>
+> **DEC-007 follow-up (ARCH-1, 2026-11-14):** **DEC-007 — Multilingual advert content** was **subsequently approved** by the Product Owner. **Authoritative** product record: [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) **§8** (v0.1.5+). **Architecture:** [ADR-002](../03-architecture/ADR/ADR-002-public-read-api.md) **v0.6.0** (multilingual public read). Use those documents for current DEC-007 status; §3 and **DEC-007** in this file still show **Not approved** as at original review time.
+>
+> **Other post-review approvals** (e.g. DEC-001 via TASK-001, ADR-002 v0.5.0) are also recorded in PRODUCT_DECISIONS and DECISION_LOG — this notice does not replace those registers.
 
 ## 1. Purpose and scope
 
@@ -393,6 +401,8 @@ sequenceDiagram
 ---
 
 ## DEC-007 — Multilingual property content
+
+**Historical section (2026-11-13 review):** The **Approval status** and recommendations below reflect the workshop snapshot only. **Current authority:** [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) §8 (DEC-007 **approved**, ARCH-1); [ADR-002](../03-architecture/ADR/ADR-002-public-read-api.md) v0.6.0.
 
 | Field | Content |
 |-------|---------|

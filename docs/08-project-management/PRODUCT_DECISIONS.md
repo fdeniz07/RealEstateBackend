@@ -1,12 +1,12 @@
 ---
 document_id: RE-PM-DEC-WS-001
 title: Product & Architecture Decision Workshop Package
-version: 0.1.4
+version: 0.1.5
 status: draft
 language: en
 owner: RealEstate Project
 created_at: 2026-11-13
-updated_at: 2026-11-13
+updated_at: 2026-11-14
 baseline: docs v0.2.0 (BRD/FRD/FR matrix)
 task: TASK-010
 source_references:
@@ -21,7 +21,7 @@ related_adr:
 
 # Product & Architecture Decision Workshop (TASK-010)
 
-**Purpose:** Structured **discovery and decision proposals** for the Product Owner. Nothing in this document is **approved**. Implementation is **not authorized**.
+**Purpose:** Structured **discovery and decision proposals** for the Product Owner. Sections marked **approved** are PO-authorized; unmarked or **TBD** items remain proposals. Implementation follows approved ADRs and implementation plans only.
 
 **Evidence baseline:** BRD/FRD v0.2.0, [LEGACY-REQUIREMENTS-ANALYSIS.md](../01-business/source-analysis/LEGACY-REQUIREMENTS-ANALYSIS.md), [LEGACY_API_TO_FR_MATRIX.md](../02-requirements/FRD/LEGACY_API_TO_FR_MATRIX.md), [ROLE_PERMISSION_MATRIX.md](../01-business/role-permission-matrix/ROLE_PERMISSION_MATRIX.md), [TRACEABILITY_MATRIX.md](../00-governance/TRACEABILITY_MATRIX.md), read-only Backend/Frontend code.
 
@@ -37,7 +37,7 @@ related_adr:
 | **DEC-004** | Reporting G01–G05 | BR-009, FR-RPT-001 … 005 | — | **Implement LEGACY suite** under TASK-019 after PO prioritization | **TBD** |
 | **DEC-005** | Password recovery F03/F04 | BR-015, FR-AUTH-003/004 | — | **Implement** with LEG-NFR-008 anti-enumeration (TASK-017) | **TBD** |
 | **DEC-006** | Listing lifecycle states | BR-013, FR-ADV-002 | ADR-002 | LEGACY enum; **M1 public gate V3 approved** (§7.5); Draft/Archive **TBD** | **Partial** — M1 public visibility (TASK-001) |
-| **DEC-007** | Multilingual property content | BR-001, FR-I18N-001 | — | **Defer DB model**; keep AS-IS single `title`/`desc` short term | **TBD** |
+| **DEC-007** | Multilingual advert content | BR-001, FR-I18N-001 | ADR-002 (public read, amended) | **Language Registry** + **Advert** / **AdvertTranslation**; `de`/`tr`/`en`; language-scoped slugs; manual lifecycle in M1 | **Approved** (ARCH-1, PO 2026-11-14) |
 
 ```mermaid
 flowchart TB
@@ -420,40 +420,82 @@ AdvertStatus = ACTIVATED AND isActive = true AND deleted = false
 
 ---
 
-## 8. DEC-007 — Multilingual property content
+## 8. DEC-007 — Multilingual advert content
 
-### 8.1 Evidence
+**Status:** **approved** (Product Owner, **ARCH-1**, 2026-11-14). Recorded in [ADR-002](../03-architecture/ADR/ADR-002-public-read-api.md) v0.6.0 (multilingual public read policies). Supersedes §8.3 workshop proposal (defer single-column AS-IS).
+
+### 8.1 Terminology (keep separate)
+
+| Term | Meaning |
+|------|---------|
+| **UI language** | Frontend i18next strings and user interface locale — **not** advert content language |
+| **API / friendly-message language** | Legacy `Language` enum on many routes — localized errors and success messages |
+| **Advert content language** | Language of `title`, `description`, `slug`, and related published listing text |
+| **Source language** | Original language in which the advert owner created content (`Advert.sourceLanguage` → Language Registry, **TO-BE**) |
+| **Target language** | Language into which a translation is created (manual or AI suggestion) |
+| **Language Registry** | Central catalogue of supported languages and capability flags (`de`, `tr`, `en` initially; extensible without per-language schema columns) |
+| **AdvertTranslation** | One row per advert per content language (translatable fields + publication lifecycle) |
+| **Translation lifecycle** | Review, approval, publication, and outdated marking — independent per language |
+
+**Rule:** Application **UI language must never implicitly determine** the advert's original or requested **content language**.
+
+![Three localization layers](../assets/diagrams/dec-007-multilingual-layers.svg)
+
+**Figure RE-FIG-DEC-007-LAY** — UI, API messages, and advert content (reference diagram).
+
+### 8.2 Approved product decisions
+
+| # | Topic | Decision |
+|---|--------|----------|
+| 1 | **Initial content languages** | German (`de`), Turkish (`tr`), English (`en`) |
+| 2 | **Extensibility** | Add languages via **Language Registry** data/configuration; no new DB columns per language |
+| 3 | **Content model** | **Advert** — shared, language-independent data + **source language** reference; **AdvertTranslation** — per-language `title`, `description`, `slug`, SEO fields (**TO-BE**), lifecycle metadata |
+| 4 | **Slug uniqueness** | **Language-scoped:** `UNIQUE(language_code, lower(slug))` — same slug allowed across different content languages; not twice within one language |
+| 5 | **Public missing translation** | HTTP **404** when the requested content-language translation is missing or not publicly available — **no automatic fallback** to another language |
+| 6 | **Published translation preservation** | When source content changes: published translations **remain public**; marked **outdated** pending review; replacement becomes public only after approval/publication; implementation uses **versioning or published-snapshot** (**TO-BE** engineering) |
+| 7 | **Public visibility (with DEC-006 / ADR-002)** | Anonymous catalog/detail still require advert **V3** gate **and** a **published** translation for the requested content language |
+| 8 | **AI translations** | **Never** auto-publish; owner review and explicit approval required (**M2** scope) |
+
+### 8.3 Delivery scope — product M1 vs M2
+
+| Scope | Includes |
+|-------|----------|
+| **M1 (multilingual foundation)** | Dynamic Language Registry; `de`/`tr`/`en`; Advert + AdvertTranslation; manual create/edit; review and publication lifecycle; language-specific slugs; localized public catalog and slug detail; supersedes single-column slug-on-`Advert` as **target** architecture |
+| **M2 (AI-assisted translation)** | Provider abstraction; AI suggestions; owner review/approval; provider metadata and operational handling |
+
+**Note:** [M1-IMPLEMENTATION-PLAN.md](M1-IMPLEMENTATION-PLAN.md) `IMPL-010` slug guidance assumed a **global** `adverts.slug` unique index (Flyway V2). DEC-007 **supersedes** that target: engineering must migrate slug ownership to **AdvertTranslation** with language-scoped uniqueness — see [ROADMAP.md](ROADMAP.md) § Product delivery.
+
+### 8.4 Historical evidence (workshop baseline)
 
 | Topic | Finding |
 |-------|---------|
-| PDF | **No** multi-language content model; mixed TR/EN examples only |
-| AS-IS API | `{language}` path → **friendly messages**, not content translation |
-| `Advert` | Single `title`, `desc`, `slug` columns |
-| Frontend | i18next **en/tr/de** for **UI** strings (SRC-012) |
-| FR-I18N-001 | AS-IS path language |
+| PDF | No multi-language content model; mixed TR/EN examples |
+| AS-IS API | `{language}` path used for **friendly messages**, not content |
+| `Advert` | Single `title`, `desc`, `slug` columns today |
+| Frontend | i18next `en`/`tr`/`de` for **UI** only (SRC-012) |
 
-![i18n alternatives](../assets/diagrams/dec-007-i18n-content-alternatives.svg)
+![Content model alternatives (historical)](../assets/diagrams/dec-007-i18n-content-alternatives.svg)
 
-**Figure RE-FIG-DEC-008** — Content model options (no PO choice yet).
+**Figure RE-FIG-DEC-008** — Workshop comparison; **chosen direction: normalized translation table (former M3)**, not M1 single column.
 
-### 8.2 Model alternatives (comparison)
+### 8.5 Superseded proposals (do not implement)
 
-| Model | Pros | Cons | Search |
-|-------|------|------|--------|
-| **M1 — Single locale column** | Matches AS-IS | One language per listing | Simple LIKE |
-| **M2 — Columns per language** (`title_en`, `title_tr`) | Explicit queries | Wide table; DE expansion | Per-column index |
-| **M3 — Translation table** (`advert_id`, `locale`, `title`) | Normalized | Join overhead | Locale filter |
-| **M4 — JSONB `localized_fields`** | Flexible | PG-specific; validation harder | GIN index **TBD** |
+| Prior proposal | Disposition |
+|----------------|-------------|
+| §8.3 (v0.1.4) defer DB; keep single `title`/`desc` | **Superseded** by §8.2 |
+| Public content fallback to EN ([I18N_STRATEGY.md](../04-development/I18N_STRATEGY.md) draft) | **Rejected** for public advert content under DEC-007 |
+| Global slug unique on `adverts` (IMPL-010 TO-BE before ARCH-1) | **Superseded** by language-scoped slug on translations |
 
-### 8.3 Proposed recommendation (not approved)
+### 8.6 Open decisions (not approved — explicit PO follow-up)
 
-**Short term:** **M1** + document that UI locale ≠ listing language. **Before scale:** workshop **M3 vs M4** with search/SEO requirements — **no DB migration until DEC-007 approved**.
-
-### 8.4 PO open questions
-
-1. Must one listing have **parallel EN/TR descriptions**?
-2. **Slug** per locale or single canonical?
-3. **Fallback** when translation missing (EN default per I18N_STRATEGY draft)?
+1. **Existing advert source-language backfill** strategy for migrated data
+2. **Category** and **CategoryPropertyValue** translation scope
+3. **Shared structured location** vs translatable free-text `location`
+4. **Language deactivation** behavior for already-published translations
+5. **Source-language change** policy after translations exist
+6. **Public `{language}` route** migration and backward compatibility (UI vs content language disambiguation)
+7. **`Accept-Language`** handling outside public advert content
+8. **SEO metadata** and **image alt-text** multilingual scope
 
 ---
 
@@ -468,7 +510,8 @@ flowchart LR
   T005[TASK-005 RBAC] --> D2[DEC-002]
   T017[TASK-017 Password] --> D5[DEC-005]
   T019[TASK-019 Reports] --> D4[DEC-004]
-  D7[DEC-007] --> ERD[Future ERD change]
+  D7[DEC-007 approved] --> ERD[AdvertTranslation ERD]
+  D7 --> ADR2[ADR-002 public read]
 ```
 
 **Figure RE-FIG-DEC-WS-002** — Dependency graph (draft).
@@ -482,8 +525,8 @@ flowchart LR
 | No implementation performed | Pass |
 | No invented business rules | Pass — proposals labeled |
 | BRD/FRD/matrix consistency | Pass with documented conflicts |
-| ADR-002 remains draft | Pass |
-| PO approval | **Not requested / not granted** |
+| ADR-002 status | **approved** (v0.5.0+); v0.6.0 multilingual amendment |
+| PO approval | **Partial** — per-decision; DEC-007 approved ARCH-1 |
 
 ---
 
@@ -495,3 +538,5 @@ flowchart LR
 | 0.1.1 | 2026-11-13 | TASK-011-A: PO approved DEC-001-J02 authenticated-only |
 | 0.1.2 | 2026-11-13 | TASK-012-A: PO approved DEC-001-M1-A02-A04 Option D defer beyond M1 |
 | 0.1.3 | 2026-11-13 | TASK-013-A: PO approved DEC-001-ANONYMOUS-CATALOG (M1 list + detail) |
+| 0.1.4 | 2026-11-13 | TASK-001: DEC-001 M1 baseline §2.5.1; DEC-006 M1 public gate §7.5 |
+| 0.1.5 | 2026-11-14 | **ARCH-1:** DEC-007 multilingual advert content **approved**; slug per language; public 404 no fallback; M1/M2 scope |

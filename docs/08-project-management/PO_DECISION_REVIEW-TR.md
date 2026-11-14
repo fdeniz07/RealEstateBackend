@@ -1,7 +1,7 @@
 ---
 document_id: RE-PM-PO-REV-001-TR
 title: Ürün Sahibi Karar İnceleme Paketi
-version: 0.1.3
+version: 0.1.4
 status: draft
 language: tr
 owner: Product Owner
@@ -13,6 +13,14 @@ equivalent_en: PO_DECISION_REVIEW.md
 ---
 
 # Ürün Sahibi Karar İncelemesi (TASK-011)
+
+## Tarihsel durum uyarısı (önce okuyun)
+
+> **Anlık görüntü belgesi:** Bu paket, **13.11.2026** tarihindeki **TASK-011** Ürün Sahibi incelemesinin durumunu yansıtır ([PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) v0.1.3 taban çizgisi). Aşağıdaki özet tablolar ve DEC bölümleri **tarihsel kanıt** olarak korunmuştur; sonradan verilen onaylara göre **geri dönük olarak güncellenmez**.
+>
+> **DEC-007 güncellemesi (ARCH-1, 14.11.2026):** **DEC-007 — Çok dilli ilan içeriği** Ürün Sahibi tarafından **sonradan onaylanmıştır**. Güncel ve **bağlayıcı** ürün kaydı: [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) **§8** (v0.1.5 ve sonrası). **Mimari kayıt:** [ADR-002](../03-architecture/ADR/ADR-002-public-read-api.md) **v0.6.0** (çok dilli herkese açık okuma). DEC-007’nin güncel durumu için bu belgelere bakın; bu dosyadaki §3 ve **DEC-007** bölümündeki **«Onaylanmadı»** ifadeleri **yalnızca ilk inceleme anındaki** durumu gösterir.
+>
+> **Diğer sonraki onaylar** (ör. DEC-001 / TASK-001, ADR-002 v0.5.0) [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) ve [DECISION_LOG.md](DECISION_LOG.md) içinde kayıtlıdır; bu uyarı o kayıtların yerine geçmez.
 
 ## 1. Amaç ve kapsam
 
@@ -329,6 +337,8 @@ sequenceDiagram
 ---
 
 ## DEC-007 — Çok dilli ilan içeriği
+
+**Tarihsel bölüm (13.11.2026 incelemesi):** Aşağıdaki **Onay durumu** ve öneriler yalnızca atölye anındaki durumu yansıtır. **Güncel bağlayıcı kaynak:** [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) §8 (DEC-007 **onaylı**, ARCH-1); [ADR-002](../03-architecture/ADR/ADR-002-public-read-api.md) v0.6.0.
 
 | Alan | İçerik |
 |------|--------|

@@ -1,9 +1,10 @@
 ---
 document_id: RE-I18N-001
 title: Internationalization Strategy
-version: 0.1.0
+version: 0.2.0
 status: draft
 language: en
+updated_at: 2026-11-14
 ---
 
 # I18n Strategy
@@ -31,28 +32,34 @@ flowchart LR
 
 **Figure RE-FIG-I18N-001** — API error localization path.
 
-## 3. Domain content localization
+## 3. Domain content localization (DEC-007 — approved)
 
-| Approach | Use case |
-|----------|----------|
-| Single column per language | Simple titles — **TBD** |
-| JSONB `localized_fields` | Flexible search — TO-BE |
-| Translation table | Normalized i18n — TO-BE |
+**Approved model:** [PRODUCT_DECISIONS.md](../08-project-management/PRODUCT_DECISIONS.md) §8 — **Language Registry** + **Advert** (shared) + **AdvertTranslation** per content language (`de`, `tr`, `en` initially).
 
-`Advert.title` single string AS-IS — search implications for EN/TR/DE **TBD**.
+| Concept | Policy |
+|---------|--------|
+| UI language | Frontend i18next — **not** advert content |
+| API `{language}` on **public P1/P2** | **Advert content language** ([ADR-002](../03-architecture/ADR/ADR-002-public-read-api.md) v0.6.0) |
+| API `{language}` on **legacy mutating routes** | Friendly messages today — **route disambiguation open** (§8.6) |
 
-## Accept-Language (TO-BE)
+AS-IS `Advert.title` / `desc` / `slug` remain until ARCH-2 migration; target is translation table.
 
-Proposal: honor `Accept-Language` header as fallback when path omits language (API v2).
+## Accept-Language (open — not approved)
 
-## Missing translation behavior
+Proposal: honor `Accept-Language` when path omits language (API v2). **Does not apply** to approved public advert content policy below.
 
-Return default locale (EN) + log warning (TO-BE).
+## Missing translation behavior (public advert content — approved)
 
-## Product languages
+Per **DEC-007** / **ADR-002:** HTTP **404** when translation missing or not publicly available. **No** automatic fallback to another content language.
 
-| Lang | Status |
-|------|--------|
-| EN | AS-IS |
-| TR | AS-IS |
-| DE | FE only initially |
+**Supersedes** prior draft proposal (default EN + warning) for **public catalog/detail only**.
+
+## Product content languages (registry)
+
+| Code | Initial content support |
+|------|-------------------------|
+| `de` | Approved M1 |
+| `tr` | Approved M1 |
+| `en` | Approved M1 |
+
+Further languages: registry data/configuration without per-language schema columns.

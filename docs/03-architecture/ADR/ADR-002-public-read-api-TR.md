@@ -1,12 +1,13 @@
 ---
 document_id: ADR-002-TR
 title: Herkese Acik Okuma API Politikasi
-version: 0.5.0
+version: 0.6.0
 status: approved
 language: tr
 equivalent_en: ADR-002-public-read-api.md
 task: TASK-001
 approved_at: 2026-11-13
+amended_at: 2026-11-14
 ---
 
 # ADR-002 — Herkese Acik Katalog Okuma Uclari
@@ -17,7 +18,9 @@ approved_at: 2026-11-13
 
 Yedi acik M1 karari kapsar. Java implementasyonu tek basina bu ADR ile baslamaz; [M1-IMPLEMENTATION-PLAN-TR.md](../../08-project-management/M1-IMPLEMENTATION-PLAN-TR.md) izlenir.
 
-**Onay kapsami disi:** alan bazli DTO listelerinin her satiri; rate limit sayilari; slug migration; depolama saglayicisi; allow-list disi property alanlari.
+**Onay kapsami disi:** alan bazli DTO listelerinin her satiri; rate limit sayilari; depolama saglayicisi; allow-list disi property alanlari. **Slug:** DEC-007 ile dil kapsamli benzersizlik karari verildi (TO-BE AdvertTranslation); V2 gecici global index.
+
+**DEC-007 (ARCH-1):** Cok dilli herkese acik okuma — P1/P2 `{language}` = **ilan icerik dili**; yayinlanmis ceviri + V3; eksik ceviri **404**, baska dile **fallback yok**; slug dil basina unique. English: [ADR-002-public-read-api.md](ADR-002-public-read-api.md) § Multilingual public read.
 
 English: [ADR-002-public-read-api.md](ADR-002-public-read-api.md).
 

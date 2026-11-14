@@ -12,7 +12,8 @@
 | 2026-11-13 | DEC-005 password recovery F03/F04 with LEG-NFR-008 | **proposal draft** | PRODUCT_DECISIONS |
 | 2026-11-13 | DEC-006 listing states LEGACY enum; no Draft until PO | **partial** | PRODUCT_DECISIONS §7.4 open |
 | 2026-11-13 | **DEC-006 M1 public visibility V3** (ACTIVATED + isActive + not deleted) | **approved** (TASK-001) | ADR-002, PRODUCT_DECISIONS §7.5 |
-| 2026-11-13 | DEC-007 defer multilingual DB model | **proposal draft** | PRODUCT_DECISIONS |
+| 2026-11-13 | DEC-007 defer multilingual DB model | **superseded** | PRODUCT_DECISIONS §8 (v0.1.4) |
+| 2026-11-14 | **DEC-007 multilingual advert content** — Registry, AdvertTranslation, `de`/`tr`/`en`, language-scoped slugs, public 404 no fallback, published preservation | **approved** (ARCH-1) | [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) §8, [ADR-002](../03-architecture/ADR/ADR-002-public-read-api.md) v0.6.0, [ROADMAP.md](ROADMAP.md) v0.2.0 |
 
 Workshop package: [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) (TASK-010). **No PO approval recorded.**
 
