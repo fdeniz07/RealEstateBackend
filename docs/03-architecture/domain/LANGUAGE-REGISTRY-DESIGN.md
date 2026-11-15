@@ -1,7 +1,7 @@
 ---
 document_id: RE-ARCH-LREG-001
 title: Language Registry — Architecture Discovery & Design (ARCH-2)
-version: 0.1.1
+version: 0.1.3
 status: proposal
 language: en
 prepared_by: ARCH-2
@@ -41,9 +41,13 @@ DEC-007 requires a **central, data-driven Language Registry** so `de`, `tr`, and
 
 ---
 
-## 2. Current-state architecture findings
+## 2. Current-state architecture findings (historical AS-IS — ARCH-2 baseline)
 
-| Area | Finding (verified in repo) |
+**Scope of this section:** Findings below reflect the repository and database **as verified when this design proposal was written** (2026-11-14). They are the **historical AS-IS baseline** for ARCH-2 discovery; they are **not** updated to describe the **current implemented** Language Registry or database layout.
+
+**Current implementation (M1):** Flyway `V3__languages_registry.sql`, `languages` seed, and runtime registry code are recorded in [LANGUAGE-REGISTRY-M1-IMPLEMENTATION-STATUS.md](LANGUAGE-REGISTRY-M1-IMPLEMENTATION-STATUS.md). Legacy items in the table (for example enum-backed paths, no `languages` table in Flyway V1 only) may still apply to **unchanged** areas of the codebase until later migration tranches.
+
+| Area | Finding (verified in repo at proposal time) |
 |------|---------------------------|
 | **Stack** | Spring Boot 3.0.0, Java 17, PostgreSQL, Flyway (`V1`, `V2`), Hibernate `validate` |
 | **Language enum** | `src/main/java/com/prettier/shared/utils/enums/Language.java` — `EN`, `TR`, `DE` only |
@@ -495,13 +499,17 @@ From [PRODUCT_DECISIONS.md](../../08-project-management/PRODUCT_DECISIONS.md) §
 
 **Acceptance (registry slice):**
 
-- [ ] Flyway seed idempotent; Hibernate `validate` passes  
-- [ ] `listActive(ADVERT_CONTENT)` returns exactly `de`,`tr`,`en`  
-- [ ] `requireActive("fr", ADVERT_CONTENT)` fails closed  
-- [ ] `canonicalizeCode(" TR ")` → `tr`  
-- [ ] No new language requires Java enum change  
-- [ ] Unit tests cover cache + validation  
-- [ ] No public content fallback implemented  
+M1 engineering completion is recorded in [LANGUAGE-REGISTRY-M1-IMPLEMENTATION-STATUS.md](LANGUAGE-REGISTRY-M1-IMPLEMENTATION-STATUS.md). Summary:
+
+- [x] Flyway seed + Hibernate `validate` (V3; verified in tests)
+- [x] `listActive(ADVERT_CONTENT)` includes seeded `de`,`tr`,`en` (seed row flags)
+- [x] Unknown codes fail closed (`UnsupportedLanguageException` / empty lookup)
+- [x] `canonicalizeCode(" TR ")` → `tr`
+- [x] No new language requires Java enum change (M1 slice)
+- [x] Unit + PostgreSQL acceptance tests cover snapshot, validation, startup
+- [x] No public content fallback in registry layer (controllers not wired to registry)
+
+**Implementation notes (PO-approved deviations):** startup uses **`ApplicationReadyEvent`**, not `@PostConstruct`; in-memory state uses **`AtomicReference` snapshot**, not Spring Cache (§7 recommendation).
 
 ---
 
@@ -511,3 +519,5 @@ From [PRODUCT_DECISIONS.md](../../08-project-management/PRODUCT_DECISIONS.md) §
 |---------|------|---------|
 | 0.1.0 | 2026-11-14 | ARCH-2 discovery & design proposal |
 | 0.1.1 | 2026-11-14 | ARCH-2.1 — BCP 47 stages, M1 capability model, cache lifecycle, parent vs fallback, deactivation options, open vs approved split |
+| 0.1.2 | 2026-11-15 | M1 implementation status cross-reference §14; see LANGUAGE-REGISTRY-M1-IMPLEMENTATION-STATUS.md |
+| 0.1.3 | 2026-11-15 | §2 labeled historical AS-IS; pointer to current M1 implementation status |

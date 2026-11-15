@@ -1,7 +1,7 @@
 ---
 document_id: RE-PM-IMPL-M1-001
 title: M1 Public Catalog — Implementation Plan
-version: 0.2.0
+version: 0.2.1
 status: approved
 language: en
 prepared_by: TASK-017
@@ -31,6 +31,10 @@ Turkish: [M1-IMPLEMENTATION-PLAN-TR.md](M1-IMPLEMENTATION-PLAN-TR.md).
 | | Stack upgrade (separate track; §10) |
 
 Approved product rules unchanged: **DEC-001-J02**, **DEC-001-M1-A02-A04**, **DEC-001-ANONYMOUS-CATALOG**.
+
+### 1.1 Language Registry foundation (DEC-007 — separate track)
+
+The **M1 Language Registry slice** (Flyway `languages`, `LanguageRegistryService`, startup load, tests) is **complete** for engineering review. It does **not** satisfy §8 public catalog Definition of Done. Status: [LANGUAGE-REGISTRY-M1-IMPLEMENTATION-STATUS.md](../03-architecture/domain/LANGUAGE-REGISTRY-M1-IMPLEMENTATION-STATUS.md).
 
 ---
 
@@ -321,3 +325,4 @@ Errors: invalid sort → 400; empty → 200 [].
 |---------|------|---------|
 | 0.1.0 | 2026-11-13 | TASK-017 implementation plan |
 | 0.2.0 | 2026-11-13 | TASK-001 PO gate closed; IMPL-000 satisfied |
+| 0.2.1 | 2026-11-15 | Cross-reference Language Registry M1 completion (§1.1) |

@@ -1,10 +1,10 @@
 ---
 document_id: RE-I18N-001
 title: Internationalization Strategy
-version: 0.2.0
+version: 0.2.1
 status: draft
 language: en
-updated_at: 2026-11-14
+updated_at: 2026-11-15
 ---
 
 # I18n Strategy
@@ -63,3 +63,7 @@ Per **DEC-007** / **ADR-002:** HTTP **404** when translation missing or not publ
 | `en` | Approved M1 |
 
 Further languages: registry data/configuration without per-language schema columns.
+
+### Registry runtime (M1 — implemented)
+
+Backend **Language Registry** (DEC-007 foundation): Flyway `languages` seed, `LanguageRegistryService` snapshot, `ApplicationReadyEvent` initial load, capabilities `UI_MESSAGE` / `ADVERT_CONTENT`. Controllers and legacy `Language` enum are **not** migrated yet. Details: [LANGUAGE-REGISTRY-M1-IMPLEMENTATION-STATUS.md](../03-architecture/domain/LANGUAGE-REGISTRY-M1-IMPLEMENTATION-STATUS.md).
