@@ -1,0 +1,77 @@
+name: Backend CI
+
+on:
+  push:
+    branches:
+      - feature/boot-3.5.16
+      - Fatih
+  pull_request:
+    branches:
+      - Fatih
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: backend-ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Maven build and tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/real_estate_db
+      SPRING_DATASOURCE_USERNAME: db_user
+      SPRING_DATASOURCE_PASSWORD: db_password
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: real_estate_db
+          POSTGRES_USER: db_user
+          POSTGRES_PASSWORD: db_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U db_user -d real_estate_db"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Temurin Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Set up Maven 3.9.9
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.9
+
+      - name: Report toolchain versions
+        run: |
+          java -version
+          mvn -version
+
+      - name: Run tests
+        run: mvn -B clean test
+
+      - name: Upload Surefire reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports-${{ github.run_id }}
+          path: target/surefire-reports/
+          if-no-files-found: warn
+          retention-days: 14
