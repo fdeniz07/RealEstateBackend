@@ -18,17 +18,17 @@ source_references:
 | Component | Version | Source |
 |-----------|---------|--------|
 | Java | 17 | `pom.xml` |
-| Spring Boot | 3.0.0 (parent) | `pom.xml` |
-| Spring Security | Boot-managed 6.x line | Boot 3.0 BOM |
-| Hibernate | Boot-managed 6.x | JPA starter |
+| Spring Boot | 3.5.16 (parent) | `pom.xml` |
+| Spring Security | Boot-managed 6.5.x line | Boot 3.5.16 BOM |
+| Hibernate | Boot-managed 6.6.x | JPA starter |
 | PostgreSQL driver | Runtime | `pom.xml` |
-| MapStruct | 1.4.2.Final | `pom.xml` |
+| MapStruct | 1.6.3 | `pom.xml` |
 | jjwt | 0.11.5 | `pom.xml` |
-| springdoc | 2.0.4 (+ legacy 1.6.4 duplicate) | `pom.xml` — cleanup **TBD** |
-| Flyway | **Not present** | — |
+| springdoc | 2.10.0 (`springdoc-openapi-starter-webmvc-ui`) | `pom.xml` |
+| Flyway | `flyway-core` + `flyway-database-postgresql` | `pom.xml` |
 | Testcontainers | **Not present** | — |
-| Maven Wrapper | **Not found** — system Maven | TBD |
-| Actuator | 3.2.1 explicit override | `pom.xml` |
+| Maven Wrapper | **Not found** — Docker Maven 3.9 + Java 17 | build procedure |
+| Actuator | Boot BOM (no version override) | `pom.xml` |
 
 ## TO-BE target directions (official compatibility — SRC-015)
 
