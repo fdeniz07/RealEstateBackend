@@ -37,63 +37,39 @@ public class SecurityFilterChainConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
-                .formLogin()
-                .failureHandler(customAuthenticationFailureHandler).and()
-                .authorizeHttpRequests()
-                .requestMatchers(
-                        HttpMethod.POST,
-                        "/api/v1.0/users",
-                        "/api/v1.0/auth/**"
+                .formLogin(form -> form.failureHandler(customAuthenticationFailureHandler))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/v1.0/users",
+                                "/api/v1.0/auth/**"
+                        )
+                        .permitAll()
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/ping",
+                                "/api/v1.0/users/*/profile-image"
+                        )
+                        .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/actuator/**")
+                        .permitAll()
+                        .requestMatchers(AUTH_WHITE_LIST)
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
                 )
-                .permitAll()
-                .requestMatchers(
-                        HttpMethod.GET,
-                        "/ping",
-                        "/api/v1.0/users/*/profile-image"
-                ).permitAll()
-                .requestMatchers(HttpMethod.GET, "/actuator/**")
-                .permitAll()
-                .requestMatchers(AUTH_WHITE_LIST)
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
                 )
-                .exceptionHandling()
-                .authenticationEntryPoint(authEntryPointJwt);
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(authEntryPointJwt));
         return http.build();
-
-////                .cors().and()
-//                .csrf().disable()
-//                .cors(Customizer.withDefaults())
-//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-//                .and()
-//                .formLogin()
-//                //.loginPage("/api/v1.0/auth/{language}/login")
-//                .failureHandler(customAuthenticationFailureHandler).and()
-//                .authorizeHttpRequests()
-//                //.requestMatchers(HttpMethod.GET,"/api/**").permitAll()
-//                .requestMatchers("/api/v1.0/auth/**").permitAll()
-//                .requestMatchers(AUTH_WHITE_LIST).permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-//        http.headers().frameOptions().sameOrigin();
-//        http.httpBasic(Customizer.withDefaults());
-//        return http.build();
     }
 
     private static final String AUTH_WHITE_LIST[] = {
