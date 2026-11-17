@@ -1,6 +1,7 @@
 package com.prettier.security.jwt;
 
 import com.prettier.security.service.UserDetailsServiceImpl;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -42,24 +44,33 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String jwt = authHeader.substring(7);
-        String userEmail = jwtUtils.getSubject(jwt); //Biz yapimizi email kontrolü üzerine kuruyoruz. Unique alan olmasi yeterlidir
+        try {
+            String jwt = authHeader.substring(7);
+            String userEmail = jwtUtils.getSubject(jwt); //Biz yapimizi email kontrolü üzerine kuruyoruz. Unique alan olmasi yeterlidir
 
-        if (StringUtils.isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) { // Burada kullanici adinin olmasi ve SecurityContextHolder oturum acmamis olmasi durumda yapilacak islemleri tanimliyoruz
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail); //girilen email Db de var mi diye kontrol ediyoruz
+            if (StringUtils.isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) { // Burada kullanici adinin olmasi ve SecurityContextHolder oturum acmamis olmasi durumda yapilacak islemleri tanimliyoruz
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail); //girilen email Db de var mi diye kontrol ediyoruz
 
-            if (jwtUtils.isTokenValid(jwt, userDetails.getUsername())) { //token ve user bilgileri gecerli ise
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                if (jwtUtils.isTokenValid(jwt, userDetails.getUsername())) { //token ve user bilgileri gecerli ise
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
+        } catch (JwtException | UsernameNotFoundException ex) {
+            SecurityContextHolder.clearContext();
+            logger.debug(
+                    "JWT authentication skipped: {}",
+                    ex.getClass().getSimpleName()
+            );
         }
+
         filterChain.doFilter(request, response);
     }
 }

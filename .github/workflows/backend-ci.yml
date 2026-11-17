@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/boot-3.5.16
+      - feature/boot-4.1.2
       - Fatih
   pull_request:
     branches:

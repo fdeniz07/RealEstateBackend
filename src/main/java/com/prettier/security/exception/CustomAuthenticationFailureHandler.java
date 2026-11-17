@@ -1,6 +1,6 @@
 package com.prettier.security.exception;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,6 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
+    private final JsonMapper jsonMapper;
     private final LocalDateTime timestamp = LocalDateTime.now();
 
     @Override
@@ -30,8 +31,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
         Map<String, Object> responseBody = getStringObjectMap(request, exception);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(response.getOutputStream(), responseBody);
+        jsonMapper.writeValue(response.getOutputStream(), responseBody);
     }
 
     private Map<String, Object> getStringObjectMap(HttpServletRequest request, AuthenticationException exception) {
