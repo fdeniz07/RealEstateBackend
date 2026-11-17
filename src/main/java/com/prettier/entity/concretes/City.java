@@ -24,7 +24,7 @@ public class City extends BaseEntity{
     @Size(min = 2, max = 50)
     private String name;
 
-    @Column(name = "Plate Number", nullable = false)
+    @Column(name = "plate number", nullable = false)
     private Integer plateNumber;
 
     @ManyToOne//(cascade = CascadeType.ALL) // cascade = CascadeType.ALL ifadesi, District sınıfının kaydedilmesi durumunda ilişkili Country nesnesinin de otomatik olarak kaydedilmesini sağlar.

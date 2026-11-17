@@ -2,7 +2,6 @@ package com.prettier.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
@@ -11,12 +10,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @Service
 public class JWTUtils {
@@ -44,23 +42,17 @@ public class JWTUtils {
     ) {
         return Jwts
                 .builder()
-                .setClaims(extractClaims)
-                .setSubject(userDetails.getUsername()) //UserDetails deki unique alani giriyoruz (username/email/...)
-                .setIssuedAt(new Date(System.currentTimeMillis())) //Token olusturulma tarihi
-                .setExpiration(new Date(new Date().getTime() + jwtExpirationMs)) // Token bitis süresi 24 saat + 1000ms olaray ayarliyoruz (1000+ 1000x60x60x24). Bu veri application.yaml den cekiliyor
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .claims(extractClaims)
+                .subject(userDetails.getUsername()) //UserDetails deki unique alani giriyoruz (username/email/...)
+                .issuedAt(new Date(System.currentTimeMillis())) //Token olusturulma tarihi
+                .expiration(new Date(System.currentTimeMillis() + jwtExpirationMs)) // Token bitis süresi application.yaml den cekiliyor
+                .signWith(getSignInKey(), Jwts.SIG.HS256)
                 .compact();
     }
 
 
-    //Not: JWT Token üzerinden alinan claim bilgisinin cözümlenmesi *****************
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = getClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
     //NOT: Token icin secret key olusturuyoruz, degeri application.yaml dan okuyoruz
-    private Key getSignInKey() {
+    private SecretKey getSignInKey() {
         byte[] key = Decoders.BASE64.decode(jwtSecret);
         return Keys.hmacShaKeyFor(key);
     }
@@ -75,13 +67,12 @@ public class JWTUtils {
 
     //Not: JWT Token üzerinden claim bilgisini alma ********************************
     private Claims getClaims(String token) {
-        Claims claims = Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
+        return Jwts
+                .parser()
+                .verifyWith(getSignInKey())
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return claims;
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     //Not: Validate JWT **********************************************************
@@ -95,15 +86,5 @@ public class JWTUtils {
         Date today = Date.from(Instant.now());
         return getClaims(jwt).getExpiration().before(today);
     }
-
-//    private boolean isTokenExpired(String token) {
-//
-//        return extractExpiration(token).before(new Date());
-//    }
-//
-//    private Date extractExpiration(String token) {
-//
-//        return extractClaim(token, Claims::getExpiration);
-//    }
 
 }
