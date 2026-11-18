@@ -11,6 +11,8 @@ updated_at: 2026-11-18
 
 **Canonical testing architecture:** [TESTING-ARCHITECTURE.md](../03-architecture/testing/TESTING-ARCHITECTURE.md) — **prefer** that document for tooling inventory, CI AS-IS, and module strategy.
 
+**Local datasource / profiles (DB-INIT-P1):** [LOCAL_ENV.md](LOCAL_ENV.md).
+
 ## AS-IS summary (2026-11-18)
 
 | Fact | Evidence |

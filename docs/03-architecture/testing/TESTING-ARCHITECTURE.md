@@ -1,7 +1,7 @@
 ---
 document_id: RE-TEST-ARCH-001
 title: Testing Architecture and Quality Strategy
-version: 0.1.1
+version: 0.2.0
 status: draft
 language: en
 owner: RealEstate Project
@@ -31,6 +31,7 @@ source_references:
 | Cache (when introduced) | [CACHING-PERFORMANCE-ARCHITECTURE.md](../performance/CACHING-PERFORMANCE-ARCHITECTURE.md) |
 | Tooling versions | [TECHNOLOGY_BASELINE.md](../../05-infrastructure/TECHNOLOGY_BASELINE.md) |
 | CI / environments | [INFRASTRUCTURE-DEPLOYMENT-ARCHITECTURE.md](../infrastructure/INFRASTRUCTURE-DEPLOYMENT-ARCHITECTURE.md) §5, §11 |
+| Local env contract (DB-INIT-P1) | [LOCAL_ENV.md](../../04-development/LOCAL_ENV.md) |
 
 **Labels:** **AS-IS** (verified in repo), **TO-BE**, **PROPOSED**, **TBD**, **FUTURE**.
 
@@ -213,15 +214,15 @@ Critical paths (auth, advert create authorization, registry) should have **expli
 
 ## 10. CI testing strategy
 
-### AS-IS (verified: `.github/workflows/backend-ci.yml`)
+### AS-IS (verified: `.github/workflows/backend-ci.yml`, DB-INIT-P1 Phase 4)
 
 ```mermaid
 flowchart LR
   subgraph asis [CI AS-IS]
     T1[checkout]
     T2[java 17 + maven 3.9.9]
-    T3[postgres:16 service]
-    T4[mvn -B clean test]
+    T3[postgres:16 service real_estate_ci_test_db]
+    T4[mvn -B clean test profile test]
     T5[upload surefire reports]
   end
   T1 --> T2 --> T3 --> T4 --> T5
@@ -229,17 +230,21 @@ flowchart LR
 
 **Figure RE-FIG-TEST-ARCH-003** — CI pipeline AS-IS.
 
-**Caption:** Single job; Surefire only.
+**Caption:** Single job; Surefire only; isolated CI database.
 
 **Explanation:** No separate Failsafe, ArchUnit, JaCoCo, or contract stage.
 
 | Item | Detail |
 |------|--------|
 | Trigger branches | `feature/boot-3.5.16`, `feature/boot-4.1.2`, `Fatih`, PRs to `Fatih` |
-| **Note** | Current work branch `feature/b2.1-advert` is **not** listed — **TBD** CI coverage for feature branches |
-| Database | `jdbc:postgresql://localhost:5432/real_estate_db` via Actions service |
-| Command | `mvn -B clean test` (default Surefire) |
+| **Note** | Feature branches (e.g. `feature/b2.1-advert`) run via **pull_request** to `Fatih`, not via `push` filters |
+| Spring profile | `SPRING_PROFILES_ACTIVE=test` |
+| Database | `jdbc:postgresql://localhost:5432/real_estate_ci_test_db` (Postgres 16 service; **not** `real_estate_db`) |
+| Env (canonical) | `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`, `JWT_SECRET` |
+| Fixture | `TestReferenceDataFixture` on profile `test`; `DataInitializer` **inactive** |
+| Command | `mvn -B clean test` (default Surefire; tests not skipped) |
 | Artifacts | `target/surefire-reports/` |
+| Expected tests | **204** (includes `TestReferenceDataFixtureSmokeTest`) |
 
 ### TO-BE stages (PROPOSED — not implemented)
 
@@ -274,12 +279,82 @@ flowchart TB
 
 | Environment | Role |
 |-------------|------|
-| **Local** | Developer-run `mvn test`; PostgreSQL required for integration tests (dynamic URL often `localhost:5433` in registry docs vs `5432` in CI — **TBD** standard port) |
-| **CI** | Ephemeral Postgres 16; credentials in workflow env (non-production) |
-| **Testcontainers** | **FUTURE** for local/CI parity without manual Docker compose |
+| **Local dev** | Profile `localhost`, DB `real_estate_db`, host port **5433** — see [LOCAL_ENV.md](../../04-development/LOCAL_ENV.md) |
+| **Local test** | Profile `test`, DB `real_estate_test_db`, host port **5433** — DB-INIT-P1 Phase 1–3 |
+| **CI** | Profile `test`, DB `real_estate_ci_test_db`, host port **5432** — DB-INIT-P1 Phase 4 (`backend-ci.yml`) |
+| **Testcontainers** | **Not planned** for DB-INIT-P1; GitHub Actions Postgres service remains sufficient |
 | **Staging / prod smoke** | **FUTURE** — not documented in repo |
 
 Never commit production credentials; test JWT secrets are test-only overrides.
+
+Detailed matrix, datasource contract, and shell examples: **[LOCAL_ENV.md](../../04-development/LOCAL_ENV.md)**.
+
+---
+
+## 15. Database environments and test isolation (DB-INIT-P1)
+
+**Status:** **APPROVED** architecture. Phases 0–4 implement configuration, fixtures, and CI isolation without changing V1–V4 migrations.
+
+### 15.1 Environment matrix (target)
+
+| Environment | Spring profile | Database | Port |
+|-------------|----------------|----------|------|
+| Development | `localhost` | `real_estate_db` | 5433 |
+| Local test | `test` | `real_estate_test_db` | 5433 |
+| GitHub Actions | `test` | `real_estate_ci_test_db` | 5432 |
+
+Local test and CI share profile **`test`**; only JDBC URL and database name differ.
+
+### 15.2 Datasource contract (canonical)
+
+| Variable | Purpose |
+|----------|---------|
+| `SPRING_DATASOURCE_URL` | JDBC URL |
+| `SPRING_DATASOURCE_USERNAME` | DB user |
+| `SPRING_DATASOURCE_PASSWORD` | DB password |
+| `SPRING_PROFILES_ACTIVE` | `localhost` or `test` |
+| `JWT_SECRET` | JWT signing for runtime and integration tests |
+
+Docker Compose loads `.env`; **`mvn test` does not** — developers must export variables or use IDE/scripts ([LOCAL_ENV.md](../../04-development/LOCAL_ENV.md)).
+
+**Implementation (Phases 1–4):** Profile `localhost` uses env-first `SPRING_DATASOURCE_*` with `POSTGRES_*` fallbacks (`application.yaml`). Profile `test` uses `application-test.yaml` (canonical env only). Integration tests use `PostgresIntegrationTestSupport` (`@ActiveProfiles("test")`, fail-fast database guard). Local provisioning: [LOCAL_ENV.md](../../04-development/LOCAL_ENV.md) §5.
+
+### 15.3 Flyway and initializer responsibilities
+
+| Mechanism | Responsibility |
+|-----------|----------------|
+| **Flyway** | Sole schema migration path; V1–V4 **immutable** |
+| **V3** | Versioned platform languages (`de`, `tr`, `en`) |
+| **DataInitializer** | Profile **`localhost`** — roles, full enum geography, built-in admin |
+| **TestReferenceDataFixture** | Profile **`test`** — roles, admin, minimal TR location (no bulk countries enum) |
+| **LanguageRegistryInitializer** | `ApplicationReadyEvent` → `reloadSnapshot()` on every application start (all profiles) |
+
+### 15.4 Test isolation — AS-IS vs target
+
+| Topic | AS-IS | Target (DB-INIT-P1) |
+|-------|--------|---------------------|
+| Database | ~~`real_estate_db` in CI~~ (pre Phase 4) | **`real_estate_test_db`** locally; **`real_estate_ci_test_db`** in CI |
+| Flyway | Runs on each new Spring test context; pending migrations once per DB | Unchanged mechanism; separate DB per environment |
+| `@Transactional` rollback | e.g. `LanguageRegistryPostgreSqlAcceptanceTest`, `AdvertCreateMultilingualIntegrationTest` | Retain; registry tests keep `@AfterEach` **rollback then `reloadSnapshot()`** |
+| HTTP test cleanup | `AdvertCreationHttpIntegrationTest` `@AfterEach` JDBC deletes | Retain; runs against test DB after Phase 2 |
+| Rollback integration | `AdvertCreateRollbackIntegrationTest` may leave advert types/categories | Phase 2+: explicit cleanup or transactional test pattern |
+| Shared context | Multiple `@DynamicPropertySource` blocks; HTTP tests may use distinct JWT keys | `PostgresIntegrationTestSupport`; CI and local share profile `test` |
+| Testcontainers | Not in `pom.xml` | **Excluded** from plan |
+
+**Registry transaction note (AS-IS, keep behaviour):** In `LanguageRegistryPostgreSqlAcceptanceTest`, `@AfterEach` calls `TestTransaction.end()` (rollback) **before** `languageRegistryService.reloadSnapshot()`, so the in-memory snapshot reflects **committed** DB state after the test transaction rolls back. In-test `reloadSnapshot()` calls intentionally run inside the test transaction for assertions; `@AfterEach` restores global consistency.
+
+### 15.5 Implementation phases (reference)
+
+| Phase | Scope |
+|-------|--------|
+| **0** | Documentation + `.env.example` (this document set) |
+| **1** | `application-test.yaml`, manual `real_estate_test_db` provisioning, `application.yaml` env-first datasource — **done** |
+| **2** | `PostgresIntegrationTestSupport`, test DB URL defaults, context/JWT alignment |
+| **3** | `DataInitializer` profile split, test fixtures |
+| **4** | GitHub Actions database name + `test` profile |
+| **5** | Full verification (`mvn test`, dev smoke) |
+
+**Protection:** Do not delete `real_estate_db`, do not run `docker compose down -v`, do not edit V1–V4 files.
 
 ---
 
@@ -325,14 +400,14 @@ Do **not** duplicate CRA/Playwright toolchain detail here.
 | ID | Topic | Status |
 |----|--------|--------|
 | OPEN-TEST-01 | CI branch filters vs active feature branches | **TBD** |
-| OPEN-TEST-02 | Local PostgreSQL port convention (5432 vs 5433) | **TBD** |
+| OPEN-TEST-02 | Local PostgreSQL port convention (5432 vs 5433) | **Resolved in DB-INIT-P1** — dev/test host **5433**, CI **5432** ([LOCAL_ENV.md](../../04-development/LOCAL_ENV.md)) |
 | OPEN-TEST-03 | Testcontainers vs Actions service only | **PROPOSED** |
 | OPEN-TEST-04 | ArchUnit adoption and package rules for transitional `com.prettier.*` | **PROPOSED** |
 | OPEN-TEST-05 | JaCoCo threshold policy | **TBD** |
 | OPEN-TEST-06 | ADR-002 public catalog/image security tests | **FUTURE** |
 | OPEN-TEST-07 | RFC 9457 contract assertions | **TO-BE** |
 | OPEN-TEST-08 | Split Surefire unit vs Failsafe IT for runtime | **PROPOSED** |
-| OPEN-TEST-09 | `DataInitializer` coupling in auth integration tests | **TBD** isolation strategy |
+| OPEN-TEST-09 | `DataInitializer` coupling in auth integration tests | **Resolved** — `TestReferenceDataFixture` + `@Profile("localhost")` on `DataInitializer` |
 | OPEN-TEST-10 | E2E tooling (Playwright + Backend) | **FUTURE** (see Postman/application-testing skills — not Backend CI AS-IS) |
 
 ## Change history
@@ -341,3 +416,6 @@ Do **not** duplicate CRA/Playwright toolchain detail here.
 |---------|------|---------|
 | 0.1.0 | 2026-11-18 | Initial testing architecture (Group 9) |
 | 0.1.1 | 2026-11-18 | Cross-reference FRONTEND-ARCHITECTURE §12 (Group 12) |
+| 0.2.0 | 2026-11-18 | DB-INIT-P1 Phase 0 — environment matrix, datasource contract, test isolation §15 |
+| 0.2.1 | 2026-11-18 | Phase 1 — `application-test.yaml`, env-first localhost datasource (doc cross-ref) |
+| 0.2.2 | 2026-11-18 | Phase 4 — CI `real_estate_ci_test_db`, profile `test`, canonical workflow env |
