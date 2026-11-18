@@ -9,6 +9,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -52,7 +53,15 @@ public class Advert extends BaseEntity{
     @Column(name = "location")
     private String location;
 
-    //!!! TODO : ILISKILER EKLENECEK
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "source_language_code", referencedColumnName = "code")
+    @JsonIgnore
+    private Language sourceLanguage;
+
+    @OneToMany(mappedBy = "advert")
+    @ToString.Exclude
+    @JsonIgnore
+    private Set<AdvertTranslation> translations = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "advert_type_id", nullable = false)
