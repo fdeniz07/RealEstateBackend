@@ -30,7 +30,7 @@ jobs:
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/real_estate_ci_test_db
       SPRING_DATASOURCE_USERNAME: db_user
       SPRING_DATASOURCE_PASSWORD: db_password
-      JWT_SECRET: cHJldHRpZXItand0LXRlc3Qtc2VjcmV0LTMyYnl0ZXMhIQ==
+      JWT_SECRET: ${{ secrets.CI_TEST_JWT_SECRET }}
 
     services:
       postgres:
@@ -67,6 +67,13 @@ jobs:
         run: |
           java -version
           mvn -version
+
+      - name: Validate CI test secrets
+        run: |
+          if [ -z "$JWT_SECRET" ]; then
+            echo "::error::JWT_SECRET is not set. Configure repository secret CI_TEST_JWT_SECRET (non-production test JWT only)."
+            exit 1
+          fi
 
       - name: Run tests
         run: mvn -B clean test

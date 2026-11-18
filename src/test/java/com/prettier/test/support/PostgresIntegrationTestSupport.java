@@ -17,13 +17,6 @@ public abstract class PostgresIntegrationTestSupport {
     public static final String DEFAULT_LOCAL_TEST_JDBC_URL =
             "jdbc:postgresql://127.0.0.1:5433/real_estate_test_db";
 
-    /**
-     * Shared deterministic JWT secret for HTTP integration tests (Base64-encoded).
-     * Matches the value historically used in advert HTTP integration tests.
-     */
-    public static final String SHARED_TEST_JWT_SECRET_BASE64 =
-            "cHJldHRpZXItand0LXRlc3Qtc2VjcmV0LTMyYnl0ZXMhIQ==";
-
     private static final String ENV_URL = "SPRING_DATASOURCE_URL";
     private static final String ENV_USERNAME = "SPRING_DATASOURCE_USERNAME";
     private static final String ENV_PASSWORD = "SPRING_DATASOURCE_PASSWORD";
@@ -61,7 +54,7 @@ public abstract class PostgresIntegrationTestSupport {
         registry.add("backendapi.app.jwtExpressionMS", () -> 86_400_000L);
     }
 
-    /** Same JWT secret bound to the Spring context for integration tests (respects {@code JWT_SECRET} when set). */
+    /** JWT secret from {@code JWT_SECRET} for integration tests (required; not production). */
     public static String resolvedJwtSecret() {
         return resolveJwtSecret();
     }
@@ -122,7 +115,10 @@ public abstract class PostgresIntegrationTestSupport {
     private static String resolveJwtSecret() {
         String jwt = System.getenv(ENV_JWT);
         if (jwt == null || jwt.isBlank()) {
-            return SHARED_TEST_JWT_SECRET_BASE64;
+            throw illegalConfiguration(
+                    ENV_JWT
+                            + " is not set. Export a dedicated integration-test JWT before running PostgreSQL"
+                            + " tests (see docs/04-development/LOCAL_ENV.md). Do not use production JWT.");
         }
         return jwt.trim();
     }

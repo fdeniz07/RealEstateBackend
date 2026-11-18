@@ -41,9 +41,11 @@ Use these names everywhere (local shell, IDE, CI). Spring Boot **relaxed binding
 | `SPRING_DATASOURCE_URL` | Full JDBC URL including database name |
 | `SPRING_DATASOURCE_USERNAME` | Database user |
 | `SPRING_DATASOURCE_PASSWORD` | Database password (never commit real values) |
-| `JWT_SECRET` | `backendapi.app.jwtSecret` — required for Spring context boot and JWT integration tests |
+| `JWT_SECRET` | JWT signing — **development** uses gitignored `.env`; **integration tests** require an explicit export (no Java fallback); **CI** maps from repository secret `CI_TEST_JWT_SECRET` |
 
-**Precedence:** When set, environment variables override values in `application.yaml`. Integration tests extending `PostgresIntegrationTestSupport` also bind datasource and JWT via `@DynamicPropertySource` (fail-fast if password missing or database is `real_estate_db`).
+**JWT separation:** Use a **dedicated integration-test JWT** for profile `test` / `mvn test`. Do **not** reuse the production or localhost development JWT from `.env` unless you deliberately choose the same value locally. Never commit test or production JWT values.
+
+**Precedence:** When set, environment variables override values in `application.yaml`. Integration tests extending `PostgresIntegrationTestSupport` bind datasource and JWT via `@DynamicPropertySource` (fail-fast if `SPRING_DATASOURCE_PASSWORD`, `JWT_SECRET`, or database name is invalid).
 
 ### Example values (placeholders only)
 
@@ -64,20 +66,16 @@ SPRING_PROFILES_ACTIVE=test
 SPRING_DATASOURCE_URL=jdbc:postgresql://127.0.0.1:5433/real_estate_test_db
 SPRING_DATASOURCE_USERNAME=db_user
 SPRING_DATASOURCE_PASSWORD=<your-local-password>
-JWT_SECRET=<same-or-dedicated-test-base64-secret>
+JWT_SECRET=<dedicated-integration-test-base64-secret>
 ```
 
-**GitHub Actions (`test` — set in workflow, not in repo):**
+**GitHub Actions (`test` — no secrets in repo):**
 
-```text
-SPRING_PROFILES_ACTIVE=test
-SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/real_estate_ci_test_db
-SPRING_DATASOURCE_USERNAME=db_user
-SPRING_DATASOURCE_PASSWORD=db_password
-JWT_SECRET=<non-production-ci-test-secret>
-```
+| Source | Maps to |
+|--------|---------|
+| Repository secret **`CI_TEST_JWT_SECRET`** | Job env `JWT_SECRET` |
 
-GitHub Actions **`.github/workflows/backend-ci.yml`** sets these five variables on the job (CI-only JWT; not a production secret). The Postgres service creates **`real_estate_ci_test_db`**; health check waits with `pg_isready` before Maven runs.
+Workflow **`.github/workflows/backend-ci.yml`** also sets `SPRING_*` and validates that `JWT_SECRET` is non-blank before `mvn test`. The value must be a **non-production** integration-test JWT (same team convention as local test runs). The Postgres service creates **`real_estate_ci_test_db`**; health check waits with `pg_isready` before Maven runs.
 
 ---
 
@@ -98,7 +96,7 @@ Copy `.env.example` to `.env` (gitignored). Compose uses it; **export canonical 
 |----------|------|
 | `POSTGRES_DB` | Initial database created by the Postgres image (development DB name) |
 | `POSTGRES_USER` / `POSTGRES_PASSWORD` | Superuser credentials for the container |
-| `POSTGRES_PORT` | Host port bind (default **5433**) |
+| `POSTGRES_PORT` | Host port bind (`.env.example` default **5433**; `compose.yaml` maps `127.0.0.1:${POSTGRES_PORT}:5432`) |
 
 Align `SPRING_DATASOURCE_*` with these values when running locally.
 
@@ -230,3 +228,4 @@ Automated tests must use `real_estate_test_db` (local) or `real_estate_ci_test_d
 | 0.1.0 | 2026-11-18 | DB-INIT-P1 Phase 0 — environment contract |
 | 0.2.0 | 2026-11-18 | Phase 1 — `application-test.yaml`, test DB provisioning |
 | 0.3.0 | 2026-11-18 | Phase 4 — CI `backend-ci.yml` contract, fixture / initializer split documented |
+| 0.3.1 | 2026-11-18 | GitGuardian — `CI_TEST_JWT_SECRET`, explicit local `JWT_SECRET`, no Java JWT fallback |

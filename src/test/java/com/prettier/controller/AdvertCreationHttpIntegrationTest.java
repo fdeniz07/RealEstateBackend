@@ -278,7 +278,7 @@ class AdvertCreationHttpIntegrationTest extends PostgresIntegrationTestSupport {
         assertThat(response.status()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
         JsonNode root = JSON.readTree(response.body());
         assertThat(root.path("path").asText()).isEqualTo(ADVERT_ADD_PATH);
-        assertThat(response.body()).doesNotContain(SHARED_TEST_JWT_SECRET_BASE64);
+        assertThat(response.body()).doesNotContain(resolvedJwtSecret());
     }
 
     @Test

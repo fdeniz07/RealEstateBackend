@@ -241,6 +241,8 @@ flowchart LR
 | Spring profile | `SPRING_PROFILES_ACTIVE=test` |
 | Database | `jdbc:postgresql://localhost:5432/real_estate_ci_test_db` (Postgres 16 service; **not** `real_estate_db`) |
 | Env (canonical) | `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`, `JWT_SECRET` |
+| CI JWT | Repository secret **`CI_TEST_JWT_SECRET`** → job `JWT_SECRET`; validated before Maven (not stored in repo) |
+| Local / Java JWT | **`JWT_SECRET` required** in environment; no hardcoded fallback in `PostgresIntegrationTestSupport` |
 | Fixture | `TestReferenceDataFixture` on profile `test`; `DataInitializer` **inactive** |
 | Command | `mvn -B clean test` (default Surefire; tests not skipped) |
 | Artifacts | `target/surefire-reports/` |
@@ -419,3 +421,4 @@ Do **not** duplicate CRA/Playwright toolchain detail here.
 | 0.2.0 | 2026-11-18 | DB-INIT-P1 Phase 0 — environment matrix, datasource contract, test isolation §15 |
 | 0.2.1 | 2026-11-18 | Phase 1 — `application-test.yaml`, env-first localhost datasource (doc cross-ref) |
 | 0.2.2 | 2026-11-18 | Phase 4 — CI `real_estate_ci_test_db`, profile `test`, canonical workflow env |
+| 0.2.3 | 2026-11-18 | GitGuardian remediation — `CI_TEST_JWT_SECRET`, required `JWT_SECRET` for integration tests |
