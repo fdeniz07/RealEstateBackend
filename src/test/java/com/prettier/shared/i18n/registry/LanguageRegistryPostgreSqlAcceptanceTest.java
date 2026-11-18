@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import com.prettier.test.support.PostgresIntegrationTestSupport;
 import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,27 +36,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(classes = RealEstateApplication.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
-class LanguageRegistryPostgreSqlAcceptanceTest {
+class LanguageRegistryPostgreSqlAcceptanceTest extends PostgresIntegrationTestSupport {
 
     private static final String TEMP_CHILD = "en-gb";
     private static final String TEMP_NO_UI = "xx-no-ui-acc";
     private static final String TEMP_NO_CONTENT = "xx-no-content-acc";
-
-    @DynamicPropertySource
-    static void registerDataSource(DynamicPropertyRegistry registry) {
-        String url =
-                System.getenv()
-                        .getOrDefault(
-                                "SPRING_DATASOURCE_URL",
-                                "jdbc:postgresql://localhost:5433/real_estate_db");
-        String username = System.getenv().getOrDefault("SPRING_DATASOURCE_USERNAME", "db_user");
-        String password = System.getenv().getOrDefault("SPRING_DATASOURCE_PASSWORD", "db_password");
-        registry.add("spring.datasource.url", () -> url);
-        registry.add("spring.datasource.username", () -> username);
-        registry.add("spring.datasource.password", () -> password);
-        registry.add("spring.jpa.hibernate.ddl-auto", () -> "validate");
-        registry.add("spring.flyway.enabled", () -> "true");
-    }
 
     @Autowired private Flyway flyway;
     @Autowired private LanguageRepository languageRepository;
@@ -254,6 +237,6 @@ class LanguageRegistryPostgreSqlAcceptanceTest {
 
     @Test
     void dataInitializerRemainsCompatibleAfterRegistryStartup() {
-        assertTrue(roleRepository.count() >= 1, "DataInitializer should seed roles on first startup");
+        assertTrue(roleRepository.count() >= 1, "Test reference data should seed roles on test startup");
     }
 }

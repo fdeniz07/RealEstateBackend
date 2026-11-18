@@ -27,8 +27,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import com.prettier.test.support.PostgresIntegrationTestSupport;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -41,23 +40,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SpringBootTest(classes = RealEstateApplication.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
-class AdvertCreateMultilingualIntegrationTest {
-
-    @DynamicPropertySource
-    static void registerDataSource(DynamicPropertyRegistry registry) {
-        String url =
-                System.getenv()
-                        .getOrDefault(
-                                "SPRING_DATASOURCE_URL",
-                                "jdbc:postgresql://localhost:5433/real_estate_db");
-        String username = System.getenv().getOrDefault("SPRING_DATASOURCE_USERNAME", "db_user");
-        String password = System.getenv().getOrDefault("SPRING_DATASOURCE_PASSWORD", "db_password");
-        registry.add("spring.datasource.url", () -> url);
-        registry.add("spring.datasource.username", () -> username);
-        registry.add("spring.datasource.password", () -> password);
-        registry.add("spring.jpa.hibernate.ddl-auto", () -> "validate");
-        registry.add("spring.flyway.enabled", () -> "true");
-    }
+class AdvertCreateMultilingualIntegrationTest extends PostgresIntegrationTestSupport {
 
     @Autowired private AdvertManager advertManager;
     @Autowired private AdvertRepository advertRepository;

@@ -23,8 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import com.prettier.test.support.PostgresIntegrationTestSupport;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
@@ -42,23 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(classes = RealEstateApplication.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
-class AdvertTranslationPostgreSqlAcceptanceTest {
-
-    @DynamicPropertySource
-    static void registerDataSource(DynamicPropertyRegistry registry) {
-        String url =
-                System.getenv()
-                        .getOrDefault(
-                                "SPRING_DATASOURCE_URL",
-                                "jdbc:postgresql://localhost:5433/real_estate_db");
-        String username = System.getenv().getOrDefault("SPRING_DATASOURCE_USERNAME", "db_user");
-        String password = System.getenv().getOrDefault("SPRING_DATASOURCE_PASSWORD", "db_password");
-        registry.add("spring.datasource.url", () -> url);
-        registry.add("spring.datasource.username", () -> username);
-        registry.add("spring.datasource.password", () -> password);
-        registry.add("spring.jpa.hibernate.ddl-auto", () -> "validate");
-        registry.add("spring.flyway.enabled", () -> "true");
-    }
+class AdvertTranslationPostgreSqlAcceptanceTest extends PostgresIntegrationTestSupport {
 
     @Autowired private Flyway flyway;
     @Autowired private JdbcTemplate jdbcTemplate;

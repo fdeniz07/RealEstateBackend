@@ -60,9 +60,11 @@ spring:
         format_sql: true
     open-in-view: true
   datasource:
-    url: "jdbc:postgresql://localhost:${POSTGRES_PORT}/${POSTGRES_DB}"
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    # Canonical: SPRING_DATASOURCE_* (see docs/04-development/LOCAL_ENV.md).
+    # Legacy fallbacks below apply only to profile localhost when canonical vars are unset (Compose .env).
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://127.0.0.1:${POSTGRES_PORT:5433}/${POSTGRES_DB:real_estate_db}}
+    username: ${SPRING_DATASOURCE_USERNAME:${POSTGRES_USER:db_user}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${POSTGRES_PASSWORD}}
   security:
     user:
       name: test

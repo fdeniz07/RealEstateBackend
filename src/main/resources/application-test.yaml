@@ -1,0 +1,32 @@
+# DB-INIT-P1 — profile `test` (local automated tests; CI uses same profile in Phase 4)
+# Datasource: canonical env only — no POSTGRES_* and no fallback to real_estate_db.
+# Required: SPRING_DATASOURCE_URL, SPRING_DATASOURCE_USERNAME, SPRING_DATASOURCE_PASSWORD
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  flyway:
+    enabled: true
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: false
+    open-in-view: true
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+backendapi:
+  app:
+    jwtSecret: ${JWT_SECRET}
+    jwtExpressionMS: 86400000
+
+prettier:
+  openapi:
+    dev-url: http://localhost:8080
+    prod-url: https://prettier.com

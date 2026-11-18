@@ -19,8 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import com.prettier.test.support.PostgresIntegrationTestSupport;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -35,15 +34,14 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * HTTP-level advert creation tests (B2.1 / B2.1.1) against the shared PostgreSQL 16 database.
+ * HTTP-level advert creation tests (B2.1 / B2.1.1) against PostgreSQL ({@code real_estate_test_db}).
  */
 @SpringBootTest(
         classes = RealEstateApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class AdvertCreationHttpIntegrationTest {
+class AdvertCreationHttpIntegrationTest extends PostgresIntegrationTestSupport {
 
-    private static final String TEST_JWT_SECRET_BASE64 = "cHJldHRpZXItand0LXRlc3Qtc2VjcmV0LTMyYnl0ZXMhIQ==";
     private static final String LOGIN_PATH = "/api/v1.0/auth/EN/login";
     private static final String SIGN_UP_PATH = "/api/v1.0/auth/EN/signUp";
     private static final String ADVERT_ADD_PATH = "/api/v1.0/adverts/EN/add";
@@ -51,24 +49,6 @@ class AdvertCreationHttpIntegrationTest {
     private static final String BUILTIN_ADMIN_PASSWORD = "P4ssword";
     private static final String CUSTOMER_PASSWORD = "TestPass1";
     private static final String MALFORMED_JWT = "not.a.valid.jwt";
-
-    @DynamicPropertySource
-    static void registerJwtAndDataSource(DynamicPropertyRegistry registry) {
-        String url =
-                System.getenv()
-                        .getOrDefault(
-                                "SPRING_DATASOURCE_URL",
-                                "jdbc:postgresql://localhost:5433/real_estate_db");
-        String username = System.getenv().getOrDefault("SPRING_DATASOURCE_USERNAME", "db_user");
-        String password = System.getenv().getOrDefault("SPRING_DATASOURCE_PASSWORD", "db_password");
-        registry.add("spring.datasource.url", () -> url);
-        registry.add("spring.datasource.username", () -> username);
-        registry.add("spring.datasource.password", () -> password);
-        registry.add("spring.jpa.hibernate.ddl-auto", () -> "validate");
-        registry.add("spring.flyway.enabled", () -> "true");
-        registry.add("backendapi.app.jwtSecret", () -> TEST_JWT_SECRET_BASE64);
-        registry.add("backendapi.app.jwtExpressionMS", () -> 86_400_000L);
-    }
 
     @LocalServerPort private int port;
 
@@ -298,7 +278,7 @@ class AdvertCreationHttpIntegrationTest {
         assertThat(response.status()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
         JsonNode root = JSON.readTree(response.body());
         assertThat(root.path("path").asText()).isEqualTo(ADVERT_ADD_PATH);
-        assertThat(response.body()).doesNotContain(TEST_JWT_SECRET_BASE64);
+        assertThat(response.body()).doesNotContain(SHARED_TEST_JWT_SECRET_BASE64);
     }
 
     @Test

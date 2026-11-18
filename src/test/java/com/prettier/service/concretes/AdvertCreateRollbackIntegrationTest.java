@@ -26,8 +26,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import com.prettier.test.support.PostgresIntegrationTestSupport;
 
 import java.util.Set;
 import java.util.UUID;
@@ -40,23 +39,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = RealEstateApplication.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class AdvertCreateRollbackIntegrationTest {
-
-    @DynamicPropertySource
-    static void registerDataSource(DynamicPropertyRegistry registry) {
-        String url =
-                System.getenv()
-                        .getOrDefault(
-                                "SPRING_DATASOURCE_URL",
-                                "jdbc:postgresql://localhost:5433/real_estate_db");
-        String username = System.getenv().getOrDefault("SPRING_DATASOURCE_USERNAME", "db_user");
-        String password = System.getenv().getOrDefault("SPRING_DATASOURCE_PASSWORD", "db_password");
-        registry.add("spring.datasource.url", () -> url);
-        registry.add("spring.datasource.username", () -> username);
-        registry.add("spring.datasource.password", () -> password);
-        registry.add("spring.jpa.hibernate.ddl-auto", () -> "validate");
-        registry.add("spring.flyway.enabled", () -> "true");
-    }
+class AdvertCreateRollbackIntegrationTest extends PostgresIntegrationTestSupport {
 
     @MockitoBean private AdvertTranslationRepository advertTranslationRepository;
 
