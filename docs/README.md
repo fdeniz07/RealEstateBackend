@@ -1,12 +1,12 @@
 ---
 document_id: RE-DOC-ROOT-001
 title: RealEstate — Documentation Hub
-version: 0.2.0
+version: 0.2.1
 status: draft
 language: en
 owner: RealEstate Project
 created_at: 2026-11-13
-updated_at: 2026-11-13
+updated_at: 2026-11-18
 source_references:
   - SRC-001
   - SRC-002
@@ -73,13 +73,14 @@ flowchart TB
 |------|-------|----------|
 | Backend artifact | `com.prettier:real-estate:1.0.0` | `pom.xml` (SRC-003) |
 | Java | 17 | `pom.xml` |
-| Spring Boot parent | 3.0.0 | `pom.xml` |
+| Spring Boot parent | 4.1.2 | `pom.xml` |
 | Database | PostgreSQL via JPA/Hibernate | `application.yaml` (SRC-004) |
 | API prefix | `api/v1.0` | Controllers (SRC-005) |
 | Auth | JWT, stateless | `SecurityFilterChainConfig` (SRC-006) |
-| OpenAPI | springdoc | `pom.xml`, Swagger UI screenshots |
-| Automated tests | Context load only | `RealEstateApplicationTests` (SRC-007) |
-| Git branch | `Fatih`, clean working tree | Stage 0 verification |
+| OpenAPI | springdoc 3.2.0 | `pom.xml`, Swagger UI screenshots |
+| Automated tests | Context load + PostgreSQL integration tests (`test` profile) | `RealEstateApplicationTests`, `PostgresIntegrationTestSupport` and related tests (SRC-007); see [TESTING-ARCHITECTURE.md](03-architecture/testing/TESTING-ARCHITECTURE.md) |
+
+**Historical git snapshot (Stage 0, 2026-11-13):** Documentation foundation verification recorded branch `Fatih` and a clean working tree ([SOURCE_REGISTER.md](00-governance/SOURCE_REGISTER.md) v0.1.0). That state is **LEGACY context only** — not current branch or working tree.
 
 ## Evidence legend
 
@@ -124,3 +125,4 @@ Screenshots from the existing backend README and Swagger are under `assets/scree
 | Version | Date | Summary |
 |---------|------|---------|
 | 0.1.0 | 2026-11-13 | Initial documentation foundation (Stages 0–5 initial delivery) |
+| 0.2.1 | 2026-11-18 | AS-IS baseline table: Spring Boot **4.1.2**, springdoc **3.2.0**, integration test snapshot aligned with `pom.xml`; Stage 0 git row moved to historical note |

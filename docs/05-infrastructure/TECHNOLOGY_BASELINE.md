@@ -1,7 +1,7 @@
 ---
 document_id: RE-TECH-001
 title: Technology Baseline and Target Compatibility
-version: 0.1.5
+version: 0.1.6
 status: draft
 language: en
 source_references:
@@ -15,7 +15,7 @@ source_references:
 
 ## AS-IS stack (verified)
 
-**Authority:** `pom.xml` at repo root (Spring Boot parent **4.1.2** as of 2026-11-18 inspection). **Drift:** `README.md` still says Boot 3.0; untracked `effective-pom-3516` reflects an older **3.5.16** effective POM — not current runtime. **Deployment detail:** [INFRASTRUCTURE-DEPLOYMENT-ARCHITECTURE.md](../03-architecture/infrastructure/INFRASTRUCTURE-DEPLOYMENT-ARCHITECTURE.md).
+**Authority:** `pom.xml` at repo root (Spring Boot parent **4.1.2** as of 2026-11-18 inspection). **Drift:** [docs/README.md](../README.md) AS-IS snapshot table aligned with this doc (v0.2.1); root showcase `README.md` lists Boot 4.1.2. Untracked `effective-pom-3516` (if present) reflects an older **3.5.16** effective POM — not current runtime. **Deployment detail:** [INFRASTRUCTURE-DEPLOYMENT-ARCHITECTURE.md](../03-architecture/infrastructure/INFRASTRUCTURE-DEPLOYMENT-ARCHITECTURE.md).
 
 | Component | Version | Source |
 |-----------|---------|--------|
@@ -95,3 +95,4 @@ RabbitMQ, Redis, Elasticsearch, SignalR, Docker — not in Backend `pom.xml` (SR
 | 0.1.0 | (initial) | AS-IS stack table |
 | 0.1.4 | 2026-11-18 | **Boot 4.1.2**, jjwt 0.12.7, springdoc 3.2.0, mvnw present; pom drift note; INFRA link (Group 10) |
 | 0.1.5 | 2026-11-18 | Frontend verified deps + link to FRONTEND-ARCHITECTURE (Group 12) |
+| 0.1.6 | 2026-11-18 | Drift note: `docs/README.md` baseline sync (Boot 4.1.2); remove stale root README Boot 3.0 drift |
