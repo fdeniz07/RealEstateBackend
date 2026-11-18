@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" role="img" aria-labelledby="title desc">
+  <title id="title">Property marketplace workflow</title>
+  <desc id="desc">Core B2C flows from browse to contact</desc>
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#0B1F3A"/>
+    </marker>
+  </defs>
+  <rect width="800" height="200" fill="#F8FAFC"/>
+  <text x="400" y="28" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600" fill="#0B1F3A">Product workflow (business intent)</text>
+  <rect x="24" y="60" width="110" height="56" rx="8" fill="#0B1F3A"/><text x="79" y="92" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="11">Register / login</text>
+  <rect x="154" y="60" width="110" height="56" rx="8" fill="#FFFFFF" stroke="#0B1F3A"/><text x="209" y="92" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11">Browse listings</text>
+  <rect x="284" y="60" width="110" height="56" rx="8" fill="#FFFFFF" stroke="#0B1F3A"/><text x="339" y="92" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11">Favorites</text>
+  <rect x="414" y="60" width="110" height="56" rx="8" fill="#FFFFFF" stroke="#0B1F3A"/><text x="469" y="92" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11">Tour request</text>
+  <rect x="544" y="60" width="110" height="56" rx="8" fill="#14B8A6"/><text x="599" y="92" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="11">Publish advert</text>
+  <rect x="674" y="60" width="110" height="56" rx="8" fill="#FFFFFF" stroke="#14B8A6"/><text x="729" y="92" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11">Messages</text>
+  <line x1="134" y1="88" x2="152" y2="88" stroke="#0B1F3A" marker-end="url(#a)"/>
+  <line x1="264" y1="88" x2="282" y2="88" stroke="#0B1F3A" marker-end="url(#a)"/>
+  <line x1="394" y1="88" x2="412" y2="88" stroke="#0B1F3A" marker-end="url(#a)"/>
+  <line x1="524" y1="88" x2="542" y2="88" stroke="#0B1F3A" marker-end="url(#a)"/>
+  <line x1="654" y1="88" x2="672" y2="88" stroke="#0B1F3A" marker-end="url(#a)"/>
+  <text x="400" y="150" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748B">AS-IS API coverage varies - see Project Status. Public anonymous catalog: IN PROGRESS (ADR-002).</text>
+  <text x="400" y="172" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748B">Staff hierarchy (Customer / Manager / Admin): partial AS-IS; reporting TO-BE</text>
+</svg>

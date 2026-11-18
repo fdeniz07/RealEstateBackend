@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" role="img" aria-labelledby="title desc">
+  <title id="title">Backend modular monolith</title>
+  <desc id="desc">Single deployable with TO-BE module boundaries and clean layers</desc>
+  <rect width="720" height="460" fill="#F1F5F9"/>
+  <text x="360" y="32" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="17" font-weight="600" fill="#0B1F3A">Backend - modular monolith (TO-BE direction)</text>
+  <text x="360" y="52" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#64748B">AS-IS: layered packages in one Spring Boot artifact (com.prettier:real-estate:1.0.0)</text>
+  <rect x="40" y="72" width="640" height="200" rx="10" fill="#0B1F3A" opacity="0.95"/>
+  <text x="360" y="98" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" fill="#14B8A6" font-weight="600">Logical modules (ADR-001)</text>
+  <g font-family="Segoe UI, sans-serif" font-size="10" fill="#E2E8F0">
+    <rect x="60" y="112" width="95" height="48" rx="6" fill="#1E3A5F" stroke="#14B8A6"/><text x="107" y="140" text-anchor="middle">identity</text>
+    <rect x="170" y="112" width="95" height="48" rx="6" fill="#1E3A5F" stroke="#14B8A6"/><text x="217" y="140" text-anchor="middle">catalog</text>
+    <rect x="280" y="112" width="95" height="48" rx="6" fill="#1E3A5F" stroke="#14B8A6"/><text x="327" y="140" text-anchor="middle">listing</text>
+    <rect x="390" y="112" width="95" height="48" rx="6" fill="#1E3A5F" stroke="#14B8A6"/><text x="437" y="140" text-anchor="middle">engagement</text>
+    <rect x="500" y="112" width="95" height="48" rx="6" fill="#1E3A5F" stroke="#14B8A6"/><text x="547" y="140" text-anchor="middle">communication</text>
+    <rect x="610" y="112" width="72" height="48" rx="6" fill="#1E3A5F" stroke="#64748B"/><text x="646" y="140" text-anchor="middle">platform</text>
+  </g>
+  <text x="360" y="188" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#94A3B8">Each module: API -&gt; Application -&gt; Domain &lt;- Infrastructure (ports/adapters)</text>
+  <rect x="40" y="288" width="150" height="44" rx="6" fill="#FFFFFF" stroke="#64748B"/>
+  <text x="115" y="315" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11">REST / OpenAPI</text>
+  <rect x="210" y="288" width="150" height="44" rx="6" fill="#FFFFFF" stroke="#64748B"/>
+  <text x="285" y="315" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11">JWT Security</text>
+  <rect x="380" y="288" width="150" height="44" rx="6" fill="#FFFFFF" stroke="#64748B"/>
+  <text x="455" y="315" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11">MapStruct DTOs</text>
+  <rect x="550" y="288" width="130" height="44" rx="6" fill="#FFFFFF" stroke="#64748B"/>
+  <text x="615" y="315" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11">Actuator</text>
+  <rect x="40" y="352" width="640" height="72" rx="8" fill="#E0F2F1" stroke="#14B8A6"/>
+  <text x="360" y="382" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#134E4A">PostgreSQL, Flyway, global exception handling, i18n path segment {language}</text>
+  <text x="360" y="404" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#64748B">Detail: docs/03-architecture/HLD/ and docs/03-architecture/database/</text>
+</svg>

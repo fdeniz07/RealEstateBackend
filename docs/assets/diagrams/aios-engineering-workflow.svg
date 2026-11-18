@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 220" role="img" aria-labelledby="title desc">
+  <title id="title">Engineering with AIOS</title>
+  <desc id="desc">Governance layer supports RDIV workflow in consumer repositories</desc>
+  <defs>
+    <marker id="m" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <rect width="780" height="220" fill="#F1F5F9"/>
+  <text x="390" y="30" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600" fill="#0B1F3A">AIOS engineering workflow (governance, not runtime)</text>
+  <rect x="30" y="55" width="140" height="120" rx="8" fill="#E2E8F0" stroke="#64748B" stroke-dasharray="6 3"/>
+  <text x="100" y="82" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#334155">AIOS Core</text>
+  <text x="100" y="108" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9" fill="#475569">AGENTS.md</text>
+  <text x="100" y="124" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9" fill="#475569">rules/ | RDIV</text>
+  <text x="100" y="140" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9" fill="#475569">aiosctl sync</text>
+  <rect x="200" y="70" width="100" height="48" rx="6" fill="#0B1F3A"/><text x="250" y="100" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="11">Review</text>
+  <rect x="330" y="70" width="100" height="48" rx="6" fill="#0B1F3A"/><text x="380" y="100" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="11">Decide</text>
+  <rect x="460" y="70" width="100" height="48" rx="6" fill="#14B8A6"/><text x="510" y="100" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="11">Implement</text>
+  <rect x="590" y="70" width="100" height="48" rx="6" fill="#0B1F3A"/><text x="640" y="100" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="11">Verify</text>
+  <line x1="300" y1="94" x2="328" y2="94" stroke="#64748B" marker-end="url(#m)"/>
+  <line x1="430" y1="94" x2="458" y2="94" stroke="#64748B" marker-end="url(#m)"/>
+  <line x1="560" y1="94" x2="588" y2="94" stroke="#64748B" marker-end="url(#m)"/>
+  <line x1="170" y1="115" x2="198" y2="94" stroke="#64748B" stroke-dasharray="4" marker-end="url(#m)"/>
+  <rect x="200" y="145" width="490" height="52" rx="6" fill="#FFFFFF" stroke="#0B1F3A"/>
+  <text x="445" y="168" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#334155">Consumer owns: BRD/FRD, ADRs, product code, CI, deployment</text>
+  <text x="445" y="186" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9" fill="#64748B">Backend docs/ tree is the engineering knowledge base for this repository</text>
+</svg>
