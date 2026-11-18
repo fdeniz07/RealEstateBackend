@@ -24,22 +24,25 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
+    # Canonical Spring test contract (DB-INIT-P1 Phase 4). Not production secrets.
     env:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/real_estate_db
+      SPRING_PROFILES_ACTIVE: test
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/real_estate_ci_test_db
       SPRING_DATASOURCE_USERNAME: db_user
       SPRING_DATASOURCE_PASSWORD: db_password
+      JWT_SECRET: cHJldHRpZXItand0LXRlc3Qtc2VjcmV0LTMyYnl0ZXMhIQ==
 
     services:
       postgres:
         image: postgres:16-alpine
         env:
-          POSTGRES_DB: real_estate_db
+          POSTGRES_DB: real_estate_ci_test_db
           POSTGRES_USER: db_user
           POSTGRES_PASSWORD: db_password
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U db_user -d real_estate_db"
+          --health-cmd "pg_isready -U db_user -d real_estate_ci_test_db"
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
