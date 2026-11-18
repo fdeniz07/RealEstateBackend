@@ -1,6 +1,7 @@
 package com.prettier.entity.concretes;
 
 import com.prettier.entity.abstracts.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -28,8 +29,10 @@ public class Country extends BaseEntity{
 
 
     @OneToMany(mappedBy = "country")
+    @JsonIgnore
     private Set<City> citySet;
 
     @OneToMany(mappedBy = "country")
+    @JsonIgnore
     private Set<Advert> advertSet;
 }

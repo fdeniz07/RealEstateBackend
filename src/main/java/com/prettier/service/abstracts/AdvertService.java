@@ -1,7 +1,7 @@
 package com.prettier.service.abstracts;
 
 import com.prettier.entity.concretes.Advert;
-import com.prettier.payloads.request.concretes.AdvertRequest;
+import com.prettier.payloads.request.concretes.AdvertCreateRequest;
 import com.prettier.payloads.request.concretes.AdvertUpdateRequest;
 import com.prettier.payloads.response.concretes.AdvertResponse;
 import com.prettier.shared.utils.enums.Language;
@@ -19,7 +19,7 @@ public interface AdvertService extends Serializable {
 
     AdvertResponse getByIdActive(Language language, Long id);
 
-    Advert add(Language language, AdvertRequest advertRequest);
+    Advert add(Language language, AdvertCreateRequest advertCreateRequest);
 
     Advert update(Language language, AdvertUpdateRequest advertUpdateRequest, Long id);
 
