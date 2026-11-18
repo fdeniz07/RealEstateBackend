@@ -1,6 +1,7 @@
 package com.prettier.shared.exception.globalExceptionHandling;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.prettier.shared.exception.commons.InvalidSlugException;
 import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.exceptions.adverts.*;
 import com.prettier.shared.exception.exceptions.auths.login.*;
@@ -12,6 +13,7 @@ import com.prettier.shared.exception.exceptions.countries.*;
 import com.prettier.shared.exception.exceptions.districts.*;
 import com.prettier.shared.exception.exceptions.tourRequests.*;
 import com.prettier.shared.utils.FriendlyMessageUtils;
+import com.prettier.shared.utils.enums.Language;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -78,6 +80,104 @@ public class GlobalExceptionHandler {
                 .friendlyMessage(FriendlyMessage.builder()
                         .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
                         .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .timeStamp(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(AdvertAlreadyExistsException.class)
+    public InternalApiResponse<String> handleAdvertAlreadyExistsException(AdvertAlreadyExistsException exception, HttpServletRequest request) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.CONFLICT)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .timeStamp(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(AdvertTypeNotFoundException.class)
+    public InternalApiResponse<String> handleAdvertTypeNotFoundException(AdvertTypeNotFoundException exception, HttpServletRequest request) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .timeStamp(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AdvertInvalidContentLanguageException.class)
+    public InternalApiResponse<String> handleAdvertInvalidContentLanguageException(
+            AdvertInvalidContentLanguageException exception, HttpServletRequest request) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .timeStamp(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AdvertInvalidLocationException.class)
+    public InternalApiResponse<String> handleAdvertInvalidLocationException(AdvertInvalidLocationException exception, HttpServletRequest request) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .timeStamp(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AdvertCreateForbiddenException.class)
+    public InternalApiResponse<String> handleAdvertCreateForbiddenException(
+            AdvertCreateForbiddenException exception, HttpServletRequest request) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.FORBIDDEN)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .timeStamp(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidSlugException.class)
+    public InternalApiResponse<String> handleInvalidSlugException(InvalidSlugException exception, HttpServletRequest request) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(Language.EN, FriendlyMessageCodes.ERROR))
+                        .description(exception.getMessage())
                         .build())
                 .httpStatus(HttpStatus.BAD_REQUEST)
                 .hasError(true)

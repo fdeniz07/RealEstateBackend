@@ -13,6 +13,7 @@
 | 2026-11-13 | DEC-006 listing states LEGACY enum; no Draft until PO | **partial** | PRODUCT_DECISIONS §7.4 open |
 | 2026-11-13 | **DEC-006 M1 public visibility V3** (ACTIVATED + isActive + not deleted) | **approved** (TASK-001) | ADR-002, PRODUCT_DECISIONS §7.5 |
 | 2026-11-13 | DEC-007 defer multilingual DB model | **superseded** | PRODUCT_DECISIONS §8 (v0.1.4) |
+| 2026-11-18 | **ADR-003** BFF reconciliation for auth Decisions 14 & 23 | **PROPOSED draft** | [ADR-003](../03-architecture/ADR/ADR-003-auth-token-bff-reconciliation.md) — does not amend Decision 14/23 until PO approves |
 | 2026-11-14 | **DEC-007 multilingual advert content** — Registry, AdvertTranslation, `de`/`tr`/`en`, language-scoped slugs, public 404 no fallback, published preservation | **approved** (ARCH-1) | [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) §8, [ADR-002](../03-architecture/ADR/ADR-002-public-read-api.md) v0.6.0, [ROADMAP.md](ROADMAP.md) v0.2.0 |
 
 Workshop package: [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) (TASK-010). **No PO approval recorded.**
@@ -27,3 +28,4 @@ Workshop package: [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) (TASK-010). **No 
 | 2026-11-13 | M1 architecture finalization package (TASK-016) | **proposal — PO review required** | [M1-PUBLIC-CATALOG-ARCHITECTURE-DECISIONS.md](M1-PUBLIC-CATALOG-ARCHITECTURE-DECISIONS.md); ADR-002 v0.4.0 **draft** |
 | 2026-11-13 | M1 implementation delivery plan (TASK-017-M1) | **approved baseline for execution** | [M1-IMPLEMENTATION-PLAN.md](M1-IMPLEMENTATION-PLAN.md) |
 | 2026-11-13 | **TASK-001:** M1 public catalog — seven PO decisions (P1, DTO B, V3, Model 2, identifiers, whitelist, rate limit) | **approved** | [ADR-002](../03-architecture/ADR/ADR-002-public-read-api.md) v0.5.0; IMPL-000 satisfied |
+| 2026-11-18 | **D-06** Favorite and Following Independence — engagement rules; Post-M1 scope | **owner-confirmed** (not formal **approved**) | [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) §11; FR-FAV-001, FR-FOLLOW-001 — **no approval date / workshop sign-off** in repository |

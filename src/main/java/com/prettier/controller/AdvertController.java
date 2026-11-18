@@ -2,7 +2,7 @@ package com.prettier.controller;
 
 import com.prettier.entity.concretes.Advert;
 import com.prettier.payloads.mapper.AdvertMapper;
-import com.prettier.payloads.request.concretes.AdvertRequest;
+import com.prettier.payloads.request.concretes.AdvertCreateRequest;
 import com.prettier.payloads.request.concretes.AdvertUpdateRequest;
 import com.prettier.shared.exception.globalExceptionHandling.FriendlyMessage;
 import com.prettier.shared.exception.globalExceptionHandling.InternalApiResponse;
@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -97,8 +98,9 @@ public class AdvertController {
      * @return An internal API response containing the created advertisement
      */
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @PostMapping(value = "/{language}/add")
-    public InternalApiResponse<AdvertResponse> addAdvert(@PathVariable("language") Language language, @RequestBody @Valid AdvertRequest advertRequest) {
+    public InternalApiResponse<AdvertResponse> addAdvert(@PathVariable("language") Language language, @RequestBody @Valid AdvertCreateRequest advertRequest) {
 
         log.debug("[{}][createAdvert] -> request: {}", this.getClass().getSimpleName(), advertRequest);
         Advert advert = advertService.add(language, advertRequest);

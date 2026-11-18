@@ -1,6 +1,7 @@
 package com.prettier.entity.concretes;
 
 import com.prettier.entity.abstracts.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -27,5 +28,6 @@ public class AdvertType extends BaseEntity{
 
     @OneToMany(mappedBy = "advertType")
     @ToString.Exclude
+    @JsonIgnore
     private Set<Advert> advertSet;
 }

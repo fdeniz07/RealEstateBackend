@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import com.prettier.test.support.PostgresIntegrationTestSupport;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,26 +20,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class LanguageRepositoryTest {
+class LanguageRepositoryTest extends PostgresIntegrationTestSupport {
 
   private static final String TEMP_CHILD = "en-gb";
   private static final String TEMP_INACTIVE = "xx-inactive";
   private static final String TEMP_NO_UI = "xx-no-ui";
   private static final String TEMP_NO_CONTENT = "xx-no-content";
-
-  @DynamicPropertySource
-  static void registerDataSource(DynamicPropertyRegistry registry) {
-    String url =
-        System.getenv()
-            .getOrDefault("SPRING_DATASOURCE_URL", "jdbc:postgresql://localhost:5433/real_estate_db");
-    String username = System.getenv().getOrDefault("SPRING_DATASOURCE_USERNAME", "db_user");
-    String password = System.getenv().getOrDefault("SPRING_DATASOURCE_PASSWORD", "db_password");
-    registry.add("spring.datasource.url", () -> url);
-    registry.add("spring.datasource.username", () -> username);
-    registry.add("spring.datasource.password", () -> password);
-    registry.add("spring.jpa.hibernate.ddl-auto", () -> "validate");
-    registry.add("spring.flyway.enabled", () -> "true");
-  }
 
   @Autowired private LanguageRepository languageRepository;
 

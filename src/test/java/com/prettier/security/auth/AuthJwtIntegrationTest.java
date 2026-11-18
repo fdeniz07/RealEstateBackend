@@ -3,7 +3,8 @@ package com.prettier.security.auth;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prettier.RealEstateApplication;
-import com.prettier.config.DataInitializer;
+import com.prettier.test.fixture.TestReferenceDataFixture;
+import com.prettier.test.support.PostgresIntegrationTestSupport;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.Test;
@@ -11,8 +12,6 @@ import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 
 import javax.crypto.SecretKey;
 import java.net.URI;
@@ -30,9 +29,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * HTTP-level JWT authentication integration tests (B1.3b-2).
  *
- * <p>Uses the built-in admin seeded by {@link DataInitializer} when the database is empty; credentials match
- * that initializer only (not printed in logs). JWT signing uses a runtime-generated test secret via
- * {@link #registerJwtAndDataSource(DynamicPropertyRegistry)}, not production {@code application.yaml} values.
+ * <p>Uses the built-in admin seeded by {@link TestReferenceDataFixture} under profile {@code test}; credentials match
+ * that fixture only (not printed in logs). JWT signing uses the shared test secret from
+ * {@link PostgresIntegrationTestSupport}, not production {@code application.yaml} values.
  *
  * <p>B1.4a JWT filter catches parse/user-load failures and continues the chain; protected-endpoint 401
  * responses must report the original URI in {@code path}, not {@code /error}.
@@ -44,50 +43,27 @@ import static org.assertj.core.api.Assertions.assertThat;
         classes = RealEstateApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class AuthJwtIntegrationTest {
+class AuthJwtIntegrationTest extends PostgresIntegrationTestSupport {
 
-    private static final byte[] TEST_KEY_BYTES = randomSigningKeyBytes();
+    private static SecretKey applicationSigningKey() {
+        return Keys.hmacShaKeyFor(Base64.getDecoder().decode(resolvedJwtSecret()));
+    }
 
-    private static final String TEST_JWT_SECRET_BASE64 =
-            Base64.getEncoder().encodeToString(TEST_KEY_BYTES);
+    private static SecretKey mismatchSigningKey() {
+        return distinctHs256Key(applicationSigningKey());
+    }
 
-    private static final SecretKey APPLICATION_TEST_SIGNING_KEY = Keys.hmacShaKeyFor(TEST_KEY_BYTES);
-
-    private static final SecretKey MISMATCH_SIGNING_KEY = distinctHs256Key(APPLICATION_TEST_SIGNING_KEY);
-
-    private static final String MISMATCH_KEY_BASE64_FOR_LEAK_ASSERT =
-            Base64.getEncoder().encodeToString(MISMATCH_SIGNING_KEY.getEncoded());
+    private static String mismatchKeyBase64ForLeakAssert() {
+        return Base64.getEncoder().encodeToString(mismatchSigningKey().getEncoded());
+    }
 
     private static final String PROTECTED_ROLES_PATH = "/api/v1.0/roles/EN/roles";
     private static final String LOGIN_PATH = "/api/v1.0/auth/EN/login";
 
-    /** Email of the built-in admin from {@link DataInitializer}. */
-    private static final String BUILTIN_ADMIN_EMAIL = "admin@mail.com";
-
-    /**
-     * Password for the built-in admin; defined in {@link DataInitializer} source (read-only login use).
-     */
-    private static final String BUILTIN_ADMIN_PASSWORD = "P4ssword";
+    private static final String BUILTIN_ADMIN_EMAIL = TestReferenceDataFixture.BUILTIN_ADMIN_EMAIL;
+    private static final String BUILTIN_ADMIN_PASSWORD = TestReferenceDataFixture.BUILTIN_ADMIN_PASSWORD;
 
     private static final String MALFORMED_JWT = "not.a.valid.jwt";
-
-    @DynamicPropertySource
-    static void registerJwtAndDataSource(DynamicPropertyRegistry registry) {
-        String url =
-                System.getenv()
-                        .getOrDefault(
-                                "SPRING_DATASOURCE_URL",
-                                "jdbc:postgresql://localhost:5433/real_estate_db");
-        String username = System.getenv().getOrDefault("SPRING_DATASOURCE_USERNAME", "db_user");
-        String password = System.getenv().getOrDefault("SPRING_DATASOURCE_PASSWORD", "db_password");
-        registry.add("spring.datasource.url", () -> url);
-        registry.add("spring.datasource.username", () -> username);
-        registry.add("spring.datasource.password", () -> password);
-        registry.add("spring.jpa.hibernate.ddl-auto", () -> "validate");
-        registry.add("spring.flyway.enabled", () -> "true");
-        registry.add("backendapi.app.jwtSecret", () -> TEST_JWT_SECRET_BASE64);
-        registry.add("backendapi.app.jwtExpressionMS", () -> 86_400_000L);
-    }
 
     @LocalServerPort private int port;
 
@@ -146,7 +122,7 @@ class AuthJwtIntegrationTest {
     @Test
     void expiredJwt_signedWithTestKey_returnsUnauthorizedWithErrorEnvelope() throws Exception {
         String expiredToken =
-                buildHs256Token(BUILTIN_ADMIN_EMAIL, APPLICATION_TEST_SIGNING_KEY, -60_000L);
+                buildHs256Token(BUILTIN_ADMIN_EMAIL, applicationSigningKey(), -60_000L);
 
         HttpResult response = getRoles("Bearer " + expiredToken);
 
@@ -156,7 +132,7 @@ class AuthJwtIntegrationTest {
     @Test
     void invalidSignatureJwt_returnsUnauthorizedWithOriginalPath() throws Exception {
         String mismatchedToken =
-                buildHs256Token(BUILTIN_ADMIN_EMAIL, MISMATCH_SIGNING_KEY, 86_400_000L);
+                buildHs256Token(BUILTIN_ADMIN_EMAIL, mismatchSigningKey(), 86_400_000L);
 
         HttpResult response = getRoles("Bearer " + mismatchedToken);
 
@@ -216,8 +192,8 @@ class AuthJwtIntegrationTest {
         assertUnauthorizedInternalApiResponse(root);
         assertThat(root.path("path").asText()).isEqualTo(PROTECTED_ROLES_PATH);
         assertThat(root.path("path").asText()).isNotEqualTo("/error");
-        assertThat(response.body()).doesNotContain(TEST_JWT_SECRET_BASE64);
-        assertThat(response.body()).doesNotContain(MISMATCH_KEY_BASE64_FOR_LEAK_ASSERT);
+        assertThat(response.body()).doesNotContain(resolvedJwtSecret());
+        assertThat(response.body()).doesNotContain(mismatchKeyBase64ForLeakAssert());
     }
 
     private static void assertUnauthorizedInternalApiResponse(JsonNode root) {
@@ -231,7 +207,7 @@ class AuthJwtIntegrationTest {
 
     private static String parseSubject(String token) {
         return Jwts.parser()
-                .verifyWith(APPLICATION_TEST_SIGNING_KEY)
+                .verifyWith(applicationSigningKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
@@ -248,12 +224,6 @@ class AuthJwtIntegrationTest {
                 .expiration(new Date(now + expirationOffsetMs))
                 .signWith(signingKey, Jwts.SIG.HS256)
                 .compact();
-    }
-
-    private static byte[] randomSigningKeyBytes() {
-        byte[] bytes = new byte[32];
-        new SecureRandom().nextBytes(bytes);
-        return bytes;
     }
 
     private static SecretKey distinctHs256Key(SecretKey applicationKey) {

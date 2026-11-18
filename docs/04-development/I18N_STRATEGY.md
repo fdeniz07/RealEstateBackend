@@ -1,13 +1,15 @@
 ---
 document_id: RE-I18N-001
 title: Internationalization Strategy
-version: 0.2.1
+version: 0.2.2
 status: draft
 language: en
-updated_at: 2026-11-15
+updated_at: 2026-11-18
 ---
 
 # I18n Strategy
+
+**Canonical architecture (Group 8):** [I18N-L10N-ARCHITECTURE.md](../03-architecture/i18n/I18N-L10N-ARCHITECTURE.md). **Language Registry** specification: [LANGUAGE-REGISTRY-DESIGN.md](../03-architecture/domain/LANGUAGE-REGISTRY-DESIGN.md) — **do not duplicate**.
 
 Three concerns: **UI**, **API messages**, **domain content**.
 
@@ -67,3 +69,10 @@ Further languages: registry data/configuration without per-language schema colum
 ### Registry runtime (M1 — implemented)
 
 Backend **Language Registry** (DEC-007 foundation): Flyway `languages` seed, `LanguageRegistryService` snapshot, `ApplicationReadyEvent` initial load, capabilities `UI_MESSAGE` / `ADVERT_CONTENT`. Controllers and legacy `Language` enum are **not** migrated yet. Details: [LANGUAGE-REGISTRY-M1-IMPLEMENTATION-STATUS.md](../03-architecture/domain/LANGUAGE-REGISTRY-M1-IMPLEMENTATION-STATUS.md).
+
+## Change history
+
+| Version | Date | Summary |
+|---------|------|---------|
+| 0.2.1 | 2026-11-15 | Registry M1 runtime note |
+| 0.2.2 | 2026-11-18 | Link I18N-L10N-ARCHITECTURE; canonical pointer (Group 8) |

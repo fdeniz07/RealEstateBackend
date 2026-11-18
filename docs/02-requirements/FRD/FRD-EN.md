@@ -1,12 +1,12 @@
 ---
 document_id: RE-FRD-001
 title: Functional Requirements Document
-version: 0.2.0
+version: 0.2.1
 status: draft
 language: en
 owner: RealEstate Project
 created_at: 2026-11-13
-updated_at: 2026-11-13
+updated_at: 2026-11-18
 source_references:
   - SRC-008-PDF
   - LEGACY_API_TO_FR_MATRIX
@@ -14,12 +14,12 @@ source_references:
 
 # Functional Requirements Document (v0.2.0)
 
-TASK-008 reconciliation: **35** functional requirements mapped to **70** LEGACY API codes.
+TASK-008 reconciliation: **36** functional requirements (**35** LEGACY-mapped + **1** product/TO-BE); **70** LEGACY API codes.
 
 ```mermaid
 flowchart TB
   PDF[SRC-008-PDF 70 codes] --> M[LEGACY_API_TO_FR_MATRIX]
-  M --> FR[FRD 35 requirements]
+  M --> FR[FRD 36 requirements]
   FR --> API[API-INVENTORY AS-IS]
 ```
 
@@ -54,6 +54,7 @@ flowchart TB
 | FR-TOUR-001 | Tour request CRUD & lists | LEGACY |
 | FR-TOUR-002 | Tour approve decline cancel | LEGACY |
 | FR-FAV-001 | Favorites management | LEGACY/partial |
+| FR-FOLLOW-001 | Advert following | Product / TO-BE |
 | FR-CNT-001 | Contact messages | Partial |
 | FR-MED-001 | Property images | LEGACY |
 | FR-RPT-001 | Operations dashboard | LEGACY |
@@ -579,17 +580,44 @@ flowchart TB
 | **Actor** | Customer+ |
 | **Legacy API IDs** | K01-K06 |
 | **PDF pages** | 98-103 |
-| **Implementation status** | FavoriteController partial |
+| **Implementation status** | FavoriteController partial — **does not** demonstrate full D-06 product rules |
+| **Related product decision** | **D-06** — [PRODUCT_DECISIONS.md](../../08-project-management/PRODUCT_DECISIONS.md) §11 |
 | **Related entities** | Favorite |
 | **Related tests** | TEST-FAV-01 (proposed in TEST_STRATEGY) |
 | **Task** | TASK-003 |
-| **Business rationale** | Aligns marketplace listing and engagement per SRC-008-PDF; see [LEGACY_API_TO_FR_MATRIX.md](LEGACY_API_TO_FR_MATRIX.md). |
+| **Release scope** | Post-M1 / Release TBD for D-06-complete behavior; TASK-003 addresses LEGACY API parity separately |
+| **Business rationale** | Aligns marketplace listing and engagement per SRC-008-PDF; see [LEGACY_API_TO_FR_MATRIX.md](LEGACY_API_TO_FR_MATRIX.md). **D-06** extends engagement semantics independent of Following. |
 | **Preconditions** | Valid payload; auth per AS-IS JWT unless ADR-002 approved. |
 | **Main flow** | User or system invokes mapped LEGACY endpoint behavior; AS-IS uses `api/v1.0/{language}/...` where implemented. |
 | **Alternative flows** | Paging/filter variants per PDF query params (LEGACY). |
 | **Exception flows** | Validation errors via `GlobalExceptionHandler`; 401 if JWT required. |
-| **Business rules** | See LEGACY analysis §7; built_in and status rules where applicable. |
-| **Acceptance criteria** | Behavior matches row in matrix for this FR; no undocumented endpoints. |
+| **Business rules** | LEGACY: see LEGACY analysis §7. **D-06 (owner-confirmed):** Favorite is **independent** of Following; Following is **not** a prerequisite for Favorite; unfollowing must **not** remove Favorite; Favorite relationships are **retained** when an advert is inactive or soft-deleted (relationship persistence — **does not** imply advert visibility/UI access; see D-06 OQ-4). |
+| **Open matters (D-06)** | Following eligibility (OQ-1), hard-delete (OQ-2), notifications (OQ-3, outside D-06), UI for inactive/soft-deleted adverts (OQ-4). |
+| **Acceptance criteria** | LEGACY rows in matrix where implemented; when D-06 is in scope for a release, behavior must satisfy D-06 confirmed rules — **not** claimed satisfied by current partial AS-IS. |
+
+
+### FR-FOLLOW-001 — Advert following
+
+| Attribute | Value |
+|-----------|-------|
+| **Classification** | Product / TO-BE |
+| **Release scope** | Post-M1 / Release TBD |
+| **Related product decision** | **D-06** — [PRODUCT_DECISIONS.md](../../08-project-management/PRODUCT_DECISIONS.md) §11 |
+| **Actor** | Customer+ (exact role matrix **TBD** with DEC-002) |
+| **Legacy API IDs** | — (no LEGACY API mapping in repository) |
+| **PDF pages** | — |
+| **Implementation status** | **Not implemented** — no `Following` entity or API in AS-IS |
+| **Related entities** | Following (**not** in AS-IS schema) |
+| **Related tests** | — |
+| **Task** | — (pending; Post-M1 — no TASK created in D-06 doc phase) |
+| **Business rationale** | Project Owner-confirmed engagement capability; independent of Favorite per **D-06**. |
+| **Preconditions** | Authenticated user; advert reference. **Following eligibility unresolved (D-06 OQ-1).** |
+| **Main flow** | User **follows** an advert; user **unfollows** an advert; user **views** followed adverts. |
+| **Alternative flows** | — |
+| **Exception flows** | To be defined with implementation; auth per AS-IS JWT unless superseded. |
+| **Business rules** | **D-06 (owner-confirmed):** Following is **independent** of Favorite; Following does **not** require Favorite; **unfollowing does not affect** Favorite; Following relationships are **retained** when an advert is inactive or soft-deleted (persistence only — UI **open**, OQ-4). **Open:** physical hard-delete behavior (OQ-2); **notifications deferred** outside D-06 (OQ-3). |
+| **Open matters (D-06)** | OQ-1 eligibility; OQ-2 hard-delete; OQ-3 notifications (deferred); OQ-4 UI representation. |
+| **Acceptance criteria** | To be defined when implementation is scheduled; must satisfy **D-06** confirmed rules where applicable. |
 
 
 ### FR-CNT-001 — Contact messages
@@ -807,3 +835,4 @@ flowchart TB
 | Version | Date | Summary |
 |---------|------|--------|
 | 0.2.0 | 2026-11-13 | TASK-008 expansion |
+| 0.2.1 | 2026-11-18 | **D-06:** FR-FAV-001 product rules; **FR-FOLLOW-001** (Product / TO-BE, Post-M1) |

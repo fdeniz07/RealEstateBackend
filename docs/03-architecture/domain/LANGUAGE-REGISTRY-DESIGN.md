@@ -15,6 +15,7 @@ related_adr:
 related_documents:
   - PRODUCT_DECISIONS.md
   - I18N_STRATEGY.md
+  - I18N-L10N-ARCHITECTURE.md
   - ROADMAP.md
   - M1-IMPLEMENTATION-PLAN.md
 ---

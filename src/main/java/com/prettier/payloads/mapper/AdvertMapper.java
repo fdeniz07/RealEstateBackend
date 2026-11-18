@@ -2,6 +2,7 @@ package com.prettier.payloads.mapper;
 
 import com.prettier.config.MapStructConfig;
 import com.prettier.entity.concretes.Advert;
+import com.prettier.payloads.request.concretes.AdvertCreateRequest;
 import com.prettier.payloads.request.concretes.AdvertRequest;
 import com.prettier.payloads.request.concretes.AdvertUpdateRequest;
 import com.prettier.payloads.response.concretes.AdvertResponse;
@@ -17,6 +18,27 @@ public interface AdvertMapper {
     AdvertMapper INSTANCE = Mappers.getMapper(AdvertMapper.class);
 
     Advert toAdvert(AdvertRequest advertRequest);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "slug", ignore = true)
+    @Mapping(target = "advertStatus", ignore = true)
+    @Mapping(target = "isActive", ignore = true)
+    @Mapping(target = "viewCount", ignore = true)
+    @Mapping(target = "builtIn", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "advertType", ignore = true)
+    @Mapping(target = "country", ignore = true)
+    @Mapping(target = "city", ignore = true)
+    @Mapping(target = "district", ignore = true)
+    @Mapping(target = "category", ignore = true)
+    @Mapping(target = "favoriteSet", ignore = true)
+    @Mapping(target = "imageSet", ignore = true)
+    @Mapping(target = "tourRequestSet", ignore = true)
+    @Mapping(target = "logSet", ignore = true)
+    @Mapping(target = "categoryPropertyValueSet", ignore = true)
+    @Mapping(target = "sourceLanguage", ignore = true)
+    @Mapping(target = "translations", ignore = true)
+    Advert toAdvert(AdvertCreateRequest advertCreateRequest);
 
     AdvertResponse toResponse(Advert advert);
 
