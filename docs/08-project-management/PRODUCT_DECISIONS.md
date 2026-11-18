@@ -1,12 +1,12 @@
 ---
 document_id: RE-PM-DEC-WS-001
 title: Product & Architecture Decision Workshop Package
-version: 0.1.5
+version: 0.1.6
 status: draft
 language: en
 owner: RealEstate Project
 created_at: 2026-11-13
-updated_at: 2026-11-14
+updated_at: 2026-11-18
 baseline: docs v0.2.0 (BRD/FRD/FR matrix)
 task: TASK-010
 source_references:
@@ -62,6 +62,16 @@ flowchart TB
 ```
 
 **Figure RE-FIG-DEC-WS-001** — Workshop input/output map.
+
+### 1.1 Non-DEC product decisions (separate ID namespace)
+
+Workshop register **§1** uses **DEC-001 … DEC-007**. The following IDs are **product decisions outside that numeric series** — do not conflate **D-06** with **DEC-006** (listing lifecycle).
+
+| ID | Title | Domain | Related FR | Scope | PO status |
+|----|-------|--------|------------|-------|-----------|
+| **D-06** | Favorite and Following Independence | Advert Engagement | [FR-FAV-001](../02-requirements/FRD/FRD-EN.md), [FR-FOLLOW-001](../02-requirements/FRD/FRD-EN.md) | Later / Post-M1 / Release TBD | **Owner-confirmed** — not formal workshop **Approved**; no approval date in repository |
+
+Full record: **§11**.
 
 ---
 
@@ -530,7 +540,46 @@ flowchart LR
 
 ---
 
-## 11. Change history
+## 11. D-06 — Favorite and Following Independence
+
+| Field | Value |
+|-------|--------|
+| **Decision ID** | **D-06** (not DEC-006) |
+| **Title** | Favorite and Following Independence |
+| **Domain** | Advert Engagement |
+| **Scope** | Later / Post-M1 / Release TBD |
+| **Related FR** | [FR-FAV-001](../02-requirements/FRD/FRD-EN.md), [FR-FOLLOW-001](../02-requirements/FRD/FRD-EN.md) |
+| **PO status** | **Owner-confirmed** — preferences recorded in documentation; **not** labeled **Approved** like TASK-001 / ARCH-1 entries; **no formal approval date** in this repository |
+| **Implementation** | **Not complete** — AS-IS `Favorite` partial only; **Following** not in schema or API |
+
+**Cross-reference:** Listing visibility and status rules remain under **DEC-006** and **ADR-002**; D-06 governs **engagement relationships**, not public catalog gates.
+
+### 11.1 Confirmed product rules
+
+1. A user may **Favorite** an advert without **Following** it.
+2. A user may **Follow** an advert without **Favoriting** it.
+3. A user may both **Favorite** and **Follow** the same advert.
+4. **Unfollowing** an advert must **never** remove its **Favorite** relationship.
+5. **Inactivation** of an advert must **not** automatically remove **Favorite** or **Following** relationships.
+6. **Soft deletion** of an advert must **not** automatically remove **Favorite** or **Following** relationships.
+7. **Following eligibility** for different advert statuses remains **unresolved**.
+8. **Physical hard-delete** behavior remains subject to **technical clarification**.
+9. **Following notifications** are **not** part of the current D-06 scope (deferred; separate decision later).
+
+**Note:** Retaining a relationship does **not** imply that the advert remains **visible** or **accessible** in the UI; UI behavior is **separate** and **open** (OQ-4).
+
+### 11.2 Open questions (unresolved — do not implement as decided)
+
+| ID | Topic |
+|----|--------|
+| **OQ-1** | **Following eligibility** by advert status and visibility (coordinate with **DEC-006** / V3 only by cross-reference; do not merge decisions). |
+| **OQ-2** | **Physical hard-delete** — relationship retention, orphan handling, or blocking delete (product intent + technical design). |
+| **OQ-3** | **Following notifications** — deferred; **outside** current D-06 scope. |
+| **OQ-4** | **UI representation** of Favorite/Following for inactive or soft-deleted adverts (distinct from relationship persistence). |
+
+---
+
+## 12. Change history
 
 | Version | Date | Summary |
 |---------|------|---------|
@@ -540,3 +589,4 @@ flowchart LR
 | 0.1.3 | 2026-11-13 | TASK-013-A: PO approved DEC-001-ANONYMOUS-CATALOG (M1 list + detail) |
 | 0.1.4 | 2026-11-13 | TASK-001: DEC-001 M1 baseline §2.5.1; DEC-006 M1 public gate §7.5 |
 | 0.1.5 | 2026-11-14 | **ARCH-1:** DEC-007 multilingual advert content **approved**; slug per language; public 404 no fallback; M1/M2 scope |
+| 0.1.6 | 2026-11-18 | **D-06** Favorite and Following Independence — **owner-confirmed**; §1.1 register; FR-FAV-001 / FR-FOLLOW-001 traceability |

@@ -1,12 +1,12 @@
 ---
 document_id: RE-FRD-002
 title: Fonksiyonel Gereksinimler Dokümanı
-version: 0.2.0
+version: 0.2.1
 status: draft
 language: tr
 owner: RealEstate Project
 created_at: 2026-11-13
-updated_at: 2026-11-13
+updated_at: 2026-11-18
 source_references:
   - SRC-008-PDF
   - LEGACY_API_TO_FR_MATRIX
@@ -14,12 +14,12 @@ source_references:
 
 # Fonksiyonel Gereksinimler Dokümanı (v0.2.0)
 
-TASK-008 reconciliation: **35** functional requirements mapped to **70** LEGACY API codes.
+TASK-008 reconciliation: **36** functional requirements (**35** LEGACY-mapped + **1** product/TO-BE); **70** LEGACY API codes.
 
 ```mermaid
 flowchart TB
   PDF[SRC-008-PDF 70 codes] --> M[LEGACY_API_TO_FR_MATRIX]
-  M --> FR[FRD 35 requirements]
+  M --> FR[FRD 36 requirements]
   FR --> API[API-INVENTORY AS-IS]
 ```
 
@@ -54,6 +54,7 @@ flowchart TB
 | FR-TOUR-001 | Tur talebi CRUD | LEGACY |
 | FR-TOUR-002 | Tur onay/red/iptal | LEGACY |
 | FR-FAV-001 | Favoriler | LEGACY/partial |
+| FR-FOLLOW-001 | İlan takibi (Following) | Product / TO-BE |
 | FR-CNT-001 | İletişim mesajları | Partial |
 | FR-MED-001 | İlan görselleri | LEGACY |
 | FR-RPT-001 | Operasyon panosu | LEGACY |
@@ -579,17 +580,44 @@ flowchart TB
 | **Actor** | Customer+ |
 | **Legacy API IDs** | K01-K06 |
 | **PDF pages** | 98-103 |
-| **Implementation status** | FavoriteController partial |
+| **Implementation status** | FavoriteController kısmi — D-06 ürün kurallarının **tamamını** karşıladığı **iddia edilmez** |
+| **Related product decision** | **D-06** — [PRODUCT_DECISIONS.md](../../08-project-management/PRODUCT_DECISIONS.md) §11 |
 | **Related entities** | Favorite |
 | **Related tests** | TEST-FAV-01 (proposed in TEST_STRATEGY) |
 | **Task** | TASK-003 |
-| **İş gerekçesi** | Aligns marketplace listing and engagement per SRC-008-PDF; see [LEGACY_API_TO_FR_MATRIX.md](LEGACY_API_TO_FR_MATRIX.md). |
+| **Release scope** | D-06 tam davranış: Post-M1 / Release TBD; TASK-003 LEGACY API parity için ayrı |
+| **İş gerekçesi** | SRC-008-PDF / [LEGACY_API_TO_FR_MATRIX.md](LEGACY_API_TO_FR_MATRIX.md). **D-06:** Favorite, Following'den bağımsız. |
 | **Preconditions** | Valid payload; auth per AS-IS JWT unless ADR-002 approved. |
-| **Ana akış** | User or system invokes mapped LEGACY endpoint behavior; AS-IS uses `api/v1.0/{language}/...` where implemented. |
-| **Alternative flows** | Paging/filter variants per PDF query params (LEGACY). |
-| **Exception flows** | Validation errors via `GlobalExceptionHandler`; 401 if JWT required. |
-| **Business rules** | See LEGACY analysis §7; built_in and status rules where applicable. |
-| **Acceptance criteria** | Behavior matches row in matrix for this FR; no undocumented endpoints. |
+| **Ana akış** | LEGACY uç davranışı; AS-IS `api/v1.0/{language}/...` (uygulandığı yerde). |
+| **Alternative flows** | PDF sayfalama/filtre varyantları (LEGACY). |
+| **Exception flows** | `GlobalExceptionHandler`; JWT gerekirse 401. |
+| **Business rules** | LEGACY: analysis §7. **D-06 (sahip onaylı):** Favorite, Following'den **bağımsız**; Following önkoşul **değil**; unfollow Favorite **silmez**; inactive/soft-deleted ilanda Favorite ilişkisi **korunur** (ilişki kalıcılığı — ilanın UI'da görünür/erişilebilir olduğu **anlamına gelmez**; D-06 OQ-4). |
+| **Open matters (D-06)** | OQ-1 eligibility; OQ-2 hard-delete; OQ-3 bildirimler (D-06 dışı); OQ-4 UI. |
+| **Acceptance criteria** | Matriste uygulanan LEGACY satırları; D-06 kapsamındaki sürümlerde D-06 kuralları — mevcut kısmi AS-IS ile **kanıtlanmış sayılmaz**. |
+
+
+### FR-FOLLOW-001 — İlan takibi (Following)
+
+| Attribute | Value |
+|-----------|-------|
+| **Classification** | Product / TO-BE |
+| **Release scope** | Post-M1 / Release TBD |
+| **Related product decision** | **D-06** — [PRODUCT_DECISIONS.md](../../08-project-management/PRODUCT_DECISIONS.md) §11 |
+| **Actor** | Customer+ (rol matrisi DEC-002 ile **TBD**) |
+| **Legacy API IDs** | — (repoda LEGACY eşlemesi yok) |
+| **PDF pages** | — |
+| **Implementation status** | **Uygulanmadı** — AS-IS'te `Following` yok |
+| **Related entities** | Following (şemada yok) |
+| **Related tests** | — |
+| **Task** | — (beklemede; Post-M1) |
+| **İş gerekçesi** | Proje Sahibi onaylı engagement; Favorite'dan bağımsız (**D-06**). |
+| **Preconditions** | Kimlik doğrulamalı kullanıcı; ilan referansı. **Takip uygunluğu çözülmedi (D-06 OQ-1).** |
+| **Ana akış** | Kullanıcı ilanı **takip eder**; **takibi bırakır**; takip edilen ilanları **listeler**. |
+| **Alternative flows** | — |
+| **Exception flows** | Uygulama ile tanımlanacak; AS-IS JWT. |
+| **Business rules** | **D-06:** Following Favorite'dan **bağımsız**; Favorite **gerekmez**; unfollow Favorite **etkilemez**; inactive/soft-deleted ilanda ilişki **korunur** (yalnız kalıcılık — UI OQ-4). **Açık:** hard-delete (OQ-2); bildirimler D-06 **dışı** (OQ-3). |
+| **Open matters (D-06)** | OQ-1, OQ-2, OQ-3, OQ-4. |
+| **Acceptance criteria** | Uygulama planlandığında tanımlanacak; **D-06** onaylı kurallara uygun olmalı. |
 
 
 ### FR-CNT-001 — İletişim mesajları
@@ -807,3 +835,4 @@ flowchart TB
 | Version | Date | Summary |
 |---------|------|--------|
 | 0.2.0 | 2026-11-13 | TASK-008 expansion |
+| 0.2.1 | 2026-11-18 | **D-06:** FR-FAV-001 ürün kuralları; **FR-FOLLOW-001** (Product / TO-BE, Post-M1) |
