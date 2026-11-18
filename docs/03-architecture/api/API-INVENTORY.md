@@ -1,12 +1,12 @@
 ---
 document_id: RE-API-INV-001
 title: REST API Inventory
-version: 0.1.0
+version: 0.2.0
 status: draft
 language: en
 owner: RealEstate Project
 created_at: 2026-11-13
-updated_at: 2026-11-13
+updated_at: 2026-11-18
 source_references:
   - SRC-005
   - SRC-006
@@ -14,9 +14,11 @@ source_references:
 
 # REST API Inventory (AS-IS)
 
-**M1 public catalog target design (proposal, not implemented):** [PUBLIC-CATALOG-API-DESIGN.md](PUBLIC-CATALOG-API-DESIGN.md) (TASK-015).
+**Conventions and TO-BE contract:** [API-ARCHITECTURE.md](API-ARCHITECTURE.md). **Public catalog (approved ADR-002):** [PUBLIC-CATALOG-API-DESIGN.md](PUBLIC-CATALOG-API-DESIGN.md). **Errors:** [ERROR_HANDLING.md](../../04-development/ERROR_HANDLING.md).
 
-Base path pattern: `http://{host}:8080/api/v1.0/...`
+**M1 public catalog implementation:** design approved via ADR-002; Java endpoints **not fully implemented** AS-IS.
+
+Base path pattern: `http://{host}:8080/api/v1.0/...` (APPROVED long-term target: `/api/v1/` — see [API_VERSIONING.md](../../04-development/API_VERSIONING.md))
 
 **Default auth:** JWT required except `POST /api/v1.0/auth/**`, limited `POST /api/v1.0/users`, whitelist static/swagger/actuator (see security doc).
 
@@ -136,7 +138,14 @@ Includes inbox, sent, read/unread, draft, trash, important, spam lists; get by i
 
 ## Error model (AS-IS)
 
-`GlobalExceptionHandler` produces `ApiErrorResponse` with `FriendlyMessage` localization support — see [ERROR_HANDLING.md](../../04-development/ERROR_HANDLING.md).
+`GlobalExceptionHandler` produces `InternalApiResponse` and `ApiErrorResponse` (validation) with `FriendlyMessage` / `FriendlyMessageCodes` — see [ERROR_HANDLING.md](../../04-development/ERROR_HANDLING.md). **TO-BE:** RFC 9457 Problem Details per [API-ARCHITECTURE.md](API-ARCHITECTURE.md).
+
+## Change history
+
+| Version | Date | Summary |
+|---------|------|---------|
+| 0.1.0 | 2026-11-13 | Initial inventory |
+| 0.2.0 | 2026-11-18 | Links to API architecture; error envelopes; v1.0 note |
 
 ## API versioning proposal (TO-BE)
 

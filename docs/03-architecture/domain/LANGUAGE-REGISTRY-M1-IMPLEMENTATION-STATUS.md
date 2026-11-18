@@ -18,6 +18,7 @@ related_documents:
 
 **Authority:** [PRODUCT_DECISIONS.md](../../08-project-management/PRODUCT_DECISIONS.md) §8 (DEC-007).
 **Design reference:** [LANGUAGE-REGISTRY-DESIGN.md](LANGUAGE-REGISTRY-DESIGN.md) (ARCH-2 proposal — §13 WBS numbering differs from delivery packages below).
+**Multilingual architecture overview:** [I18N-L10N-ARCHITECTURE.md](../i18n/I18N-L10N-ARCHITECTURE.md) (summarizes registry role — **does not** replace this status doc).
 
 **Out of M1 scope (not implemented):** `UiLanguageAdapter`, public P1/P2 content resolution, `SlugNormalizer` registry integration, admin CRUD, Redis/Spring Cache, legacy controller/route changes.
 

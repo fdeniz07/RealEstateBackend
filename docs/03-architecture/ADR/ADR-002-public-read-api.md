@@ -26,7 +26,7 @@ This ADR records **seven explicit PO approvals** for the **M1 public catalog** (
 - Per-field DTO allow-lists beyond the policies below (engineering derives defaults from [M1-PUBLIC-CATALOG-ARCHITECTURE-DECISIONS.md](../../08-project-management/M1-PUBLIC-CATALOG-ARCHITECTURE-DECISIONS.md) §3 and [DEC-001-PUBLIC-DATA-BOUNDARY-REVIEW.md](../../08-project-management/DEC-001-PUBLIC-DATA-BOUNDARY-REVIEW.md); PO did not approve every column name).
 - Numeric rate-limit thresholds, window sizes, or filter technology.
 - ~~Slug uniqueness migration~~ **Partially decided (DEC-007):** language-scoped `UNIQUE(language_code, lower(slug))` on **AdvertTranslation** (TO-BE); interim Flyway V2 global index on `adverts` is **legacy AS-IS** until ARCH-2 migration. Duplicate cleanup scripts remain **TBD**.
-- Image storage provider, CDN, or filesystem layout.
+- Image storage provider, CDN, or filesystem layout (engineering detail: [FILE-STORAGE-ARCHITECTURE.md](../storage/FILE-STORAGE-ARCHITECTURE.md); does not extend PO TASK-001 scope).
 - Individual `propertyValues` keys not on the engineering allow-list.
 - Option B vs C for security **pattern**: **Option A** (`permitAll` on named GET matchers + service-layer enforcement) is **adopted** as the M1 security pattern (implicit in whitelist decision).
 
