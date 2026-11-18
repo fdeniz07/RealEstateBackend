@@ -12,6 +12,7 @@ import com.prettier.service.abstracts.DistrictService;
 import com.prettier.service.abstracts.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Component
+@Profile("localhost")
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa calistiginda builtin olarak gecilecek degerler
 

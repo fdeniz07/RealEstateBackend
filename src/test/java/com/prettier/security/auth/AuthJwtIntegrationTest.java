@@ -3,7 +3,7 @@ package com.prettier.security.auth;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prettier.RealEstateApplication;
-import com.prettier.config.DataInitializer;
+import com.prettier.test.fixture.TestReferenceDataFixture;
 import com.prettier.test.support.PostgresIntegrationTestSupport;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -29,8 +29,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * HTTP-level JWT authentication integration tests (B1.3b-2).
  *
- * <p>Uses the built-in admin seeded by {@link DataInitializer} when the database is empty; credentials match
- * that initializer only (not printed in logs). JWT signing uses the shared test secret from
+ * <p>Uses the built-in admin seeded by {@link TestReferenceDataFixture} under profile {@code test}; credentials match
+ * that fixture only (not printed in logs). JWT signing uses the shared test secret from
  * {@link PostgresIntegrationTestSupport}, not production {@code application.yaml} values.
  *
  * <p>B1.4a JWT filter catches parse/user-load failures and continues the chain; protected-endpoint 401
@@ -60,13 +60,8 @@ class AuthJwtIntegrationTest extends PostgresIntegrationTestSupport {
     private static final String PROTECTED_ROLES_PATH = "/api/v1.0/roles/EN/roles";
     private static final String LOGIN_PATH = "/api/v1.0/auth/EN/login";
 
-    /** Email of the built-in admin from {@link DataInitializer}. */
-    private static final String BUILTIN_ADMIN_EMAIL = "admin@mail.com";
-
-    /**
-     * Password for the built-in admin; defined in {@link DataInitializer} source (read-only login use).
-     */
-    private static final String BUILTIN_ADMIN_PASSWORD = "P4ssword";
+    private static final String BUILTIN_ADMIN_EMAIL = TestReferenceDataFixture.BUILTIN_ADMIN_EMAIL;
+    private static final String BUILTIN_ADMIN_PASSWORD = TestReferenceDataFixture.BUILTIN_ADMIN_PASSWORD;
 
     private static final String MALFORMED_JWT = "not.a.valid.jwt";
 
