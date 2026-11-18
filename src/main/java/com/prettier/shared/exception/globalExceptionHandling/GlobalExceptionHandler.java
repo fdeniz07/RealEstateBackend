@@ -122,6 +122,23 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AdvertInvalidContentLanguageException.class)
+    public InternalApiResponse<String> handleAdvertInvalidContentLanguageException(
+            AdvertInvalidContentLanguageException exception, HttpServletRequest request) {
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(), exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .hasError(true)
+                .errorMessages(Collections.singletonList(exception.getMessage()))
+                .timeStamp(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(AdvertInvalidLocationException.class)
     public InternalApiResponse<String> handleAdvertInvalidLocationException(AdvertInvalidLocationException exception, HttpServletRequest request) {
         return InternalApiResponse.<String>builder()

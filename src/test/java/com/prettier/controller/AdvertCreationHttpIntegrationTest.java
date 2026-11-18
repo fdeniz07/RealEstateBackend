@@ -89,6 +89,7 @@ class AdvertCreationHttpIntegrationTest {
     @AfterEach
     void cleanupFixtures() {
         for (Long id : createdAdvertIds) {
+            jdbcTemplate.update("DELETE FROM advert_translations WHERE advert_id = ?", id);
             advertRepository.deleteById(id);
         }
         createdAdvertIds.clear();
@@ -127,7 +128,53 @@ class AdvertCreationHttpIntegrationTest {
         Advert stored = advertRepository.findById(advertId).orElseThrow();
         assertThat(stored.getTitle()).isEqualTo(title);
         assertThat(stored.getSlug()).isNotBlank();
+        assertThat(stored.getSourceLanguage()).isNotNull();
+        assertThat(stored.getSourceLanguage().getCode()).isEqualTo("de");
+        Integer translationCount =
+                jdbcTemplate.queryForObject(
+                        "SELECT COUNT(*) FROM advert_translations WHERE advert_id = ?",
+                        Integer.class,
+                        advertId);
+        assertThat(translationCount).isEqualTo(1);
         assertThat(response.body()).doesNotContain("passwordHash");
+    }
+
+    @Test
+    void missingContentLanguage_returnsBadRequest() throws Exception {
+        String token = registerCustomerAndLogin();
+        LocationIds location = requireSeededLocation();
+        Map<String, Object> body =
+                baseCreateBody(
+                        uniqueTitle(),
+                        location,
+                        requireActiveAdvertTypeId(),
+                        requireActiveCategoryId());
+        body.remove("contentLanguage");
+        long countBefore = advertRepository.count();
+
+        HttpResult response = postAdvert(token, body);
+
+        assertThat(response.status()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(advertRepository.count()).isEqualTo(countBefore);
+    }
+
+    @Test
+    void unsupportedContentLanguage_returnsBadRequest() throws Exception {
+        String token = registerCustomerAndLogin();
+        LocationIds location = requireSeededLocation();
+        Map<String, Object> body =
+                baseCreateBody(
+                        uniqueTitle(),
+                        location,
+                        requireActiveAdvertTypeId(),
+                        requireActiveCategoryId());
+        body.put("contentLanguage", "xx-invalid");
+        long countBefore = advertRepository.count();
+
+        HttpResult response = postAdvert(token, body);
+
+        assertThat(response.status()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(advertRepository.count()).isEqualTo(countBefore);
     }
 
     @Test
@@ -346,6 +393,7 @@ class AdvertCreationHttpIntegrationTest {
     private Map<String, Object> baseCreateBody(
             String title, LocationIds location, long advertTypeId, long categoryId) {
         Map<String, Object> body = new LinkedHashMap<>();
+        body.put("contentLanguage", "de");
         body.put("title", title);
         body.put("desc", "B2.1 integration advert");
         body.put("price", 850000);

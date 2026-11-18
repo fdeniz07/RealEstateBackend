@@ -36,6 +36,8 @@ public interface AdvertMapper {
     @Mapping(target = "tourRequestSet", ignore = true)
     @Mapping(target = "logSet", ignore = true)
     @Mapping(target = "categoryPropertyValueSet", ignore = true)
+    @Mapping(target = "sourceLanguage", ignore = true)
+    @Mapping(target = "translations", ignore = true)
     Advert toAdvert(AdvertCreateRequest advertCreateRequest);
 
     AdvertResponse toResponse(Advert advert);

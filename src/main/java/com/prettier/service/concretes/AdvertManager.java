@@ -1,6 +1,7 @@
 package com.prettier.service.concretes;
 
 import com.prettier.entity.concretes.Advert;
+import com.prettier.entity.concretes.AdvertTranslation;
 import com.prettier.entity.concretes.AdvertType;
 import com.prettier.entity.concretes.Category;
 import com.prettier.entity.concretes.City;
@@ -8,11 +9,14 @@ import com.prettier.entity.concretes.Country;
 import com.prettier.entity.concretes.District;
 import com.prettier.entity.concretes.User;
 import com.prettier.entity.enums.AdvertStatus;
+import com.prettier.entity.enums.TranslationPublicationStatus;
 import com.prettier.payloads.mapper.AdvertMapper;
 import com.prettier.payloads.request.concretes.AdvertCreateRequest;
 import com.prettier.payloads.request.concretes.AdvertUpdateRequest;
 import com.prettier.payloads.response.concretes.AdvertResponse;
 import com.prettier.repository.AdvertRepository;
+import com.prettier.repository.AdvertTranslationRepository;
+import com.prettier.repository.LanguageRepository;
 import com.prettier.repository.AdvertTypeRepository;
 import com.prettier.repository.CategoryRepository;
 import com.prettier.repository.CityRepository;
@@ -24,6 +28,7 @@ import com.prettier.shared.exception.enums.FriendlyMessageCodes;
 import com.prettier.shared.exception.exceptions.adverts.AdvertAlreadyDeletedException;
 import com.prettier.shared.exception.exceptions.adverts.AdvertAlreadyExistsException;
 import com.prettier.shared.exception.exceptions.adverts.AdvertCreateForbiddenException;
+import com.prettier.shared.exception.exceptions.adverts.AdvertInvalidContentLanguageException;
 import com.prettier.shared.exception.exceptions.adverts.AdvertInvalidLocationException;
 import com.prettier.shared.exception.exceptions.adverts.AdvertNotFoundException;
 import com.prettier.shared.exception.exceptions.adverts.AdvertTypeNotFoundException;
@@ -32,6 +37,10 @@ import com.prettier.shared.exception.exceptions.cities.CityNotFoundException;
 import com.prettier.shared.exception.exceptions.countries.CountryNotFoundException;
 import com.prettier.shared.exception.exceptions.districts.DistrictNotFoundException;
 import com.prettier.shared.exception.exceptions.users.UserNotFoundException;
+import com.prettier.shared.i18n.registry.InvalidLanguageCodeException;
+import com.prettier.shared.i18n.registry.LanguageCapability;
+import com.prettier.shared.i18n.registry.LanguageRegistryService;
+import com.prettier.shared.i18n.registry.UnsupportedLanguageException;
 import com.prettier.shared.utils.enums.Language;
 import com.prettier.shared.utils.slug.SlugNormalizer;
 import lombok.RequiredArgsConstructor;
@@ -69,6 +78,9 @@ public class AdvertManager implements AdvertService {
     private final UserService userService;
     private final AdvertMapper advertMapper;
     private final SlugNormalizer slugNormalizer;
+    private final LanguageRegistryService languageRegistryService;
+    private final LanguageRepository languageRepository;
+    private final AdvertTranslationRepository advertTranslationRepository;
 
 
     /**
@@ -201,13 +213,11 @@ public class AdvertManager implements AdvertService {
         assertLocationHierarchy(language, country, city, district);
 
         User owner = resolveAuthenticatedOwner(language);
-        String slug = slugNormalizer.normalize(advertCreateRequest.getTitle(), toSlugLanguage(language));
-        if (advertRepository.existsBySlugIgnoreCase(slug)) {
-            throw new AdvertAlreadyExistsException(
-                    language,
-                    FriendlyMessageCodes.ADVERT_ALREADY_EXISTS,
-                    "Advert slug already exists: " + slug);
-        }
+        com.prettier.entity.concretes.Language sourceLanguage =
+                resolveContentLanguage(language, advertCreateRequest.getContentLanguage());
+        String contentLanguageCode = sourceLanguage.getCode();
+        String slug = slugNormalizer.normalize(advertCreateRequest.getTitle(), contentLanguageCode);
+        assertSlugAvailable(language, contentLanguageCode, slug);
 
         Advert advert = advertMapper.toAdvert(advertCreateRequest);
         advert.setAdvertType(advertType);
@@ -216,6 +226,9 @@ public class AdvertManager implements AdvertService {
         advert.setDistrict(district);
         advert.setCategory(category);
         advert.setUser(owner);
+        advert.setSourceLanguage(sourceLanguage);
+        advert.setTitle(advertCreateRequest.getTitle());
+        advert.setDesc(advertCreateRequest.getDesc());
         advert.setSlug(slug);
         advert.setAdvertStatus(AdvertStatus.PENDING);
         advert.setActive(true);
@@ -224,13 +237,20 @@ public class AdvertManager implements AdvertService {
 
         try {
             Advert savedAdvert = advertRepository.saveAndFlush(advert);
+            AdvertTranslation translation =
+                    AdvertTranslation.builder()
+                            .advert(savedAdvert)
+                            .language(sourceLanguage)
+                            .title(advertCreateRequest.getTitle())
+                            .desc(advertCreateRequest.getDesc())
+                            .slug(slug)
+                            .translationPublicationStatus(TranslationPublicationStatus.DRAFT)
+                            .build();
+            advertTranslationRepository.save(translation);
             log.debug("[{}][createAdvert] -> response: {}", this.getClass().getSimpleName(), savedAdvert);
             return savedAdvert;
         } catch (DataIntegrityViolationException exception) {
-            throw new AdvertAlreadyExistsException(
-                    language,
-                    FriendlyMessageCodes.ADVERT_ALREADY_EXISTS,
-                    "Advert slug unique constraint violated: " + slug);
+            throw mapSlugConflict(language, slug, exception);
         }
     }
 
@@ -343,14 +363,57 @@ public class AdvertManager implements AdvertService {
                 "Authenticated user is required to create an advert");
     }
 
-    /**
-     * {@link SlugNormalizer} accepts {@code tr} and {@code de}. API locale {@code EN} uses {@code de}
-     * so ASCII titles still normalize; Turkish mappings apply only for {@link Language#TR}.
-     */
-    private String toSlugLanguage(Language language) {
-        if (language == Language.TR) {
-            return "tr";
+    private com.prettier.entity.concretes.Language resolveContentLanguage(
+            Language messageLanguage, String rawContentLanguage) {
+        try {
+            languageRegistryService.requireActive(rawContentLanguage, LanguageCapability.ADVERT_CONTENT);
+        } catch (UnsupportedLanguageException | InvalidLanguageCodeException exception) {
+            throw new AdvertInvalidContentLanguageException(
+                    messageLanguage,
+                    FriendlyMessageCodes.ADVERT_INVALID_CONTENT_LANGUAGE,
+                    exception.getMessage());
         }
-        return "de";
+        String canonical = languageRegistryService.canonicalizeCode(rawContentLanguage);
+        return languageRepository
+                .findById(canonical)
+                .orElseThrow(
+                        () ->
+                                new AdvertInvalidContentLanguageException(
+                                        messageLanguage,
+                                        FriendlyMessageCodes.ADVERT_INVALID_CONTENT_LANGUAGE,
+                                        "Language entity missing for code: " + canonical));
+    }
+
+    private void assertSlugAvailable(Language messageLanguage, String contentLanguageCode, String slug) {
+        if (advertRepository.existsBySlugIgnoreCase(slug)) {
+            throw new AdvertAlreadyExistsException(
+                    messageLanguage,
+                    FriendlyMessageCodes.ADVERT_ALREADY_EXISTS,
+                    "Advert slug already exists: " + slug);
+        }
+        if (advertTranslationRepository.existsByLanguageCodeAndSlugIgnoreCase(contentLanguageCode, slug)) {
+            throw new AdvertAlreadyExistsException(
+                    messageLanguage,
+                    FriendlyMessageCodes.ADVERT_ALREADY_EXISTS,
+                    "Advert translation slug already exists for language "
+                            + contentLanguageCode
+                            + ": "
+                            + slug);
+        }
+    }
+
+    private AdvertAlreadyExistsException mapSlugConflict(
+            Language messageLanguage, String slug, DataIntegrityViolationException exception) {
+        String message = exception.getMessage();
+        if (message != null
+                && (message.contains("ux_advert_translations_lang_slug_lower")
+                        || message.contains("advert_translations_advert_language_uq")
+                        || message.contains("ux_adverts_slug_lower"))) {
+            return new AdvertAlreadyExistsException(
+                    messageLanguage,
+                    FriendlyMessageCodes.ADVERT_ALREADY_EXISTS,
+                    "Advert slug unique constraint violated: " + slug);
+        }
+        throw exception;
     }
 }
