@@ -1,0 +1,18 @@
+# Build context exclusions — see Dockerfile multi-stage build
+.git
+.gitignore
+**/.git
+target/
+!target/*.jar
+effective-pom*
+**/*.iml
+.idea/
+.vscode/
+*.log
+.env
+.env.*
+!.env.example
+docs/
+agent-tools/
+**/__pycache__/
+**/node_modules/

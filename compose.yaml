@@ -1,27 +1,107 @@
-# ENV-001 — local PostgreSQL only (no app services)
-# Usage: copy .env.example to .env, then: docker compose up -d
+# RealEstateBackend — Docker Compose (development)
+# Project name: re | Services: postgres, api, pgadmin (tools), test-runner (test)
+# Usage: copy .env.example → .env, then `docker compose up -d --build`
+# Never use `docker compose down -v` (destroys pinned volume / real_estate_db).
+# Physical volume pin: realestate-backend_realestate_pg_data (do not rename).
+# See docs/04-development/LOCAL_ENV.md and docs/03-architecture/infrastructure/assets/DOCKER-COMPOSE-ARCHITECTURE.md
 
-name: realestate-backend
+name: re
 
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: realestate-postgres
     restart: unless-stopped
     ports:
-      - "127.0.0.1:${POSTGRES_PORT}:5432"
+      - "127.0.0.1:${POSTGRES_PORT:-5433}:5432"
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:?Set POSTGRES_DB in .env}
+      POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
     volumes:
       - realestate_pg_data:/var/lib/postgresql/data
+      # Init scripts run only on first empty volume; existing volumes keep data and skip init.
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 5s
       retries: 6
       start_period: 15s
+    networks:
+      - realestate
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${BACKEND_PORT:-8081}:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:?Set POSTGRES_DB in .env}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:?Set POSTGRES_USER in .env}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env (development API only)}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8080/actuator/health | grep -q '\"status\":\"UP\"'"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 90s
+    networks:
+      - realestate
+
+  pgadmin:
+    image: dpage/pgadmin4:8.14
+    restart: unless-stopped
+    profiles:
+      - tools
+    ports:
+      - "127.0.0.1:${PGADMIN_PORT:-5050}:80"
+    environment:
+      # Required when starting profile `tools` (Compose still interpolates; set placeholders in .env).
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:?Set PGADMIN_DEFAULT_EMAIL in .env for profile tools}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:?Set PGADMIN_DEFAULT_PASSWORD in .env for profile tools}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - realestate
+
+  test-runner:
+    image: maven:3.9.9-eclipse-temurin-17
+    profiles:
+      - test
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - maven_test_cache:/root/.m2
+    environment:
+      SPRING_PROFILES_ACTIVE: test
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/real_estate_test_db
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:?Set POSTGRES_USER in .env}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      # Dedicated integration-test JWT — never reuse development JWT_SECRET.
+      JWT_SECRET: ${JWT_SECRET_TEST:?Set JWT_SECRET_TEST in .env before profile test}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "/workspace/docker/test/run-integration-tests.sh"]
+    networks:
+      - realestate
+
+networks:
+  realestate:
+    driver: bridge
 
 volumes:
+  # Logical key maps to the pre-Phase-1 physical volume (project was realestate-backend).
   realestate_pg_data:
+    name: realestate-backend_realestate_pg_data
+  maven_test_cache:

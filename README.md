@@ -238,17 +238,21 @@ The canonical hub is **[docs/README.md](docs/README.md)** — governance, requir
 
 1. **Clone** this repository and copy environment template:
    - `cp .env.example .env` (or Windows equivalent) — do not commit secrets.
-2. **Start PostgreSQL:**
-   - `docker compose up -d` (see [LOCAL_ENV.md](docs/04-development/LOCAL_ENV.md) for port **5433** and database names).
-3. **Export Spring variables** before Maven (Compose does not inject them into `mvn`):
+2. **Start the development stack (recommended):**
+   - Ensure `.env` includes Compose fail-fast vars from `.env.example` (`POSTGRES_*`, `JWT_SECRET`, and for profiles `JWT_SECRET_TEST` / `PGADMIN_*`).
+   - `docker compose up -d --build` — project **`re`**: **PostgreSQL** + **`api`** (profile `docker`). Default host port **8081** (`BACKEND_PORT`). See [DOCKER-COMPOSE-ARCHITECTURE.md](docs/03-architecture/infrastructure/assets/DOCKER-COMPOSE-ARCHITECTURE.md).
+   - If an older `realestate-backend` stack is running, stop it first (same volume) — never `docker compose down -v`.
+   - **PostgreSQL only:** `docker compose up -d postgres`
+3. **Alternative — run API on the host:** export Spring variables before Maven (Compose does not inject them into `mvn`):
    - `SPRING_PROFILES_ACTIVE=localhost`
    - `SPRING_DATASOURCE_URL=jdbc:postgresql://127.0.0.1:5433/real_estate_db`
    - `SPRING_DATASOURCE_USERNAME` / `SPRING_DATASOURCE_PASSWORD`
    - `JWT_SECRET` (base64, ≥ 32 bytes) — see [LOCAL_ENV.md](docs/04-development/LOCAL_ENV.md)
-4. **Run the API:**
+4. **Run the API on the host (optional):**
    - `./mvnw spring-boot:run` (Unix/macOS) or `mvnw.cmd spring-boot:run` (Windows)
-5. **OpenAPI UI:** `http://localhost:8080/swagger-ui/index.html` (when the app is running).
-6. **Tests:** profile `test` with `real_estate_test_db` (create DB once per LOCAL_ENV) — CI contract in `.github/workflows/backend-ci.yml`.
+5. **OpenAPI UI:** `http://localhost:8081/swagger-ui/index.html` (Compose `api`) or `:8080` for host JVM.
+6. **Tests:** profile `test` with `real_estate_test_db` (create DB once per LOCAL_ENV) — or `docker compose --profile test run --rm test-runner` (requires `JWT_SECRET_TEST`). CI: `.github/workflows/backend-ci.yml` (unchanged).
+7. **pgAdmin (optional):** `docker compose --profile tools up -d pgadmin` — `127.0.0.1:5050` by default.
 
 **Frontend (separate repo):** install dependencies under `Frontend/` in [RealEstate_Frontend](https://github.com/fdeniz07/RealEstate_Frontend); default dev URL `http://localhost:3000`; local API proxy via `Frontend/setupProxy.js`.
 

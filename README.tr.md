@@ -238,17 +238,21 @@ Ana giriş: **[docs/README.md](docs/README.md)** — yönetişim, gereksinimler,
 
 1. Bu repoyu **klonlayın** ve ortam şablonunu kopyalayın:
    - `.env.example` → `.env` — gizli anahtarları commit etmeyin.
-2. **PostgreSQL’i başlatın:**
-   - `docker compose up -d` (port **5433** ve veritabanı adları için [LOCAL_ENV.md](docs/04-development/LOCAL_ENV.md)).
-3. Maven öncesi **Spring değişkenlerini export edin** (Compose, `mvn`’e enjekte etmez):
+2. **Geliştirme stack’ini başlatın (önerilen):**
+   - `.env` içinde `.env.example` fail-fast değişkenleri (`POSTGRES_*`, `JWT_SECRET`; profil için `JWT_SECRET_TEST` / `PGADMIN_*`).
+   - `docker compose up -d --build` — proje **`re`**: PostgreSQL + **`api`** (profile `docker`). Varsayılan host port **8081**. Ayrıntı: [DOCKER-COMPOSE-ARCHITECTURE.md](docs/03-architecture/infrastructure/assets/DOCKER-COMPOSE-ARCHITECTURE.md).
+   - Eski `realestate-backend` stack çalışıyorsa önce durdurun (aynı volume). `docker compose down -v` **kullanmayın**.
+   - Yalnızca Postgres: `docker compose up -d postgres`.
+3. **Host’ta API (isteğe bağlı):** Maven öncesi Spring değişkenlerini export edin (Compose, `mvn`’e enjekte etmez):
    - `SPRING_PROFILES_ACTIVE=localhost`
    - `SPRING_DATASOURCE_URL=jdbc:postgresql://127.0.0.1:5433/real_estate_db`
    - `SPRING_DATASOURCE_USERNAME` / `SPRING_DATASOURCE_PASSWORD`
    - `JWT_SECRET` (base64, ≥ 32 bayt) — [LOCAL_ENV.md](docs/04-development/LOCAL_ENV.md)
-4. **API’yi çalıştırın:**
+4. **Host’ta API çalıştırma:**
    - `./mvnw spring-boot:run` (Unix/macOS) veya `mvnw.cmd spring-boot:run` (Windows)
-5. **OpenAPI UI:** `http://localhost:8080/swagger-ui/index.html` (uygulama çalışırken).
-6. **Testler:** `test` profili ve `real_estate_test_db` — CI sözleşmesi `.github/workflows/backend-ci.yml`.
+5. **OpenAPI UI:** Compose `api` için `http://localhost:8081/swagger-ui/index.html`; host JVM için `:8080`.
+6. **Testler:** `test` profili ve `real_estate_test_db` — veya `docker compose --profile test run --rm test-runner` (`JWT_SECRET_TEST` gerekir). CI: `.github/workflows/backend-ci.yml`.
+7. **pgAdmin (isteğe bağlı):** `docker compose --profile tools up -d pgadmin` — varsayılan `127.0.0.1:5050`.
 
 **Frontend (ayrı depo):** [RealEstate_Frontend](https://github.com/fdeniz07/RealEstate_Frontend) içindeki `Frontend/` klasöründe bağımlılıklar; varsayılan geliştirme adresi `http://localhost:3000`; yerel API yönlendirmesi için `Frontend/setupProxy.js`.
 

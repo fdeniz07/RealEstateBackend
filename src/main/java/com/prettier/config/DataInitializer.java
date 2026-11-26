@@ -20,7 +20,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Component
-@Profile("localhost")
+@Profile({"localhost", "docker"})
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner { // Uygulama ilk defa calistiginda builtin olarak gecilecek degerler
 
