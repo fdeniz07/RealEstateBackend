@@ -287,6 +287,32 @@ class AdvertManagerTest {
     }
 
     @Test
+    void add_missingAdvertType_throwsNotFoundAndDoesNotPersist() {
+        when(advertTypeRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> advertManager.add(LANG, request))
+                .isInstanceOf(AdvertTypeNotFoundException.class);
+
+        verify(advertRepository, never()).saveAndFlush(any());
+        verify(categoryRepository, never()).findById(any());
+    }
+
+    @Test
+    void add_missingCategory_throwsNotFoundAndDoesNotPersist() {
+        when(advertTypeRepository.findById(1L)).thenReturn(Optional.of(advertType));
+        when(countryRepository.findById(10L)).thenReturn(Optional.of(country));
+        when(cityRepository.findById(20L)).thenReturn(Optional.of(city));
+        when(districtRepository.findById(30L)).thenReturn(Optional.of(district));
+        when(categoryRepository.findById(40L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> advertManager.add(LANG, request))
+                .isInstanceOf(CategoryNotFoundException.class);
+
+        verify(advertRepository, never()).saveAndFlush(any());
+        verify(slugNormalizer, never()).normalize(any(), any());
+    }
+
+    @Test
     void add_missingCity_throwsNotFoundAndDoesNotPersist() {
         when(advertTypeRepository.findById(1L)).thenReturn(Optional.of(advertType));
         when(countryRepository.findById(10L)).thenReturn(Optional.of(country));

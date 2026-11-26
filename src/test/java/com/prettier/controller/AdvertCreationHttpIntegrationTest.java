@@ -49,6 +49,7 @@ class AdvertCreationHttpIntegrationTest extends PostgresIntegrationTestSupport {
     private static final String BUILTIN_ADMIN_PASSWORD = "P4ssword";
     private static final String CUSTOMER_PASSWORD = "TestPass1";
     private static final String MALFORMED_JWT = "not.a.valid.jwt";
+    private static final long NON_EXISTENT_REFERENCE_ID = 9_999_999_999L;
 
     @LocalServerPort private int port;
 
@@ -242,6 +243,50 @@ class AdvertCreationHttpIntegrationTest extends PostgresIntegrationTestSupport {
         HttpResult response = postAdvert(token, body);
 
         assertThat(response.status()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        assertThat(advertRepository.count()).isEqualTo(countBefore);
+    }
+
+    @Test
+    void unknownCategoryId_doesNotCreateAdvert() throws Exception {
+        String token = registerCustomerAndLogin();
+        LocationIds location = requireSeededLocation();
+        long countBefore = advertRepository.count();
+
+        Map<String, Object> body =
+                baseCreateBody(
+                        uniqueTitle(),
+                        location,
+                        requireActiveAdvertTypeId(),
+                        requireActiveCategoryId());
+        body.put("categoryId", NON_EXISTENT_REFERENCE_ID);
+
+        HttpResult response = postAdvert(token, body);
+
+        assertThat(response.status()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        JsonNode root = JSON.readTree(response.body());
+        assertThat(root.path("hasError").asBoolean()).isTrue();
+        assertThat(advertRepository.count()).isEqualTo(countBefore);
+    }
+
+    @Test
+    void unknownAdvertTypeId_doesNotCreateAdvert() throws Exception {
+        String token = registerCustomerAndLogin();
+        LocationIds location = requireSeededLocation();
+        long countBefore = advertRepository.count();
+
+        Map<String, Object> body =
+                baseCreateBody(
+                        uniqueTitle(),
+                        location,
+                        requireActiveAdvertTypeId(),
+                        requireActiveCategoryId());
+        body.put("advertTypeId", NON_EXISTENT_REFERENCE_ID);
+
+        HttpResult response = postAdvert(token, body);
+
+        assertThat(response.status()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        JsonNode root = JSON.readTree(response.body());
+        assertThat(root.path("hasError").asBoolean()).isTrue();
         assertThat(advertRepository.count()).isEqualTo(countBefore);
     }
 
