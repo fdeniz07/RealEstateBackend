@@ -40,3 +40,7 @@ backendapi:
   app:
     jwtSecret: ${JWT_SECRET}
     jwtExpressionMS: 86400000
+
+logging:
+  level:
+    com.prettier: INFO

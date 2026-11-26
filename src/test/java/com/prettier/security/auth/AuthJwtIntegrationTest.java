@@ -84,6 +84,42 @@ class AuthJwtIntegrationTest extends PostgresIntegrationTestSupport {
         JsonNode root = JSON.readTree(response.body());
         assertThat(root.path("hasError").asBoolean()).isFalse();
         assertThat(root.path("payload").path("token").asText()).isNotBlank();
+        assertThat(root.path("payload").has("password")).isFalse();
+        assertThat(response.body()).doesNotContain("passwordHash");
+    }
+
+    @Test
+    void signUp_success_responseOmitsPasswordAndPasswordHash() throws Exception {
+        String suffix = String.valueOf(System.nanoTime()).substring(0, 8);
+        String email = "high2-signup-" + suffix + "@test.com";
+        String password = "SecretPass1";
+        String json =
+                JSON.writeValueAsString(
+                        Map.of(
+                                "firstName", "High",
+                                "lastName", "Two",
+                                "email", email,
+                                "password", password,
+                                "phone", "9" + suffix + "0000001",
+                                "gender", "UNKNOWN",
+                                "birthDate", "01-01-1995"));
+
+        HttpRequest request =
+                HttpRequest.newBuilder(URI.create(absolute("/api/v1.0/auth/EN/signUp")))
+                        .header("Content-Type", "application/json")
+                        .header("Accept", "application/json")
+                        .POST(HttpRequest.BodyPublishers.ofString(json))
+                        .build();
+        HttpResponse<String> httpResponse = HTTP.send(request, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.CREATED.value());
+        JsonNode root = JSON.readTree(httpResponse.body());
+        assertThat(root.path("hasError").asBoolean()).isFalse();
+        assertThat(root.path("payload").path("token").asText()).isNotBlank();
+        assertThat(root.path("payload").path("email").asText()).isEqualTo(email);
+        assertThat(root.path("payload").has("password")).isFalse();
+        assertThat(httpResponse.body()).doesNotContain("passwordHash");
+        assertThat(httpResponse.body()).doesNotContain(password);
     }
 
     @Test

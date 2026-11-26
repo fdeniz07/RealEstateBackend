@@ -57,7 +57,7 @@ public class AuthManager implements AuthService {
      */
     public SignUpResponse signUp(Language language, SignUpRequest signUpRequest) {
 
-        log.debug("[{}][signUp] -> request: {}", this.getClass().getSimpleName(), signUpRequest);
+        log.debug("[{}][signUp] -> request email: {}", this.getClass().getSimpleName(), signUpRequest.getEmail());
 
         // Username, Email ve Phone var mi kontrolü
         if (!checkUniqueFields.checkDuplicate(language,  signUpRequest.getEmail(), signUpRequest.getPhone())) {
@@ -81,7 +81,7 @@ public class AuthManager implements AuthService {
             userRepository.saveAndFlush(user);
             var jwtToken = jwtService.generateToken(user);
 
-            log.debug("[{}][signUp] -> response: {}", this.getClass().getSimpleName(), jwtToken);
+            log.debug("[{}][signUp] -> success userId: {} email: {}", this.getClass().getSimpleName(), user.getId(), user.getEmail());
 //        SignUpResponse response = authMapper.toResponse(newUser);
             return SignUpResponse.builder()
                     .token(jwtToken)
@@ -90,7 +90,6 @@ public class AuthManager implements AuthService {
                     .lastName(user.getLastName())
                     .email(user.getEmail())
                     .phone(user.getPhone())
-                    .password(user.getPasswordHash())
                     .gender(user.getGender())
                     .birthDate(user.getBirthDate())
                     .createAt(user.getCreateAt())
@@ -110,7 +109,7 @@ public class AuthManager implements AuthService {
     @Override
     public LoginResponse login(Language language, LoginRequest loginRequest) {
 
-        log.debug("[{}][login] -> request: {}", this.getClass().getSimpleName(), loginRequest);
+        log.debug("[{}][login] -> request email: {}", this.getClass().getSimpleName(), loginRequest.getEmail());
 
         //!!! Gelen request'in icinden email ve password bilgisi aliniyor
         String username = loginRequest.getEmail();
@@ -145,7 +144,7 @@ public class AuthManager implements AuthService {
         var jwtToken = jwtService.generateToken(userDetails);
 //        var user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow();
 
-        log.debug("[{}][login] -> response: {}", this.getClass().getSimpleName(), jwtToken);
+        log.debug("[{}][login] -> success userId: {} email: {}", this.getClass().getSimpleName(), userDetails.getId(), userDetails.getEmail());
         return LoginResponse.builder()
                 .token(jwtToken)
 //                .userName(loginRequest.getUserName())
