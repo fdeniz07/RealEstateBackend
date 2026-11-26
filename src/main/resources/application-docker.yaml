@@ -1,4 +1,4 @@
-# Profile `docker` — Spring Boot API Compose service `api` (hostname `postgres`, not 127.0.0.1).
+# Profile `docker` — Spring Boot Compose service `backend` (hostname `postgres`, not 127.0.0.1).
 # Host-based `localhost` and CI `test` profiles are unchanged. See docs/04-development/LOCAL_ENV.md.
 # DataInitializer runs under this profile but only seeds when related tables are empty.
 

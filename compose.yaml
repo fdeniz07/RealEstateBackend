@@ -1,11 +1,11 @@
 # RealEstateBackend — Docker Compose (development)
-# Project name: re | Services: postgres, api, pgadmin (tools), test-runner (test)
+# Project name: realestate | Services: postgres, backend, pgadmin (tools), test-runner (test)
 # Usage: copy .env.example → .env, then `docker compose up -d --build`
 # Never use `docker compose down -v` (destroys pinned volume / real_estate_db).
-# Physical volume pin: realestate-backend_realestate_pg_data (do not rename).
+# Physical volume (external): realestate-backend_realestate_pg_data — do not rename or rm.
 # See docs/04-development/LOCAL_ENV.md and docs/03-architecture/infrastructure/assets/DOCKER-COMPOSE-ARCHITECTURE.md
 
-name: re
+name: realestate
 
 services:
   postgres:
@@ -30,10 +30,11 @@ services:
     networks:
       - realestate
 
-  api:
+  backend:
     build:
       context: .
       dockerfile: Dockerfile
+    image: realestate-backend
     restart: unless-stopped
     ports:
       - "127.0.0.1:${BACKEND_PORT:-8081}:8080"
@@ -101,7 +102,8 @@ networks:
     driver: bridge
 
 volumes:
-  # Logical key maps to the pre-Phase-1 physical volume (project was realestate-backend).
+  # External pin to the pre-existing physical volume — Compose must never create or delete it.
   realestate_pg_data:
     name: realestate-backend_realestate_pg_data
+    external: true
   maven_test_cache:

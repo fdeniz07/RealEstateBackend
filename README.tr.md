@@ -240,8 +240,8 @@ Ana giriş: **[docs/README.md](docs/README.md)** — yönetişim, gereksinimler,
    - `.env.example` → `.env` — gizli anahtarları commit etmeyin.
 2. **Geliştirme stack’ini başlatın (önerilen):**
    - `.env` içinde `.env.example` fail-fast değişkenleri (`POSTGRES_*`, `JWT_SECRET`; profil için `JWT_SECRET_TEST` / `PGADMIN_*`).
-   - `docker compose up -d --build` — proje **`re`**: PostgreSQL + **`api`** (profile `docker`). Varsayılan host port **8081**. Ayrıntı: [DOCKER-COMPOSE-ARCHITECTURE.md](docs/03-architecture/infrastructure/assets/DOCKER-COMPOSE-ARCHITECTURE.md).
-   - Eski `realestate-backend` stack çalışıyorsa önce durdurun (aynı volume). `docker compose down -v` **kullanmayın**.
+   - `docker compose up -d --build` — proje **`realestate`**: PostgreSQL + **`backend`** (profile `docker`). Varsayılan host port **8081**. Ayrıntı: [DOCKER-COMPOSE-ARCHITECTURE.md](docs/03-architecture/infrastructure/assets/DOCKER-COMPOSE-ARCHITECTURE.md).
+   - `docker compose down -v` **kullanmayın** (external Postgres volume’u yok eder).
    - Yalnızca Postgres: `docker compose up -d postgres`.
 3. **Host’ta API (isteğe bağlı):** Maven öncesi Spring değişkenlerini export edin (Compose, `mvn`’e enjekte etmez):
    - `SPRING_PROFILES_ACTIVE=localhost`
@@ -250,7 +250,7 @@ Ana giriş: **[docs/README.md](docs/README.md)** — yönetişim, gereksinimler,
    - `JWT_SECRET` (base64, ≥ 32 bayt) — [LOCAL_ENV.md](docs/04-development/LOCAL_ENV.md)
 4. **Host’ta API çalıştırma:**
    - `./mvnw spring-boot:run` (Unix/macOS) veya `mvnw.cmd spring-boot:run` (Windows)
-5. **OpenAPI UI:** Compose `api` için `http://localhost:8081/swagger-ui/index.html`; host JVM için `:8080`.
+5. **OpenAPI UI:** Compose `backend` için `http://localhost:8081/swagger-ui/index.html`; host JVM için `:8080`.
 6. **Testler:** `test` profili ve `real_estate_test_db` — veya `docker compose --profile test run --rm test-runner` (`JWT_SECRET_TEST` gerekir). CI: `.github/workflows/backend-ci.yml`.
 7. **pgAdmin (isteğe bağlı):** `docker compose --profile tools up -d pgadmin` — varsayılan `127.0.0.1:5050`.
 

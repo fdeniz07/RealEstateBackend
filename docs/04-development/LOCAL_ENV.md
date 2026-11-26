@@ -134,7 +134,7 @@ The Compose file creates only `POSTGRES_DB` (`real_estate_db`) on **first** volu
 
 ### Verify database exists
 
-Prefer Compose service exec (container names are generated for project `re`):
+Prefer Compose service exec (container names are generated for project `realestate`):
 
 ```powershell
 docker compose exec postgres psql -U db_user -d real_estate_db -tAc "SELECT datname FROM pg_database WHERE datname = 'real_estate_test_db'"
@@ -216,20 +216,20 @@ Automated tests must use `real_estate_test_db` (local) or `real_estate_ci_test_d
 
 ---
 
-## 8. Docker Compose (Phase 1 — project `re`, services `postgres` + `api`)
+## 8. Docker Compose (Phase 1 — project `realestate`, services `postgres` + `backend`)
 
 **Diagrams and topology:** [DOCKER-COMPOSE-ARCHITECTURE.md](../03-architecture/infrastructure/assets/DOCKER-COMPOSE-ARCHITECTURE.md).
 
 | Mode | Command | JDBC target |
 |------|---------|-------------|
-| **Compose dev stack** | `docker compose up -d --build` | `api` → `jdbc:postgresql://postgres:5432/real_estate_db` |
+| **Compose dev stack** | `docker compose up -d --build` | `backend` → `jdbc:postgresql://postgres:5432/real_estate_db` |
 | **Host API (legacy)** | `mvnw spring-boot:run` + profile `localhost` | `127.0.0.1:5433/real_estate_db` |
 | **Compose integration tests** | `docker compose --profile test run --rm test-runner` | `postgres:5432/real_estate_test_db` |
 | **Host integration tests** | export `test` profile env + `mvn test` | `127.0.0.1:5433/real_estate_test_db` |
 
-**Naming:** Compose project `name: re`. Physical volume pin `realestate-backend_realestate_pg_data`. Default API host port **`BACKEND_PORT=8081`**.
+**Naming:** Compose project `name: realestate`. Volume `realestate_pg_data` is **external** → physical `realestate-backend_realestate_pg_data`. Default API host port **`BACKEND_PORT=8081`**.
 
-**Safe transition from project `realestate-backend`:** If containers `realestate-postgres` / `realestate-backend` are running, **stop that project first** (`docker compose -p realestate-backend stop`). Only one Postgres may mount the pinned volume. Never `down -v`.
+**Volume rule:** Only one Postgres may mount the external volume. Never `down -v` or `docker volume rm`.
 
 **Fail-fast env (Compose `${VAR:?…}`):** `POSTGRES_*`, `JWT_SECRET`. For profile `test`: also `JWT_SECRET_TEST`. For profile `tools`: also `PGADMIN_DEFAULT_EMAIL` / `PGADMIN_DEFAULT_PASSWORD`. Copy placeholders from `.env.example` — do not commit real secrets.
 
@@ -237,7 +237,7 @@ Automated tests must use `real_estate_test_db` (local) or `real_estate_ci_test_d
 
 | Variable | Use |
 |----------|-----|
-| `JWT_SECRET` | Development API (`localhost` / Compose `api`) |
+| `JWT_SECRET` | Development API (`localhost` / Compose `backend`) |
 | `JWT_SECRET_TEST` | Compose `test-runner` only (mapped to `JWT_SECRET` inside the runner) |
 
 **DataInitializer (profiles `localhost` and `docker`):** Seeds roles, geography, and built-in admin **only when the related tables are empty**. Does **not** overwrite existing rows. Documented in source `DataInitializer.java`.
@@ -265,4 +265,5 @@ Automated tests must use `real_estate_test_db` (local) or `real_estate_ci_test_d
 | 0.3.0 | 2026-11-18 | Phase 4 — CI `backend-ci.yml` contract, fixture / initializer split documented |
 | 0.3.1 | 2026-11-18 | GitGuardian — `CI_TEST_JWT_SECRET`, explicit local `JWT_SECRET`, no Java JWT fallback |
 | 0.4.0 | 2026-11-26 | Docker Compose Phase 1 — `docker` profile, backend container, test-runner profile, JWT_SECRET_TEST |
-| 0.4.1 | 2026-11-26 | Project `re`, service `api`, volume pin, BACKEND_PORT 8081, fail-fast env, compose exec docs |
+| 0.4.1 | 2026-11-26 | Intermediate project `re`, service `api`, volume pin, BACKEND_PORT 8081 |
+| 0.4.2 | 2026-11-26 | Project `realestate`, service `backend`, external volume pin |

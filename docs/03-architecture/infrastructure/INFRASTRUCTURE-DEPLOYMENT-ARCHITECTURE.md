@@ -1,7 +1,7 @@
 ---
 document_id: RE-INFRA-ARCH-001
 title: Infrastructure, DevOps and Deployment Architecture
-version: 0.2.1
+version: 0.2.2
 status: draft
 language: en
 owner: RealEstate Project
@@ -113,7 +113,7 @@ flowchart TB
 
 | Environment | AS-IS | TO-BE |
 |-------------|--------|--------|
-| Workstation | Compose project **`re`**: **postgres + api** + optional pgAdmin / test-runner profiles (`compose.yaml`, `Dockerfile`, `.env.example`) | Hardened prod deploy **TBD** |
+| Workstation | Compose project **`realestate`**: **postgres + backend** + optional pgAdmin / test-runner profiles (`compose.yaml`, `Dockerfile`, `.env.example`) | Hardened prod deploy **TBD** |
 | CI | GitHub Actions Ubuntu + Postgres service | Add package/scan stages **PROPOSED** |
 | Development / Staging / Production | **Not defined** in repo | **TBD** hosting & promotion |
 
@@ -156,8 +156,8 @@ flowchart TB
 |----------|-----------------|
 | `Dockerfile` | Multi-stage **Temurin 17** JDK build → JRE runtime, non-root `spring` user |
 | `.dockerignore` | Excludes `target/`, `.git`, `.env`, `docs/` from build context |
-| `compose.yaml` | Project **`re`**: `postgres`, `api`, `pgadmin` (profile `tools`), `test-runner` (profile `test`) |
-| Volume | Logical `realestate_pg_data` → physical **`realestate-backend_realestate_pg_data`** (pinned) — never `docker compose down -v` |
+| `compose.yaml` | Project **`realestate`**: `postgres`, `backend`, `pgadmin` (profile `tools`), `test-runner` (profile `test`) |
+| Volume | Logical `realestate_pg_data` → physical **`realestate-backend_realestate_pg_data`** (`external: true`) — never `docker compose down -v` / `docker volume rm` |
 | App JDBC (container) | `jdbc:postgresql://postgres:5432/real_estate_db`, profile **`docker`**; host port default **8081** |
 | MinIO / Redis / Keycloak in Compose | **None** (not required by AS-IS application code) |
 
@@ -399,4 +399,5 @@ Cross-reference [SECURITY-ARCHITECTURE.md](../security/SECURITY-ARCHITECTURE.md)
 |---------|------|---------|
 | 0.1.0 | 2026-11-18 | Initial infrastructure & deployment architecture (Group 10) |
 | 0.2.0 | 2026-11-26 | Docker Compose Phase 1 — Dockerfile, backend/pgadmin/test-runner services, DOCKER-COMPOSE-ARCHITECTURE |
-| 0.2.1 | 2026-11-26 | Project `re`, service `api`, volume pin, BACKEND_PORT 8081 |
+| 0.2.1 | 2026-11-26 | Intermediate project `re`, service `api`, volume pin, BACKEND_PORT 8081 |
+| 0.2.2 | 2026-11-26 | Project `realestate`, service `backend`, external volume pin |
