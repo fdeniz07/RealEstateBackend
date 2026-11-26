@@ -1,9 +1,9 @@
 ---
 document_id: RE-ROADMAP-001
 title: Modernization Roadmap
-version: 0.2.0
+version: 0.2.1
 status: draft
-updated_at: 2026-11-14
+updated_at: 2026-11-26
 ---
 
 # ROADMAP
@@ -87,9 +87,48 @@ gantt
 
 Dependencies: [MILESTONES.md](MILESTONES.md). Risks: [RISKS.md](RISKS.md).
 
+## Listing module — B2.x sequencing (post B2.1.1)
+
+**B2.1.1 (done):** PR #12 merge `c4efa88` — advert create CUSTOMER-only + reference validation. Evidence: [SECURITY-ARCHITECTURE.md](../03-architecture/security/SECURITY-ARCHITECTURE.md) §5.7.
+
+**Not complete:** DEC-002 business RBAC matrix, public catalog (ADR-002), full FR-ADV-002 update/delete security. **Proposed next engineering package:** **B2.1.2** — update/delete **ownership** authorization (does **not** require DEC-002 PO approval for owner-only rules).
+
+```mermaid
+flowchart TB
+  B211[B2.1.1 Create auth and refs DONE]
+  B212[B2.1.2 Update delete ownership PROPOSED]
+  DEC002[DEC-002 RBAC matrix NOT APPROVED]
+  FR002[FR-ADV-002 update delete PARTIAL]
+  IMPL030[IMPL-030 V3 visibility PLANNED]
+  IMPL070[IMPL-070 permitAll whitelist PLANNED]
+  IMPL040[IMPL-040 P1 catalog PLANNED]
+  ADR002[ADR-002 approved v0.6.0]
+  DEC007[DEC-007 ARCH-2 translations PARTIAL]
+  LREG[Language Registry DONE]
+
+  B211 --> B212
+  FR002 --> B212
+  DEC002 -.->|blocks full TASK-005 RBAC| B212
+  ADR002 --> IMPL030
+  IMPL030 --> IMPL040
+  IMPL040 --> IMPL070
+  ADR002 --> IMPL070
+  DEC007 --> IMPL030
+  LREG --> DEC007
+  B212 -->|does not require| DEC002
+```
+
+**Figure RE-FIG-ROADMAP-B2** — Post–B2.1.1 dependency sketch (engineering recommendation; package IDs not in TODO until scheduled).
+
+| Path | Rationale |
+|------|-----------|
+| **B2.1.2 first** | AS-IS gap: `AdvertManager` update/delete lack ownership checks ([SECURITY-ARCHITECTURE.md](../03-architecture/security/SECURITY-ARCHITECTURE.md) §5.6). Reuses B2.1.1 defense-in-depth pattern. |
+| **IMPL-030 → 040/050 → 070** | Product M1 public catalog per [M1-IMPLEMENTATION-PLAN.md](M1-IMPLEMENTATION-PLAN.md); requires visibility + DTO before safe anonymous GET. |
+
 ## Change history
 
 | Version | Date | Summary |
 |---------|------|---------|
 | 0.1.0 | 2026-11-13 | Initial modernization gantt |
 | 0.2.0 | 2026-11-14 | **ARCH-1:** DEC-007 product M1/M2 scope, dependencies, IMPL-010 supersession note |
+| 0.2.1 | 2026-11-26 | Post–B2.1.1 listing track diagram; B2.1.2 vs M1 public IMPL sequencing |
