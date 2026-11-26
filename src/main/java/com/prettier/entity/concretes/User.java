@@ -55,9 +55,11 @@ public class User extends BaseEntity implements UserDetails {
     @JsonIgnore //passwordu ön tarafa plaintext olarak gönderme
     // @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{FriendlyMessageCodes__CONSTRAINT_PASSWORD_PATTERN}")
     //"Your password must consist of the characters a-z, A-Z, 0-9."
+    @ToString.Exclude
     private String passwordHash;
 
     @Column(name = "reset_password_code")
+    @ToString.Exclude
     private String resetPasswordCode; //hash
 
     private boolean builtIn;
@@ -67,6 +69,7 @@ public class User extends BaseEntity implements UserDetails {
     private boolean active=false;
 
 
+    @ToString.Exclude
     private String activationToken;
 
     @OneToMany(mappedBy = "user")
@@ -87,6 +90,7 @@ public class User extends BaseEntity implements UserDetails {
     private Set<Log> logSet;
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
     private Set<Advert> advertSet;
 
     @OneToMany(mappedBy = "user")

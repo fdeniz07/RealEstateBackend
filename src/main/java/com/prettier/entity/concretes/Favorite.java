@@ -24,11 +24,13 @@ public class Favorite extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore  //coklu iliskilerde tablonun birinde bu annotation kullanilir, aksi durumda sout yapildiginda sonsuz döngüye girer!
+    @ToString.Exclude
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "advert_id")
     @JsonIgnore  //coklu iliskilerde tablonun birinde bu annotation kullanilir, aksi durumda sout yapildiginda sonsuz döngüye girer!
+    @ToString.Exclude
     private Advert advert;
 
 

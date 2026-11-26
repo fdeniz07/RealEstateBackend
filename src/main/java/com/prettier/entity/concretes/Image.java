@@ -38,5 +38,6 @@ public class Image extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "advert_id", nullable = false)
     @JsonIgnore //coklu iliskilerde tablonun birinde bu annotation kullanilir, aksi durumda sout yapildiginda sonsuz döngüye girer!
+    @ToString.Exclude
     private Advert advert;
 }
