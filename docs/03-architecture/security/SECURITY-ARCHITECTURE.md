@@ -1,11 +1,11 @@
 ---
 document_id: RE-SEC-001
 title: Security Architecture
-version: 0.2.3
+version: 0.2.4
 status: draft
 language: en
 owner: RealEstate Project
-updated_at: 2026-11-18
+updated_at: 2026-11-26
 source_references:
   - SRC-006
   - RE-INT-001
@@ -59,8 +59,8 @@ sequenceDiagram
 | Principal | `UserDetails`; username = **email** | `User.getUsername()` returns email |
 | Authorities | `SimpleGrantedAuthority(role.getName())` — e.g. `CUSTOMER` **without** `ROLE_` prefix | `User` constructor |
 | Password | BCrypt in application database | `AuthManager` / `AuthenticationProvider` — **TO-BE** migrates to Keycloak |
-| Method security | `@EnableMethodSecurity`; advert create `@PreAuthorize("hasAuthority('CUSTOMER')")` | B2.1.1 WIP |
-| Domain check | `AdvertManager.assertCustomerAuthority` duplicates CUSTOMER check | B2.1.1 WIP |
+| Method security | `@EnableMethodSecurity`; `POST /api/v1.0/adverts/{language}/add` — `@PreAuthorize("hasAuthority('CUSTOMER')")` | **AS-IS** (B2.1.1 verified) |
+| Application check | `AdvertManager.assertCustomerAuthority` on create use case | **AS-IS** (B2.1.1 verified; see §5.7) |
 
 ---
 
@@ -228,7 +228,7 @@ sequenceDiagram
 |-------|--------|
 | Detailed CUSTOMER / MANAGER / ADMIN **business** matrix | **Not approved** — [PO_DECISION_REVIEW.md](../../08-project-management/PO_DECISION_REVIEW.md): DEC-002 **Not approved** |
 | Technical authorization architecture (layers, modules) | Documented here (**approved programme**) |
-| B2.1.1 create CUSTOMER-only | **AS-IS WIP** — engineering; **not** equivalent to DEC-002 PO approval |
+| B2.1.1 advert create (CUSTOMER-only + reference validation) | **AS-IS implemented** (engineering, §5.7); **not** equivalent to DEC-002 PO approval |
 
 Do **not** invent permission grants. Separate LEGACY poster matrix from PO-approved rules.
 
@@ -283,10 +283,98 @@ flowchart TB
 
 | Gap | Evidence |
 |-----|----------|
-| Partial method security | Many controllers without `@PreAuthorize` |
+| Partial method security | Many controllers without `@PreAuthorize` (advert **create** is an exception — §5.7) |
 | Update/delete advert | Authenticated only — no ownership RBAC AS-IS |
 | CORS `*` | `application.yaml` |
 | Public catalog vs authenticated routes | ADR-002 whitelist **approved** — implementation **TO-BE** |
+
+### 5.7 B2.1.1 — Advert creation authorization and reference validation (AS-IS)
+
+**Scope:** `POST /api/v1.0/adverts/{language}/add` only. **Evidence:** `SecurityFilterChainConfig`, `AdvertController`, `AdvertManager`, `GlobalExceptionHandler`, `DelegatedAccessDeniedHandler`. **Verified** by unit and HTTP integration tests (see §5.7.5). This section does **not** mark broader advert RBAC, catalog visibility, or DEC-002 product matrix as complete.
+
+#### 5.7.1 HTTP authentication and coarse authorization
+
+| Caller state | Typical HTTP status | Mechanism | Evidence |
+|--------------|---------------------|-----------|----------|
+| No `Authorization` header or invalid / expired JWT | **401 Unauthorized** | `anyRequest().authenticated()`; `JWTAuthenticationFilter`; `DelegatedAuthEntryPoint` | `AdvertCreationHttpIntegrationTest.unauthenticated_onAdvertAdd_receivesUnauthorizedWithOriginalPath`, `malformedJwt_onAdvertAdd_returnsUnauthorizedWithOriginalPath` |
+| Valid JWT; principal has `ADMIN` or `MANAGER` (no `CUSTOMER`) | **403 Forbidden** | `@PreAuthorize("hasAuthority('CUSTOMER')")` → `AccessDeniedException` → `DelegatedAccessDeniedHandler` → `AdvertCreateForbiddenException` | `AdvertCreationHttpIntegrationTest.adminJwt_onAdvertAdd_receivesForbidden`, `managerJwt_onAdvertAdd_receivesForbidden`; `AdvertManagerTest.add_adminAuthority_throwsForbiddenAndDoesNotPersist` |
+| Valid JWT; principal has `CUSTOMER` | **201 Created** on success (or domain error status below) | Passes method security; `AdvertManager.add` runs | `AdvertCreationHttpIntegrationTest.customerJwt_createsAdvertOwnedByAuthenticatedUser` |
+
+**Authority naming:** JWT-backed `UserDetails` expose `SimpleGrantedAuthority(role.getName())` (e.g. `CUSTOMER` without `ROLE_` prefix). `@PreAuthorize` uses `hasAuthority('CUSTOMER')`, not `hasRole`.
+
+**Note:** For HTTP, unauthenticated callers are rejected in the **filter chain** (401) before the controller runs. `AdvertManager.assertCustomerAuthority` throws `AdvertCreateForbiddenException` (**403**) when the security context is missing or non-customer; that path matters for **direct service invocation** (unit tests, future adapters), not for normal anonymous HTTP calls.
+
+#### 5.7.2 Enforcement layers (defense in depth)
+
+```mermaid
+flowchart TD
+  REQ[HTTP POST /adverts/.../add]
+  FILT[SecurityFilterChain: JWT + authenticated]
+  PRE[@PreAuthorize CUSTOMER]
+  SVC[AdvertManager.add]
+  DOM[assertCustomerAuthority]
+  REF[Reference validation]
+  PERSIST[save advert + translation]
+  REQ --> FILT
+  FILT -->|401 if unauthenticated| STOP401[Stop]
+  FILT --> PRE
+  PRE -->|403 if not CUSTOMER| STOP403[Stop]
+  PRE --> SVC
+  SVC --> DOM
+  DOM --> REF
+  REF --> PERSIST
+```
+
+| Layer | Responsibility | Why retained |
+|-------|----------------|--------------|
+| **HTTP filter chain** | Stateless JWT; all non-whitelist routes require authentication | Central transport security; 401 for missing/invalid credentials |
+| **Controller (`@PreAuthorize`)** | Coarse endpoint gate: only `CUSTOMER` may hit create handler | Standard Spring method security; maps role mismatch to **403** via access-denied handler |
+| **Application (`assertCustomerAuthority`)** | Use-case rule: authenticated principal must hold `CUSTOMER` | **Defense in depth:** enforces the same rule if `AdvertManager.add` is called without passing through the controller (tests, batch jobs, future internal APIs). Fails **before** repository lookups and persistence |
+
+Both controller and service checks are **intentionally retained**: the controller protects the HTTP surface; the service owns the create use-case contract and must not assume every caller is HTTP-scoped.
+
+#### 5.7.3 Reference validation (create payload)
+
+Executed in `AdvertManager.add` **after** `assertCustomerAuthority`, in order:
+
+| Reference | Rule | Exception | HTTP (via `GlobalExceptionHandler`) |
+|-----------|------|-----------|-------------------------------------|
+| **AdvertType** (`advertTypeId`) | Row must exist (`AdvertTypeRepository.findById`) | `AdvertTypeNotFoundException` if missing | **404 Not Found** |
+| **AdvertType** (soft delete) | `AdvertType.deleted` (`BaseEntity.is_deleted`) must be **false** | Same exception type (not found semantics) | **404 Not Found** |
+| **Category** (`categoryId`) | Row must exist | `CategoryNotFoundException` if missing | **404 Not Found** |
+| **Category** (active) | `Category.active` (`is_active`) must be **true** | Same exception type | **404 Not Found** |
+| **Category** (soft delete) | `Category.deleted` must be **false** | Same exception type | **404 Not Found** |
+
+Unknown, inactive, and soft-deleted references share the **existing not-found error contract** (friendly message codes `ADVERT_TYPE_NOT_FOUND_EXCEPTION`, `CATEGORY_NOT_FOUND_EXCEPTION`); clients do not receive distinct status codes for “inactive” vs “missing” on these paths.
+
+Location hierarchy, content language, and slug rules remain **B2.1** behaviour and are unchanged by B2.1.1.
+
+#### 5.7.4 Error response convention (AS-IS)
+
+Failed create attempts (authorization and reference validation) return **`InternalApiResponse`** JSON:
+
+| Field | Role |
+|-------|------|
+| `hasError` | `true` on error responses |
+| `friendlyMessage` | Localized title + description from `FriendlyMessageCodes` |
+| `httpStatus` | Mirrors HTTP status (e.g. 401, 403, 404) |
+| `path` | Request path (e.g. `/api/v1.0/adverts/EN/add`) |
+| `errorMessages` | Optional developer-oriented detail list |
+
+**Handlers:** `AdvertCreateForbiddenException` → 403; `CategoryNotFoundException` / `AdvertTypeNotFoundException` → 404. See [ERROR_HANDLING.md](../../04-development/ERROR_HANDLING.md) and [API-ARCHITECTURE.md](../api/API-ARCHITECTURE.md).
+
+#### 5.7.5 Test traceability (verified)
+
+| Category | Class | Representative methods |
+|----------|-------|-------------------------|
+| **Authorization — HTTP** | `AdvertCreationHttpIntegrationTest` | `customerJwt_createsAdvertOwnedByAuthenticatedUser`; `unauthenticated_onAdvertAdd_receivesUnauthorizedWithOriginalPath`; `adminJwt_onAdvertAdd_receivesForbidden`; `managerJwt_onAdvertAdd_receivesForbidden` |
+| **Authorization — unit** | `AdvertManagerTest` | `add_adminAuthority_throwsForbiddenAndDoesNotPersist`; `add_missingCustomerAuthority_throwsForbiddenAndDoesNotPersist` |
+| **Inactive / deleted references — HTTP** | `AdvertCreationHttpIntegrationTest` | `inactiveCategory_doesNotCreateAdvert`; `deletedCategory_doesNotCreateAdvert`; `deletedAdvertType_doesNotCreateAdvert` |
+| **Inactive / deleted references — unit** | `AdvertManagerTest` | `add_inactiveCategory_throwsNotFoundAndDoesNotPersist`; `add_deletedCategory_throwsNotFoundAndDoesNotPersist`; `add_deletedAdvertType_throwsNotFoundAndDoesNotPersist` |
+| **Unknown references — HTTP (B2.1.1)** | `AdvertCreationHttpIntegrationTest` | `unknownCategoryId_doesNotCreateAdvert`; `unknownAdvertTypeId_doesNotCreateAdvert` |
+| **Unknown references — unit (B2.1.1)** | `AdvertManagerTest` | `add_missingCategory_throwsNotFoundAndDoesNotPersist`; `add_missingAdvertType_throwsNotFoundAndDoesNotPersist` |
+
+Negative tests assert **no advert persistence** (`advertRepository.count()` unchanged or `saveAndFlush` never called). Multilingual create and transaction rollback coverage remain in `AdvertCreateMultilingualIntegrationTest` and `AdvertCreateRollbackIntegrationTest` (B2.1).
 
 ---
 
@@ -365,3 +453,4 @@ Rate limits enforce **abuse control**; they do **not** replace **V3** visibility
 | 0.2.1 | 2026-11-18 | Public API rate limiting; Bucket4j/Redis vs Spring Cache (Group 7) |
 | 0.2.2 | 2026-11-18 | Related TESTING-ARCHITECTURE link (Group 9) |
 | 0.2.3 | 2026-11-18 | OBSERVABILITY-RELIABILITY-ARCHITECTURE link (Group 11) |
+| 0.2.4 | 2026-11-26 | B2.1.1 advert create AS-IS: auth layers, reference validation, error contract, test traceability |

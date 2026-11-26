@@ -1,12 +1,12 @@
 ---
 document_id: RE-API-ARCH-001
 title: REST API Architecture — Conventions, Layers and Contracts
-version: 0.1.5
+version: 0.1.6
 status: draft
 language: en
 owner: RealEstate Project
 created_at: 2026-11-18
-updated_at: 2026-11-18
+updated_at: 2026-11-26
 source_references:
   - ADR-002
   - RE-HLD-002
@@ -122,7 +122,7 @@ Anonymous **GET** only on defined routes (P1 catalog, P2 slug detail, public ima
 
 | Surface | Purpose |
 |---------|---------|
-| Customer | Owned resources (e.g. advert create — B2.1.1 WIP CUSTOMER) |
+| Customer | Owned resources (e.g. advert create — B2.1.1 AS-IS `CUSTOMER` only; see SECURITY-ARCHITECTURE §5.7) |
 | Manager / Admin | Staff operations — **LEGACY** matrix vs code **gaps** |
 | Admin | `AdminController` user admin |
 
@@ -217,3 +217,4 @@ Extensions (TO-BE): stable **`applicationCode`** (from `FriendlyMessageCodes` nu
 | 0.1.3 | 2026-11-18 | Link I18N-L10N-ARCHITECTURE (Group 8) |
 | 0.1.4 | 2026-11-18 | Link TESTING-ARCHITECTURE (Group 9) |
 | 0.1.5 | 2026-11-18 | Cross-reference FRONTEND-ARCHITECTURE (Group 12) |
+| 0.1.6 | 2026-11-26 | B2.1.1: AS-IS CUSTOMER-only `POST …/adverts/{language}/add`; see SECURITY-ARCHITECTURE §5.7 (does not complete DEC-002 / broader RBAC) |
