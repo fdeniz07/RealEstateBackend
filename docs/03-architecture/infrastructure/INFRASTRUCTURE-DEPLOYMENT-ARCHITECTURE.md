@@ -1,12 +1,12 @@
 ---
 document_id: RE-INFRA-ARCH-001
 title: Infrastructure, DevOps and Deployment Architecture
-version: 0.1.0
+version: 0.2.2
 status: draft
 language: en
 owner: RealEstate Project
 created_at: 2026-11-18
-updated_at: 2026-11-18
+updated_at: 2026-11-26
 source_references:
   - RE-HLD-001
   - RE-TECH-001
@@ -113,7 +113,7 @@ flowchart TB
 
 | Environment | AS-IS | TO-BE |
 |-------------|--------|--------|
-| Workstation | JVM + Compose Postgres (`compose.yaml`, `.env.example`) | Same + optional app Docker image |
+| Workstation | Compose project **`realestate`**: **postgres + backend** + optional pgAdmin / test-runner profiles (`compose.yaml`, `Dockerfile`, `.env.example`) | Hardened prod deploy **TBD** |
 | CI | GitHub Actions Ubuntu + Postgres service | Add package/scan stages **PROPOSED** |
 | Development / Staging / Production | **Not defined** in repo | **TBD** hosting & promotion |
 
@@ -150,22 +150,24 @@ flowchart TB
 
 ## 4. Docker architecture
 
-| Artifact | AS-IS |
-|----------|--------|
-| `Dockerfile` | **Not found** |
-| `.dockerignore` | **Not found** |
-| `compose.yaml` | **PostgreSQL 16 only** — `name: realestate-backend`, volume `realestate_pg_data` |
-| App container | **None** |
-| MinIO / Redis / Keycloak in Compose | **None** |
+**Canonical diagrams:** [assets/DOCKER-COMPOSE-ARCHITECTURE.md](assets/DOCKER-COMPOSE-ARCHITECTURE.md) (Figures RE-FIG-DOCKER-001 … 004).
 
-**Compose Postgres:** port `127.0.0.1:${POSTGRES_PORT}:5432` (`.env.example` suggests **5433** host port); healthcheck `pg_isready`.
+| Artifact | Phase 1 (AS-IS) |
+|----------|-----------------|
+| `Dockerfile` | Multi-stage **Temurin 17** JDK build → JRE runtime, non-root `spring` user |
+| `.dockerignore` | Excludes `target/`, `.git`, `.env`, `docs/` from build context |
+| `compose.yaml` | Project **`realestate`**: `postgres`, `backend`, `pgadmin` (profile `tools`), `test-runner` (profile `test`) |
+| Volume | Logical `realestate_pg_data` → physical **`realestate-backend_realestate_pg_data`** (`external: true`) — never `docker compose down -v` / `docker volume rm` |
+| App JDBC (container) | `jdbc:postgresql://postgres:5432/real_estate_db`, profile **`docker`**; host port default **8081** |
+| MinIO / Redis / Keycloak in Compose | **None** (not required by AS-IS application code) |
 
-**TO-BE image recommendations (PROPOSED — no file changes):**
+**Compose Postgres:** port `127.0.0.1:${POSTGRES_PORT}:5432` (default **5433**); healthcheck `pg_isready`.
 
-- Multi-stage build (Maven build → slim JRE runtime).
-- Non-root user, pinned base image digest.
-- **No secrets** in layers; config via env at runtime.
-- Image vulnerability scanning in CI **FUTURE**.
+**Backend health:** `GET /actuator/health` (`permitAll`); exposure in `application-docker.yaml`.
+
+**CI:** `.github/workflows/backend-ci.yml` unchanged — GHA Postgres service, not Compose.
+
+**FUTURE:** Image digest pinning, `docker build` in CI, vulnerability scanning.
 
 ---
 
@@ -396,3 +398,6 @@ Cross-reference [SECURITY-ARCHITECTURE.md](../security/SECURITY-ARCHITECTURE.md)
 | Version | Date | Summary |
 |---------|------|---------|
 | 0.1.0 | 2026-11-18 | Initial infrastructure & deployment architecture (Group 10) |
+| 0.2.0 | 2026-11-26 | Docker Compose Phase 1 — Dockerfile, backend/pgadmin/test-runner services, DOCKER-COMPOSE-ARCHITECTURE |
+| 0.2.1 | 2026-11-26 | Intermediate project `re`, service `api`, volume pin, BACKEND_PORT 8081 |
+| 0.2.2 | 2026-11-26 | Project `realestate`, service `backend`, external volume pin |

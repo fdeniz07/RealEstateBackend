@@ -152,7 +152,7 @@ public class AdvertManager implements AdvertService {
         if (Objects.isNull(advert)) {
             throw new AdvertNotFoundException(language, FriendlyMessageCodes.ADVERT_NOT_FOUND_EXCEPTION, "Advert not found for advert id: " + id);
         }
-        log.debug("[{}][getAdvert] -> response: {}", this.getClass().getSimpleName(), advert);
+        log.debug("[{}][getAdvert] -> response advertId: {} slug: {}", this.getClass().getSimpleName(), advert.getId(), advert.getSlug());
         return advertMapper.toResponse(advert);
     }
 
@@ -247,7 +247,7 @@ public class AdvertManager implements AdvertService {
                             .translationPublicationStatus(TranslationPublicationStatus.DRAFT)
                             .build();
             advertTranslationRepository.save(translation);
-            log.debug("[{}][createAdvert] -> response: {}", this.getClass().getSimpleName(), savedAdvert);
+            log.debug("[{}][createAdvert] -> response advertId: {} slug: {}", this.getClass().getSimpleName(), savedAdvert.getId(), savedAdvert.getSlug());
             return savedAdvert;
         } catch (DataIntegrityViolationException exception) {
             throw mapSlugConflict(language, slug, exception);
@@ -273,7 +273,7 @@ public class AdvertManager implements AdvertService {
 
        Advert updatedAdvert=  advertMapper.toUpdatedAdvert(advertUpdateRequest, id,existingAdvert);
        advertRepository.save(updatedAdvert);
-        log.debug("[{}][updateAdvert] -> response: {}", this.getClass().getSimpleName(), updatedAdvert);
+        log.debug("[{}][updateAdvert] -> response advertId: {} slug: {}", this.getClass().getSimpleName(), updatedAdvert.getId(), updatedAdvert.getSlug());
         return updatedAdvert;
     }
 
@@ -310,7 +310,7 @@ public class AdvertManager implements AdvertService {
         log.debug("[{}][getAdvert] -> request advertId: {}", this.getClass().getSimpleName(), advertId);
         Advert advert = advertRepository.findById(advertId).orElseThrow(() -> new AdvertNotFoundException(language, FriendlyMessageCodes.ADVERT_NOT_FOUND_EXCEPTION, "Advert not found for advert id: " + advertId));
 
-        log.debug("[{}][getAdvert] -> response: {}", this.getClass().getSimpleName(), advert);
+        log.debug("[{}][getAdvert] -> response advertId: {} slug: {}", this.getClass().getSimpleName(), advert.getId(), advert.getSlug());
         return advert;
     }
 

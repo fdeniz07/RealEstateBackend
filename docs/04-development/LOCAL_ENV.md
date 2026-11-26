@@ -1,11 +1,11 @@
 ---
 document_id: RE-DEV-LOCAL-ENV-001
 title: Local Environment and Datasource Contract
-version: 0.3.0
+version: 0.4.1
 status: draft
 language: en
 created_at: 2026-11-18
-updated_at: 2026-11-18
+updated_at: 2026-11-26
 source_references:
   - DB-INIT-P1
   - RE-TEST-ARCH-001
@@ -107,6 +107,7 @@ Align `SPRING_DATASOURCE_*` with these values when running locally.
 | Profile | Config file | Datasource |
 |---------|-------------|------------|
 | `localhost` | `application.yaml` (profile section) | `SPRING_DATASOURCE_*` with **development-only** `POSTGRES_*` fallbacks |
+| `docker` | `application-docker.yaml` | `SPRING_DATASOURCE_*` — default host **`postgres:5432`** inside Compose network |
 | `test` | `application-test.yaml` | **Only** `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD` (no fallback) |
 
 Activate local test configuration:
@@ -129,12 +130,14 @@ Flyway and Hibernate `validate` are enabled under `test` (same migration classpa
 
 The Compose file creates only `POSTGRES_DB` (`real_estate_db`) on **first** volume initialization. Entrypoint init scripts **do not run** on an already-initialized volume.
 
-**Never** use `docker compose down -v`, drop `real_estate_db`, or delete the `realestate_pg_data` volume.
+**Never** use `docker compose down -v`, drop `real_estate_db`, or delete the physical volume `realestate-backend_realestate_pg_data` (Compose logical key `realestate_pg_data`).
 
 ### Verify database exists
 
+Prefer Compose service exec (container names are generated for project `realestate`):
+
 ```powershell
-docker exec realestate-postgres psql -U db_user -d real_estate_db -tAc "SELECT datname FROM pg_database WHERE datname = 'real_estate_test_db'"
+docker compose exec postgres psql -U db_user -d real_estate_db -tAc "SELECT datname FROM pg_database WHERE datname = 'real_estate_test_db'"
 ```
 
 Empty output means the database is missing.
@@ -146,7 +149,7 @@ Use the same `db_user` / password as in your local `.env` (not committed):
 **PowerShell / Docker (recommended):**
 
 ```powershell
-docker exec realestate-postgres psql -U db_user -d postgres -c "CREATE DATABASE real_estate_test_db OWNER db_user ENCODING 'UTF8'"
+docker compose exec postgres psql -U db_user -d postgres -c "CREATE DATABASE real_estate_test_db OWNER db_user ENCODING 'UTF8'"
 ```
 
 If the database already exists, Postgres returns an error — safe to ignore.
@@ -205,7 +208,7 @@ export JWT_SECRET=replace_with_base64_secret
 | Owner | Responsibility |
 |-------|----------------|
 | **Flyway V1–V4** | Schema and versioned reference data (e.g. `languages` in V3). **Immutable** — never edit applied migrations. |
-| **DataInitializer** | Profile **`localhost` only** — full enum geography and built-in admin for development. |
+| **DataInitializer** | Profiles **`localhost`** and **`docker`** — full enum geography and built-in admin for development containers. |
 | **TestReferenceDataFixture** | Profile **`test` only** — idempotent roles, `admin@mail.com`, minimal TR (country / city / district); no bulk country enum load. |
 | **LanguageRegistryInitializer** | All profiles — loads language snapshot after `ApplicationReadyEvent`. |
 
@@ -213,7 +216,39 @@ Automated tests must use `real_estate_test_db` (local) or `real_estate_ci_test_d
 
 ---
 
-## 8. Safety rules
+## 8. Docker Compose (Phase 1 — project `realestate`, services `postgres` + `backend`)
+
+**Diagrams and topology:** [DOCKER-COMPOSE-ARCHITECTURE.md](../03-architecture/infrastructure/assets/DOCKER-COMPOSE-ARCHITECTURE.md).
+
+| Mode | Command | JDBC target |
+|------|---------|-------------|
+| **Compose dev stack** | `docker compose up -d --build` | `backend` → `jdbc:postgresql://postgres:5432/real_estate_db` |
+| **Host API (legacy)** | `mvnw spring-boot:run` + profile `localhost` | `127.0.0.1:5433/real_estate_db` |
+| **Compose integration tests** | `docker compose --profile test run --rm test-runner` | `postgres:5432/real_estate_test_db` |
+| **Host integration tests** | export `test` profile env + `mvn test` | `127.0.0.1:5433/real_estate_test_db` |
+
+**Naming:** Compose project `name: realestate`. Volume `realestate_pg_data` is **external** → physical `realestate-backend_realestate_pg_data`. Default API host port **`BACKEND_PORT=8081`**.
+
+**Volume rule:** Only one Postgres may mount the external volume. Never `down -v` or `docker volume rm`.
+
+**Fail-fast env (Compose `${VAR:?…}`):** `POSTGRES_*`, `JWT_SECRET`. For profile `test`: also `JWT_SECRET_TEST`. For profile `tools`: also `PGADMIN_DEFAULT_EMAIL` / `PGADMIN_DEFAULT_PASSWORD`. Copy placeholders from `.env.example` — do not commit real secrets.
+
+**JWT separation in `.env`:**
+
+| Variable | Use |
+|----------|-----|
+| `JWT_SECRET` | Development API (`localhost` / Compose `backend`) |
+| `JWT_SECRET_TEST` | Compose `test-runner` only (mapped to `JWT_SECRET` inside the runner) |
+
+**DataInitializer (profiles `localhost` and `docker`):** Seeds roles, geography, and built-in admin **only when the related tables are empty**. Does **not** overwrite existing rows. Documented in source `DataInitializer.java`.
+
+**pgAdmin (optional):** `docker compose --profile tools up -d pgadmin` → `http://127.0.0.1:${PGADMIN_PORT:-5050}` (credentials from `.env`). Register server host **`postgres`**, port **5432**.
+
+**Test databases on existing volumes:** Init script `docker/postgres/init/01-create-test-databases.sh` runs **only** when the data directory is empty. On an **existing** pinned volume, follow §5 — **do not** recreate the volume.
+
+---
+
+## 9. Safety rules
 
 - **Do not** delete `real_estate_db` or run `docker compose down -v` to “reset tests” (destroys the development volume).
 - **Do not** put production credentials in Git or in `.env.example`.
@@ -229,3 +264,6 @@ Automated tests must use `real_estate_test_db` (local) or `real_estate_ci_test_d
 | 0.2.0 | 2026-11-18 | Phase 1 — `application-test.yaml`, test DB provisioning |
 | 0.3.0 | 2026-11-18 | Phase 4 — CI `backend-ci.yml` contract, fixture / initializer split documented |
 | 0.3.1 | 2026-11-18 | GitGuardian — `CI_TEST_JWT_SECRET`, explicit local `JWT_SECRET`, no Java JWT fallback |
+| 0.4.0 | 2026-11-26 | Docker Compose Phase 1 — `docker` profile, backend container, test-runner profile, JWT_SECRET_TEST |
+| 0.4.1 | 2026-11-26 | Intermediate project `re`, service `api`, volume pin, BACKEND_PORT 8081 |
+| 0.4.2 | 2026-11-26 | Project `realestate`, service `backend`, external volume pin |

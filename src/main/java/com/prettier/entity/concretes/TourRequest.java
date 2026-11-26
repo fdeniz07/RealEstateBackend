@@ -31,16 +31,19 @@ public class TourRequest extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "advert_id", nullable = false)
     @JsonIgnore    //coklu iliskilerde tablonun birinde bu annotation kullanilir, aksi durumda sout yapildiginda sonsuz döngüye girer!
+    @ToString.Exclude
     private Advert advert;
 
 
     @ManyToOne
     @JoinColumn(name = "owner_user_id", nullable = false)
     @JsonIgnore
+    @ToString.Exclude
     private User ownerUser;
 
     @ManyToOne
     @JoinColumn(name = "guest_user_id", nullable = false)
     @JsonIgnore
+    @ToString.Exclude
     private User guestUser;
 }

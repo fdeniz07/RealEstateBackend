@@ -1,0 +1,46 @@
+# Profile `docker` — Spring Boot Compose service `backend` (hostname `postgres`, not 127.0.0.1).
+# Host-based `localhost` and CI `test` profiles are unchanged. See docs/04-development/LOCAL_ENV.md.
+# DataInitializer runs under this profile but only seeds when related tables are empty.
+
+spring:
+  config:
+    activate:
+      on-profile: docker
+  flyway:
+    enabled: true
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: false
+    open-in-view: true
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/real_estate_db}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+prettier:
+  openapi:
+    dev-url: http://localhost:8080
+    prod-url: https://prettier.com
+
+backendapi:
+  app:
+    jwtSecret: ${JWT_SECRET}
+    jwtExpressionMS: 86400000
+
+logging:
+  level:
+    com.prettier: INFO

@@ -36,10 +36,14 @@ public class AuthController {
     public InternalApiResponse<SignUpResponse> signUp(@PathVariable("language") Language language,
                                                       @Valid
                                                       @RequestBody SignUpRequest signUpRequest) {
-        log.debug("[{}][signUp] -> request: {}", this.getClass().getSimpleName(), signUpRequest);
+        log.debug("[{}][signUp] -> request email: {}", this.getClass().getSimpleName(), signUpRequest.getEmail());
 
             SignUpResponse signUpResponse = authService.signUp(language, signUpRequest);
-            log.debug("[{}][signUp] -> response: {}", this.getClass().getSimpleName(), signUpResponse);
+            log.debug(
+                    "[{}][signUp] -> success userId: {} email: {}",
+                    this.getClass().getSimpleName(),
+                    signUpResponse != null ? signUpResponse.getId() : null,
+                    signUpResponse != null ? signUpResponse.getEmail() : null);
 
             return InternalApiResponse.<SignUpResponse>builder()
                     .friendlyMessage(FriendlyMessage.builder()
@@ -58,11 +62,11 @@ public class AuthController {
     public InternalApiResponse<LoginResponse> login(@PathVariable("language") Language language,
                                                     @Valid
                                                     @RequestBody LoginRequest loginRequest) {
-        log.debug("[{}][login] -> request: {}", this.getClass().getSimpleName(), loginRequest);
+        log.debug("[{}][login] -> request email: {}", this.getClass().getSimpleName(), loginRequest.getEmail());
 
         LoginResponse loginResponse = authService.login(language, loginRequest);
 
-        log.debug("[{}][login] -> response: {}", this.getClass().getSimpleName(), loginResponse);
+        log.debug("[{}][login] -> success email: {}", this.getClass().getSimpleName(), loginRequest.getEmail());
 
         return InternalApiResponse.<LoginResponse>builder()
                 .friendlyMessage(FriendlyMessage.builder()

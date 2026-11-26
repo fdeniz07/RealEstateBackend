@@ -44,7 +44,7 @@ public class UserManager implements UserService {
                 .orElseThrow(() ->
                         new UserNotFoundException(language, FriendlyMessageCodes.USER_NOT_FOUND_EXCEPTION, "User not found for user id: " + id));
 
-        log.debug("[{}][getUserById] -> response: {}", this.getClass().getSimpleName(), user);
+        log.debug("[{}][getUserById] -> response userId: {} email: {}", this.getClass().getSimpleName(), user.getId(), user.getEmail());
         return userMapper.toResponse(user);
     }
 
@@ -70,7 +70,7 @@ public class UserManager implements UserService {
         // Veritabanına güncellenmiş City'yi kaydet
         User updatedUser = userRepository.save(existingUser);
 
-        log.debug("[{}][updateUser] -> response: {}", this.getClass().getSimpleName(), updatedUser);
+        log.debug("[{}][updateUser] -> response userId: {} email: {}", this.getClass().getSimpleName(), updatedUser.getId(), updatedUser.getEmail());
         return userMapper.toResponse(updatedUser);
     }
 
@@ -107,7 +107,7 @@ public class UserManager implements UserService {
         log.debug("[{}][getUser] -> request cityId: {}", this.getClass().getSimpleName(), userId);
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(language, FriendlyMessageCodes.USER_NOT_FOUND_EXCEPTION, "User not found for city id: " + userId));
 
-        log.debug("[{}][getUser] -> response: {}", this.getClass().getSimpleName(), user);
+        log.debug("[{}][getUser] -> response userId: {} email: {}", this.getClass().getSimpleName(), user.getId(), user.getEmail());
         return user;
     }
 
